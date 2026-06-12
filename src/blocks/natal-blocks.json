@@ -1,0 +1,312 @@
+[
+  {
+    "id": "GUN_ASLAN",
+    "faktor": "Güneş - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "lider",
+      "yaratıcı",
+      "gururlu",
+      "sahnede"
+    ],
+    "anlam": "Özünde parlamak, görülmek ve takdir edilmek isteyen, doğal bir liderlik enerjisi taşıyan bir çekirdek var. İçten, cömert ve dramatik.",
+    "guclu": "Karizma, cesaret, sıcaklık, ilham verme",
+    "golge": "Onay bağımlılığı, ego, eleştiriye kırılganlık",
+    "ton": "görkemli, sıcak"
+  },
+  {
+    "id": "AY_YENGEC",
+    "faktor": "Ay - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "duygusal",
+      "korumacı",
+      "sezgisel",
+      "yuva"
+    ],
+    "anlam": "Duygusal dünyası derin ve dalgalı; güven, yakınlık ve ait olma ihtiyacı çok güçlü. Sevdiklerini kanatları altına alır.",
+    "guclu": "Şefkat, sezgi, sadakat, besleyicilik",
+    "golge": "Aşırı alınganlık, geçmişe takılma, içine kapanma",
+    "ton": "yumuşak, içten"
+  },
+  {
+    "id": "MER_BASAK",
+    "faktor": "Merkür - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "analitik",
+      "detaycı",
+      "pratik",
+      "eleştirel"
+    ],
+    "anlam": "Zihni keskin, düzenli ve çözüm odaklı; detayları görür, sistemler kurar. Düşünerek ve süzgeçten geçirerek konuşur.",
+    "guclu": "Mantık, dikkat, problem çözme, titizlik",
+    "golge": "Aşırı eleştiri, kuruntu, mükemmeliyetçilik",
+    "ton": "berrak, ölçülü"
+  },
+  {
+    "id": "VEN_KOC",
+    "faktor": "Venüs - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "tutkulu",
+      "cesur",
+      "doğrudan",
+      "sabırsız"
+    ],
+    "anlam": "Aşkta girişken ve doğrudan; ilk adımı atmaktan çekinmez, heyecan ve fetih ister. Çabuk alevlenir.",
+    "guclu": "Samimiyet, cesaret, canlılık",
+    "golge": "Sabırsızlık, çabuk sönme, bencilliğe kayma",
+    "ton": "ateşli, canlı"
+  },
+  {
+    "id": "MARS_KOC",
+    "faktor": "Mars - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "atılgan",
+      "hızlı",
+      "rekabetçi",
+      "öncü"
+    ],
+    "anlam": "Harekete geçme enerjisi yüksek; ister, gider, alır. Engellere kafa tutar, beklemekten hoşlanmaz.",
+    "guclu": "Girişkenlik, cesaret, inisiyatif",
+    "golge": "Öfke, aceleci kararlar, sabırsızlık",
+    "ton": "enerjik, keskin"
+  },
+  {
+    "id": "JUP_YAY",
+    "faktor": "Jüpiter - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "iyimser",
+      "özgür",
+      "meraklı",
+      "felsefi"
+    ],
+    "anlam": "Genişleme, anlam arayışı ve özgürlük burada güçlenir; öğrenmeyi, gezmeyi, ufuk açmayı sever.",
+    "guclu": "İyimserlik, vizyon, açık fikirlilik",
+    "golge": "Abartı, aşırı vaat, yerinde duramama",
+    "ton": "ferah, coşkulu"
+  },
+  {
+    "id": "SAT_OGLAK",
+    "faktor": "Satürn - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli",
+      "sorumlu",
+      "hırslı",
+      "sabırlı"
+    ],
+    "anlam": "Yapı, disiplin ve uzun vadeli hedef kurma gücü burada en evindedir; ağırdan alır ama sağlam inşa eder.",
+    "guclu": "Sebat, sorumluluk, olgunluk",
+    "golge": "Aşırı katılık, kendine yüklenme, kasvet",
+    "ton": "ağırbaşlı, sağlam"
+  },
+  {
+    "id": "YUK_TERAZI",
+    "faktor": "Yükselen - Terazi",
+    "kategori": "yukselen",
+    "anahtar": [
+      "uyumlu",
+      "zarif",
+      "diplomatik",
+      "ilişkisel"
+    ],
+    "anlam": "Dış dünyaya zarif, kibar ve uzlaşmacı bir maske ile çıkar; ilk izlenimi hoş, dengeli ve çekicidir.",
+    "guclu": "Diplomasi, estetik, denge kurma",
+    "golge": "Kararsızlık, onaylanma kaygısı, çatışmadan kaçma",
+    "ton": "zarif, kibar"
+  },
+  {
+    "id": "EV_11",
+    "faktor": "11. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "arkadaşlık",
+      "topluluk",
+      "idealler",
+      "gelecek"
+    ],
+    "anlam": "Bu alan arkadaş grupları, topluluklar, ortak idealler ve gelecek hayalleriyle ilgilidir. Buradaki yerleşim sosyal çevrede parlar.",
+    "guclu": "Sosyallik, ağ kurma, vizyon",
+    "golge": "Kalabalıkta kaybolma, aidiyet arayışı",
+    "ton": "sosyal, ileriye dönük"
+  },
+  {
+    "id": "EV_7",
+    "faktor": "7. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "ilişki",
+      "ortaklık",
+      "evlilik",
+      "öteki"
+    ],
+    "anlam": "İkili ilişkiler, ortaklıklar ve evlilik alanı. Buradaki yerleşim, kişinin ilişki dinamiklerinde öne çıkar.",
+    "guclu": "Bağ kurma, işbirliği",
+    "golge": "Kendini ilişkide kaybetme, bağımlılık",
+    "ton": "ilişkisel"
+  },
+  {
+    "id": "EV_10",
+    "faktor": "10. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "kariyer",
+      "statü",
+      "hedef",
+      "toplum önü"
+    ],
+    "anlam": "Kariyer, toplumsal rol ve hedefler alanı. Buradaki yerleşim, kişinin dış dünyadaki duruşunu ve hırsını renklendirir.",
+    "guclu": "Hırs, görünürlük, hedef odağı",
+    "golge": "İş-özel hayat dengesizliği, statü kaygısı",
+    "ton": "hedefli, ciddi"
+  },
+  {
+    "id": "ACI_GUN_AY_KARE",
+    "faktor": "Güneş - Ay karesi",
+    "kategori": "aci",
+    "anahtar": [
+      "iç gerilim",
+      "irade-duygu çatışması"
+    ],
+    "anlam": "İstediği (irade/Güneş) ile hissettiği (ihtiyaç/Ay) arasında bir iç gerilim taşır; dışa dönük hedefleriyle içsel güven ihtiyacı zaman zaman çatışır.",
+    "guclu": "Bu gerilimi tanıdığında derin bir iç farkındalık ve denge gücü",
+    "golge": "Huzursuzluk, kendiyle çelişme, tatminsizlik",
+    "ton": "gerilimli, derin"
+  },
+  {
+    "id": "ACI_VEN_MARS_KAVUSUM",
+    "faktor": "Venüs - Mars kavuşumu",
+    "kategori": "aci",
+    "anahtar": [
+      "güçlü çekim",
+      "tutku",
+      "yaratıcı enerji"
+    ],
+    "anlam": "Sevgi (Venüs) ve arzu (Mars) iç içe geçer; güçlü bir çekim gücü, tutkulu bir ilişki tarzı ve yaratıcı bir kıvılcım taşır.",
+    "guclu": "Çekicilik, tutku, yaratıcılık",
+    "golge": "Aşırı yoğunluk, dürtüsellik",
+    "ton": "tutkulu, sıcak"
+  },
+  {
+    "id": "ACI_AY_SAT_KARSIT",
+    "faktor": "Ay - Satürn karşıtı",
+    "kategori": "aci",
+    "anahtar": [
+      "duygusal mesafe",
+      "sorumluluk yükü"
+    ],
+    "anlam": "Duygular (Ay) ile sınırlar/sorumluluk (Satürn) karşı karşıya gelir; şefkat göstermek ya da almak bazen zorlaşır, içe çekilme eğilimi olur.",
+    "guclu": "Olgunlaştıkça duygusal dayanıklılık ve sadakat",
+    "golge": "Yalnızlık hissi, duygusal ketlenme, aşırı ciddiyet",
+    "ton": "ağır, içe dönük"
+  },
+  {
+    "id": "ELEMENT_ATES",
+    "faktor": "Ateş baskınlığı",
+    "kategori": "element",
+    "anahtar": [
+      "enerjik",
+      "girişken",
+      "tutkulu",
+      "spontan"
+    ],
+    "anlam": "Haritada ateş elementi öne çıkar; kişi enerjik, girişken, hevesli ve spontan bir genel tona sahiptir.",
+    "guclu": "Coşku, inisiyatif, ilham",
+    "golge": "Sabırsızlık, çabuk tükenme, düşünmeden hareket",
+    "ton": "ateşli, hareketli"
+  },
+  {
+    "id": "EV_12",
+    "faktor": "12. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "bilinçaltı",
+      "gizlilik",
+      "ruhsal",
+      "yalnızlık"
+    ],
+    "anlam": "Bilinçaltı, ruhsal dünya, gizli korkular ve perde arkası alanı. Buradaki yerleşim içsel, sezgisel, sessizce işleyen bir nitelik kazanır.",
+    "guclu": "Sezgi, derinlik, içsel zenginlik, empati",
+    "golge": "İçe kapanma, kaçış eğilimi, belirsiz kaygılar",
+    "ton": "derin, sessiz"
+  },
+  {
+    "id": "EV_3",
+    "faktor": "3. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "iletişim",
+      "öğrenme",
+      "yakın çevre",
+      "merak"
+    ],
+    "anlam": "İletişim, öğrenme, yakın çevre ve günlük zihin alanı. Buradaki yerleşim merak, aktarma ve bağ kurma temasıyla renklenir.",
+    "guclu": "Merak, ifade gücü, hızlı öğrenme",
+    "golge": "Dağınık ilgi, yüzeysellik, dedikoduya açıklık",
+    "ton": "canlı, meraklı"
+  },
+  {
+    "id": "EV_4",
+    "faktor": "4. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "yuva",
+      "kökler",
+      "aile",
+      "iç güvenlik"
+    ],
+    "anlam": "Yuva, kökler, aile ve iç güvenlik alanı. Buradaki yerleşim kişinin duygusal zemini, geçmişi ve temeli ile ilgilidir.",
+    "guclu": "Sadakat, köklülük, güçlü temel",
+    "golge": "Geçmişe takılma, aşırı bağlılık, içe dönüklük",
+    "ton": "sıcak, köklü"
+  },
+  {
+    "id": "NITELIK_ONCU",
+    "faktor": "Öncü (kardinal) baskınlığı",
+    "kategori": "nitelik",
+    "anahtar": [
+      "başlatıcı",
+      "girişken",
+      "inisiyatif",
+      "lider"
+    ],
+    "anlam": "Haritada öncü nitelik öne çıkar; başlatan, inisiyatif alan, harekete geçiren bir genel eğilim. Yeni şeyler başlatmak kolay gelir.",
+    "guclu": "Girişkenlik, liderlik, hızlı başlama",
+    "golge": "Başladığını bitirememe, sabırsızlık, dağılma",
+    "ton": "atılgan, öncü"
+  },
+  {
+    "id": "ACI_GUN_JUP_UCGEN",
+    "faktor": "Güneş - Jüpiter üçgeni",
+    "kategori": "aci",
+    "anahtar": [
+      "şans",
+      "iyimserlik",
+      "genişleme",
+      "cömertlik"
+    ],
+    "anlam": "Doğuştan bir şans, iyimserlik ve genişleme enerjisi. Özgüven, büyüme ve cömertlik doğal gelir; fırsatlar kişiyi kolay bulur.",
+    "guclu": "İyimserlik, doğal özgüven, bolluk hissi",
+    "golge": "Aşırı güven, savrukluk, fazla iyimserlik",
+    "ton": "ferah, bereketli"
+  },
+  {
+    "id": "ACI_MER_JUP_KARE",
+    "faktor": "Merkür - Jüpiter karesi",
+    "kategori": "aci",
+    "anahtar": [
+      "bol fikir",
+      "büyük resim",
+      "abartı",
+      "detay gerilimi"
+    ],
+    "anlam": "Büyük resim (Jüpiter) ile detay (Merkür) arasında gerilim; bol fikir ve geniş vizyon var ama abartma ya da ince ayrıntıyı atlama eğilimi olabilir.",
+    "guclu": "Vizyon, geniş düşünme, fikir bolluğu",
+    "golge": "Abartı, detayı atlama, dağınık planlama",
+    "ton": "geniş, coşkulu"
+  }
+]
