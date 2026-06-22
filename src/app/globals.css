@@ -35,6 +35,9 @@ body {
   color: var(--color-parchment);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  /* Yatay taşmayı kes (mobilde sağa kayma/zoom-out önlenir). 'clip' kullanılır,
+     'hidden' DEĞİL: hidden bir kaydırma bağlamı yaratıp sticky header'ı bozardı. */
+  overflow-x: clip;
 }
 
 ::selection {

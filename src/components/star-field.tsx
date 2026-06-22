@@ -21,7 +21,7 @@ const STARS = Array.from({ length: 52 }, (_, i) => {
 // Konumlanması için relative bir ata bekler (layout'ta <main relative>).
 export function StarField() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[1100px] [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_42%,transparent_100%)] [mask-image:linear-gradient(to_bottom,#000_0%,#000_42%,transparent_100%)]">
+    <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[1100px] overflow-hidden [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_42%,transparent_100%)] [mask-image:linear-gradient(to_bottom,#000_0%,#000_42%,transparent_100%)]">
       <div className="absolute inset-0 starfield opacity-60" />
       {STARS.map((s, i) => (
         <span
