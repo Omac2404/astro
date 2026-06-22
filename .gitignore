@@ -68,6 +68,10 @@ report/natal/teslimat/
 /output/
 /görseller/
 
+# Claude Code'a atılan ekran görüntüleri (repoya commit edilmez)
+/ss/
+/ssler/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
