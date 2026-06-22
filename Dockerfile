@@ -8,8 +8,10 @@ ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     # render.mjs sistemdeki Chrome'u bu yoldan bulur (CANDIDATES'ta da var; net olsun diye sabitliyoruz)
     CHROME_PATH=/usr/bin/google-chrome-stable \
-    # pipeline.ts venv python'unu buradan çağırır (Linux varsayılanı /app/.venv/bin/python ile aynı)
-    PYTHON_BIN=/app/.venv/bin/python
+    # pipeline.ts venv python'unu buradan çağırır. venv KASITLI olarak proje kökü DIŞINDA
+    # (/opt/venv): /app/.venv olsaydı venv'in bin/python symlink'i (sistem python'una, kök
+    # dışına işaret eder) Turbopack build'ini "symlink points out of filesystem root" ile kırardı.
+    PYTHON_BIN=/opt/venv/bin/python
 
 # 1) Node 22 (NodeSource) + Google Chrome stable + Türkçe/sembol fontları
 RUN apt-get update \
@@ -34,10 +36,11 @@ COPY package.json package-lock.json ./
 RUN npm install --include=dev --no-audit --no-fund
 
 # 3) Python sanal ortam + rapor motoru bağımlılıkları (skyfield, jinja2, fonttools, tzdata)
+#    venv proje kökü DIŞINDA (/opt/venv) — Turbopack'in .venv symlink'ine takılmaması için.
 COPY report/natal/requirements.txt report/natal/requirements.txt
-RUN python3 -m venv /app/.venv \
- && /app/.venv/bin/pip install --no-cache-dir --upgrade pip \
- && /app/.venv/bin/pip install --no-cache-dir -r report/natal/requirements.txt
+RUN python3 -m venv /opt/venv \
+ && /opt/venv/bin/pip install --no-cache-dir --upgrade pip \
+ && /opt/venv/bin/pip install --no-cache-dir -r report/natal/requirements.txt
 
 # 4) Uygulama kaynakları + production build
 COPY . .
