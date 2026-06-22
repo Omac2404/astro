@@ -9,11 +9,19 @@ import Anthropic from "@anthropic-ai/sdk";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
 
-// --- .env.local'den ANTHROPIC_API_KEY ---
-for (const line of fs.readFileSync(path.join(ROOT, ".env.local"), "utf8").split("\n")) {
-  if (line.trim().startsWith("#") || !line.includes("=")) continue;
-  const i = line.indexOf("="); const k = line.slice(0, i).trim(); const v = line.slice(i + 1).trim();
-  if (k) process.env[k] = v;
+// --- ANTHROPIC_API_KEY: önce process.env (EasyPanel/Docker ortam değişkeni),
+//     yoksa .env.local (yerel geliştirme). Prod'da .env.local imajda bulunmaz; çökmemeli. ---
+const envLocal = path.join(ROOT, ".env.local");
+if (fs.existsSync(envLocal)) {
+  for (const line of fs.readFileSync(envLocal, "utf8").split("\n")) {
+    if (line.trim().startsWith("#") || !line.includes("=")) continue;
+    const i = line.indexOf("="); const k = line.slice(0, i).trim(); const v = line.slice(i + 1).trim();
+    if (k && !process.env[k]) process.env[k] = v; // ortam değişkeni önceliklidir
+  }
+}
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.error("HATA: ANTHROPIC_API_KEY tanımlı değil (ne ortam değişkeni ne .env.local).");
+  process.exit(1);
 }
 const client = new Anthropic();
 
