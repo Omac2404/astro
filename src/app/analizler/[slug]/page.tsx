@@ -41,7 +41,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
         {/* SOL — içerik */}
         <div>
           <span className="text-base font-medium tracking-wide text-gold-bright">{p.tamAd}</span>
-          <h1 className="mt-2 font-display text-6xl sm:text-7xl font-semibold leading-[1.02]">{p.ad}</h1>
+          <h1 className="mt-2 font-display text-5xl sm:text-6xl font-semibold leading-[1.02]">{p.ad}</h1>
           <p className="mt-4 text-2xl text-parchment/75">{p.kisa}</p>
 
           {/* Kapak görseli — yalnız mobil (masaüstünde sağ karttaki görsel kullanılır) */}
