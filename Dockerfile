@@ -25,9 +25,11 @@ RUN apt-get update \
 
 WORKDIR /app
 
-# 2) Node bağımlılıkları (lockfile ile deterministik) — katman cache'i için önce sadece manifestler
+# 2) Node bağımlılıkları — katman cache'i için önce sadece manifestler.
+#    npm ci yerine npm install: lockfile Windows'ta üretildiğinde Linux'a özgü optional
+#    bağımlılıklar (@emnapi/* vb.) eksik kalabiliyor; npm install bu drift'e dayanıklıdır.
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm install --no-audit --no-fund
 
 # 3) Python sanal ortam + rapor motoru bağımlılıkları (skyfield, jinja2, fonttools, tzdata)
 COPY report/natal/requirements.txt report/natal/requirements.txt
