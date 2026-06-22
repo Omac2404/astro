@@ -165,46 +165,6 @@
     "ton": "hedefli, ciddi"
   },
   {
-    "id": "ACI_GUN_AY_KARE",
-    "faktor": "Güneş - Ay karesi",
-    "kategori": "aci",
-    "anahtar": [
-      "iç gerilim",
-      "irade-duygu çatışması"
-    ],
-    "anlam": "İstediği (irade/Güneş) ile hissettiği (ihtiyaç/Ay) arasında bir iç gerilim taşır; dışa dönük hedefleriyle içsel güven ihtiyacı zaman zaman çatışır.",
-    "guclu": "Bu gerilimi tanıdığında derin bir iç farkındalık ve denge gücü",
-    "golge": "Huzursuzluk, kendiyle çelişme, tatminsizlik",
-    "ton": "gerilimli, derin"
-  },
-  {
-    "id": "ACI_VEN_MARS_KAVUSUM",
-    "faktor": "Venüs - Mars kavuşumu",
-    "kategori": "aci",
-    "anahtar": [
-      "güçlü çekim",
-      "tutku",
-      "yaratıcı enerji"
-    ],
-    "anlam": "Sevgi (Venüs) ve arzu (Mars) iç içe geçer; güçlü bir çekim gücü, tutkulu bir ilişki tarzı ve yaratıcı bir kıvılcım taşır.",
-    "guclu": "Çekicilik, tutku, yaratıcılık",
-    "golge": "Aşırı yoğunluk, dürtüsellik",
-    "ton": "tutkulu, sıcak"
-  },
-  {
-    "id": "ACI_AY_SAT_KARSIT",
-    "faktor": "Ay - Satürn karşıtı",
-    "kategori": "aci",
-    "anahtar": [
-      "duygusal mesafe",
-      "sorumluluk yükü"
-    ],
-    "anlam": "Duygular (Ay) ile sınırlar/sorumluluk (Satürn) karşı karşıya gelir; şefkat göstermek ya da almak bazen zorlaşır, içe çekilme eğilimi olur.",
-    "guclu": "Olgunlaştıkça duygusal dayanıklılık ve sadakat",
-    "golge": "Yalnızlık hissi, duygusal ketlenme, aşırı ciddiyet",
-    "ton": "ağır, içe dönük"
-  },
-  {
     "id": "ELEMENT_ATES",
     "faktor": "Ateş baskınlığı",
     "kategori": "element",
@@ -280,33 +240,3422 @@
     "ton": "atılgan, öncü"
   },
   {
-    "id": "ACI_GUN_JUP_UCGEN",
-    "faktor": "Güneş - Jüpiter üçgeni",
-    "kategori": "aci",
+    "id": "MIZAC_DEMEVI",
+    "faktor": "Demevi Mizaç (Hava baskın)",
+    "kategori": "mizac",
     "anahtar": [
-      "şans",
-      "iyimserlik",
-      "genişleme",
-      "cömertlik"
+      "hava baskın",
+      "demevi",
+      "sanguine",
+      "sıcak-nemli"
     ],
-    "anlam": "Doğuştan bir şans, iyimserlik ve genişleme enerjisi. Özgüven, büyüme ve cömertlik doğal gelir; fırsatlar kişiyi kolay bulur.",
-    "guclu": "İyimserlik, doğal özgüven, bolluk hissi",
-    "golge": "Aşırı güven, savrukluk, fazla iyimserlik",
-    "ton": "ferah, bereketli"
+    "anlam": "Element dağılımında hava baskın; klasik mizaç sınıflamasında Demevi (Kanlı, sıcak-nemli). Sosyal, iletişimci, neşeli, meraklı, fikir akışkanlığı yüksek bir temel doğa.",
+    "guclu": "İletişim, sosyallik, uyumluluk, esneklik, iyimserlik, hızlı öğrenme.",
+    "golge": "Dağınıklık, yüzeysellik, kararsızlık, bir konuda derinleşememe, savrukluk.",
+    "ton": "sosyal, hareketli, ferah"
   },
   {
-    "id": "ACI_MER_JUP_KARE",
-    "faktor": "Merkür - Jüpiter karesi",
+    "id": "MIZAC_SAFRAVI",
+    "faktor": "Safravi Mizaç (Ateş baskın)",
+    "kategori": "mizac",
+    "anahtar": [
+      "ateş baskın",
+      "safravi",
+      "choleric",
+      "sıcak-kuru"
+    ],
+    "anlam": "Element dağılımında ateş baskın; klasik mizaç sınıflamasında Safravi (Sarı safra, sıcak-kuru). Hızlı, girişken, hevesli, doğrudan, lider eğilimli bir temel doğa.",
+    "guclu": "Yüksek enerji, inisiyatif, cesaret, hızlı karar, tutku, ilham verme.",
+    "golge": "Sabırsızlık, çabuk tükenme, ateşlilik/öfke, başladığını bitirmeden geçme, aşırı hız.",
+    "ton": "enerjik, ateşli, canlı"
+  },
+  {
+    "id": "MIZAC_SEVDAVI",
+    "faktor": "Sevdavi Mizaç (Toprak baskın)",
+    "kategori": "mizac",
+    "anahtar": [
+      "toprak baskın",
+      "sevdavi",
+      "melancholic",
+      "soğuk-kuru"
+    ],
+    "anlam": "Element dağılımında toprak baskın; klasik mizaç sınıflamasında Sevdavi (Kara safra, soğuk-kuru). Derin, ihtiyatlı, disiplinli, gerçekçi, sebatkâr bir temel doğa.",
+    "guclu": "Disiplin, sebat, gerçekçilik, güvenilirlik, derinlik, sorumluluk.",
+    "golge": "Aşırı kaygı, karamsarlık, katılık, geç harekete geçme, içe kapanma.",
+    "ton": "ağırbaşlı, derin, sağlam"
+  },
+  {
+    "id": "MIZAC_BALGAMI",
+    "faktor": "Balgami Mizaç (Su baskın)",
+    "kategori": "mizac",
+    "anahtar": [
+      "su baskın",
+      "balgami",
+      "phlegmatic",
+      "soğuk-nemli"
+    ],
+    "anlam": "Element dağılımında su baskın; klasik mizaç sınıflamasında Balgami (Balgam, soğuk-nemli). Duygusal, sezgisel, sakin, şefkatli, akışkan bir temel doğa.",
+    "guclu": "Empati, sezgi, sadakat, sakinlik, duygusal derinlik, uyum.",
+    "golge": "Alınganlık, durağanlık, geçmişe takılma, sınır koyamama, içine kapanma.",
+    "ton": "yumuşak, duygusal, dingin"
+  },
+  {
+    "id": "AY_IKIZLER",
+    "faktor": "Ay - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "meraklı",
+      "konuşkan",
+      "değişken",
+      "zihinsel"
+    ],
+    "anlam": "Duygularını zihninle işlersin; hislerini konuşarak, anlamlandırarak yaşarsın. Duygusal dünyan hareketli, meraklı ve çok yönlü.",
+    "guclu": "İfade gücü, uyumlanma, hafiflik, merak",
+    "golge": "Duyguyu fazla zihinselleştirme, kararsızlık, dağınıklık",
+    "ton": "hareketli, meraklı"
+  },
+  {
+    "id": "MER_YENGEC",
+    "faktor": "Merkür - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "sezgisel",
+      "duygusal düşünür",
+      "güçlü hafıza",
+      "korumacı"
+    ],
+    "anlam": "Zihnin duygularla iç içe çalışır; mantıktan çok sezgiyle, hissederek düşünürsün. Güçlü bir hafızan ve koruyucu bir iletişim tarzın var.",
+    "guclu": "Sezgi, empatik dinleme, güçlü bellek",
+    "golge": "Mantığı duyguya teslim etme, alınganlık, geçmişe takılma",
+    "ton": "yumuşak, sezgisel"
+  },
+  {
+    "id": "VEN_BASAK",
+    "faktor": "Venüs - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özenli",
+      "hizmetkâr",
+      "seçici",
+      "mütevazı"
+    ],
+    "anlam": "Sevgiyi büyük sözlerle değil, özen ve yararlı dokunuşlarla gösterirsin. İlişkide ayrıntıya, güvenilirliğe ve sadeliğe değer verirsin.",
+    "guclu": "Sadakat, özen, pratik şefkat",
+    "golge": "Aşırı eleştiri, mesafe, kendini yetersiz görme",
+    "ton": "ölçülü, özenli"
+  },
+  {
+    "id": "MARS_IKIZLER",
+    "faktor": "Mars - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "çok yönlü",
+      "sözel",
+      "çevik",
+      "meraklı"
+    ],
+    "anlam": "Enerjini zihninle ve kelimelerle harekete geçirirsin; fikirlerle, konuşmayla, birden çok işle ilerlersin. Çevik ve uyarlanabilir bir eylem tarzın var.",
+    "guclu": "Zihinsel çeviklik, ikna, çok görevlilik",
+    "golge": "Dağılma, sözde kalma, kararsız enerji",
+    "ton": "çevik, hareketli"
+  },
+  {
+    "id": "JUP_AKREP",
+    "faktor": "Jüpiter - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "derin",
+      "araştırıcı",
+      "tutkulu",
+      "dönüştürücü"
+    ],
+    "anlam": "Genişlemeyi ve anlamı yüzeyde değil, derinde ve dönüşümde ararsın; gizli olanı kazma, krizden güç devşirme yeteneğin var.",
+    "guclu": "Derinlik, sezgi, dönüşüm gücü, kararlılık",
+    "golge": "Aşırılık, takıntı, kontrol arzusu",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "SAT_BALIK",
+    "faktor": "Satürn - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "şefkatli disiplin",
+      "sınır",
+      "fedakârlık",
+      "sezgi"
+    ],
+    "anlam": "Disiplin ve sorumluluğu duygusal, sezgisel alanda öğrenirsin; belirsizliğe yapı kazandırmak, şefkati gerçekçilikle dengelemek senin sınavın.",
+    "guclu": "Şefkatli olgunluk, dayanıklılık, sezgisel bilgelik",
+    "golge": "Belirsizlik kaygısı, kaçış, sınır koyamama",
+    "ton": "ağır, şefkatli"
+  },
+  {
+    "id": "YUK_BASAK",
+    "faktor": "Yükselen - Başak",
+    "kategori": "yukselen",
+    "anahtar": [
+      "ölçülü",
+      "düzenli",
+      "mütevazı",
+      "gözlemci"
+    ],
+    "anlam": "Dış dünyaya ölçülü, düzenli ve mütevazı bir maske ile çıkarsın; önce gözlemler, ince eleyip sonra yaklaşırsın. İlk izlenimin sakin ve güvenilirdir.",
+    "guclu": "Dikkat, güvenilirlik, pratik zekâ",
+    "golge": "Aşırı eleştiri, çekingenlik, mükemmeliyetçilik",
+    "ton": "sade, düzenli"
+  },
+  {
+    "id": "EV_1",
+    "faktor": "1. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "benlik",
+      "beden",
+      "duruş",
+      "başlangıç"
+    ],
+    "anlam": "Benlik, beden ve dünyaya çıkış kapısı alanı. Buradaki yerleşim kişinin kendini nasıl sunduğunu ve hayata atılış tarzını renklendirir.",
+    "guclu": "Güçlü kişisel duruş, kendini ortaya koyma",
+    "golge": "Ben-merkezcilik, dış görünüşe fazla yüklenme",
+    "ton": "kişisel, öne çıkan"
+  },
+  {
+    "id": "ACI_KAVUSUM",
+    "faktor": "Kavuşum (genel)",
     "kategori": "aci",
     "anahtar": [
-      "bol fikir",
-      "büyük resim",
-      "abartı",
-      "detay gerilimi"
+      "birleşme",
+      "yoğunlaşma",
+      "tek potada güç"
     ],
-    "anlam": "Büyük resim (Jüpiter) ile detay (Merkür) arasında gerilim; bol fikir ve geniş vizyon var ama abartma ya da ince ayrıntıyı atlama eğilimi olabilir.",
-    "guclu": "Vizyon, geniş düşünme, fikir bolluğu",
-    "golge": "Abartı, detayı atlama, dağınık planlama",
-    "ton": "geniş, coşkulu"
+    "anlam": "İki gezegen aynı noktada birleşir; enerjileri kaynaşıp birbirini güçlendirir, ilgili alanlar ayrılmaz biçimde iç içe yaşanır.",
+    "guclu": "Odaklı güç, yoğunluk, doğal birliktelik",
+    "golge": "Ayırt edememe, abartı, tek yöne aşırı yüklenme",
+    "ton": "yoğun, birleşik"
+  },
+  {
+    "id": "ACI_ALTMISLIK",
+    "faktor": "Altmışlık (genel)",
+    "kategori": "aci",
+    "anahtar": [
+      "fırsat",
+      "destek",
+      "kolaylık",
+      "işbirliği"
+    ],
+    "anlam": "İki gezegen birbirine fırsat kapısı aralar; çaba gösterildiğinde kolayca işbirliği yapan, yeteneğe dönüşen yumuşak bir bağ.",
+    "guclu": "Yetenek, uyum, fırsatları değerlendirme",
+    "golge": "Tembellik, fırsatı kullanmama, hafife alma",
+    "ton": "akışkan, destekleyici"
+  },
+  {
+    "id": "ACI_UCGEN",
+    "faktor": "Üçgen (genel)",
+    "kategori": "aci",
+    "anahtar": [
+      "uyum",
+      "doğal yetenek",
+      "akış",
+      "şans"
+    ],
+    "anlam": "İki gezegen akıcı bir uyumla birbirini besler; doğuştan gelen, zahmetsiz işleyen bir yetenek ve şans alanı.",
+    "guclu": "Doğal armağan, akış, rahatlık",
+    "golge": "Tembellik, fazla rahatlık, geliştirmeyi ihmal",
+    "ton": "akıcı, uyumlu"
+  },
+  {
+    "id": "ACI_KARE",
+    "faktor": "Kare (genel)",
+    "kategori": "aci",
+    "anahtar": [
+      "gerilim",
+      "zorlanma",
+      "itki",
+      "olgunlaşma"
+    ],
+    "anlam": "İki gezegen arasında seni harekete iten, olgunlaştıran bir gerilim var; bu sürtünme zorlayıcı olsa da en çok büyüdüğün, kas geliştirdiğin yerdir.",
+    "guclu": "İtki, dayanıklılık, gelişim motoru",
+    "golge": "İç çatışma, huzursuzluk, tıkanma",
+    "ton": "gerilimli, dinamik"
+  },
+  {
+    "id": "ELEMENT_SU",
+    "faktor": "Su baskınlığı",
+    "kategori": "element",
+    "anahtar": [
+      "duygusal",
+      "sezgisel",
+      "derin",
+      "empatik"
+    ],
+    "anlam": "Haritada su elementi öne çıkar; kişi duygusal, sezgisel, derin ve empatik bir genel tona sahiptir, dünyayı hisleriyle kavrar.",
+    "guclu": "Empati, sezgi, duygusal derinlik, şefkat",
+    "golge": "Aşırı etkilenme, sınır koyamama, duyguya boğulma",
+    "ton": "derin, duygusal"
+  },
+  {
+    "id": "NITELIK_DEGISKEN",
+    "faktor": "Değişken (mutable) baskınlığı",
+    "kategori": "nitelik",
+    "anahtar": [
+      "uyumlu",
+      "esnek",
+      "çok yönlü",
+      "uyarlanabilir"
+    ],
+    "anlam": "Haritada değişken nitelik öne çıkar; uyum sağlayan, esneyen, koşullara göre şekil alan bir genel eğilim. Geçişlerde ve çok yönlülükte rahatsın.",
+    "guclu": "Esneklik, uyum, çok yönlülük, akışta kalma",
+    "golge": "Kararsızlık, dağılma, yön kaybı, savrulma",
+    "ton": "esnek, akışkan"
+  },
+  {
+    "id": "AY_KOC",
+    "faktor": "Ay - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "dürtüsel",
+      "hızlı",
+      "bağımsız",
+      "ateşli"
+    ],
+    "anlam": "Duygularını anında ve doğrudan yaşarsın; hislerin hızla parlar, hızla söner. Güvenliği harekete geçerek, bir şey yaparak bulursun.",
+    "guclu": "Cesaret, dürüstlük, çabukluk, inisiyatif",
+    "golge": "Sabırsızlık, öfke patlamaları, bencillik eğilimi",
+    "ton": "ateşli, doğrudan"
+  },
+  {
+    "id": "AY_BOGA",
+    "faktor": "Ay - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "istikrarlı",
+      "tensel",
+      "sakin",
+      "güvenlik"
+    ],
+    "anlam": "Duygusal huzuru somut güvenlikte, istikrarda ve bedensel konforda ararsın. Değişime yavaş uyum sağlar, alıştığın düzene tutunursun.",
+    "guclu": "Sadakat, sabır, dinginlik, güven verme",
+    "golge": "İnatçılık, değişime direnç, sahiplenme",
+    "ton": "sakin, sağlam"
+  },
+  {
+    "id": "AY_ASLAN",
+    "faktor": "Ay - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "coşkulu",
+      "gururlu",
+      "sıcak",
+      "görünür"
+    ],
+    "anlam": "Duygusal olarak fark edilmeye, takdir görmeye ve sevginin açıkça gösterilmesine ihtiyaç duyarsın. Hislerini cömertçe ve görkemle ifade edersin.",
+    "guclu": "Cömertlik, sıcaklık, sadakat, neşe yayma",
+    "golge": "Onay açlığı, drama, gurur kırılganlığı",
+    "ton": "sıcak, gururlu"
+  },
+  {
+    "id": "AY_BASAK",
+    "faktor": "Ay - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "düzenli",
+      "özenli",
+      "hizmet",
+      "kaygılı"
+    ],
+    "anlam": "Duygusal güvenliği düzen, fayda ve işleri yoluna koyarak hissedersin. Sevgini, sevdiklerine pratik özen göstererek anlatırsın.",
+    "guclu": "Özen, güvenilirlik, çözüm üretme, sadakat",
+    "golge": "Aşırı eleştiri, endişe, duyguyu bastırma",
+    "ton": "özenli, ölçülü"
+  },
+  {
+    "id": "AY_TERAZI",
+    "faktor": "Ay - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "uyumlu",
+      "ilişkisel",
+      "dengeci",
+      "kibar"
+    ],
+    "anlam": "Duygusal dengeni ilişkiler, uyum ve karşılıklılık üzerinden kurarsın. Çatışmadan rahatsız olur, huzuru paylaşımda ararsın.",
+    "guclu": "Diplomasi, incelik, adalet duygusu, eşlik",
+    "golge": "Kararsızlık, onaya bağımlılık, çatışmadan kaçınma",
+    "ton": "uyumlu, nazik"
+  },
+  {
+    "id": "AY_AKREP",
+    "faktor": "Ay - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "yoğun",
+      "derin",
+      "tutkulu",
+      "kontrollü"
+    ],
+    "anlam": "Duyguların derin, yoğun ve mutlaktır; yüzeysel bağlar seni doyurmaz. Güveni zor verir, verdiğinde sonuna kadar bağlanırsın.",
+    "guclu": "Derinlik, sadakat, sezgi, dönüşüm gücü",
+    "golge": "Kıskançlık, kontrol ihtiyacı, kin tutma",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "AY_YAY",
+    "faktor": "Ay - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgür",
+      "iyimser",
+      "gezgin",
+      "anlamcı"
+    ],
+    "anlam": "Duygusal olarak alana, özgürlüğe ve anlam arayışına ihtiyaç duyarsın. Sıkıştığında genişlersin; huzuru keşifte ve geleceğe umutla bakmakta bulursun.",
+    "guclu": "İyimserlik, açıklık, içtenlik, geniş bakış",
+    "golge": "Bağ kurmaktan kaçma, huzursuzluk, abartı",
+    "ton": "özgür, iyimser"
+  },
+  {
+    "id": "AY_OGLAK",
+    "faktor": "Ay - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "ölçülü",
+      "sorumlu",
+      "ketum",
+      "dayanıklı"
+    ],
+    "anlam": "Duygularını ciddiye alır ama kolayca göstermezsin; güvenliği başarı, yapı ve öz disiplinde ararsın. Sevgini sorumluluk üstlenerek belli edersin.",
+    "guclu": "Dayanıklılık, güvenilirlik, olgunluk, kararlılık",
+    "golge": "Duygusal soğukluk, katılık, kendine sertlik",
+    "ton": "ölçülü, ciddi"
+  },
+  {
+    "id": "AY_KOVA",
+    "faktor": "Ay - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "bağımsız",
+      "mesafeli",
+      "özgün",
+      "zihinsel"
+    ],
+    "anlam": "Duygularını mantıkla işler, yakınlıkta bile özgürlük alanı korursun. Aidiyeti geleneksel kalıplarda değil, paylaşılan fikir ve topluluklarda bulursun.",
+    "guclu": "Özgünlük, nesnellik, hoşgörü, dostluk",
+    "golge": "Duygusal mesafe, yalıtım, inatçı bağımsızlık",
+    "ton": "bağımsız, serin"
+  },
+  {
+    "id": "AY_BALIK",
+    "faktor": "Ay - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "duyarlı",
+      "empatik",
+      "hayalci",
+      "akışkan"
+    ],
+    "anlam": "Duyguların sınırsız ve geçirgendir; çevrenin hislerini süngeri gibi emersin. Huzuru şefkatte, sanatta ve kendini bir bütüne ait hissetmekte bulursun.",
+    "guclu": "Empati, şefkat, sezgi, yaratıcılık",
+    "golge": "Sınır zayıflığı, kaçış eğilimi, kurban hissi",
+    "ton": "duyarlı, akışkan"
+  },
+  {
+    "id": "GUN_KOC",
+    "faktor": "Güneş - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "öncü",
+      "cesur",
+      "atılgan",
+      "bağımsız"
+    ],
+    "anlam": "Var olma biçimin harekete geçmek, başlatmak ve önden gitmektir. Kimliğini eylemle, cesaretle ve doğrudanlıkla kurarsın.",
+    "guclu": "İnisiyatif, dürüstlük, enerji, hızlı karar",
+    "golge": "Sabırsızlık, dürtüsellik, öfke, başkasını dinlememe",
+    "ton": "ateşli, doğrudan"
+  },
+  {
+    "id": "GUN_BOGA",
+    "faktor": "Güneş - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "istikrarlı",
+      "sabırlı",
+      "tutarlı",
+      "duyusal"
+    ],
+    "anlam": "Özünde sağlamlık, süreklilik ve somut güvenlik arayışı var. Kendini yavaş ama emin adımlarla, ürettiğin ve sahip olduğun şeyle var edersin.",
+    "guclu": "Kararlılık, güvenilirlik, sabır, pratiklik",
+    "golge": "İnatçılık, değişime direnç, sahiplenme, atalette kalma",
+    "ton": "sakin, sağlam"
+  },
+  {
+    "id": "GUN_IKIZLER",
+    "faktor": "Güneş - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "meraklı",
+      "esnek",
+      "iletişimci",
+      "çok yönlü"
+    ],
+    "anlam": "Kimliğini öğrenerek, bağ kurarak ve fikir alışverişiyle parlatırsın. Zihnin canlı, ilgilerin geniş, sürekli yeni bilgiye açsın.",
+    "guclu": "Zekâ, uyum, ifade, hızlı kavrama",
+    "golge": "Dağınıklık, yüzeysellik, kararsızlık, sürekli huzursuzluk",
+    "ton": "hareketli, zihinsel"
+  },
+  {
+    "id": "GUN_YENGEC",
+    "faktor": "Güneş - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "duygusal",
+      "koruyucu",
+      "aidiyet",
+      "sezgisel"
+    ],
+    "anlam": "Var oluşunun merkezinde duygusal bağlar, ait olma ve sevdiklerini koruma ihtiyacı var. Kimliğin hislerinle ve yakınlık kurduğun alanla beslenir.",
+    "guclu": "Şefkat, sadakat, sezgi, ait olma duygusu",
+    "golge": "Alınganlık, geçmişe takılma, içe kapanma, savunmacılık",
+    "ton": "sıcak, içsel"
+  },
+  {
+    "id": "GUN_BASAK",
+    "faktor": "Güneş - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "titiz",
+      "analitik",
+      "hizmetkâr",
+      "düzenli"
+    ],
+    "anlam": "Kendini işe yararlık, dikkat ve geliştirme çabasıyla var edersin. Detayı görür, düzeltir, daha iyisini yapma arzusuyla parlarsın.",
+    "guclu": "Özen, çalışkanlık, çözüm odaklılık, gerçekçilik",
+    "golge": "Aşırı eleştirellik, mükemmeliyetçilik, endişe, kendini yeterince görmeme",
+    "ton": "dikkatli, sade"
+  },
+  {
+    "id": "GUN_TERAZI",
+    "faktor": "Güneş - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "dengeli",
+      "ilişkisel",
+      "adil",
+      "zarif"
+    ],
+    "anlam": "Kimliğini ilişkiler, uyum ve adalet üzerinden kurarsın. Karşındakini görerek, denge arayarak ve estetikle var olursun.",
+    "guclu": "Diplomasi, empati, incelik, uzlaştırma",
+    "golge": "Kararsızlık, onaylanma kaygısı, çatışmadan kaçınma, kendini ihmal etme",
+    "ton": "zarif, dengeli"
+  },
+  {
+    "id": "GUN_AKREP",
+    "faktor": "Güneş - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "yoğun",
+      "tutkulu",
+      "derin",
+      "dönüştürücü"
+    ],
+    "anlam": "Var oluşun yüzeyin altındaki gerçekle, derinlikle ve yoğun deneyimle ilgilidir. Kimliğini krizden geçerek yeniden doğmakla kurarsın.",
+    "guclu": "İrade, derinlik, sadakat, dönüşme gücü",
+    "golge": "Kontrol ihtiyacı, kıskançlık, kin tutma, fazla kapalılık",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "GUN_YAY",
+    "faktor": "Güneş - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgür",
+      "arayışçı",
+      "iyimser",
+      "açık"
+    ],
+    "anlam": "Kendini anlam arayışı, keşif ve genişleme arzusuyla var edersin. Kimliğin ufkunu büyüttükçe, öğrendikçe ve özgür kaldıkça parlar.",
+    "guclu": "Vizyon, içtenlik, coşku, geniş bakış",
+    "golge": "Savrukluk, abartı, taahhütten kaçınma, dağılma",
+    "ton": "özgür, coşkulu"
+  },
+  {
+    "id": "GUN_OGLAK",
+    "faktor": "Güneş - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli",
+      "hedefli",
+      "sorumlu",
+      "dayanıklı"
+    ],
+    "anlam": "Var oluşunu sorumluluk, hedef ve somut başarı üzerinden kurarsın. Kimliğin zamanla, emekle ve sabırla tırmanmanın ardından gelen ustalıkla olgunlaşır.",
+    "guclu": "Dayanıklılık, ciddiyet, öz disiplin, gerçekçilik",
+    "golge": "Katılık, aşırı kontrol, duyguyu bastırma, yorgunluğu görmezden gelme",
+    "ton": "ciddi, sağlam"
+  },
+  {
+    "id": "GUN_KOVA",
+    "faktor": "Güneş - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgün",
+      "bağımsız",
+      "yenilikçi",
+      "insancıl"
+    ],
+    "anlam": "Kimliğini farklılığın, özgürlüğün ve topluluğa katkının üzerinden kurarsın. Kalabalığa benzemeden, kendi fikrinle var olursun.",
+    "guclu": "Özgünlük, vizyon, nesnellik, ilkesellik",
+    "golge": "Mesafe, inatçı bireysellik, duygusal kopukluk, uzaklık",
+    "ton": "özgün, mesafeli"
+  },
+  {
+    "id": "GUN_BALIK",
+    "faktor": "Güneş - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "sezgisel",
+      "şefkatli",
+      "hayalci",
+      "duyarlı"
+    ],
+    "anlam": "Var oluşun sınırların eridiği, hisle ve sezgiyle akan bir yerden gelir. Kimliğini empati, hayal gücü ve daha büyük bir bütüne bağlanma arzusuyla kurarsın.",
+    "guclu": "Merhamet, yaratıcılık, sezgi, derin duyarlılık",
+    "golge": "Sınır koyamama, kaçış, kendini kaybetme, gerçeklikten uzaklaşma",
+    "ton": "akışkan, duyarlı"
+  },
+  {
+    "id": "JUP_KOC",
+    "faktor": "Jüpiter - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "cesur",
+      "öncü",
+      "atılgan",
+      "girişken"
+    ],
+    "anlam": "Genişleme ve şans cesaretle başlamaktan, ilk adımı atmaktan geçer; yeni alanlara dalmak sana enerji ve fırsat getirir.",
+    "guclu": "İnisiyatif, cesaret, doğrudan eylem",
+    "golge": "Acelecilik, ölçüsüz risk, sabırsızlık",
+    "ton": "atak, canlı"
+  },
+  {
+    "id": "JUP_BOGA",
+    "faktor": "Jüpiter - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "bereketli",
+      "istikrarlı",
+      "keyifli",
+      "sağlam"
+    ],
+    "anlam": "Bolluk ve büyüme somut, kalıcı ve duyusal olanda bulunur; emek, sabır ve değer biriktirme yoluyla genişlersin.",
+    "guclu": "Bereket, istikrar, pratik değer üretme",
+    "golge": "Maddeye fazla bağlanma, konfor tembelliği, biriktirme hırsı",
+    "ton": "tok, dingin"
+  },
+  {
+    "id": "JUP_IKIZLER",
+    "faktor": "Jüpiter - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "meraklı",
+      "konuşkan",
+      "çok yönlü",
+      "öğrenen"
+    ],
+    "anlam": "Genişlemen fikirler, bağlantılar ve iletişimle olur; öğrenmek, paylaşmak ve çok şeye dokunmak sana kapı açar.",
+    "guclu": "Çeviklik, merak, iletişim becerisi",
+    "golge": "Dağınıklık, yüzeysellik, sözü fazla yayma",
+    "ton": "hareketli, esnek"
+  },
+  {
+    "id": "JUP_YENGEC",
+    "faktor": "Jüpiter - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "şefkatli",
+      "koruyucu",
+      "duygusal",
+      "besleyici"
+    ],
+    "anlam": "Bolluk ve anlam aile, kök ve duygusal bağlarda büyür; başkalarını korumak ve beslemek seni içten genişletir.",
+    "guclu": "Şefkat, sezgi, duygusal cömertlik",
+    "golge": "Aşırı koruma, geçmişe tutunma, duygusal şişme",
+    "ton": "sıcak, sarmalayan"
+  },
+  {
+    "id": "JUP_ASLAN",
+    "faktor": "Jüpiter - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "cömert",
+      "yaratıcı",
+      "ışıltılı",
+      "gururlu"
+    ],
+    "anlam": "Genişlemen yaratıcılık, görünürlük ve yürekten verdiğinle olur; kendini açıkça ortaya koymak sana şans ve sevgi getirir.",
+    "guclu": "Cömertlik, ilham, doğal liderlik",
+    "golge": "Abartılı ego, gösteriş, takdir bağımlılığı",
+    "ton": "görkemli, sıcak"
+  },
+  {
+    "id": "JUP_BASAK",
+    "faktor": "Jüpiter - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "faydalı",
+      "titiz",
+      "hizmetkâr",
+      "ölçülü"
+    ],
+    "anlam": "Büyümeyi büyük vaatlerde değil, işe yarar detayda ve hizmette ararsın; küçük iyileştirmeler birikerek anlam üretir.",
+    "guclu": "Pratik bilgelik, özen, faydalı katkı",
+    "golge": "Aşırı eleştiri, küçük detayda boğulma, kendine güvensizlik",
+    "ton": "ölçülü, sade"
+  },
+  {
+    "id": "JUP_TERAZI",
+    "faktor": "Jüpiter - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "uyumlu",
+      "adil",
+      "ilişkisel",
+      "zarif"
+    ],
+    "anlam": "Şans ve genişleme ilişkilerde, adalette ve dengede açılır; başkalarıyla kurduğun köprüler sana fırsat taşır.",
+    "guclu": "Diplomasi, adalet duygusu, işbirliği",
+    "golge": "Kararsızlık, onaylanma ihtiyacı, fazla ödün",
+    "ton": "zarif, dengeli"
+  },
+  {
+    "id": "JUP_OGLAK",
+    "faktor": "Jüpiter - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli",
+      "sabırlı",
+      "sorumlu",
+      "hırslı"
+    ],
+    "anlam": "Bolluk emek, zaman ve yapı içinde olgunlaşır; uzun vadeli inşa ve sorumlulukla kalıcı bir başarıya genişlersin.",
+    "guclu": "Disiplin, dayanıklılık, gerçekçi vizyon",
+    "golge": "Aşırı temkin, katılık, hazzı erteleme",
+    "ton": "sağlam, ciddi"
+  },
+  {
+    "id": "JUP_KOVA",
+    "faktor": "Jüpiter - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgür",
+      "yenilikçi",
+      "insancıl",
+      "bağımsız"
+    ],
+    "anlam": "Genişlemen özgünlük, topluluk ve geleceğe dair fikirlerle olur; kalıpların dışına çıkmak sana yeni ufuklar açar.",
+    "guclu": "Vizyon, özgürlük, kapsayıcılık",
+    "golge": "Kopukluk, soyutta kalma, inatçı asilik",
+    "ton": "ferah, sıradışı"
+  },
+  {
+    "id": "JUP_BALIK",
+    "faktor": "Jüpiter - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "şefkatli",
+      "sezgisel",
+      "ruhani",
+      "hayalci"
+    ],
+    "anlam": "Anlam ve bolluk sınırların eridiği yerde, şefkatte ve manevi bağda büyür; vermek ve sezmek seni içsel olarak genişletir.",
+    "guclu": "Merhamet, sezgi, sınırsız hayal gücü",
+    "golge": "Gerçeklikten kaçış, sınır eksikliği, kurban rolü",
+    "ton": "yumuşak, derin"
+  },
+  {
+    "id": "MARS_BOGA",
+    "faktor": "Mars - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "istikrarlı",
+      "kararlı",
+      "dirençli",
+      "somut"
+    ],
+    "anlam": "Enerjini yavaş ama sağlam yöneltirsin; bir kez başlayınca kolay durmaz, somut sonuç peşinde gidersin. Arzuların net ve maddi olana dönüktür.",
+    "guclu": "Dayanıklılık, kararlılık, üretkenlik",
+    "golge": "İnatçılık, ağır kalkış, sahiplenme",
+    "ton": "sabırlı, sağlam"
+  },
+  {
+    "id": "MARS_YENGEC",
+    "faktor": "Mars - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "korumacı",
+      "dolaylı",
+      "duygusal",
+      "ısrarlı"
+    ],
+    "anlam": "Enerjini duyguların ve yakınlarını koruma içgüdüsü yönlendirir; doğrudan değil yandan, sezgiyle ilerlersin. Öfken birikir ve dalga dalga gelir.",
+    "guclu": "Koruma içgüdüsü, sezgisel hamle, bağlılık",
+    "golge": "Küsme, pasif tepki, alınganlık",
+    "ton": "hassas, ısrarlı"
+  },
+  {
+    "id": "MARS_ASLAN",
+    "faktor": "Mars - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "gururlu",
+      "yaratıcı",
+      "cömert",
+      "sahne"
+    ],
+    "anlam": "Eylemini tutkuyla ve görünürlükle ortaya koyarsın; yaptığın işin fark edilmesini, takdir görmesini istersin. İraden gururundan beslenir.",
+    "guclu": "Liderlik, kararlı duruş, yaratıcı tutku",
+    "golge": "Ego, takdir bağımlılığı, dramatize etme",
+    "ton": "gururlu, ateşli"
+  },
+  {
+    "id": "MARS_BASAK",
+    "faktor": "Mars - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "titiz",
+      "verimli",
+      "analitik",
+      "düzenli"
+    ],
+    "anlam": "Enerjini ayrıntıya ve doğru yönteme harcarsın; gelişigüzel değil, planlı ve ölçülü ilerlersin. Arzun işi kusursuz yapmaktır.",
+    "guclu": "Disiplin, verimlilik, sorun çözme",
+    "golge": "Eleştirellik, kılı kırk yarma, tıkanma",
+    "ton": "titiz, ölçülü"
+  },
+  {
+    "id": "MARS_TERAZI",
+    "faktor": "Mars - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "dengeli",
+      "diplomatik",
+      "ikircikli",
+      "ilişkisel"
+    ],
+    "anlam": "Eyleme geçmeden tartar, adil olanı ararsın; enerjini ilişkiler ve uzlaşı üzerinden harekete geçirirsin. Doğrudan çatışmaktan rahatsız olursun.",
+    "guclu": "Diplomasi, adalet duygusu, ortak hareket",
+    "golge": "Kararsızlık, erteleme, pasif öfke",
+    "ton": "dengeli, kibar"
+  },
+  {
+    "id": "MARS_AKREP",
+    "faktor": "Mars - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "yoğun",
+      "kararlı",
+      "stratejik",
+      "tutkulu"
+    ],
+    "anlam": "Arzuların derin ve yoğundur; istediğine sessiz ama sarsılmaz bir iradeyle yürürsün. Enerjini kontrollü tutar, zamanı gelince hamle yaparsın.",
+    "guclu": "Odak gücü, dayanıklılık, strateji",
+    "golge": "Kıskançlık, kin, kontrol takıntısı",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "MARS_YAY",
+    "faktor": "Mars - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "coşkulu",
+      "özgür",
+      "cesur",
+      "arayıcı"
+    ],
+    "anlam": "Enerjini hedefe, keşfe ve büyük resme yöneltirsin; geniş hamleler yapar, sınırlanmaktan kaçarsın. Arzun anlam ve özgürlük peşindedir.",
+    "guclu": "Cesaret, vizyon, iyimser atılım",
+    "golge": "Aşırı yayılma, savrukluk, sözünü tutmama",
+    "ton": "coşkulu, atak"
+  },
+  {
+    "id": "MARS_OGLAK",
+    "faktor": "Mars - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli",
+      "hedefli",
+      "sabırlı",
+      "stratejik"
+    ],
+    "anlam": "İradeni uzun vadeli hedeflere ve somut başarıya yöneltirsin; sabırla, adım adım, ödün vermeden ilerlersin. Enerjin kontrollü ve verimlidir.",
+    "guclu": "Disiplin, dayanıklılık, hedef odağı",
+    "golge": "Katılık, baskı, duyguyu bastırma",
+    "ton": "kararlı, soğukkanlı"
+  },
+  {
+    "id": "MARS_KOVA",
+    "faktor": "Mars - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "bağımsız",
+      "özgün",
+      "reformcu",
+      "mesafeli"
+    ],
+    "anlam": "Enerjini fikirler, ilkeler ve değişim için harekete geçirirsin; alışılmışın dışında, kendi yolunla davranırsın. Arzun özgürlük ve adalet üzerine kuruludur.",
+    "guclu": "Özgünlük, ilkeli duruş, kolektif vizyon",
+    "golge": "İnatçı asilik, soğukluk, öngörülemezlik",
+    "ton": "bağımsız, serin"
+  },
+  {
+    "id": "MARS_BALIK",
+    "faktor": "Mars - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "akışkan",
+      "sezgisel",
+      "dolaylı",
+      "duyarlı"
+    ],
+    "anlam": "Enerjin doğrudan değil, sezgi ve ilhamla akar; istediğine güçle değil, akışa uyarak ulaşırsın. Arzularını net çizmek senin için zordur.",
+    "guclu": "Sezgi, şefkatli hareket, uyum yeteneği",
+    "golge": "Belirsiz irade, kaçış, pasiflik",
+    "ton": "yumuşak, akışkan"
+  },
+  {
+    "id": "MER_KOC",
+    "faktor": "Merkür - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "hızlı",
+      "doğrudan",
+      "atılgan",
+      "sabırsız"
+    ],
+    "anlam": "Zihnin çabuk çalışır, kararları anında verir ve düşündüğünü açıkça söylersin. İletişimde dolambaçsız, cesur ve harekete dönük bir tarzın var.",
+    "guclu": "Hızlı kavrayış, girişkenlik, açık sözlülük, inisiyatif",
+    "golge": "Sabırsızlık, düşünmeden konuşma, tartışmacılık",
+    "ton": "keskin, doğrudan"
+  },
+  {
+    "id": "MER_BOGA",
+    "faktor": "Merkür - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "sakin",
+      "somut",
+      "kararlı",
+      "yavaş düşünür"
+    ],
+    "anlam": "Düşünceni acele etmeden, somut ve pratik temellere oturtursun; bir kez kanı oluşunca onu değiştirmek zor. Sade, güven veren ve elle tutulur bir iletişim kurarsın.",
+    "guclu": "Sağduyu, sebat, pratik akıl, güvenilir ifade",
+    "golge": "İnatçılık, fikir değiştirmeye direnç, ağır kavrayış",
+    "ton": "sakin, sağlam"
+  },
+  {
+    "id": "MER_IKIZLER",
+    "faktor": "Merkür - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "çevik",
+      "meraklı",
+      "çok yönlü",
+      "konuşkan"
+    ],
+    "anlam": "Zihnin sürekli hareket halinde, merak dolu ve birçok konu arasında hızla geçiş yapar. Konuşmayı, öğrenmeyi ve bilgi alışverişini seven, sözcüklere hakim bir iletişimcisin.",
+    "guclu": "Çabuk öğrenme, esneklik, ifade yeteneği, uyum",
+    "golge": "Dağınık dikkat, yüzeysellik, çok konuşma",
+    "ton": "canlı, hareketli"
+  },
+  {
+    "id": "MER_ASLAN",
+    "faktor": "Merkür - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "kendinden emin",
+      "etkileyici",
+      "yaratıcı",
+      "gururlu"
+    ],
+    "anlam": "Düşüncelerini özgüvenle ve etkileyici bir biçimde ifade edersin; fikirlerine içtenlikle inanır, onları sahiplenirsin. İletişimin sıcak, renkli ve akılda kalıcıdır.",
+    "guclu": "İkna gücü, sahne hakimiyeti, yaratıcı anlatım, kararlılık",
+    "golge": "Dogmatik tavır, eleştiriye kapanma, abartılı üslup",
+    "ton": "sıcak, etkileyici"
+  },
+  {
+    "id": "MER_TERAZI",
+    "faktor": "Merkür - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "dengeli",
+      "diplomatik",
+      "nezaketli",
+      "kararsız"
+    ],
+    "anlam": "Zihnin her konuyu farklı açılardan tartar ve adil bir denge arar; bu yüzden karar vermek zaman alabilir. Nazik, uzlaştırıcı ve karşındakini gözeten bir dille konuşursun.",
+    "guclu": "Adil değerlendirme, diplomasi, incelik, uzlaşı",
+    "golge": "Kararsızlık, çatışmadan kaçınma, fazla onay arayışı",
+    "ton": "zarif, dengeli"
+  },
+  {
+    "id": "MER_AKREP",
+    "faktor": "Merkür - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "derin",
+      "araştırmacı",
+      "sezgili",
+      "sorgulayıcı"
+    ],
+    "anlam": "Yüzeyle yetinmez, görünenin altındaki gerçeği kazarsın; zihnin keskin, nüfuz edici ve gizliyi sezer. Konuşmaların ölçülü ama etkili, az sözle çok şey söyleyen türdendir.",
+    "guclu": "Derinlemesine analiz, sezgi, odaklanma, gerçeği görme",
+    "golge": "Kuşkuculuk, takıntılı düşünce, kapalılık",
+    "ton": "yoğun, nüfuz edici"
+  },
+  {
+    "id": "MER_YAY",
+    "faktor": "Merkür - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "geniş görüşlü",
+      "dürüst",
+      "felsefi",
+      "iyimser"
+    ],
+    "anlam": "Büyük resmi ve anlamı arayan bir zihnin var; detaydan çok bütüne, kuramdan çok inanca yönelirsin. Açık sözlü, içten ve ufuk açıcı bir biçimde iletişim kurarsın.",
+    "guclu": "Vizyon, dürüstlük, öğrenme iştahı, ilham veren anlatım",
+    "golge": "Detayı atlama, fazla açık sözlülük, dağınıklık",
+    "ton": "açık, geniş"
+  },
+  {
+    "id": "MER_OGLAK",
+    "faktor": "Merkür - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli",
+      "stratejik",
+      "ciddi",
+      "gerçekçi"
+    ],
+    "anlam": "Zihnin yapılı, ölçülü ve sonuç odaklı çalışır; konuşmadan önce düşünür, gereksiz sözden kaçınırsın. İletişimin ciddi, güvenilir ve hedefe yöneliktir.",
+    "guclu": "Stratejik akıl, ciddiyet, sağlam planlama, özlü ifade",
+    "golge": "Katı düşünce, soğuk üslup, aşırı temkin",
+    "ton": "ölçülü, ciddi"
+  },
+  {
+    "id": "MER_KOVA",
+    "faktor": "Merkür - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgün",
+      "yenilikçi",
+      "nesnel",
+      "bağımsız"
+    ],
+    "anlam": "Alışılmışın dışında, özgün ve sistemli düşünür; kalıpları sorgular, geleceğe dönük fikirler üretirsin. İletişimin nesnel, fikir odaklı ve bağımsız bir tını taşır.",
+    "guclu": "Özgün bakış, mantıksal soyutlama, yenilikçilik, tarafsızlık",
+    "golge": "İnatçı fikircilik, duygusal mesafe, ters köşeci tavır",
+    "ton": "özgün, nesnel"
+  },
+  {
+    "id": "MER_BALIK",
+    "faktor": "Merkür - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "hayalci",
+      "sezgisel",
+      "duyarlı",
+      "imgesel"
+    ],
+    "anlam": "Mantıktan çok sezgi ve imgelerle düşünürsün; zihnin akışkan, duyarlı ve sözcüklerin ötesini hisseder. İletişimin şiirsel, empatik ama bazen bulanık olabilir.",
+    "guclu": "Sezgi, hayal gücü, empati, yaratıcı çağrışım",
+    "golge": "Dağınık odak, kaçamak ifade, gerçeklikten kopma",
+    "ton": "yumuşak, akışkan"
+  },
+  {
+    "id": "SAT_KOC",
+    "faktor": "Satürn - Koç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "sabırlı cesaret",
+      "öfke kontrolü",
+      "sebat",
+      "yön"
+    ],
+    "anlam": "Ataklık ve hareket isteği burada frenle karşılaşır; cesareti aceleye değil ölçülü adıma çevirmeyi, kendi başına başlamayı öğrenmek senin sınavın.",
+    "guclu": "Disiplinli atılganlık, dayanıklı irade, sorumlu liderlik",
+    "golge": "Bastırılmış öfke, eylemsizlik korkusu, kendine güvensizlik",
+    "ton": "ölçülü, kararlı"
+  },
+  {
+    "id": "SAT_BOGA",
+    "faktor": "Satürn - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "maddi güvenlik",
+      "sebat",
+      "değer",
+      "sabır"
+    ],
+    "anlam": "Güvenlik ve değer duygusunu sağlam temellere oturtmayı öğrenirsin; yavaş ama kalıcı inşa etmek, yokluk korkusunu emekle aşmak senin yolundur.",
+    "guclu": "İstikrar, kararlılık, somut üretkenlik",
+    "golge": "Yokluk kaygısı, katılık, değişime direnç",
+    "ton": "sabırlı, sağlam"
+  },
+  {
+    "id": "SAT_IKIZLER",
+    "faktor": "Satürn - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "disiplinli zihin",
+      "derin öğrenme",
+      "ifade",
+      "odak"
+    ],
+    "anlam": "Dağınık zihni odaklamayı, bilgiyi yüzeyden derinliğe taşımayı öğrenirsin; sözüne sorumluluk yüklemek ve düşünceyi yapıya kavuşturmak senin gelişimindir.",
+    "guclu": "Sistemli düşünce, ciddi öğrenme, isabetli ifade",
+    "golge": "İletişim çekingenliği, aşırı eleştiri, zihinsel tıkanma",
+    "ton": "dingin, odaklı"
+  },
+  {
+    "id": "SAT_YENGEC",
+    "faktor": "Satürn - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "duygusal sınır",
+      "güvenli yuva",
+      "bağlanma",
+      "koruma"
+    ],
+    "anlam": "Duyguları ve aidiyeti sorumlulukla taşımayı öğrenirsin; kendini güvende hissetme ihtiyacını içeride kurmak, sevgiyi koşula bağlamadan vermek senin sınavın.",
+    "guclu": "Sadakat, koruyucu olgunluk, duygusal dayanıklılık",
+    "golge": "Duygusal mesafe, güvensizlik, içe kapanma",
+    "ton": "ihtiyatlı, derin"
+  },
+  {
+    "id": "SAT_ASLAN",
+    "faktor": "Satürn - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "mütevazı özgüven",
+      "yaratıcı disiplin",
+      "onay",
+      "ifade"
+    ],
+    "anlam": "Kendini gösterme ve takdir görme ihtiyacını olgunlaştırmayı öğrenirsin; onayı dışarıda aramadan, yaratıcılığı emekle hak edilmiş bir güce çevirmek senin yolundur.",
+    "guclu": "Vakur duruş, ciddi yaratıcılık, sorumlu liderlik",
+    "golge": "Onay açlığı, kendini kısıtlama, gurur ile çekingenlik arası gerilim",
+    "ton": "vakur, ölçülü"
+  },
+  {
+    "id": "SAT_BASAK",
+    "faktor": "Satürn - Başak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "titiz düzen",
+      "hizmet",
+      "sağlam yöntem",
+      "emek"
+    ],
+    "anlam": "Detay, düzen ve yararlı emek üzerinden disiplini öğrenirsin; kusursuzluk baskısını sağlıklı bir yeterliliğe çevirmek, küçük adımlara değer vermek senin sınavın.",
+    "guclu": "Titizlik, güvenilir çalışkanlık, pratik akıl",
+    "golge": "Mükemmeliyetçilik, aşırı eleştiri, kendine yetersizlik hissi",
+    "ton": "titiz, sade"
+  },
+  {
+    "id": "SAT_TERAZI",
+    "faktor": "Satürn - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "olgun ilişki",
+      "adalet",
+      "denge",
+      "kararlılık"
+    ],
+    "anlam": "İlişkilerde sorumluluğu ve adil sınırı öğrenirsin; bağlanmaktan çekinmeden eşitlik kurmak, kararsızlığı ilkeli bir dengeye çevirmek senin gelişimindir.",
+    "guclu": "Adillik, sadık bağlılık, dengeli olgunluk",
+    "golge": "İlişki korkusu, kararsızlık, onaya bağımlılık",
+    "ton": "dengeli, ağırbaşlı"
+  },
+  {
+    "id": "SAT_AKREP",
+    "faktor": "Satürn - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "derin kontrol",
+      "güven",
+      "dönüşüm",
+      "sebat"
+    ],
+    "anlam": "Yoğun duyguları ve güç meselelerini disiplinle taşımayı öğrenirsin; kontrolü bırakmayı, derinliğe inip yeniden doğmayı ve güveni emekle kurmayı sınarsın.",
+    "guclu": "Sarsılmaz irade, derin dayanıklılık, dönüştürücü ciddiyet",
+    "golge": "Aşırı denetim, güvensizlik, içte tutulan kin",
+    "ton": "derin, ketum"
+  },
+  {
+    "id": "SAT_YAY",
+    "faktor": "Satürn - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "temelli inanç",
+      "sorumlu özgürlük",
+      "bilgelik",
+      "tutarlılık"
+    ],
+    "anlam": "İnanç ve özgürlük arayışını gerçekçi bir temele oturtmayı öğrenirsin; geniş ufku somut bilgeliğe, vaadi tutarlı eyleme çevirmek senin sınavın.",
+    "guclu": "Olgun bilgelik, ilkeli duruş, sorumlu vizyon",
+    "golge": "İnanç katılığı, bağlanma kaygısı, dogmatik tutum",
+    "ton": "ciddi, geniş"
+  },
+  {
+    "id": "SAT_KOVA",
+    "faktor": "Satürn - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "yapısal yenilik",
+      "topluluk",
+      "ilke",
+      "bağımsızlık"
+    ],
+    "anlam": "Özgünlüğü ve toplumsal sorumluluğu disiplinle birleştirmeyi öğrenirsin; aidiyet ile bağımsızlık arasında denge kurmak, fikirleri kalıcı yapıya dökmek senin yolundur.",
+    "guclu": "İlkeli özgünlük, sistemli vizyon, sorumlu bağımsızlık",
+    "golge": "Yalıtılma, duygusal mesafe, katı idealizm",
+    "ton": "serin, ilkeli"
+  },
+  {
+    "id": "YUK_KOC",
+    "faktor": "Yükselen - Koç",
+    "kategori": "yukselen",
+    "anahtar": [
+      "atılgan",
+      "doğrudan",
+      "enerjik",
+      "öncü"
+    ],
+    "anlam": "Dış dünyaya enerjik, atılgan ve doğrudan bir ilk izlenim verirsin; öne çıkan, harekete geçiren, çekinmeyen bir duruş.",
+    "guclu": "Cesaret, girişkenlik, canlılık",
+    "golge": "Acelecilik, sabırsızlık, çatışmaya açıklık",
+    "ton": "atılgan, canlı"
+  },
+  {
+    "id": "YUK_BOGA",
+    "faktor": "Yükselen - Boğa",
+    "kategori": "yukselen",
+    "anahtar": [
+      "sakin",
+      "güven veren",
+      "sağlam",
+      "dingin"
+    ],
+    "anlam": "Sakin, güven veren ve sağlam bir ilk izlenim; aceleye gelmeyen, dingin ve istikrarlı bir duruş.",
+    "guclu": "Sükûnet, güvenilirlik, sağlamlık",
+    "golge": "Ağırkanlılık, inatçılık, değişime direnç",
+    "ton": "dingin, sağlam"
+  },
+  {
+    "id": "YUK_IKIZLER",
+    "faktor": "Yükselen - İkizler",
+    "kategori": "yukselen",
+    "anahtar": [
+      "meraklı",
+      "konuşkan",
+      "hareketli",
+      "esnek"
+    ],
+    "anlam": "Meraklı, konuşkan ve hareketli bir ilk izlenim; çabuk bağ kuran, fikir alışverişine açık bir duruş.",
+    "guclu": "İletişim, çeviklik, uyum",
+    "golge": "Dağınıklık, yüzeysellik, huzursuzluk",
+    "ton": "canlı, meraklı"
+  },
+  {
+    "id": "YUK_YENGEC",
+    "faktor": "Yükselen - Yengeç",
+    "kategori": "yukselen",
+    "anahtar": [
+      "yumuşak",
+      "korumacı",
+      "ihtiyatlı",
+      "duygusal"
+    ],
+    "anlam": "Yumuşak, korumacı ve ihtiyatlı bir ilk izlenim; önce mesafeli sonra sıcak, kabuğunu yavaş açan bir duruş.",
+    "guclu": "Şefkat, sezgi, koruyuculuk",
+    "golge": "Çekingenlik, alınganlık, savunmacılık",
+    "ton": "yumuşak, ihtiyatlı"
+  },
+  {
+    "id": "YUK_ASLAN",
+    "faktor": "Yükselen - Aslan",
+    "kategori": "yukselen",
+    "anahtar": [
+      "sıcak",
+      "fark edilen",
+      "karizmatik",
+      "gururlu"
+    ],
+    "anlam": "Sıcak, fark edilen ve sahne alan bir ilk izlenim; doğal bir karizma ve gururlu, gösterişli bir duruş.",
+    "guclu": "Karizma, sıcaklık, özgüven",
+    "golge": "Gösteriş, onay arayışı, ego",
+    "ton": "parlak, sıcak"
+  },
+  {
+    "id": "YUK_AKREP",
+    "faktor": "Yükselen - Akrep",
+    "kategori": "yukselen",
+    "anahtar": [
+      "yoğun",
+      "gizemli",
+      "manyetik",
+      "nüfuz edici"
+    ],
+    "anlam": "Yoğun, gizemli ve kolay çözülmeyen bir ilk izlenim; güçlü, manyetik bir varlık hissi yayarsın.",
+    "guclu": "Derinlik, kararlılık, sezgi",
+    "golge": "Kapalılık, kuşkuculuk, kontrol ihtiyacı",
+    "ton": "yoğun, manyetik"
+  },
+  {
+    "id": "YUK_YAY",
+    "faktor": "Yükselen - Yay",
+    "kategori": "yukselen",
+    "anahtar": [
+      "açık",
+      "samimi",
+      "iyimser",
+      "özgür"
+    ],
+    "anlam": "Açık, samimi ve iyimser bir ilk izlenim; özgür, davetkâr ve maceracı bir duruş.",
+    "guclu": "İçtenlik, iyimserlik, açıklık",
+    "golge": "Patavatsızlık, savrukluk, yerinde duramama",
+    "ton": "ferah, samimi"
+  },
+  {
+    "id": "YUK_OGLAK",
+    "faktor": "Yükselen - Oğlak",
+    "kategori": "yukselen",
+    "anahtar": [
+      "ciddi",
+      "ölçülü",
+      "olgun",
+      "güven veren"
+    ],
+    "anlam": "Ciddi, ölçülü ve güven veren bir ilk izlenim; olgun, sorumlu ve hafif mesafeli bir duruş.",
+    "guclu": "Olgunluk, ciddiyet, güvenilirlik",
+    "golge": "Soğuk görünme, katılık, çekingenlik",
+    "ton": "ağırbaşlı, olgun"
+  },
+  {
+    "id": "YUK_KOVA",
+    "faktor": "Yükselen - Kova",
+    "kategori": "yukselen",
+    "anahtar": [
+      "özgün",
+      "sıra dışı",
+      "dostça",
+      "bağımsız"
+    ],
+    "anlam": "Özgün, sıra dışı ve dostça bir ilk izlenim; herkesten biraz farklı, bağımsız bir duruş.",
+    "guclu": "Özgünlük, açık fikirlilik, dostluk",
+    "golge": "Mesafe, dikbaşlılık, duygusal soğukluk",
+    "ton": "özgün, ferah"
+  },
+  {
+    "id": "YUK_BALIK",
+    "faktor": "Yükselen - Balık",
+    "kategori": "yukselen",
+    "anahtar": [
+      "yumuşak",
+      "sezgisel",
+      "akışkan",
+      "şefkatli"
+    ],
+    "anlam": "Yumuşak, sezgisel ve akışkan bir ilk izlenim; sınırları belirsiz, şefkatli ve hayalperest bir duruş.",
+    "guclu": "Şefkat, empati, uyum",
+    "golge": "Belirsizlik, sınır eksikliği, kaçışkanlık",
+    "ton": "yumuşak, sezgisel"
+  },
+  {
+    "id": "EV_2",
+    "faktor": "2. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "para",
+      "değerler",
+      "öz-değer",
+      "sahip olmak"
+    ],
+    "anlam": "Para, sahip olunanlar, yetenekler ve öz-değer alanı. Buradaki yerleşim kişinin güvenlik ve değer duygusunu, kaynaklarla ilişkisini renklendirir.",
+    "guclu": "Üretkenlik, kaynak yönetimi, istikrar arayışı",
+    "golge": "Maddi kaygı, sahiplenme, öz-değeri paraya bağlama",
+    "ton": "somut, güvenlik odaklı"
+  },
+  {
+    "id": "EV_5",
+    "faktor": "5. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "yaratıcılık",
+      "aşk",
+      "oyun",
+      "çocuklar"
+    ],
+    "anlam": "Yaratıcılık, aşk, kendini ifade, oyun ve çocuklar alanı. Buradaki yerleşim kişinin neşe ve yaratıcı ifade kaynağını gösterir.",
+    "guclu": "Yaratıcılık, coşku, kendini ifade",
+    "golge": "Dikkat arayışı, riskli oyunlar, dramatiklik",
+    "ton": "neşeli, yaratıcı"
+  },
+  {
+    "id": "EV_6",
+    "faktor": "6. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "iş",
+      "sağlık",
+      "düzen",
+      "hizmet"
+    ],
+    "anlam": "Günlük iş, rutin, sağlık ve hizmet alanı. Buradaki yerleşim kişinin düzen kurma biçimini ve bedeniyle ilişkisini renklendirir.",
+    "guclu": "Çalışkanlık, titizlik, yararlılık",
+    "golge": "Aşırı kaygı, mükemmeliyetçilik, kendini ihmal",
+    "ton": "düzenli, çalışkan"
+  },
+  {
+    "id": "EV_8",
+    "faktor": "8. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "dönüşüm",
+      "ortak kaynaklar",
+      "derinlik",
+      "mahremiyet"
+    ],
+    "anlam": "Dönüşüm, kriz, ortak kaynaklar ve derin bağlar alanı. Buradaki yerleşim güçlü, yoğun ve dönüştürücü temalar taşır.",
+    "guclu": "Derinlik, dayanıklılık, yenilenme gücü",
+    "golge": "Kontrol, kıskançlık, krize takılma",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "EV_9",
+    "faktor": "9. Ev",
+    "kategori": "ev",
+    "anahtar": [
+      "inanç",
+      "felsefe",
+      "yolculuk",
+      "ufuk"
+    ],
+    "anlam": "İnanç, felsefe, yüksek öğrenim, uzak yolculuklar ve anlam arayışı alanı. Buradaki yerleşim kişinin ufkunu ve dünya görüşünü genişletir.",
+    "guclu": "Vizyon, açık fikirlilik, öğrenme aşkı",
+    "golge": "Dogmatiklik, savrukluk, aşırı idealizm",
+    "ton": "ferah, arayışçı"
+  },
+  {
+    "id": "ELEMENT_TOPRAK",
+    "faktor": "Toprak baskınlığı",
+    "kategori": "element",
+    "anahtar": [
+      "pratik",
+      "gerçekçi",
+      "istikrarlı",
+      "somut"
+    ],
+    "anlam": "Haritada toprak elementi öne çıkar; kişi pratik, gerçekçi, sabırlı ve somut sonuç odaklı bir genel tona sahiptir.",
+    "guclu": "Güvenilirlik, sebat, üretkenlik, gerçekçilik",
+    "golge": "Katılık, aşırı temkin, değişime direnç",
+    "ton": "sağlam, somut"
+  },
+  {
+    "id": "ELEMENT_HAVA",
+    "faktor": "Hava baskınlığı",
+    "kategori": "element",
+    "anahtar": [
+      "zihinsel",
+      "sosyal",
+      "iletişimci",
+      "esnek"
+    ],
+    "anlam": "Haritada hava elementi öne çıkar; kişi zihinsel, sosyal, iletişime dönük ve fikir odaklı bir genel tona sahiptir.",
+    "guclu": "İletişim, nesnellik, esneklik, merak",
+    "golge": "Aşırı zihinsellik, mesafe, kararsızlık",
+    "ton": "ferah, zihinsel"
+  },
+  {
+    "id": "NITELIK_SABIT",
+    "faktor": "Sabit baskınlığı",
+    "kategori": "nitelik",
+    "anahtar": [
+      "kararlı",
+      "istikrarlı",
+      "sebatkâr",
+      "dirençli"
+    ],
+    "anlam": "Haritada sabit nitelik öne çıkar; sürdüren, kararlı, kolay vazgeçmeyen bir genel eğilim. Başladığını derinleştirip kalıcı kılar.",
+    "guclu": "Sebat, kararlılık, güvenilirlik, dayanıklılık",
+    "golge": "İnatçılık, değişime direnç, esneksizlik",
+    "ton": "kararlı, sağlam"
+  },
+  {
+    "id": "ACI_KARSIT",
+    "faktor": "Karşıtlık (genel)",
+    "kategori": "aci",
+    "anahtar": [
+      "denge arayışı",
+      "kutuplaşma",
+      "gerilim",
+      "tamamlanma"
+    ],
+    "anlam": "İki gezegen 180 derece karşı karşıya gelir; aralarında denge kurman gereken bir çekim ve gerilim taşır. Çoğu zaman ilişkilere ve dışa yansır.",
+    "guclu": "Farkındalık, denge, bütünleşme potansiyeli",
+    "golge": "Kutuplaşma, savrulma, başkasına yansıtma",
+    "ton": "gerilimli, dengeleyici"
+  },
+  {
+    "id": "VEN_BOGA",
+    "faktor": "Venüs - Boğa",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "duyusal",
+      "sadık",
+      "istikrarlı",
+      "sahiplenici"
+    ],
+    "anlam": "Sevgiyi dokunuş, konfor ve süreklilikle yaşarsın; ilişkide güven, somut özen ve tensel yakınlık ararsın. Güzelliği ve hazzı sakin bir keyifle tatarsın.",
+    "guclu": "Bağlılık, sıcaklık, güven veren varlık",
+    "golge": "Sahiplenme, değişime direnç, konfora gömülme",
+    "ton": "sıcak, dingin"
+  },
+  {
+    "id": "VEN_IKIZLER",
+    "faktor": "Venüs - İkizler",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "meraklı",
+      "zeki",
+      "sözel",
+      "değişken"
+    ],
+    "anlam": "Çekim önce zihinden geçer; sohbet, espri ve fikir alışverişi seni baştan çıkarır. İlişkide çeşitlilik ve hafiflik istersin, tekdüzelikten sıkılırsın.",
+    "guclu": "Esneklik, sohbet, ilgi uyandırma",
+    "golge": "Kararsızlık, yüzeysellik, dağınık ilgi",
+    "ton": "hareketli, hafif"
+  },
+  {
+    "id": "VEN_YENGEC",
+    "faktor": "Venüs - Yengeç",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "şefkatli",
+      "koruyucu",
+      "duygusal",
+      "bağlı"
+    ],
+    "anlam": "Sevgiyi besleyerek ve koruyarak gösterirsin; yakınlık, aidiyet ve duygusal güven senin için esastır. Sevdiklerine yuva gibi bir alan kurarsın.",
+    "guclu": "Derin bağlılık, şefkat, sezgi",
+    "golge": "Alınganlık, geçmişe takılma, duygusal kıskançlık",
+    "ton": "içten, koruyucu"
+  },
+  {
+    "id": "VEN_ASLAN",
+    "faktor": "Venüs - Aslan",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "cömert",
+      "gösterişli",
+      "sadık",
+      "gururlu"
+    ],
+    "anlam": "Aşkı görkemli ve coşkulu yaşarsın; takdir görmek, özel hissetmek ve sevdiğini el üstünde tutmak istersin. Sevgini cömertçe ve görünür biçimde sunarsın.",
+    "guclu": "Sıcaklık, cömertlik, sarsılmaz sadakat",
+    "golge": "Onay açlığı, dramatiklik, kırılan gurur",
+    "ton": "görkemli, sıcak"
+  },
+  {
+    "id": "VEN_TERAZI",
+    "faktor": "Venüs - Terazi",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "uyumlu",
+      "zarif",
+      "adil",
+      "ilişkisel"
+    ],
+    "anlam": "İlişki senin doğal alanın; denge, incelik ve karşılıklılık ararsın. Çatışmadan kaçınır, güzellik ve nezaketle birlikteliği yumuşatırsın.",
+    "guclu": "Uzlaşı, zarafet, eşitlik duygusu",
+    "golge": "Kararsızlık, onaya bağımlılık, çatışmadan kaçış",
+    "ton": "zarif, dengeli"
+  },
+  {
+    "id": "VEN_AKREP",
+    "faktor": "Venüs - Akrep",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "yoğun",
+      "tutkulu",
+      "derin",
+      "sahiplenici"
+    ],
+    "anlam": "Sevgide ya hep ya hiç; yüzeysel bağlardansa derin, dönüştürücü bir yakınlık istersin. Güven kazanılınca sadakatin mutlak, ihaneti ise affetmen zordur.",
+    "guclu": "Derinlik, tutku, koşulsuz bağlanma",
+    "golge": "Kıskançlık, kontrol, kin tutma",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "VEN_YAY",
+    "faktor": "Venüs - Yay",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgür",
+      "coşkulu",
+      "dürüst",
+      "maceracı"
+    ],
+    "anlam": "Sevgiyi keşif ve özgürlükle eşlersin; birlikte büyümek, gezmek ve ufuk açmak ister, kısıtlanmaktan kaçarsın. İlişkide içtenlik ve neşe önemlidir.",
+    "guclu": "Coşku, açık görüşlülük, dürüstlük",
+    "golge": "Bağlanma korkusu, savrukluk, fazla açık sözlülük",
+    "ton": "özgür, neşeli"
+  },
+  {
+    "id": "VEN_OGLAK",
+    "faktor": "Venüs - Oğlak",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "ciddi",
+      "sadık",
+      "ölçülü",
+      "sorumlu"
+    ],
+    "anlam": "Sevgiyi sözle değil emek, süreklilik ve sorumlulukla kanıtlarsın; ağır ama kalıcı bağlanırsın. İlişkide olgunluk, güven ve somut taahhüt ararsın.",
+    "guclu": "Sadakat, sebat, güvenilirlik",
+    "golge": "Duygusal mesafe, soğukluk, statü kaygısı",
+    "ton": "ölçülü, sağlam"
+  },
+  {
+    "id": "VEN_KOVA",
+    "faktor": "Venüs - Kova",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "özgün",
+      "özgür",
+      "dostça",
+      "mesafeli"
+    ],
+    "anlam": "Sevgiyi arkadaşlık ve özgürlük üzerine kurarsın; alan tanıyan, eşitlikçi ve sıra dışı bağları seversin. Sahiplenmeden çok zihinsel ortaklık ararsın.",
+    "guclu": "Özgürlük tanıma, dostluk, kabullenme",
+    "golge": "Duygusal kopukluk, soğukluk, fazla bağımsızlık",
+    "ton": "özgür, serin"
+  },
+  {
+    "id": "VEN_BALIK",
+    "faktor": "Venüs - Balık",
+    "kategori": "gezegen-burc",
+    "anahtar": [
+      "romantik",
+      "şefkatli",
+      "fedakâr",
+      "hayalperest"
+    ],
+    "anlam": "Sevgiyi sınırsız ve adanmışca yaşarsın; empati, şefkat ve ruhsal birleşme ararsın. Sevdiğin için kolayca eriyip kendini verirsin.",
+    "guclu": "Empati, romantizm, koşulsuz şefkat",
+    "golge": "İdealize etme, sınır kaybı, kurban rolü",
+    "ton": "yumuşak, romantik"
+  },
+  {
+    "id": "AY_EV1",
+    "faktor": "Ay - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "duygusal kimlik",
+      "ruh hali",
+      "tepkisellik",
+      "görünür his"
+    ],
+    "anlam": "Duyguların doğrudan kimliğini ve dış görünüşünü şekillendirir; ne hissedersen onu gösterir, çevren seni anlık ruh halinle tanır. Güvenliği kendin olma özgürlüğünde ararsın.",
+    "guclu": "İçtenlik, sezgi, sıcak ilk izlenim",
+    "golge": "Ruh halinin dalgalanması, alınganlık, fazla tepkisellik",
+    "ton": "duygusal, açık"
+  },
+  {
+    "id": "AY_EV2",
+    "faktor": "Ay - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "maddi güven",
+      "öz-değer",
+      "sahiplenme",
+      "konfor"
+    ],
+    "anlam": "Duygusal güvenliğini maddi istikrarda ve sana ait olan şeylerde ararsın; öz-değerin sahip olduklarınla ve kendini ne kadar besleyebildiğinle bağlı. Para sende rahatlık duygusu yaratır.",
+    "guclu": "Tutumluluk, somut güven üretme, değer bilme",
+    "golge": "Güvensizliği biriktirerek bastırma, sahiplenme, harcama-rahatlama",
+    "ton": "somut, ihtiyatlı"
+  },
+  {
+    "id": "AY_EV3",
+    "faktor": "Ay - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "duygusal iletişim",
+      "yakın çevre",
+      "merak",
+      "günlük bağ"
+    ],
+    "anlam": "Duygularını konuşarak işler, güvenliği yakın çevrenle kurduğun günlük temasta bulursun; düşüncelerin hislerinle iç içe akar. Kardeşler ve komşuluk senin için duygusal bir zemindir.",
+    "guclu": "Duyguyu ifade etme, empatik dinleme, zihinsel sıcaklık",
+    "golge": "Düşünceleri ruh haline kaptırma, dedikoduya açıklık, dağınık zihin",
+    "ton": "konuşkan, meraklı"
+  },
+  {
+    "id": "AY_EV4",
+    "faktor": "Ay - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yuva",
+      "aile",
+      "kökler",
+      "iç güvenlik"
+    ],
+    "anlam": "Duygusal güvenliğini yuvada, ailede ve köklerinde bulursun; iç dünyan geçmişine ve özel alanına derinden bağlı. Ev senin için bir sığınaktır.",
+    "guclu": "Köklülük, besleyicilik, duygusal derinlik",
+    "golge": "Geçmişe takılma, aşırı bağlılık, içe kapanma",
+    "ton": "içsel, köklü"
+  },
+  {
+    "id": "AY_EV5",
+    "faktor": "Ay - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yaratıcılık",
+      "aşk",
+      "çocuklar",
+      "kendini ifade"
+    ],
+    "anlam": "Duygusal beslenmeni yaratıcılıkta, aşkta ve oyunda bulursun; kendini ifade ederken ve sevildiğini hissettiğinde güvende olursun. Çocuklar ve haz, iç dünyanı canlı tutar.",
+    "guclu": "Sıcak sevgi, yaratıcı duygu, içten neşe",
+    "golge": "Dikkat ve onay açlığı, dramatik tepkiler, duygusal iniş çıkış",
+    "ton": "sıcak, ifadeci"
+  },
+  {
+    "id": "AY_EV6",
+    "faktor": "Ay - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "günlük rutin",
+      "sağlık",
+      "hizmet",
+      "düzen"
+    ],
+    "anlam": "Duygusal güvenliğini düzenli rutinde, işe yarama hissinde ve başkalarına bakım vermede bulursun; iç huzurun günlük işlerinin yolunda gitmesine bağlı. Bedenin ruh halini hızla yansıtır.",
+    "guclu": "Özenli bakım, faydalı olma, pratik şefkat",
+    "golge": "Endişeyle yıpranma, kaygının bedene yansıması, kendini ihmal",
+    "ton": "düzenli, özenli"
+  },
+  {
+    "id": "AY_EV7",
+    "faktor": "Ay - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ilişki",
+      "ortaklık",
+      "yakınlık",
+      "aynalama"
+    ],
+    "anlam": "Duygusal güvenliğini yakın ilişkilerde ve ortaklıkta ararsın; bir başkasıyla kurduğun bağ seni besler, kendini ilişkilerin içinde tanırsın. Yalnızlık sana zor gelir.",
+    "guclu": "Uyum kurma, empatik bağ, ilişkide derinlik",
+    "golge": "Partnere bağımlılık, sınır zorluğu, onaylanma ihtiyacı",
+    "ton": "ilişkisel, bağlı"
+  },
+  {
+    "id": "AY_EV8",
+    "faktor": "Ay - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "derinlik",
+      "dönüşüm",
+      "yoğunluk",
+      "ortak bağ"
+    ],
+    "anlam": "Duyguların derin ve yoğun akar; güvenliği yüzeyde değil, paylaşılan derin bağlarda ve dönüşümün içinde ararsın. Krizler ve gizlilik senin için duygusal arınma alanıdır.",
+    "guclu": "Sezgisel derinlik, dönüşme kapasitesi, sadakat",
+    "golge": "Kıskançlık, kontrol ihtiyacı, duyguyu gizleme",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "AY_EV9",
+    "faktor": "Ay - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "anlam arayışı",
+      "inanç",
+      "yolculuk",
+      "ufuk"
+    ],
+    "anlam": "Duygusal güvenliğini anlam, inanç ve ufkunu genişleten deneyimlerde bulursun; iç huzurun bir şeye inanmaya ve özgürce keşfetmeye bağlı. Yabancı yerler sana evdeymiş hissi verebilir.",
+    "guclu": "İyimserlik, açık görüş, anlamlandırma yeteneği",
+    "golge": "Kararsız aidiyet, kaçış eğilimi, inancı dayatma",
+    "ton": "arayışçı, geniş"
+  },
+  {
+    "id": "AY_EV10",
+    "faktor": "Ay - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kariyer",
+      "toplum önü",
+      "tanınma",
+      "duygusal statü"
+    ],
+    "anlam": "Duygusal güvenliğini toplum önündeki rolünde ve tanınmada ararsın; iç dünyan kariyerinle ve nasıl algılandığınla iç içe. Çevreni gözeten, koruyan bir figür olma ihtiyacı taşırsın.",
+    "guclu": "Topluma yönelik şefkat, sezgisel liderlik, koruyuculuk",
+    "golge": "Onaya bağımlı öz-değer, özel ile kamusalı karıştırma, dalgalı performans",
+    "ton": "görünür, gözeten"
+  },
+  {
+    "id": "AY_EV11",
+    "faktor": "Ay - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arkadaşlık",
+      "topluluk",
+      "aidiyet",
+      "idealler"
+    ],
+    "anlam": "Duygusal güvenliğini bir gruba, arkadaş çevresine ve ortak ideallere ait olmakta bulursun; arkadaşların senin için aile gibidir. Bir topluluğun parçası olmak iç huzurunu besler.",
+    "guclu": "Topluluk kurma, dostça sıcaklık, dayanışma",
+    "golge": "Grup onayına bağlılık, dağınık bağlar, dışlanma korkusu",
+    "ton": "dostça, kapsayıcı"
+  },
+  {
+    "id": "AY_EV12",
+    "faktor": "Ay - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "içe çekiliş",
+      "bilinçaltı",
+      "ruhsallık",
+      "gizli his"
+    ],
+    "anlam": "Duyguların derinde, gözden uzak akar; güvenliği yalnızlıkta, sessizlikte ve iç dünyana çekilmekte bulursun. Hislerini çoğu zaman içine gömer, başkalarının acısını sünger gibi çekersin.",
+    "guclu": "Derin sezgi, şefkat, ruhsal duyarlılık",
+    "golge": "Duyguyu bastırma, içe kapanma, sınırların bulanıklaşması",
+    "ton": "içsel, sessiz"
+  },
+  {
+    "id": "GUN_EV1",
+    "faktor": "Güneş - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "benlik",
+      "duruş",
+      "varlık",
+      "öz-ifade"
+    ],
+    "anlam": "Kimliğin ve parlama ihtiyacın doğrudan kendi benliğin, bedenin ve duruşunla ortaya çıkar; ortama girdiğinde fark edilirsin ve kendin olmak senin için temel bir mesele.",
+    "guclu": "Güçlü duruş, özgüven, kendiliğindenlik",
+    "golge": "Benmerkezcilik, başkalarını gölgede bırakma, fazla öne çıkma",
+    "ton": "öne çıkan, canlı"
+  },
+  {
+    "id": "GUN_EV2",
+    "faktor": "Güneş - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "para",
+      "değerler",
+      "öz-değer",
+      "kaynaklar"
+    ],
+    "anlam": "Var olma ihtiyacın sahip olduklarınla ve kendine biçtiğin değerle iç içe; kimliğini maddi güvenlik, yetenekler ve değerlerin üzerine kurarsın.",
+    "guclu": "Sağlam değerler, üretkenlik, kaynak yönetimi",
+    "golge": "Sahip olmakla kendini ölçme, maddi kaygı, inatçılık",
+    "ton": "değerli, sağlam"
+  },
+  {
+    "id": "GUN_EV3",
+    "faktor": "Güneş - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iletişim",
+      "öğrenme",
+      "merak",
+      "yakın çevre"
+    ],
+    "anlam": "Kimliğin konuşurken, öğrenirken ve fikir paylaşırken parlar; var olma ihtiyacın sözcükler, merak ve yakın çevrenle kurduğun bağ üzerinden tezahür eder.",
+    "guclu": "İfade gücü, zihinsel canlılık, merak",
+    "golge": "Dağınık ilgi, yüzeysellik, çok konuşup az dinleme",
+    "ton": "meraklı, konuşkan"
+  },
+  {
+    "id": "GUN_EV4",
+    "faktor": "Güneş - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yuva",
+      "kökler",
+      "aile",
+      "içsel temel"
+    ],
+    "anlam": "Var oluşunun merkezi yuvan, ailen ve köklerin; kimliğin özel alanında, evinde ve geçmişinle bağında parlar. Dışarıdan çok içeride güçlüsün.",
+    "guclu": "Köklülük, sadakat, güçlü temel",
+    "golge": "İçe kapanma, geçmişe aşırı bağlılık, görünür olmaktan çekinme",
+    "ton": "içsel, köklü"
+  },
+  {
+    "id": "GUN_EV5",
+    "faktor": "Güneş - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yaratıcılık",
+      "aşk",
+      "oyun",
+      "çocuklar"
+    ],
+    "anlam": "Parlama ihtiyacın yaratıcılık, aşk ve oyun alanında en doğal halini bulur; kendini ifade ederken, sevip yaratırken kimliğin canlanır ve ışıldarsın.",
+    "guclu": "Yaratıcılık, neşe, sahnede rahatlık",
+    "golge": "İlgi açlığı, drama eğilimi, ciddiyetten kaçış",
+    "ton": "yaratıcı, parlak"
+  },
+  {
+    "id": "GUN_EV6",
+    "faktor": "Güneş - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iş",
+      "düzen",
+      "hizmet",
+      "sağlık"
+    ],
+    "anlam": "Kimliğin günlük işin, düzenin ve faydalı olma çaban içinde belirir; bir işi iyi yapmak ve işlevsel olmak senin için var olmanın bir yoludur.",
+    "guclu": "Disiplin, işe yararlık, özen",
+    "golge": "Mükemmeliyetçilik, kendini işe sıkıştırma, aşırı eleştiri",
+    "ton": "çalışkan, düzenli"
+  },
+  {
+    "id": "GUN_EV7",
+    "faktor": "Güneş - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ilişkiler",
+      "ortaklık",
+      "evlilik",
+      "öteki"
+    ],
+    "anlam": "Kimliğin ilişkiler ve birebir bağlar içinde şekillenir; kendini bir ortakla, eşle ya da karşındakiyle kurduğun denge üzerinden tanır ve var edersin.",
+    "guclu": "İş birliği, diplomasi, ilişki kurma",
+    "golge": "Onayı ötekinde arama, kendini ilişkiye eritme, bağımlılık",
+    "ton": "ilişkisel, dengeli"
+  },
+  {
+    "id": "GUN_EV8",
+    "faktor": "Güneş - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "dönüşüm",
+      "derinlik",
+      "ortak kaynaklar",
+      "yoğunluk"
+    ],
+    "anlam": "Var olma ihtiyacın yüzeyin altında, dönüşüm ve derin bağlanmalar alanında parlar; krizlerden geçerek yeniden doğmak ve gizli olanı görmek kimliğini besler.",
+    "guclu": "Derinlik, dayanıklılık, dönüşüm gücü",
+    "golge": "Kontrol arzusu, takıntı, gizlilik ve güvensizlik",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "GUN_EV9",
+    "faktor": "Güneş - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "inanç",
+      "felsefe",
+      "yolculuk",
+      "anlam"
+    ],
+    "anlam": "Kimliğin anlam arayışı, inançların ve ufuk açan deneyimler içinde belirir; öğrenirken, seyahat ederken ve büyük resmi görürken kendini en canlı hissedersin.",
+    "guclu": "Geniş bakış, idealizm, öğretme yeteneği",
+    "golge": "Bilgiçlik, dogmatizm, gerçeklerden kaçıp ideallere sığınma",
+    "ton": "arayan, geniş"
+  },
+  {
+    "id": "GUN_EV10",
+    "faktor": "Güneş - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kariyer",
+      "görünürlük",
+      "statü",
+      "liderlik"
+    ],
+    "anlam": "Kimliğin ve parlama ihtiyacın kariyer ve toplum önündeki rolünle iç içe; başarı ve görünürlük senin için kişisel bir mesele, bir iz bırakmak istersin.",
+    "guclu": "Hırs, liderlik, görünür başarı",
+    "golge": "Statü kaygısı, iş-özel dengesizliği, onaya bağımlılık",
+    "ton": "hedefli, görünür"
+  },
+  {
+    "id": "GUN_EV11",
+    "faktor": "Güneş - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arkadaşlık",
+      "topluluk",
+      "idealler",
+      "gelecek"
+    ],
+    "anlam": "Kimliğin arkadaşlıklar, topluluklar ve ortak idealler içinde belirir; bir gruba ait olmak ve daha büyük bir amaca katkı sunmak var olma ihtiyacını besler.",
+    "guclu": "Bağ kurma, vizyon, dayanışma",
+    "golge": "Kalabalıkta kaybolma, gruba aşırı uyum, kişisel yön kaybı",
+    "ton": "topluluksal, vizyoner"
+  },
+  {
+    "id": "GUN_EV12",
+    "faktor": "Güneş - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "bilinçaltı",
+      "ruhsallık",
+      "geri çekiliş",
+      "içsel dünya"
+    ],
+    "anlam": "Parlama ihtiyacın gözlerden uzakta, iç dünyanda ve ruhsal alanda gelişir; kimliğin yalnızlıkta, sezgide ve perde arkasında çalışırken sessizce güçlenir.",
+    "guclu": "Sezgi, şefkat, içsel zenginlik",
+    "golge": "Silikleşme, kendini gizleme, kaçış ve belirsizlik",
+    "ton": "içe dönük, ruhsal"
+  },
+  {
+    "id": "JUP_EV1",
+    "faktor": "Jüpiter - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "özgüven",
+      "varlık",
+      "iyimserlik",
+      "etki"
+    ],
+    "anlam": "Genişleme ve şans doğrudan kişiliğinde tezahür eder; varlığın çevrene bir bolluk ve sıcaklık duygusu taşır. Kendini büyütmek, kapladığın alanı genişletmek doğal gelir.",
+    "guclu": "Doğal özgüven, sıcaklık, çekim",
+    "golge": "Aşırı kendine güven, abartma, ölçü kaçırma",
+    "ton": "cömert, açık"
+  },
+  {
+    "id": "JUP_EV2",
+    "faktor": "Jüpiter - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kazanç",
+      "değer",
+      "kaynak",
+      "bolluk"
+    ],
+    "anlam": "Şans ve büyüme maddi alanda kendini gösterir; para kazanma ve değer üretme konusunda doğal bir bereket vardır. Kendi öz değerine inanmak kaynaklarını çoğaltır.",
+    "guclu": "Kazanma yeteneği, bolluk hissi, cömertlik",
+    "golge": "Savurganlık, fazla harcama, maddi gevşeklik",
+    "ton": "bereketli, rahat"
+  },
+  {
+    "id": "JUP_EV3",
+    "faktor": "Jüpiter - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "öğrenme",
+      "iletişim",
+      "merak",
+      "paylaşım"
+    ],
+    "anlam": "Genişleme zihinsel alanda akar; öğrenmek, anlatmak ve fikir alışverişi seni büyütür. Yakın çevre, kardeşler ve günlük temaslar şans getirir.",
+    "guclu": "Geniş ilgi, anlatım gücü, öğrenme isteği",
+    "golge": "Dağınıklık, yüzeysellik, fazla konuşma",
+    "ton": "meraklı, hareketli"
+  },
+  {
+    "id": "JUP_EV4",
+    "faktor": "Jüpiter - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yuva",
+      "aile",
+      "kök",
+      "güven"
+    ],
+    "anlam": "Bolluk ve koruma yuvanda ve aile köklerinde toplanır; ev senin için bir büyüme ve güven kaynağıdır. Geçmişe ve aidiyete inanmak içsel genişleme sağlar.",
+    "guclu": "Sıcak yuva, aile desteği, içsel güven",
+    "golge": "Geçmişe fazla bağlanma, evde yayılma, aşırı koruma",
+    "ton": "köklü, korunaklı"
+  },
+  {
+    "id": "JUP_EV5",
+    "faktor": "Jüpiter - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yaratıcılık",
+      "aşk",
+      "oyun",
+      "çocuklar"
+    ],
+    "anlam": "Şans ve coşku yaratıcılıkta, aşkta ve kendini ifade etmede açığa çıkar; üretmek ve eğlenmek seni besler. Çocuklar ve hazlar bereketli bir alandır.",
+    "guclu": "Yaratıcı bolluk, neşe, cömert sevgi",
+    "golge": "Aşırıya kaçma, risk düşkünlüğü, abartılı jestler",
+    "ton": "coşkulu, üretken"
+  },
+  {
+    "id": "JUP_EV6",
+    "faktor": "Jüpiter - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iş",
+      "hizmet",
+      "sağlık",
+      "düzen"
+    ],
+    "anlam": "Büyüme gündelik iş ve hizmet alanında olur; faydalı olmak, becerini geliştirmek ve düzenli emek bereket getirir. Sağlık genelde dirençlidir ama dengeye dikkat gerekir.",
+    "guclu": "Çalışkanlık, faydalı katkı, sağlam direnç",
+    "golge": "Aşırı yüklenme, iş kaygısı, abartılı titizlik",
+    "ton": "verimli, hizmetkâr"
+  },
+  {
+    "id": "JUP_EV7",
+    "faktor": "Jüpiter - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ortaklık",
+      "ilişki",
+      "destek",
+      "uzlaşı"
+    ],
+    "anlam": "Şans ve genişleme ilişkiler ve ortaklıklar yoluyla gelir; doğru kişiler hayatını büyütür ve fırsat taşır. Birliktelik senin için bir bolluk kapısıdır.",
+    "guclu": "İyi ortaklıklar, destekleyici bağlar, açıklık",
+    "golge": "İlişkiye fazla yaslanma, abartılı vaatler, dengesizlik",
+    "ton": "uyumlu, açık"
+  },
+  {
+    "id": "JUP_EV8",
+    "faktor": "Jüpiter - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "dönüşüm",
+      "ortak kaynak",
+      "derinlik",
+      "yenilenme"
+    ],
+    "anlam": "Büyüme ortak kaynaklar ve derin dönüşümler yoluyla olur; krizlerden güçlenerek çıkar, paylaşılan değerlerden bereket bulursun. Yenilenme alanında şanslısın.",
+    "guclu": "Dönüşüm gücü, kaynak çekme, derin sezgi",
+    "golge": "Aşırılık, kontrol arzusu, riskli bağımlılıklar",
+    "ton": "derin, dönüştürücü"
+  },
+  {
+    "id": "JUP_EV9",
+    "faktor": "Jüpiter - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "bilgelik",
+      "yolculuk",
+      "inanç",
+      "ufuk"
+    ],
+    "anlam": "Genişleme ve şansın en doğal alanında: öğrenmek, gezmek, inanç ve anlam aramak seni büyütür. Yüksek öğrenim ve uzak ufuklar bereket getirir.",
+    "guclu": "Vizyon, iyimserlik, öğrenme bereketi",
+    "golge": "Dogmatiklik, aşırı idealizm, savrukluk",
+    "ton": "ferah, arayışçı"
+  },
+  {
+    "id": "JUP_EV10",
+    "faktor": "Jüpiter - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kariyer",
+      "itibar",
+      "fırsat",
+      "yükseliş"
+    ],
+    "anlam": "Şans ve büyüme kariyer ve toplum önündeki alanında tezahür eder; fırsatlar açılır, itibarın doğal yoldan genişler. Sorumluluk almak seni yukarı taşır.",
+    "guclu": "Kariyer fırsatları, iyi itibar, geniş vizyon",
+    "golge": "Aşırı hırs, fazla yayılma, abartılı hedefler",
+    "ton": "yükselen, saygın"
+  },
+  {
+    "id": "JUP_EV11",
+    "faktor": "Jüpiter - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arkadaşlık",
+      "topluluk",
+      "idealler",
+      "ağlar"
+    ],
+    "anlam": "Genişleme arkadaşlıklar, topluluklar ve ortak idealler yoluyla gelir; geniş çevren sana fırsat ve destek taşır. Geleceğe dair umutlar bereketlidir.",
+    "guclu": "Güçlü ağlar, destekleyici dostluklar, ideal duygusu",
+    "golge": "Hayalcilik, dağınık gruplar, gerçekçilikten kopma",
+    "ton": "sıcak, kapsayıcı"
+  },
+  {
+    "id": "JUP_EV12",
+    "faktor": "Jüpiter - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ruhsallık",
+      "sezgi",
+      "içsel huzur",
+      "şefkat"
+    ],
+    "anlam": "Bolluk ve şans sessiz ve içsel alanda çalışır; ruhsallık, sezgi ve gizli destekler seni büyütür. Geri çekilmek ve şefkat göstermek içsel bir genişleme sağlar.",
+    "guclu": "Derin sezgi, içsel huzur, gizli koruma",
+    "golge": "Kaçış eğilimi, sınır belirsizliği, kendini ihmal",
+    "ton": "dingin, şefkatli"
+  },
+  {
+    "id": "MARS_EV1",
+    "faktor": "Mars - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "atılgan",
+      "enerjik",
+      "doğrudan",
+      "rekabetçi"
+    ],
+    "anlam": "Eylem ve irade gücün doğrudan kişiliğine işlemiş; girişken, enerjik ve mücadeleci bir duruşla hayata atılırsın. İstediğinin peşinden hızla gidersin.",
+    "guclu": "Cesaret, inisiyatif, canlılık",
+    "golge": "Acelecilik, öfke, çatışmaya yatkınlık",
+    "ton": "atılgan, keskin"
+  },
+  {
+    "id": "MARS_EV2",
+    "faktor": "Mars - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kazanç",
+      "hırs",
+      "sahiplenme",
+      "girişim"
+    ],
+    "anlam": "Enerjini para kazanmaya ve maddi güvence kurmaya yönlendirirsin; değerlerini savunma ve kaynak biriktirme konusunda kararlısın. Sahip olduklarını korumak için mücadele edersin.",
+    "guclu": "Kazanma azmi, üretkenlik, girişimcilik",
+    "golge": "Savurganlık, sahiplenmecilik, maddi takıntı",
+    "ton": "kararlı, somut"
+  },
+  {
+    "id": "MARS_EV3",
+    "faktor": "Mars - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "keskin zihin",
+      "tartışmacı",
+      "hızlı",
+      "açıksözlü"
+    ],
+    "anlam": "Enerjin düşünce ve iletişimde toplanır; fikirlerini doğrudan, hatta çekinmeden savunursun. Hızlı kavrar, sözünü esirgemezsin.",
+    "guclu": "Keskin ifade, ikna gücü, merak",
+    "golge": "Sert dil, sabırsızlık, gereksiz tartışma",
+    "ton": "keskin, sözlü"
+  },
+  {
+    "id": "MARS_EV4",
+    "faktor": "Mars - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "aile",
+      "koruyuculuk",
+      "kök",
+      "yoğunluk"
+    ],
+    "anlam": "Enerji ve mücadelen yuvana ve aile köklerine dönük; ev içinde hem koruyucu hem de gerilim taşıyabilen bir güç olursun. Özel alanını güçlü bir şekilde savunursun.",
+    "guclu": "Koruyuculuk, aile için çaba, aidiyet",
+    "golge": "Ev içi gerginlik, geçmişle hesaplaşma, huzursuzluk",
+    "ton": "korumacı, derin"
+  },
+  {
+    "id": "MARS_EV5",
+    "faktor": "Mars - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "tutku",
+      "yaratıcılık",
+      "cesaret",
+      "oyun"
+    ],
+    "anlam": "Arzu ve enerjin aşkta, yaratıcılıkta ve kendini ifade etmede coşar; tutkulu, girişken ve cesurca kendini ortaya koyarsın. Sevdiğin şeyin peşinden ateşle gidersin.",
+    "guclu": "Tutku, yaratıcı atılım, romantik cesaret",
+    "golge": "Kıskançlık, riskli heves, dikkat arayışı",
+    "ton": "tutkulu, canlı"
+  },
+  {
+    "id": "MARS_EV6",
+    "faktor": "Mars - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "çalışkan",
+      "verimli",
+      "disiplinli",
+      "dayanıklı"
+    ],
+    "anlam": "Enerjini günlük iş, rutin ve sağlık alanına yatırırsın; çalışkan, üretken ve işini titizlikle yapan biri olarak öne çıkarsın. Çabanı somut görevlerde gösterirsin.",
+    "guclu": "İş disiplini, dayanıklılık, pratik beceri",
+    "golge": "Aşırı çalışma, tükenmişlik, eleştirellik",
+    "ton": "çalışkan, pratik"
+  },
+  {
+    "id": "MARS_EV7",
+    "faktor": "Mars - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ilişki enerjisi",
+      "rekabet",
+      "doğrudanlık",
+      "ortaklık"
+    ],
+    "anlam": "Enerjin ilişkiler ve ortaklıklar üzerinden dışa vurur; partnerlikte tutkulu ama zaman zaman çatışmacı bir taraf olursun. İlişkilerde harekete geçiren güç sensin.",
+    "guclu": "İlişkide canlılık, açık tavır, ortak hedef",
+    "golge": "Çatışma, hâkimiyet kurma, tartışmaya yatkınlık",
+    "ton": "ilişkili, gergin"
+  },
+  {
+    "id": "MARS_EV8",
+    "faktor": "Mars - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yoğun",
+      "dönüştürücü",
+      "tutkulu",
+      "derin"
+    ],
+    "anlam": "Arzu ve enerjin derin dönüşümlere, cinsellik ve ortak kaynaklar alanına yönelir; yoğun, kararlı ve sınırları zorlayan bir güçle hareket edersin. Krizlerde direncin yüksektir.",
+    "guclu": "Dönüşüm gücü, tutku, kriz dayanıklılığı",
+    "golge": "Saplantı, kontrol arzusu, güç mücadelesi",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "MARS_EV9",
+    "faktor": "Mars - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arayış",
+      "inanç",
+      "macera",
+      "savunma"
+    ],
+    "anlam": "Enerjini inançlarını, fikirlerini ve ufkunu genişletmeye harcarsın; gezmek, öğrenmek ve görüşlerini savunmak için harekete geçersin. Uzak hedeflerin peşinden istekle gidersin.",
+    "guclu": "Keşif tutkusu, inanç gücü, geniş ufuk",
+    "golge": "Dogmatiklik, fikir dayatma, savruk hevesler",
+    "ton": "arayışçı, hareketli"
+  },
+  {
+    "id": "MARS_EV10",
+    "faktor": "Mars - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "hırs",
+      "kariyer",
+      "liderlik",
+      "iddia"
+    ],
+    "anlam": "Enerjini kariyer ve toplum önündeki yükselişe yönlendirirsin; hedeflerine ulaşmak için hırslı, girişken ve önde olmaya istekli bir tutum sergilersin. Başarı için mücadele edersin.",
+    "guclu": "Hırs, liderlik, hedefe odaklanma",
+    "golge": "Otoriteyle sürtüşme, acımasız rekabet, tükeniş",
+    "ton": "hırslı, iddialı"
+  },
+  {
+    "id": "MARS_EV11",
+    "faktor": "Mars - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "topluluk",
+      "öncülük",
+      "ideal",
+      "girişim"
+    ],
+    "anlam": "Enerjin arkadaşlıklarda, topluluklarda ve ortak ideallerde toplanır; grup içinde harekete geçiren, hedef gösteren bir güç olursun. Geleceğe dönük amaçlar için çaba harcarsın.",
+    "guclu": "Grup öncülüğü, dayanışma, ideal uğruna çaba",
+    "golge": "Grup içi çekişme, baskın tavır, sürtüşme",
+    "ton": "öncü, sosyal"
+  },
+  {
+    "id": "MARS_EV12",
+    "faktor": "Mars - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "içe dönük",
+      "bastırılmış",
+      "sezgisel",
+      "gizli güç"
+    ],
+    "anlam": "Enerji ve arzun bilinçaltında, perde arkasında işler; öfkeni ve isteklerini doğrudan göstermek yerine içte taşıyabilirsin. Gücün sessiz, dolaylı ya da gizli kanallardan akar.",
+    "guclu": "Sezgisel güç, fedakârlık, içsel direnç",
+    "golge": "Bastırılmış öfke, dolaylı eylem, kendini sabote",
+    "ton": "içe dönük, örtülü"
+  },
+  {
+    "id": "MER_EV1",
+    "faktor": "Merkür - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kimlik",
+      "ifade",
+      "merak",
+      "tempo"
+    ],
+    "anlam": "Zihnin ve konuşma biçimin kimliğinin parçası; düşünerek var oluyor, sözlerinle tanınıyorsun. Kendini anlatma ve dünyayı anlama isteği önde.",
+    "guclu": "Hazırcevaplık, uyanık zihin, kendini anlatma",
+    "golge": "Aşırı düşünme, huzursuzluk, sözü tartmama",
+    "ton": "uyanık, sözlü"
+  },
+  {
+    "id": "MER_EV2",
+    "faktor": "Merkür - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "para",
+      "değerler",
+      "planlama",
+      "pratik akıl"
+    ],
+    "anlam": "Zihnin para, kaynak ve neyin değerli olduğu sorularına yönelir; düşünerek kazanır, hesabını tutarsın. Fikirlerin somut karşılığı senin için önemli.",
+    "guclu": "Pratik akıl, hesap, kazanç fikirleri",
+    "golge": "Sürekli hesap kaygısı, değeri paraya indirgeme",
+    "ton": "pratik, ölçülü"
+  },
+  {
+    "id": "MER_EV3",
+    "faktor": "Merkür - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iletişim",
+      "öğrenme",
+      "merak",
+      "yakın çevre"
+    ],
+    "anlam": "Zihnin en doğal alanında: konuşmak, öğrenmek, yazmak ve yakın çevreyle bağ kurmak senin doğal modun. Merak ve aktarma gücü yüksek.",
+    "guclu": "İfade, hızlı öğrenme, çok yönlü merak",
+    "golge": "Dağınık ilgi, yüzeysellik, dedikoduya açıklık",
+    "ton": "canlı, meraklı"
+  },
+  {
+    "id": "MER_EV4",
+    "faktor": "Merkür - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yuva",
+      "aile",
+      "kökler",
+      "iç ses"
+    ],
+    "anlam": "Zihnin eve, aileye ve geçmişe dönük çalışır; düşüncelerin köklerinde, anılarında demlenir. Aile içi konuşmalar ve özel alan senin için zihinsel bir sığınak.",
+    "guclu": "Derin hafıza, ev içi diyalog, içe dönük düşünme",
+    "golge": "Geçmişi kafada çevirme, kapalı iletişim",
+    "ton": "içsel, köklü"
+  },
+  {
+    "id": "MER_EV5",
+    "faktor": "Merkür - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yaratıcılık",
+      "oyun",
+      "ifade",
+      "flört"
+    ],
+    "anlam": "Zihnin yaratıcı ve oyuncu bir biçimde akar; fikirlerini eğlenceye, sanata ve flörte dökersin. Sözle etkileme ve üretme isteği güçlü.",
+    "guclu": "Yaratıcı ifade, esprili dil, ilgi çekme",
+    "golge": "Gösterişe kaçma, abartı, dağılan oyunculuk",
+    "ton": "oyuncu, yaratıcı"
+  },
+  {
+    "id": "MER_EV6",
+    "faktor": "Merkür - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iş",
+      "düzen",
+      "analiz",
+      "detay"
+    ],
+    "anlam": "Zihnin iş, sağlık ve günlük düzen alanında devreye girer; analiz ederek, listeleyerek ve düzelterek çalışır. Detaylara hakimiyet ve işlevsel düşünme öne çıkar.",
+    "guclu": "Analiz, düzen, işe yarar çözümler",
+    "golge": "Aşırı eleştiri, kılı kırk yarma, kaygılı zihin",
+    "ton": "titiz, işlevsel"
+  },
+  {
+    "id": "MER_EV7",
+    "faktor": "Merkür - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ilişki",
+      "diyalog",
+      "ortaklık",
+      "denge"
+    ],
+    "anlam": "Zihnin ilişkiler ve ortaklıklar üzerinden işler; karşındakiyle konuşarak, tartışarak ve fikir alışverişiyle düşünürsün. Diyalog ilişkinin merkezinde.",
+    "guclu": "Müzakere, dinleme, fikir alışverişi",
+    "golge": "Karşılıklı tartışmaya kaçma, başkasının aklına yaslanma",
+    "ton": "diyaloglu, dengeli"
+  },
+  {
+    "id": "MER_EV8",
+    "faktor": "Merkür - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "derinlik",
+      "araştırma",
+      "sır",
+      "dönüşüm"
+    ],
+    "anlam": "Zihnin yüzeyle yetinmez; gizli olanı, tabuyu ve derindeki nedeni araştırır. Sezgisel ve sorgulayıcı düşünce, kriz ve dönüşüm anlarında keskinleşir.",
+    "guclu": "Derin araştırma, sezgi, sır tutma",
+    "golge": "Saplantılı kuşku, takıntılı sorgulama, suskunluk",
+    "ton": "derin, sorgulayan"
+  },
+  {
+    "id": "MER_EV9",
+    "faktor": "Merkür - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "felsefe",
+      "anlam",
+      "yolculuk",
+      "geniş bakış"
+    ],
+    "anlam": "Zihnin büyük resmi, inancı ve anlamı arar; uzak yerler, kültürler ve fikirler seni besler. Öğrenmeyi bir dünya görüşüne dönüştürme eğilimi güçlü.",
+    "guclu": "Geniş bakış, fikir üretme, öğretme",
+    "golge": "Dağınık genelleme, bildiğini dayatma, detayı atlama",
+    "ton": "geniş, arayışlı"
+  },
+  {
+    "id": "MER_EV10",
+    "faktor": "Merkür - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kariyer",
+      "iletişim",
+      "itibar",
+      "söz"
+    ],
+    "anlam": "Zihnin ve sözün kariyerinde araç oluyor; konuşarak, yazarak ya da fikir üreterek görünür hale geliyorsun. İtibarın akıllı duruşunla şekillenir.",
+    "guclu": "Etkili sunum, fikirle ilerleme, stratejik akıl",
+    "golge": "İmaj kaygısı, sözünü tartma baskısı, hesaplı dil",
+    "ton": "stratejik, görünür"
+  },
+  {
+    "id": "MER_EV11",
+    "faktor": "Merkür - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arkadaşlık",
+      "fikir paylaşımı",
+      "topluluk",
+      "gelecek"
+    ],
+    "anlam": "Zihnin arkadaş çevresi ve topluluklar içinde canlanır; ortak fikirler, gelecek planları ve diyalog seni bir araya getirir. Düşünceyi paylaşarak büyütürsün.",
+    "guclu": "Fikir alışverişi, ağ kurma, ortak vizyon",
+    "golge": "Gruba uyma baskısı, dağınık tartışma, mesafeli akıl",
+    "ton": "paylaşımcı, ileriye dönük"
+  },
+  {
+    "id": "MER_EV12",
+    "faktor": "Merkür - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "bilinçaltı",
+      "sezgi",
+      "içe dönüklük",
+      "sessizlik"
+    ],
+    "anlam": "Zihnin sözden çok sezgiyle, imgeyle ve sessizlikle çalışır; düşüncelerin çoğu içeride, gizli bir akışta olgunlaşır. İfade etmeden çok hissederek anlarsın.",
+    "guclu": "Sezgisel kavrayış, hayal gücü, derin iç gözlem",
+    "golge": "İçinde kalan düşünceler, ifade güçlüğü, kafa karışıklığı",
+    "ton": "içe dönük, sezgisel"
+  },
+  {
+    "id": "SAT_EV1",
+    "faktor": "Satürn - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "öz-disiplin",
+      "ciddiyet",
+      "öz-güven sınavı",
+      "olgunlaşma"
+    ],
+    "anlam": "Kimliğin ve bedenin senin sorumluluk ve sınav alanın; kendini ciddiye alır, ama erken yaşta yetersizlik ya da fazla sorumluluk hissi taşıyabilirsin. Zamanla kendi otoriteni inşa eder, sağlam bir duruş kazanırsın.",
+    "guclu": "Olgunluk, dayanıklılık, ciddi duruş",
+    "golge": "Öz-eleştiri, çekingenlik, katılık",
+    "ton": "ağır, sağlam"
+  },
+  {
+    "id": "SAT_EV2",
+    "faktor": "Satürn - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "maddi sorumluluk",
+      "öz-değer",
+      "tedbir",
+      "emek"
+    ],
+    "anlam": "Para, değerler ve öz-değer senin çalışma ve sınav alanın; güvenliği ciddiye alır, kazandığını emekle kazanırsın. Başta kıtlık korkusu ya da öz-değer kuşkusu olsa da, zamanla kalıcı bir maddi temel kurarsın.",
+    "guclu": "Tutumluluk, sabır, sağlam temel",
+    "golge": "Kıtlık korkusu, öz-değer kuşkusu, cimrilik",
+    "ton": "temkinli, sebatlı"
+  },
+  {
+    "id": "SAT_EV3",
+    "faktor": "Satürn - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ölçülü ifade",
+      "öğrenme disiplini",
+      "ciddi düşünce",
+      "tedrici"
+    ],
+    "anlam": "İletişim ve öğrenme senin olgunlaşma alanın; konuşmadan önce düşünür, bilgiyi derinlemesine ve sabırla edinirsin. Kendini ifade etmekte başta çekingenlik olsa da, sözün ağırlık ve güven taşır.",
+    "guclu": "Derin düşünce, ciddi öğrenme, ölçülü söz",
+    "golge": "İfade kaygısı, suskunluk, aşırı eleştiri",
+    "ton": "ölçülü, derin"
+  },
+  {
+    "id": "SAT_EV4",
+    "faktor": "Satürn - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "aile sorumluluğu",
+      "kök",
+      "güvenlik arayışı",
+      "olgunlaşma"
+    ],
+    "anlam": "Yuva, aile ve kökler senin sorumluluk ve sınav alanın; erken yaşta aile içinde ağırlık ya da soğukluk hissetmiş olabilirsin. Zamanla kendi sağlam temelini kurar, içsel güvenliği emekle inşa edersin.",
+    "guclu": "Bağlılık, sorumluluk, kalıcı temel",
+    "golge": "Duygusal mesafe, geçmiş yükü, içe kapanma",
+    "ton": "köklü, ağırbaşlı"
+  },
+  {
+    "id": "SAT_EV5",
+    "faktor": "Satürn - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ölçülü yaratım",
+      "ciddi aşk",
+      "çocuk sorumluluğu",
+      "olgunlaşma"
+    ],
+    "anlam": "Aşk, yaratıcılık ve çocuklar senin sınav alanın; kendini açmakta ya da oyuna izin vermekte temkinli olabilirsin. Yaratıcılığını disiplinle besler, sevgiyi ciddiye alır, kalıcı eserler ve bağlar ortaya koyarsın.",
+    "guclu": "Disiplinli yaratım, ciddi bağlanma, kararlılık",
+    "golge": "Kendini tutma, neşeden kaçınma, aşk kaygısı",
+    "ton": "ölçülü, kararlı"
+  },
+  {
+    "id": "SAT_EV6",
+    "faktor": "Satürn - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iş disiplini",
+      "rutin",
+      "sağlık sorumluluğu",
+      "emek"
+    ],
+    "anlam": "İş, sağlık ve günlük düzen senin doğal sorumluluk alanın; çalışkan, titiz ve güvenilirsin. Sınav, kendine fazla yüklenmemeyi ve bedeninin sınırlarına saygı duymayı öğrenmektir.",
+    "guclu": "Çalışkanlık, titizlik, güvenilirlik",
+    "golge": "Aşırı yüklenme, mükemmeliyetçilik, tükenme",
+    "ton": "çalışkan, titiz"
+  },
+  {
+    "id": "SAT_EV7",
+    "faktor": "Satürn - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "sorumlu ilişki",
+      "bağlılık",
+      "temkin",
+      "olgunlaşma"
+    ],
+    "anlam": "İlişkiler senin olgunlaşma alanın; bağlanmayı ciddiye alır, sorumluluk ve süreklilik ararsın. Başta temkin ya da gecikme olsa da, kalıcı ve sağlam bağlar kurarsın.",
+    "guclu": "Sadakat, ciddiyet, kalıcı bağ",
+    "golge": "Bağlanma korkusu, mesafe, ilişkide ağırlık",
+    "ton": "ölçülü, sağlam"
+  },
+  {
+    "id": "SAT_EV8",
+    "faktor": "Satürn - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "dönüşüm sınavı",
+      "ortak kaynak",
+      "kontrol",
+      "derinlik"
+    ],
+    "anlam": "Ortak kaynaklar, mahremiyet ve dönüşüm senin sınav alanın; derine inmek, güvenmek ve teslim olmak kolay gelmez. Zamanla korkularınla yüzleşir, krizlerden olgunlaşarak ve güçlenerek çıkarsın.",
+    "guclu": "Dayanıklılık, derinlik, kriz yönetimi",
+    "golge": "Kontrol ihtiyacı, güvensizlik, tıkanmış duygular",
+    "ton": "derin, dirençli"
+  },
+  {
+    "id": "SAT_EV9",
+    "faktor": "Satürn - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "inanç sınavı",
+      "ciddi bilgi",
+      "yapılandırma",
+      "olgunlaşma"
+    ],
+    "anlam": "İnanç, anlam arayışı ve yüksek öğrenme senin çalışma alanın; dünya görüşünü emekle, sorgulayarak ve sabırla inşa edersin. Hazır inançlara güvenmek yerine kendi bilgeliğini zamanla oluşturursun.",
+    "guclu": "Derin bilgi, sağlam ilke, olgun bakış",
+    "golge": "Katı inanç, kuşku, dar görüş riski",
+    "ton": "ciddi, arayışlı"
+  },
+  {
+    "id": "SAT_EV10",
+    "faktor": "Satürn - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "kariyer disiplini",
+      "sorumluluk",
+      "otorite",
+      "kalıcı başarı"
+    ],
+    "anlam": "Kariyer ve toplum önündeki rolün senin en güçlü sorumluluk alanın; hedefe sabır ve emekle yürür, otoriteni hak ederek kurarsın. Başarı erken gelmese de, kurduğun yapı kalıcı ve saygındır.",
+    "guclu": "Hırs, sebat, kazanılmış otorite",
+    "golge": "Başarı baskısı, iş yükü, katı hedef",
+    "ton": "hedefli, sebatlı"
+  },
+  {
+    "id": "SAT_EV11",
+    "faktor": "Satürn - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ölçülü dostluk",
+      "topluluk sorumluluğu",
+      "seçici bağ",
+      "olgunlaşma"
+    ],
+    "anlam": "Arkadaşlık, topluluk ve idealler senin sınav alanın; geniş çevreler yerine az ama sağlam bağları seçersin. Aidiyet kurmak başta zor gelse de, zamanla güvenilir ve uzun soluklu dostluklar edinirsin.",
+    "guclu": "Sadık dostluk, sorumlu duruş, seçicilik",
+    "golge": "Yalnızlık hissi, mesafe, dışlanma kaygısı",
+    "ton": "seçici, sadık"
+  },
+  {
+    "id": "SAT_EV12",
+    "faktor": "Satürn - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "içsel sınav",
+      "yalnızlık",
+      "bilinçaltı yük",
+      "olgunlaşma"
+    ],
+    "anlam": "Bilinçaltı, yalnızlık ve içsel dünyan senin sessiz sınav alanın; gizli korkular ya da dile dökülmemiş sorumluluklar taşıyabilirsin. İçe çekildiğin zamanlarda kendinle yüzleşir, sessizlikte derin bir olgunluk geliştirirsin.",
+    "guclu": "İçsel derinlik, sessiz güç, dayanıklılık",
+    "golge": "İzolasyon, bastırılmış korku, yalnızlık yükü",
+    "ton": "içe dönük, sabırlı"
+  },
+  {
+    "id": "VEN_EV1",
+    "faktor": "Venüs - 1. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "çekicilik",
+      "öz-değer",
+      "uyum",
+      "görünüm"
+    ],
+    "anlam": "Sevgi ve estetik ihtiyacın doğrudan kişiliğine ve dış görünüşüne yansır. İnsanlara sıcaklık ve hoşluk yayarsın, beğenilmek senin için kimliğinin bir parçasıdır.",
+    "guclu": "Doğal çekicilik, hoş tavır, uzlaşmacılık",
+    "golge": "Beğenilme ihtiyacı, görünüşe fazla yatırım",
+    "ton": "sıcak, çekici"
+  },
+  {
+    "id": "VEN_EV2",
+    "faktor": "Venüs - 2. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "para",
+      "değer",
+      "konfor",
+      "haz"
+    ],
+    "anlam": "Zevk ve güzellik arayışın maddi alanda somutlaşır; güzel şeylere sahip olmak ve rahat bir yaşam sana iyi gelir. Öz-değerini çoğu zaman sahip olduklarınla ölçme eğilimindesin.",
+    "guclu": "Estetik yatırım, kazanç becerisi, konfor sevgisi",
+    "golge": "Aşırı harcama, sahip olmaya bağlama, lüks düşkünlüğü",
+    "ton": "konforlu, somut"
+  },
+  {
+    "id": "VEN_EV3",
+    "faktor": "Venüs - 3. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iletişim",
+      "incelik",
+      "yakınlık",
+      "uyum"
+    ],
+    "anlam": "Sevgini sözle ve gündelik temasla gösterirsin; konuşman nazik, ilişki kurma biçimin tatlıdır. Kardeşler, komşular ve yakın çevreyle uyum senin için önemlidir.",
+    "guclu": "Hoş ifade, diplomatik dil, sıcak yakın çevre",
+    "golge": "Çatışmadan kaçış, yüzeysel hoşluk, dedikoduya açıklık",
+    "ton": "nazik, iletişimsel"
+  },
+  {
+    "id": "VEN_EV4",
+    "faktor": "Venüs - 4. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yuva",
+      "aile",
+      "huzur",
+      "güzellik"
+    ],
+    "anlam": "Sevgi ve güzellik ihtiyacın evine ve köklerine yönelir; uyumlu, estetik bir yuva sana huzur verir. Aile bağları ve özel alanın senin için bir sığınaktır.",
+    "guclu": "Sıcak yuva, ailevi yakınlık, estetik ev",
+    "golge": "Aileye fazla bağlılık, evden çıkamama, geçmişe tutunma",
+    "ton": "huzurlu, içe dönük"
+  },
+  {
+    "id": "VEN_EV5",
+    "faktor": "Venüs - 5. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "aşk",
+      "yaratıcılık",
+      "haz",
+      "flört"
+    ],
+    "anlam": "Venüs en oyunbaz alanında: aşk, romantizm ve yaratıcı ifade sana doğal bir keyif verir. Flört etmek, sevmek ve güzel olanı üretmek hayatına renk katar.",
+    "guclu": "Romantizm, yaratıcı yetenek, çekim ve cazibe",
+    "golge": "Sürekli haz arayışı, hovardalık, dikkat dağınıklığı",
+    "ton": "oyunbaz, romantik"
+  },
+  {
+    "id": "VEN_EV6",
+    "faktor": "Venüs - 6. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "iş",
+      "uyum",
+      "hizmet",
+      "düzen"
+    ],
+    "anlam": "Sevgini gündelik işine ve başkalarına yardım ederek gösterirsin; uyumlu bir çalışma ortamı ve hoş bir rutin senin için önemlidir. Estetik ve incelik işine de yansır.",
+    "guclu": "Uyumlu çalışma, özenli hizmet, estetik düzen",
+    "golge": "İlişkileri işe taşıma, onay için fazla çabalama, rutine sıkışma",
+    "ton": "özenli, uyumlu"
+  },
+  {
+    "id": "VEN_EV7",
+    "faktor": "Venüs - 7. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "ilişki",
+      "uyum",
+      "ortaklık",
+      "çekim"
+    ],
+    "anlam": "Sevgi ve uyum arayışın en doğal alanında: ikili ilişkiler ve ortaklıklar senin için hayatın merkezinde. Bir 'biz' kurmaya, denge ve yakınlığa yönelirsin.",
+    "guclu": "Bağ kurma, uyum, çekicilik",
+    "golge": "İlişkiye bağımlılık, kendini ötekinde kaybetme",
+    "ton": "ilişkisel, zarif"
+  },
+  {
+    "id": "VEN_EV8",
+    "faktor": "Venüs - 8. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "yoğunluk",
+      "tutku",
+      "paylaşım",
+      "bağ"
+    ],
+    "anlam": "Sevgiyi yüzeyde değil derinde ararsın; yakınlık senin için tutkulu, dönüştürücü ve bütünüyle teslim olmaktır. Ortak kaynaklar ve mahrem bağlar bu alanda öne çıkar.",
+    "guclu": "Derin bağ, tutku, sadakat",
+    "golge": "Kıskançlık, sahiplenme, kontrol ihtiyacı",
+    "ton": "yoğun, derin"
+  },
+  {
+    "id": "VEN_EV9",
+    "faktor": "Venüs - 9. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "keşif",
+      "anlam",
+      "özgürlük",
+      "kültür"
+    ],
+    "anlam": "Sevgi ve zevk anlayışın ufuk genişletmekle iç içe; uzak yerler, farklı kültürler ve ortak inançlar seni çeker. Birlikte büyümek ve keşfetmek senin için değerlidir.",
+    "guclu": "Açık görüşlülük, kültürel zevk, özgür sevgi",
+    "golge": "Bağ kurmaktan kaçış, idealize etme, yerinde duramama",
+    "ton": "özgür, geniş"
+  },
+  {
+    "id": "VEN_EV10",
+    "faktor": "Venüs - 10. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "itibar",
+      "estetik",
+      "diplomasi",
+      "görünürlük"
+    ],
+    "anlam": "Sevimliliğin ve estetik duyun toplum önündeki rolüne yansır; insanlarla iyi geçinmen kariyerinde bir güç olur. Güzellik, uyum ya da ilişki kurmayla ilgili alanlara çekilebilirsin.",
+    "guclu": "Diplomatik duruş, hoş itibar, estetik meslekler",
+    "golge": "İmaja bağımlılık, onay için statü arayışı, fazla uzlaşma",
+    "ton": "zarif, görünür"
+  },
+  {
+    "id": "VEN_EV11",
+    "faktor": "Venüs - 11. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "arkadaşlık",
+      "topluluk",
+      "paylaşım",
+      "uyum"
+    ],
+    "anlam": "Sevgini arkadaşlıklarda ve topluluk içinde yaşarsın; ortak değerleri olan insanlarla bir arada olmak sana iyi gelir. Dostluklar senin için sıcak ve besleyicidir.",
+    "guclu": "Geniş çevre, dostça sıcaklık, ortak idealler",
+    "golge": "Onaylanma ihtiyacı, herkese yaranma, mesafe koyamama",
+    "ton": "dostça, kapsayıcı"
+  },
+  {
+    "id": "VEN_EV12",
+    "faktor": "Venüs - 12. Ev",
+    "kategori": "gezegen-ev",
+    "anahtar": [
+      "gizli",
+      "içsel",
+      "şefkat",
+      "fedakarlık"
+    ],
+    "anlam": "Sevgin sessiz ve içe dönük bir nitelik taşır; duygularını sıkça gizler, ilişkilerinde fedakar ya da gizli kalmayı seçebilirsin. Şefkat ve güzellik senin için ruhsal, neredeyse görünmez bir alanda yaşanır.",
+    "guclu": "Koşulsuz şefkat, derin duyarlık, ince ruhsallık",
+    "golge": "Gizli ilişkiler, kendini feda etme, duyguları bastırma",
+    "ton": "içsel, sessiz"
+  },
+  {
+    "id": "LILITH_KOC",
+    "faktor": "Lilith - Koç",
+    "kategori": "lilith",
+    "anahtar": [
+      "öfke",
+      "ham arzu",
+      "bağımsızlık",
+      "kışkırtıcılık"
+    ],
+    "anlam": "Bastırdığın yan, ham öfken ve doğrudan isteme cesaretin; uysal görünmek için yuttuğun savaşçı enerjin. Bu ateşi sahiplendiğinde kimse seni susturamaz.",
+    "guclu": "cesaret, doğrudanlık, kendi alanını savunma, dirilik, kışkırtıcı kıvılcım",
+    "golge": "bastırılmış öfke, ani patlamalar, dürtüsellik, kavgayı arama, kıskançlık",
+    "ton": "ateşli, savaşçı"
+  },
+  {
+    "id": "LILITH_BOGA",
+    "faktor": "Lilith - Boğa",
+    "kategori": "lilith",
+    "anahtar": [
+      "beden",
+      "haz",
+      "sahiplik",
+      "değer"
+    ],
+    "anlam": "Reddettiğin yan, bedensel hazza ve sahip olmaya duyduğun ham açlık; fazla istemekten utandığın için sustuğun şehvetli, topraklı gücün. Arzunu utanç olmadan tattığında kendi değerini kimseye onaylatmazsın.",
+    "guclu": "duyusal dolgunluk, dinginlik, kendi değerini bilme, sebat, bedeniyle barış",
+    "golge": "aşırı sahiplenme, haz takıntısı, kıskançlık, inatla tutunma, maddi açlık",
+    "ton": "şehvetli, topraklı"
+  },
+  {
+    "id": "LILITH_IKIZLER",
+    "faktor": "Lilith - İkizler",
+    "kategori": "lilith",
+    "anahtar": [
+      "yasak söz",
+      "merak",
+      "ikilik",
+      "kışkırtan dil"
+    ],
+    "anlam": "İçe ittiğin yan, söylenmemesi gerekeni söyleme dürtün ve tabu merakın; çok konuşan ya da fazla bilen biri olarak yargılandığın için kıstığın keskin zekan. Sesini sahiplendiğinde dilin en güçlü silahın olur.",
+    "guclu": "keskin zeka, cesur ifade, sınır tanımayan merak, ikna gücü, çok yönlülük",
+    "golge": "kışkırtıcı söz, dedikodu, yarım gerçekler, zihinsel huzursuzluk, manipülatif dil",
+    "ton": "keskin, kışkırtıcı"
+  },
+  {
+    "id": "LILITH_YENGEC",
+    "faktor": "Lilith - Yengeç",
+    "kategori": "lilith",
+    "anahtar": [
+      "ihtiyaç",
+      "duygusal açlık",
+      "ana arketipi",
+      "korumacılık"
+    ],
+    "anlam": "Sakladığın yan, ham duygusal ihtiyacın ve fazla isteyen, fazla hisseden kalbin; muhtaç görünmemek için bastırdığın derin bağ açlığın. İhtiyacını utanç olmadan sahiplendiğinde duygun bir zayıflık değil, kök salma gücü olur.",
+    "guclu": "derin sezgi, koruyucu güç, duygusal cesaret, besleyici yan, bağ kurma derinliği",
+    "golge": "duygusal şantaj, aşırı bağlanma, kırgınlık biriktirme, manipülatif kırılganlık, içe kapanma",
+    "ton": "derin, dalgalı"
+  },
+  {
+    "id": "LILITH_ASLAN",
+    "faktor": "Lilith - Aslan",
+    "kategori": "lilith",
+    "anahtar": [
+      "görünme arzusu",
+      "gurur",
+      "yaratıcı ateş",
+      "sahne"
+    ],
+    "anlam": "Bastırdığın yan, görülme ve parlama açlığın; fazla göze batma korkusuyla kıstığın ışıltılı, gururlu özün. Sahnene utanmadan çıktığında varlığın başlı başına bir güç olur.",
+    "guclu": "karizma, yaratıcı cesaret, gurur, kendine sahip çıkma, ışıltı",
+    "golge": "onay açlığı, gurur yarası, dikkat takıntısı, drama, görmezden gelinince sönme",
+    "ton": "gururlu, ışıltılı"
+  },
+  {
+    "id": "LILITH_BASAK",
+    "faktor": "Lilith - Başak",
+    "kategori": "lilith",
+    "anahtar": [
+      "arınma",
+      "beden kontrolü",
+      "hizmet",
+      "kusur korkusu"
+    ],
+    "anlam": "Reddettiğin yan, kusurlu ve dağınık olma hakkın; kusursuz görünmek için bastırdığın ham, düzensiz, hayvani yanın. Kendi yabaniliğini kabul ettiğinde mükemmellik değil, bütünlük güç olur.",
+    "guclu": "keskin ayırt etme, şifacı dokunuş, disiplin, detay zekası, kendini onarma",
+    "golge": "aşırı eleştiri, kontrol takıntısı, beden utancı, kusura saplanma, kendine acımasızlık",
+    "ton": "titiz, arındırıcı"
+  },
+  {
+    "id": "LILITH_TERAZI",
+    "faktor": "Lilith - Terazi",
+    "kategori": "lilith",
+    "anahtar": [
+      "öfkeli adalet",
+      "cazibe",
+      "reddedilme",
+      "sahte uyum"
+    ],
+    "anlam": "İçe ittiğin yan, hoş görünmek için yuttuğun öfke ve gerçek arzun; sevilmek uğruna bastırdığın baştan çıkarıcı, talepkar gücün. İhtiyacını dürüstçe sahiplendiğinde uyumun sahte değil, gerçek olur.",
+    "guclu": "cazibe, diplomatik güç, adalet duygusu, ilişki zekası, estetik etki",
+    "golge": "sahte uyum, pasif öfke, onay için kendini silme, kıskançlık, kararsızlık",
+    "ton": "çekici, çelişkili"
+  },
+  {
+    "id": "LILITH_AKREP",
+    "faktor": "Lilith - Akrep",
+    "kategori": "lilith",
+    "anahtar": [
+      "tabu",
+      "cinsel güç",
+      "yıkım ve doğuş",
+      "kontrol"
+    ],
+    "anlam": "En çıplak halinle gölgenin evindesin; tabu arzun, cinsel gücün ve yok edip yeniden doğurma kapasiten. Bu yoğunluğu sahiplendiğinde korkulan değil, dönüştüren olursun.",
+    "guclu": "derin dönüşüm gücü, manyetik yoğunluk, sırların ustası, sarsılmaz irade, cinsel sahiplik",
+    "golge": "saplantı, intikam, kontrol oyunları, kıskançlık, yıkıcı yoğunluk",
+    "ton": "yoğun, dönüştürücü"
+  },
+  {
+    "id": "LILITH_YAY",
+    "faktor": "Lilith - Yay",
+    "kategori": "lilith",
+    "anahtar": [
+      "yasak hakikat",
+      "özgürlük açlığı",
+      "isyan",
+      "inanç"
+    ],
+    "anlam": "Bastırdığın yan, evcilleştirilmeyi reddeden özgürlük açlığın ve söylenmeyen hakikatin; uslu durmak için kıstığın isyankar, sınır aşan ruhun. Kendi vahşi yolunu sahiplendiğinde inancın kimseden izin istemez.",
+    "guclu": "cesur hakikat, özgür ruh, geniş vizyon, sınır aşma, dürüst isyan",
+    "golge": "savruk kaçış, dogmatik dayatma, bağ kuramama, aşırılık, sorumluluktan kaçma",
+    "ton": "isyankar, özgür"
+  },
+  {
+    "id": "LILITH_OGLAK",
+    "faktor": "Lilith - Oğlak",
+    "kategori": "lilith",
+    "anahtar": [
+      "yasak hırs",
+      "otorite",
+      "kontrol",
+      "reddedilen güç"
+    ],
+    "anlam": "Sakladığın yan, hırsından ve güç isteğinden duyduğun utanç; fazla istekli görünmemek için maskelediğin soğuk, hesaplı, hükmeden gücün. Otoriteni utanç olmadan sahiplendiğinde kendi krallığının kralı olursun.",
+    "guclu": "sarsılmaz irade, stratejik güç, otorite, dayanıklılık, hırsı sahiplenme",
+    "golge": "acımasız hırs, duygu bastırma, kontrol takıntısı, soğukluk, güç için yalnızlaşma",
+    "ton": "sert, hükmeden"
+  },
+  {
+    "id": "LILITH_KOVA",
+    "faktor": "Lilith - Kova",
+    "kategori": "lilith",
+    "anahtar": [
+      "aykırılık",
+      "sürgün",
+      "isyan",
+      "yabancılık"
+    ],
+    "anlam": "İçe ittiğin yan, çok farklı ya da çok soğuk olduğun için reddedildiğin aykırı özün; sürüye uymak için bastırdığın devrimci, kuralsız gücün. Yabancılığını sahiplendiğinde farkın bir kusur değil, özgürleştirici bir güç olur.",
+    "guclu": "özgün vizyon, devrimci cesaret, bağımsız akıl, sürüden ayrışma, ileri görüşlülük",
+    "golge": "duygusal kopukluk, asilik için asilik, yabancılaşma, soğuk mesafe, ait olamama",
+    "ton": "aykırı, devrimci"
+  },
+  {
+    "id": "LILITH_BALIK",
+    "faktor": "Lilith - Balık",
+    "kategori": "lilith",
+    "anahtar": [
+      "kayıp benlik",
+      "kurban-kurtarıcı",
+      "mistik açlık",
+      "sınırsızlık"
+    ],
+    "anlam": "Reddettiğin yan, sınırların eridiği o derin, mistik ve taşkın hassasiyetin; fazla hisseden ya da fazla rüya gören biri olarak yargılandığın için sakladığın okyanus gibi ruhun. Bu derinliği sahiplendiğinde kaybolmadan akmayı öğrenirsin.",
+    "guclu": "derin şefkat, sezgisel güç, yaratıcı ilham, sınırsız hayal, ruhsal derinlik",
+    "golge": "kurban rolü, kaçış ve bağımlılık, sınır kaybı, kendini yitirme, gerçeklikten kopma",
+    "ton": "mistik, akışkan"
+  },
+  {
+    "id": "KUZEY_KOC",
+    "faktor": "Kuzey Düğüm - Koç",
+    "kategori": "dugum",
+    "anahtar": [
+      "bağımsızlık",
+      "inisiyatif",
+      "cesaret",
+      "kendi yolu"
+    ],
+    "anlam": "Ruhsal büyümen kendi ayakların üstünde durmaya, başkalarını memnun etmeden kendi isteğini ortaya koymaya doğru. Güney Düğüm Terazi'nin onaylanma ve uyum konforundan, sağlıklı bencilliğe ve cesur kararlara geçmeye davet ediliyorsun.",
+    "guclu": "öz-güven, inisiyatif, cesaret, kendi kararlarını alma",
+    "golge": "aşırı uzlaşma, onay arama, kararsızlık, başkasına yaslanma",
+    "ton": "cesaretlendirici, öncü"
+  },
+  {
+    "id": "KUZEY_BOGA",
+    "faktor": "Kuzey Düğüm - Boğa",
+    "kategori": "dugum",
+    "anahtar": [
+      "istikrar",
+      "öz-değer",
+      "sadelik",
+      "sabır"
+    ],
+    "anlam": "Gelişimin kendi kaynaklarına güvenmeye, sade ve somut bir huzur inşa etmeye, değerini dışarıdan değil içinden almaya doğru. Güney Düğüm Akrep'in yoğun krizlere, başkasının kaynaklarına ve sürekli dönüşüme yaslanma konforundan, kalıcı bir istikrara geçiyorsun.",
+    "guclu": "istikrar, öz-değer, sabır, maddi güven, sadelik",
+    "golge": "krize tutunma, kıskançlık, başkasının kaynağına bağımlılık, aşırı yoğunluk",
+    "ton": "sakinleştirici, köklendirici"
+  },
+  {
+    "id": "KUZEY_IKIZLER",
+    "faktor": "Kuzey Düğüm - İkizler",
+    "kategori": "dugum",
+    "anahtar": [
+      "merak",
+      "öğrenme",
+      "iletişim",
+      "esneklik"
+    ],
+    "anlam": "Büyümen meraklı sorular sormaya, çevreni dinleyip bilgiyi paylaşmaya, tek bir mutlak doğruya değil çoğul bakışlara açılmaya doğru. Güney Düğüm Yay'ın 'her şeyi zaten biliyorum' kesinliği ve uzak idealler konforundan, yakın çevrenle gerçek bağ kurmaya geçiyorsun.",
+    "guclu": "merak, dinleme, açık iletişim, esneklik, öğrenme isteği",
+    "golge": "didaktiklik, kestirip atma, dağınık dogmalar, dinlemeden konuşma",
+    "ton": "meraklı, hafif"
+  },
+  {
+    "id": "KUZEY_YENGEC",
+    "faktor": "Kuzey Düğüm - Yengeç",
+    "kategori": "dugum",
+    "anahtar": [
+      "duygusal yakınlık",
+      "şefkat",
+      "aidiyet",
+      "bakım"
+    ],
+    "anlam": "Gelişimin duygularını hissetmeye, kendine ve sevdiklerine besleyici bir yuva kurmaya, başarıdan önce bağlanmaya değer vermeye doğru. Güney Düğüm Oğlak'ın sürekli kontrol, statü ve görev konforundan, kırılganlığa ve içten yakınlığa açılmaya davet ediliyorsun.",
+    "guclu": "şefkat, duygusal açıklık, aidiyet kurma, besleyicilik, içsel güven",
+    "golge": "aşırı kontrol, duyguyu bastırma, işkoliklik, soğuk mesafe",
+    "ton": "sıcak, kucaklayıcı"
+  },
+  {
+    "id": "KUZEY_ASLAN",
+    "faktor": "Kuzey Düğüm - Aslan",
+    "kategori": "dugum",
+    "anahtar": [
+      "kendini ifade",
+      "yaratıcılık",
+      "cesaret",
+      "kalpten bağ"
+    ],
+    "anlam": "Büyümen sahneye çıkıp kendi benliğini gururla ortaya koymaya, kalbinin sesiyle yaratmaya ve bireysel parıltını sahiplenmeye doğru. Güney Düğüm Kova'nın kalabalığa karışma, mesafeli gözlem ve 'biz' içinde kaybolma konforundan, ışıltılı bir 'ben'e geçiyorsun.",
+    "guclu": "kendini ifade, yaratıcılık, kalpten cesaret, liderlik, oyunculuk",
+    "golge": "kalabalığa saklanma, aşırı nesnellik, duygusal mesafe, sahiplenememe",
+    "ton": "ışıltılı, yürekli"
+  },
+  {
+    "id": "KUZEY_BASAK",
+    "faktor": "Kuzey Düğüm - Başak",
+    "kategori": "dugum",
+    "anahtar": [
+      "düzen",
+      "hizmet",
+      "ayrıntı",
+      "pratiklik"
+    ],
+    "anlam": "Gelişimin günlük hayatını düzenlemeye, küçük somut adımlarla hizmet etmeye ve kaosu sağaltıcı bir rutine dönüştürmeye doğru. Güney Düğüm Balık'ın kaçış, belirsizlik ve kurban-kurtarıcı sislerinde erime konforundan, ayakları yere basan bir netliğe geçiyorsun.",
+    "guclu": "düzen, ayrıntı duyarlığı, pratik hizmet, sağlıklı rutin, ayırt etme",
+    "golge": "kaçış, erteleme, belirsizliğe sığınma, sınır eksikliği, kendini kurban etme",
+    "ton": "düzenleyici, sağaltıcı"
+  },
+  {
+    "id": "KUZEY_TERAZI",
+    "faktor": "Kuzey Düğüm - Terazi",
+    "kategori": "dugum",
+    "anahtar": [
+      "ortaklık",
+      "denge",
+      "empati",
+      "işbirliği"
+    ],
+    "anlam": "Büyümen ötekini gerçekten dikkate almaya, ilişkide karşılıklılık ve uyum kurmaya, 'ben' kadar 'biz'i de önemsemeye doğru. Güney Düğüm Koç'un her şeyi tek başına yapma, savaşçı bağımsızlık ve aceleci ben-merkezlilik konforundan, zarif bir işbirliğine geçiyorsun.",
+    "guclu": "empati, işbirliği, diplomasi, denge, ilişkide olgunluk",
+    "golge": "aşırı bağımsızlık, sabırsızlık, bencillik, kaba rekabet, yalnız savaşma",
+    "ton": "uyumlu, ilişkisel"
+  },
+  {
+    "id": "KUZEY_AKREP",
+    "faktor": "Kuzey Düğüm - Akrep",
+    "kategori": "dugum",
+    "anahtar": [
+      "dönüşüm",
+      "derinlik",
+      "tutku",
+      "bırakma"
+    ],
+    "anlam": "Gelişimin yüzeyin altına inmeye, gerçek yakınlık ve duygusal çıplaklığa cesaret etmeye, sahip olduklarını bırakıp dönüşmeye doğru. Güney Düğüm Boğa'nın konfora tutunma, değişimden kaçma ve maddi güvenliğe fazlaca yaslanma alışkanlığından, derin bir yeniden doğuşa geçiyorsun.",
+    "guclu": "derinlik, dönüşüm gücü, duygusal dürüstlük, tutku, bırakabilme",
+    "golge": "konfora yapışma, değişim korkusu, inatçı sahiplenme, yüzeyde kalma",
+    "ton": "derin, dönüştürücü"
+  },
+  {
+    "id": "KUZEY_YAY",
+    "faktor": "Kuzey Düğüm - Yay",
+    "kategori": "dugum",
+    "anahtar": [
+      "anlam",
+      "özgürlük",
+      "sezgi",
+      "geniş ufuk"
+    ],
+    "anlam": "Büyümen kendi içsel pusulana güvenip büyük resmi görmeye, dağınık bilgiler yerine anlam ve inanca yönelmeye, ufkunu açıp özgürce yola çıkmaya doğru. Güney Düğüm İkizler'in dedikodu, dağınık merak ve başkasının görüşüne göre savrulma konforundan, kendi gerçeğine geçiyorsun.",
+    "guclu": "anlam arayışı, sezgi, geniş bakış, özgürlük, inanç",
+    "golge": "dağınıklık, yüzeysel merak, kararsızlık, başkasının fikrine savrulma, aşırı analiz",
+    "ton": "genişleten, umutlu"
+  },
+  {
+    "id": "KUZEY_OGLAK",
+    "faktor": "Kuzey Düğüm - Oğlak",
+    "kategori": "dugum",
+    "anahtar": [
+      "sorumluluk",
+      "disiplin",
+      "olgunluk",
+      "hedef"
+    ],
+    "anlam": "Gelişimin sorumluluğu üstlenmeye, kendi otoritenle hedeflerini disiplinle inşa etmeye ve duygusal güveni dış desteğe değil kendi yetkinliğine dayamaya doğru. Güney Düğüm Yengeç'in geçmişe, alışkanlıklara ve duygusal sığınaklara yaslanma konforundan, dik duran bir olgunluğa geçiyorsun.",
+    "guclu": "sorumluluk, disiplin, hedef odaklılık, öz-otorite, dayanıklılık",
+    "golge": "aşırı duygusallık, geçmişe tutunma, bahane, konfora sığınma, başkasına bağımlılık",
+    "ton": "olgunlaştıran, kararlı"
+  },
+  {
+    "id": "KUZEY_KOVA",
+    "faktor": "Kuzey Düğüm - Kova",
+    "kategori": "dugum",
+    "anahtar": [
+      "özgünlük",
+      "topluluk",
+      "özgürlük",
+      "vizyon"
+    ],
+    "anlam": "Büyümen kendini bir bütünün parçası olarak görmeye, ego onayından çok ortak iyiye hizmet etmeye ve özgün vizyonunu paylaşmaya doğru. Güney Düğüm Aslan'ın sürekli sahnede olma, beğenilme ihtiyacı ve gurur konforundan, eşitlikçi ve özgür bir bağ kurmaya geçiyorsun.",
+    "guclu": "özgünlük, topluluk bilinci, vizyon, eşitlikçilik, bağımsız düşünce",
+    "golge": "onay açlığı, sahne ihtiyacı, gurur, drama, ego merkezlilik",
+    "ton": "özgürleştiren, vizyoner"
+  },
+  {
+    "id": "KUZEY_BALIK",
+    "faktor": "Kuzey Düğüm - Balık",
+    "kategori": "dugum",
+    "anahtar": [
+      "teslimiyet",
+      "sezgi",
+      "merhamet",
+      "akış"
+    ],
+    "anlam": "Gelişimin kontrolü gevşetip akışa güvenmeye, sezgine ve merhamete teslim olmaya, her şeyi analiz etmeden bütünle birleşmeye doğru. Güney Düğüm Başak'ın aşırı eleştiri, kusursuzluk takıntısı ve detaylarda boğulma konforundan, şefkatli bir teslimiyete geçiyorsun.",
+    "guclu": "sezgi, merhamet, teslimiyet, yaratıcı hayal, manevi açıklık",
+    "golge": "aşırı eleştiri, mükemmeliyetçilik, endişe, kontrol takıntısı, detayda boğulma",
+    "ton": "yumuşatan, manevi"
+  },
+  {
+    "id": "CHIRON_KOC",
+    "faktor": "Kiron - Koç",
+    "kategori": "kiron",
+    "anahtar": [
+      "kimlik",
+      "cesaret",
+      "öz-değer",
+      "atılganlık"
+    ],
+    "anlam": "Yaran kendini ortaya koyma ve var olma cesaretinde; bir yerde 'isteklerim önemsiz, ben fazlayım' diye öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının kendi sesini bulmasına cesaret veren bir rehbere dönüşürsün.",
+    "guclu": "başkasını cesaretlendirme, öncülük, dayanıklılık, sahicilik",
+    "golge": "bastırılmış öfke, atılganlık korkusu, kendini geri çekme",
+    "ton": "şefkatli, dönüştürücü"
+  },
+  {
+    "id": "CHIRON_BOGA",
+    "faktor": "Kiron - Boğa",
+    "kategori": "kiron",
+    "anahtar": [
+      "değer",
+      "güven",
+      "bedensel huzur",
+      "yeterlilik"
+    ],
+    "anlam": "Yaran kendi değerinde ve 'yeterince var mı' duygusunda; maddi ya da duygusal güvenliğin sarsıldığı bir yerden 'ben sahip olmayı hak etmiyorum' diye taşıyor olabilirsin. Bu yarayı işledikçe, başkalarına kendi içsel değerlerinin sarsılmazlığını hatırlatan sakin bir dayanak olursun.",
+    "guclu": "içsel değer aşılama, sabırla topraklama, bolluk bilinci, huzur verme",
+    "golge": "yetersizlik korkusu, biriktirme ve tutunma, kendine kıymet vermeme",
+    "ton": "sakin, iyileştirici"
+  },
+  {
+    "id": "CHIRON_IKIZLER",
+    "faktor": "Kiron - İkizler",
+    "kategori": "kiron",
+    "anahtar": [
+      "ifade",
+      "ses",
+      "öğrenme",
+      "anlaşılma"
+    ],
+    "anlam": "Yaran düşüncelerini söze dökmede ve duyulmada; bir yerde 'benim sözüm aptalca, sesim önemsiz' diye susmayı öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının kendi fikrini özgürce dile getirmesine alan açan bir köprü kurucu olursun.",
+    "guclu": "anlama köprüsü kurma, dinleme, fikir sahipliği, merak uyandırma",
+    "golge": "söz korkusu, kendini küçümseme, dağınık iletişim",
+    "ton": "açan, cesaretlendiren"
+  },
+  {
+    "id": "CHIRON_YENGEC",
+    "faktor": "Kiron - Yengeç",
+    "kategori": "kiron",
+    "anahtar": [
+      "ait olma",
+      "beslenme",
+      "ev",
+      "duygusal güven"
+    ],
+    "anlam": "Yaran sevgiyle beslenme ve güvende hissetme duygusunda; erken bir yerde 'ihtiyaçlarım yük, kimse beni tutamaz' diye öğrenmiş olabilirsin. Bu yarayı işledikçe, başkaları için sığınak olan, onları içtenlikle besleyen bir yürek olursun.",
+    "guclu": "derin şefkat, güvenli alan yaratma, duygusal sezgi, kucaklama",
+    "golge": "terk edilme korkusu, aşırı koruma, ihtiyaçları gizleme",
+    "ton": "besleyici, şefkatli"
+  },
+  {
+    "id": "CHIRON_ASLAN",
+    "faktor": "Kiron - Aslan",
+    "kategori": "kiron",
+    "anahtar": [
+      "görünürlük",
+      "yaratıcılık",
+      "sevilme",
+      "parlama"
+    ],
+    "anlam": "Yaran görülme ve sevilme cesaretinde; bir yerde 'parlarsam reddedilirim, kalbim önemsiz' diye gölgede kalmayı öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının ışığını sahnelemesine içtenlikle alkış tutan bir kalp olursun.",
+    "guclu": "başkasını parlatma, içten alkış, yaratıcı cesaret, sahici sevgi",
+    "golge": "görülme korkusu, onay arayışı, kalbini saklama",
+    "ton": "ısıtan, yüreklendiren"
+  },
+  {
+    "id": "CHIRON_BASAK",
+    "faktor": "Kiron - Başak",
+    "kategori": "kiron",
+    "anahtar": [
+      "yeterlilik",
+      "kusur",
+      "hizmet",
+      "kabul"
+    ],
+    "anlam": "Yaran 'yeterince iyi miyim' sorusunda ve kusurlarına tahammülde; bir yerde 'hatalıysam değerli değilim' diye sürekli kendini düzeltmeyi öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının kusurlarıyla bütün olduğunu görmelerine yardım eden şefkatli bir şifacı olursun.",
+    "guclu": "şefkatli kabul, ince fark etme, iyileştirici hizmet, sabır",
+    "golge": "aşırı eleştiri, mükemmeliyetçilik, kendini yetersiz görme",
+    "ton": "kabul eden, iyileştirici"
+  },
+  {
+    "id": "CHIRON_TERAZI",
+    "faktor": "Kiron - Terazi",
+    "kategori": "kiron",
+    "anahtar": [
+      "ilişki",
+      "denge",
+      "değer görme",
+      "uyum"
+    ],
+    "anlam": "Yaran ilişkilerde eşit ve sevilmeye değer hissetmede; bir yerde 'ancak kendimi silersem sevilirim' diye uyum sağlamayı öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının kendileri olarak da sevilebileceğini gösteren dengeli bir ayna olursun.",
+    "guclu": "adil denge kurma, derin empati, uzlaştırma, sahici yakınlık",
+    "golge": "kendini silme, onaya bağımlılık, çatışmadan kaçınma",
+    "ton": "dengeleyici, şefkatli"
+  },
+  {
+    "id": "CHIRON_AKREP",
+    "faktor": "Kiron - Akrep",
+    "kategori": "kiron",
+    "anahtar": [
+      "güven",
+      "yakınlık",
+      "dönüşüm",
+      "derinlik"
+    ],
+    "anlam": "Yaran derin güven ve kendini tümüyle teslim etmede; bir yerde 'açılırsam incinirim, gücüm tehlikeli' diye duvar örmeyi öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının en karanlık yerlerine korkusuzca eşlik eden bir dönüşüm rehberi olursun.",
+    "guclu": "derin güven inşası, gölgeyle yüzleştirme, dönüştürücü yakınlık, cesur eşlik",
+    "golge": "kontrol ihtiyacı, yakınlık korkusu, gizleme",
+    "ton": "derin, dönüştürücü"
+  },
+  {
+    "id": "CHIRON_YAY",
+    "faktor": "Kiron - Yay",
+    "kategori": "kiron",
+    "anahtar": [
+      "anlam",
+      "inanç",
+      "özgürlük",
+      "yön"
+    ],
+    "anlam": "Yaran neye inanacağında ve hayatın anlamına güvenmekte; bir yerde 'benim hakikatim saçma, inancım yersiz' diye yön duygunu yitirmiş olabilirsin. Bu yarayı işledikçe, başkalarının kendi anlamını ve umudunu bulmasına ışık tutan bir yol arkadaşı olursun.",
+    "guclu": "anlam aşılama, umut verme, geniş bakış, özgürlüğe alan açma",
+    "golge": "inançsızlık, dogmaya tutunma, yönsüzlük korkusu",
+    "ton": "umut veren, genişleten"
+  },
+  {
+    "id": "CHIRON_OGLAK",
+    "faktor": "Kiron - Oğlak",
+    "kategori": "kiron",
+    "anahtar": [
+      "değer",
+      "başarı",
+      "otorite",
+      "yeterlilik"
+    ],
+    "anlam": "Yaran 'ne kadar başarırsam o kadar değerliyim' baskısında; bir yerde 'sevgiyi ancak kazanmalıyım, yumuşaklık zayıflıktır' diye öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarına başarıdan bağımsız, oldukları gibi değerli olduklarını gösteren güvenilir bir dayanak olursun.",
+    "guclu": "koşulsuz değer verme, sağlam destek, sorumlu şefkat, dayanıklılık",
+    "golge": "katı öz-eleştiri, başarıyla değer ölçme, duyguyu bastırma",
+    "ton": "sağlam, şefkatli"
+  },
+  {
+    "id": "CHIRON_KOVA",
+    "faktor": "Kiron - Kova",
+    "kategori": "kiron",
+    "anahtar": [
+      "ait olma",
+      "farklılık",
+      "kabul",
+      "özgünlük"
+    ],
+    "anlam": "Yaran farklı oluşun ve gruba ait olmakta; bir yerde 'ben tuhafım, hiçbir yere uymuyorum' diye dışarıda kalmayı öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının kendi özgünlüğüyle ait olabileceğini gösteren kapsayıcı bir alan kurucusu olursun.",
+    "guclu": "farklılığı kucaklama, ait olma alanı açma, özgün cesaret, kapsayıcılık",
+    "golge": "dışlanma korkusu, kendini soyutlama, mesafe koyma",
+    "ton": "kapsayıcı, özgürleştiren"
+  },
+  {
+    "id": "CHIRON_BALIK",
+    "faktor": "Kiron - Balık",
+    "kategori": "kiron",
+    "anahtar": [
+      "sınır",
+      "şefkat",
+      "ruhsal güven",
+      "bütünlük"
+    ],
+    "anlam": "Yaran dünyanın acısını fazlaca içine almakta ve sınır çizmede; bir yerde 'benim acım önemsiz, kaybolmak güvenli' diye kendini eritmeyi öğrenmiş olabilirsin. Bu yarayı işledikçe, başkalarının acısına sınırını koruyarak şefkatle eşlik eden bir şifacı olursun.",
+    "guclu": "sınırlı şefkat, derin sezgi, ruhsal iyileştirme, koşulsuz kabul",
+    "golge": "sınırsızlık, kaçış eğilimi, kendi acısını yok sayma",
+    "ton": "şefkatli, ruhsal"
   }
 ]

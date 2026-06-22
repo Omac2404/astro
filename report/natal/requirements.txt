@@ -1,0 +1,11 @@
+# Yildizname natal — FAZ 3 Python bagimliliklari (3.12 venv)
+# Kurulum:  py -3.12 -m venv .venv ; .\.venv\Scripts\python -m pip install -r requirements.txt
+
+skyfield        # gezegen ekliptik boylamlari (JPL DE421). pyswisseph yerine: Windows'ta wheel/derleyici derdi YOK.
+jinja2          # rapor sablonu (natal-rapor.html.j2) doldurma
+fonttools       # glif -> vektor path cikarimi (wheel_gen / diagram_gen; DEVIR-BRIFI §3a)
+tzdata          # Windows'ta zoneinfo IANA tz veritabani (Europe/Istanbul) icin sart
+
+# PDF render: weasyprint/GTK DEGIL -> headless Chrome (Node: puppeteer-core).
+#   npm install puppeteer-core   (repo kokunde; sistemde kurulu Chrome'u kullanir)
+# NOT: skyfield ilk calismada de421.bsp (~17MB) indirir, _ephem/ altinda cache'ler.

@@ -1,0 +1,1502 @@
+[
+  {
+    "id": "SIN_ACI_GUNES_AY_UYUMLU",
+    "faktor": "Güneş-Ay uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "tamamlanma",
+      "uyum",
+      "kimlik-duygu",
+      "denge"
+    ],
+    "anlam": "Bu bağda birinizin temel kimliği ve ışığı, diğerinizin duygusal doğasıyla doğal bir uyum içinde akar. Biriniz parladıkça diğeriniz besler, biriniz yön verirken diğeriniz kucaklar. Aranızda çabasız bir tamamlanma duygusu vardır, sanki birbirinizin eksik parçasını kolayca dolduruyormuşsunuz gibi.",
+    "guclu": "Karşılıklı kabul ve destek kolayca akar; biriniz dışa dönük hedef koyarken diğeriniz içe dönük güven sunar. Bu denge ilişkiye sıcak, sağlam ve güvenli bir zemin verir, ikiniz de yanında olduğunuzu hissedersiniz.",
+    "golge": "Uyum o kadar rahattır ki zamanla kanıksanabilir; verilen desteğin kıymetini görmemek mümkündür. Roller fazla yerleşirse biriniz hep parlayan, diğeriniz hep besleyen konumuna sıkışabilir.",
+    "ton": "sıcak, tamamlayıcı"
+  },
+  {
+    "id": "SIN_ACI_GUNES_AY_ZORLU",
+    "faktor": "Güneş-Ay zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "gerilim",
+      "mizaç-farkı",
+      "çekim",
+      "uyarlama"
+    ],
+    "anlam": "Bu temasta birinizin kim olduğu ile diğerinizin neye ihtiyaç duyduğu arasında sürekli bir sürtüşme vardır. İhtiyaçlarınız ve mizaçlarınız farklı tellerden çalar, bu da hem çekici bir gerilim hem de zaman zaman yorucu bir uyumsuzluk yaratır. Birbirinizi tam anlamak için sürekli bir uyarlanma çabası gerekir.",
+    "guclu": "Bu farklılık aslında büyüme motorudur: birbirinizin kör noktalarını açığa çıkarır, sizi esnemeye ve genişlemeye zorlarsınız. Üzerine çalışıldığında bağ derinleşir ve fark, kayıtsızlığa değil ilgiye dönüşür.",
+    "golge": "Temel ritimleriniz çakıştığında biriniz fazla baskın, diğeriniz fazla incinmiş hissedebilir. Sürekli ayar yapma ihtiyacı yorabilir ve küçük yanlış anlamalar tekrar tekrar aynı kırılmaya dönüşebilir.",
+    "ton": "gergin, çekici"
+  },
+  {
+    "id": "SIN_ACI_GUNES_AY_KAVUSUM",
+    "faktor": "Güneş-Ay kavuşum",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "kaynaşma",
+      "ışık-sıcaklık",
+      "yoğunluk",
+      "bütünlük"
+    ],
+    "anlam": "Bu kavuşumda birinizin ışığı ile diğerinizin sıcaklığı tek bir noktada buluşur, adeta birbirinizi bütünlersiniz. Biriniz enerjiyi ve yönü taşırken diğeriniz duyguyu ve yuvayı taşır, bu da güçlü bir kaynaşma hissi yaratır. Aranızda 'birbirimiz için yaratılmışız' duygusu doğal olarak belirir.",
+    "guclu": "Tamamlayıcılık çok güçlüdür: biriniz başlatır, diğeriniz besler ve sürdürür. Bu bağ derin bir aidiyet ve karşılıklı tanınma hissi verir, beraber doğal bir bütün oluşturursunuz.",
+    "golge": "Kaynaşma o kadar yoğundur ki sınırlar bulanıklaşabilir, nerede biriniz biter diğeriniz başlar görmek zorlaşır. Fazla iç içe geçme bireysel alanı boğabilir ve birinizin ihtiyacı diğerini gölgede bırakabilir.",
+    "ton": "yoğun, bütünleyici"
+  },
+  {
+    "id": "SIN_ACI_GUNES_GUNES_UYUMLU",
+    "faktor": "Güneş-Güneş uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ortak-yön",
+      "anlaşma",
+      "benzerlik",
+      "akış"
+    ],
+    "anlam": "Bu temasta ikinizin yaşam amacı ve temel yönü aynı ahenkte titreşir, bu yüzden birbirinizi anlamak çaba istemez. Neyi neden istediğinizi sezgisel olarak kavrarsınız, çünkü dünyaya benzer bir pencereden bakarsınız. Aranızda kolay, ferah ve doğal bir anlaşma zemini vardır.",
+    "guclu": "Ortak hedefler ve değerler etrafında zahmetsizce birleşirsiniz; biriniz nereye gittiğini söylediğinde diğeriniz hemen yön bulur. Bu uyum karşılıklı saygı, gurur ve birbirini destekleme duygusunu besler.",
+    "golge": "Çok benzer olmak körleşme yaratabilir: ikiniz de aynı kör noktayı paylaştığınız için kimse dengeyi sağlamaz. Fazla benzerlik zamanla heyecanı azaltabilir, birbirinize yeni bir ufuk açmakta zorlanabilirsiniz.",
+    "ton": "uyumlu, ferah"
+  },
+  {
+    "id": "SIN_ACI_GUNES_GUNES_ZORLU",
+    "faktor": "Güneş-Güneş zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ego",
+      "yön-çatışması",
+      "rekabet",
+      "iki-merkez"
+    ],
+    "anlam": "Bu temasta iki güçlü merkez aynı sahnede durur ve her biri kendi yönünü dayatmaya meyleder. Yaşam amaçlarınız ve tarzlarınız çakıştığında, kimin ışığının daha parlak yanacağına dair sessiz bir çekişme doğar. Birbirinize hayranlık duyabilirsiniz ama egolar kolayca sürtüşür.",
+    "guclu": "Bu gerilim sizi keskinleştirir: birbirinizi tembelliğe bırakmaz, daha iyisini olmaya kışkırtırsınız. İrade gücünüz birleştiğinde, yön farkını ortak bir hedefe çeviren güçlü bir tutku ortaya çıkar.",
+    "golge": "İki baskın merkez aynı anda yönetmek isteyince inatlaşma ve güç savaşı kaçınılmaz olur. Biriniz boyun eğmek zorunda hissederse, bastırılan ego sessiz bir rekabete ve gizli kırgınlığa dönüşebilir.",
+    "ton": "rekabetçi, kıvılcımlı"
+  },
+  {
+    "id": "SIN_ACI_AY_AY_UYUMLU",
+    "faktor": "Ay-Ay uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygusal-ritim",
+      "rahatlık",
+      "aynı-dalga",
+      "huzur"
+    ],
+    "anlam": "Bu bağda duygusal ritimleriniz aynı dalgada akar, bu yüzden yanında olmak kendi evinizde olmak gibidir. Neye üzüldüğünüzü, neyle rahatladığınızı kelimelere dökmeden anlarsınız. Aranızda sessiz, ısıtıcı bir 'beni anlıyor' hissi doğal olarak yerleşir.",
+    "guclu": "Duygusal güvenlik ve içgüdüsel anlayış kolayca akar; aynı şeyler sizi besler ve aynı şeyler sizi yatıştırır. Bu uyum, fırtınalı zamanlarda bile geri dönülebilecek sıcak bir limana benzer.",
+    "golge": "Aynı ruh hallerini paylaşmak duygusal döngüleri büyütebilir; biriniz çökünce diğeriniz de kolayca o boşluğa kayar. Fazla konfor sizi durağanlaştırabilir, birbirinizi yeni duygusal alanlara taşımakta isteksiz kalabilirsiniz.",
+    "ton": "huzurlu, sıcak"
+  },
+  {
+    "id": "SIN_ACI_AY_AY_ZORLU",
+    "faktor": "Ay-Ay zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "farklı-diller",
+      "ihtiyaç-uyumsuzluğu",
+      "huzursuzluk",
+      "tercüme"
+    ],
+    "anlam": "Bu temasta ikinizin duygusal dili farklı alfabelerle yazılmıştır, bu yüzden aynı anı bambaşka hissedebilirsiniz. Birinizi rahatlatan şey diğerinizi huzursuz edebilir, güvenlik ihtiyaçlarınız uyuşmaz. Sevginiz gerçek olsa da, duyguların tercümesi sürekli bir çaba ister.",
+    "guclu": "Bu fark, birbirinizin iç dünyasını merakla keşfetmeye davet eder; farklı bir hissetme biçimini öğrenmek ufkunuzu genişletir. Üzerine emek verildiğinde, duygusal esnekliğiniz ve empati kapasiteniz belirgin biçimde büyür.",
+    "golge": "Aynı durumda farklı tepki vermek, 'neden beni anlamıyorsun' kırgınlığını tetikleyebilir. Duygusal ihtiyaçlar tercüme edilmeden bırakılırsa, ikiniz de yalnız ve yanlış anlaşılmış hissedebilirsiniz.",
+    "ton": "huzursuz, çabalı"
+  },
+  {
+    "id": "SIN_ACI_GUNES_VENUS_UYUMLU",
+    "faktor": "Güneş-Venüs uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "hayranlık",
+      "beğeni",
+      "zarafet",
+      "sıcaklık"
+    ],
+    "anlam": "Bu temasta biriniz olduğunuz haliyle diğerinin beğenisini ve hayranlığını çeker, aranızda kendiliğinden bir hoşlanma akar. Biriniz parlarken diğeriniz bu ışığı zarafet ve sıcaklıkla yansıtır. Birbirinizin yanında değerli, çekici ve takdir edilmiş hissedersiniz.",
+    "guclu": "Karşılıklı takdir kolayca dile gelir; biriniz diğerinin güzelliğini ve değerini görmekten keyif alır. Bu bağ ilişkiye hoşluk, incelik ve birbirini güzelce ağırlama duygusu katar.",
+    "golge": "Beğeni bazen yüzeyde kalabilir, hayranlık derin tanımanın yerini tutmaya başlayabilir. Biriniz fazla pohpohlanırsa veya beğeni tek yöne akarsa, denge bozulup yapaylaşabilir.",
+    "ton": "tatlı, hayran"
+  },
+  {
+    "id": "SIN_ACI_GUNES_VENUS_ZORLU",
+    "faktor": "Güneş-Venüs zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "değer-farkı",
+      "zevk-uyumsuzluğu",
+      "beğeni-dengesi",
+      "kıymet"
+    ],
+    "anlam": "Bu temasta neyi değerli, neyi güzel bulduğunuza dair çizgileriniz çakışır; birinizin beğendiğini diğeriniz fazla bulabilir. Hayranlık ve onay alışverişinde bir dengesizlik sezilir, biriniz daha çok arzu eden, diğeriniz daha çok arzu edilen konumuna kayabilir. Zevkleriniz ve değerleriniz sürekli bir ayar ister.",
+    "guclu": "Bu fark, kendi zevk ve değer anlayışınızı sorgulamanıza ve incelmenize vesile olur. Farklı estetikleri tanımak, ikinizin de beğeni dünyasını zenginleştirebilir.",
+    "golge": "Onay ve beğeni tek taraflı akarsa, biriniz yeterince görülmediğini diğeriniz fazla beklenti altında hissedebilir. Değer çatışmaları, küçük 'sen beni anlamıyorsun' sürtüşmelerine zemin hazırlar.",
+    "ton": "dengesiz, sürtüşmeli"
+  },
+  {
+    "id": "SIN_ACI_GUNES_VENUS_KAVUSUM",
+    "faktor": "Güneş-Venüs kavuşum",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "güçlü-hayranlık",
+      "hoşlanma",
+      "estetik-uyum",
+      "çekim"
+    ],
+    "anlam": "Bu kavuşumda hayranlık ve hoşlanma tek bir parlak noktada yoğunlaşır, biriniz diğerini neredeyse anında çekici bulur. Birinizin kimliği, diğerinin beğeni ve sevgi duygusunu doğrudan harekete geçirir. Aranızda güçlü, kendiliğinden bir hoşlanma ve estetik uyum doğar.",
+    "guclu": "Çekim sıcak ve gözle görülürdür; birbirinizi güzel, değerli ve arzulanır bulmak kolaydır. Bu bağ ilişkiye zarafet, keyif ve birbirinden hoşlanmanın saf hazzını taşır.",
+    "golge": "Yoğun beğeni gözleri kamaştırıp gerçekçi görüşü bulandırabilir; idealize etme riski yüksektir. İlk büyü solduğunda, hayranlığın altındaki gerçek uyumu sınamak gerekir.",
+    "ton": "büyüleyici, çekici"
+  },
+  {
+    "id": "SIN_ACI_GUNES_MARS_UYUMLU",
+    "faktor": "Güneş-Mars uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "enerji",
+      "motivasyon",
+      "ortaklık",
+      "hareket"
+    ],
+    "anlam": "Bu temasta birinizin yönü ile diğerinizin eylem gücü aynı yöne akar, beraberken kendinizi daha enerjik ve cesur hissedersiniz. Biriniz hedefi gösterir, diğeriniz onu hayata geçirecek itkiyi getirir. Aranızda birbirini ateşleyen, harekete geçiren canlı bir ortaklık vardır.",
+    "guclu": "Birlikte iş başarmak doğal gelir; biriniz diğerini cesaretlendirir ve gaza getirir. Bu enerji, ortak projelerde, maceralarda ve zorlukları aşmada güçlü bir takım ruhu yaratır.",
+    "golge": "Yoğun aktif enerji bazen hız ve dürtüsellikle dengesini kaybedebilir; ikiniz de fren yapmayı unutabilirsiniz. Rekabet ortaklığa sızarsa, motive etme yerini birbirini zorlamaya bırakabilir.",
+    "ton": "enerjik, kışkırtıcı"
+  },
+  {
+    "id": "SIN_ACI_GUNES_MARS_ZORLU",
+    "faktor": "Güneş-Mars zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "güç-savaşı",
+      "çatışma",
+      "kıvılcım",
+      "ego-sürtüşmesi"
+    ],
+    "anlam": "Bu temasta birinizin kimliği ile diğerinizin eylem gücü kolayca çarpışır, aranızda hem tahrik edici hem yorucu bir kıvılcım vardır. Biriniz yön koyarken diğeriniz buna meydan okuyan bir itki hisseder, bu da sık sık irade çatışmasına dönüşür. Birbirinizi hem heyecanlandırır hem de kolayca kışkırtırsınız.",
+    "guclu": "Bu gerilim canlı ve uyarıcıdır; birbirinizi pasifliğe bırakmaz, harekete ve dürüstlüğe zorlarsınız. Enerji ortak bir hedefe yönlendirilirse, güçlü bir mücadele ve başarı kuvvetine dönüşür.",
+    "golge": "Egolar çarpıştığında küçük anlaşmazlıklar hızla güç savaşına ve kıvılcımlı kavgaya tırmanabilir. Biriniz baskın çıkmaya çalışırken diğeriniz savunmaya geçer, öfke ve rekabet bağı yıpratabilir.",
+    "ton": "ateşli, çatışmalı"
+  },
+  {
+    "id": "SIN_ACI_AY_VENUS_UYUMLU",
+    "faktor": "Ay-Venüs uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "şefkat",
+      "sıcaklık",
+      "ihtimam",
+      "hoşnutluk"
+    ],
+    "anlam": "Bu temasta birinizin duygusal dünyası ile diğerinizin sevme biçimi yumuşak bir uyum içinde buluşur. Birbirinize karşı şefkatli, ilgili ve nazik olmak doğal gelir, aranızda yatıştırıcı bir sıcaklık dolaşır. Birinizin ihtiyacı, diğerinin gösterdiği ihtimamla zahmetsizce karşılanır.",
+    "guclu": "Duygusal hoşnutluk ve karşılıklı ilgi kolayca akar; birbirinizi rahatlatmayı ve şımartmayı içtenlikle istersiniz. Bu bağ ilişkiye yumuşaklık, güven ve evcil bir mutluluk hissi katar.",
+    "golge": "Aşırı uyum ve nezaket, gerektiğinde dürüst sürtüşmeyi bastırabilir; her şey hep tatlı kalsın isteyebilirsiniz. Fazla rahatlık zamanla tutkunun yerini ılık bir alışkanlığa bırakabilir.",
+    "ton": "şefkatli, yumuşak"
+  },
+  {
+    "id": "SIN_ACI_AY_VENUS_ZORLU",
+    "faktor": "Ay-Venüs zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "beklenti-farkı",
+      "sevgi-dili",
+      "uyumsuzluk",
+      "incinme"
+    ],
+    "anlam": "Bu temasta birinizin duygusal olarak beklediği ile diğerinizin sevgisini gösterme biçimi tam örtüşmez. Sevgi vardır ama yanlış kanaldan ulaşır, biriniz beklediği sıcaklığı tam istediği biçimde alamayabilir. Aranızda 'seviyorum ama anlatamıyorum' türünden ince bir uyumsuzluk dolaşır.",
+    "guclu": "Bu fark, birbirinizin sevgi dilini öğrenmeye ve daha bilinçli sevmeye davet eder. Üzerine konuşulduğunda, duygusal ihtiyaçları açıkça ifade etme olgunluğu kazanırsınız.",
+    "golge": "Gösterilen sevgi ile beklenen sevgi sürekli ıskalarsa, biriniz ihmal edilmiş diğeriniz yetersiz hissedebilir. Karşılanmamış küçük beklentiler birikerek sessiz bir kırgınlığa dönüşebilir.",
+    "ton": "uyumsuz, hassas"
+  },
+  {
+    "id": "SIN_ACI_AY_MARS_UYUMLU",
+    "faktor": "Ay-Mars uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "tutku",
+      "koruyuculuk",
+      "canlılık",
+      "duygu-eylem"
+    ],
+    "anlam": "Bu temasta birinizin duyguları ile diğerinizin tutku ve eylem gücü canlı bir denge kurar. Biriniz hissettiğinde diğeriniz harekete geçer, koruma ve kollama içgüdüsü kendiliğinden uyanır. Aranızda hem sıcak hem dinamik, birbirini ateşleyen canlı bir bağ vardır.",
+    "guclu": "Duygular eyleme kolayca dönüşür; biriniz incindiğinde diğeriniz hemen yanında durur ve onu savunur. Bu enerji bağa tutku, kararlılık ve birbirinin arkasında olma hissi katar.",
+    "golge": "Yoğun duygu-tutku karışımı bazen aşırı tepkiselliğe yol açabilir; küçük bir his hızla büyük bir harekete dönüşebilir. Koruyuculuk fazlalaşırsa sahiplenmeye ve kontrole kayabilir.",
+    "ton": "tutkulu, canlı"
+  },
+  {
+    "id": "SIN_ACI_AY_MARS_ZORLU",
+    "faktor": "Ay-Mars zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "tahrik",
+      "alınganlık",
+      "öfke",
+      "tetiklenme"
+    ],
+    "anlam": "Bu temasta birinizin eylem ve sertlik enerjisi, diğerinizin duygusal hassasiyetini kolayca tetikler. Biriniz farkında olmadan diğerini iğneleyebilir, duygular çabuk alevlenir ve kırılır. Aranızda heyecan verici ama aynı zamanda alınganlığa ve ani öfkeye açık gergin bir elektrik dolaşır.",
+    "guclu": "Bu kıvılcım, bastırılmış duyguları ve gerçek tepkileri yüzeye taşır; aranızda hiçbir şey uyuşuk kalmaz. Tutku doğru yönetilirse, gerilim canlı ve tutkulu bir dürüstlüğe dönüşebilir.",
+    "golge": "Biriniz tahrik edici, diğeriniz çabuk incinen rolüne sıkıştığında tartışmalar hızla kızışır. Söylenen sert sözler derin duygusal yaralar açabilir ve aynı tetikleyici döngü tekrar tekrar yaşanabilir.",
+    "ton": "kıvılcımlı, hassas"
+  },
+  {
+    "id": "SIN_ACI_VENUS_MARS_UYUMLU",
+    "faktor": "Venüs-Mars uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "çekim",
+      "kıvılcım",
+      "yaratıcılık",
+      "akış"
+    ],
+    "anlam": "Bu temasta birinizin çekiciliği ile diğerinizin arzu ve girişkenliği doğal bir akış içinde buluşur. Aranızda güçlü, karşılıklı bir çekim ve kıvılcım belirir, birlikte yaratıcı ve estetik bir enerji doğar. Biriniz davet eder, diğeriniz yaklaşır, bu dans zahmetsiz ve keyiflidir.",
+    "guclu": "Karşılıklı ilgi ve uyumlu enerji aranızda sıcak bir akış yaratır; birlikte üretmek, eğlenmek ve birbirini cezbetmek kolaydır. Bu bağ ilişkiye canlılık, ilham ve tatlı bir kimya katar.",
+    "golge": "Akış o kadar kolaydır ki derinlik yerine yalnızca çekime yaslanma riski vardır. İlk kıvılcımın hazzı, daha sahici bağ kurma çabasının önüne geçebilir.",
+    "ton": "çekici, akıcı"
+  },
+  {
+    "id": "SIN_ACI_VENUS_MARS_ZORLU",
+    "faktor": "Venüs-Mars zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "itme-çekme",
+      "arzu-farkı",
+      "yaklaşım",
+      "gerilim"
+    ],
+    "anlam": "Bu temasta aranızda güçlü bir çekim vardır ama arzu ve yaklaşım tarzlarınız tam uyuşmaz. Biriniz daha atılgan, diğeriniz daha incelikli yaklaşınca, bir itme-çekme dinamiği doğar. Çekim gerçektir, ancak ritim ve tempo farkı zaman zaman hayal kırıklığı yaratır.",
+    "guclu": "Bu gerilim çekimi diri tutar; tahmin edilemezlik ilgiyi canlı ve heyecanlı kılar. Yaklaşım farkları üzerine çalışıldığında, birbirinizi cezbetmenin daha incelikli yollarını keşfedersiniz.",
+    "golge": "Tempolar tutmadığında biriniz fazla ısrarcı, diğeriniz fazla çekingen hissedebilir. İtme-çekme döngüsü yorucu hale gelebilir ve çekim, tatminden çok gerginlik üretebilir.",
+    "ton": "gergin, manyetik"
+  },
+  {
+    "id": "SIN_ACI_VENUS_MARS_KAVUSUM",
+    "faktor": "Venüs-Mars kavuşum",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "yoğun-çekim",
+      "kimya",
+      "yaratıcı-enerji",
+      "manyetizma"
+    ],
+    "anlam": "Bu kavuşumda çekicilik ile arzu tek bir yoğun noktada birleşir, aranızda güçlü ve anında bir kimya doğar. Biriniz cezbeder, diğeriniz harekete geçer ve bu enerji neredeyse manyetik bir biçimde birbirinize yönelir. Ortak yaratıcı ve fiziksel enerjiniz canlı, sıcak ve yoğundur.",
+    "guclu": "Karşılıklı çekim güçlü ve kendiliğindendir; birlikte yaratmak, üretmek ve birbirinize yönelmek doğal gelir. Bu bağ ilişkiye tutku, ilham ve diri bir kimya enerjisi taşır.",
+    "golge": "Çekim o kadar yoğundur ki tüm bağı tek başına taşıyacağı sanılabilir; yoğunluk söndüğünde temelin kalıcılığı sınanır. Aynı güçlü enerji, kıskançlık ya da takıntılı bir çekime de dönüşebilir.",
+    "ton": "yoğun, manyetik"
+  },
+  {
+    "id": "SIN_ACI_VENUS_VENUS_UYUMLU",
+    "faktor": "Venüs-Venüs uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ortak-zevk",
+      "değer-uyumu",
+      "estetik",
+      "keyif"
+    ],
+    "anlam": "Bu temasta neyi sevdiğiniz, neyi güzel ve değerli bulduğunuz aynı yerde buluşur. Benzer zevkler ve değerler paylaştığınız için birlikte keyif almak çabasızdır. Aranızda 'aynı şeylerden hoşlanıyoruz' rahatlığı ve estetik bir uyum dolaşır.",
+    "guclu": "Ortak beğeniler bağı kolaylaştırır; birlikte güzellikten, sanattan, hazdan keyif almak doğal gelir. Değerlerinizin örtüşmesi, ilişkiye derin bir uyum ve karşılıklı onay hissi katar.",
+    "golge": "Çok benzer zevkler sizi bir konfor balonuna kapatabilir; yeni deneyimlere açılmakta tembelleşebilirsiniz. Uyum o kadar rahattır ki farklılığın getirdiği taze heyecanı kaçırabilirsiniz.",
+    "ton": "uyumlu, keyifli"
+  },
+  {
+    "id": "SIN_ACI_VENUS_VENUS_ZORLU",
+    "faktor": "Venüs-Venüs zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "farklı-zevk",
+      "sevgi-dili",
+      "değer-ayrımı",
+      "uyarlama"
+    ],
+    "anlam": "Bu temasta sevme biçimleriniz ve zevkleriniz farklı pınarlardan beslenir, birinizin değerli bulduğu diğerine az anlam ifade edebilir. Sevgi gösterme tarzlarınız ve hoşlandığınız şeyler uyuşmadığında, ortak bir zemin bulmak çaba ister. Aranızda 'farklı dillerden seviyoruz' hissi belirir.",
+    "guclu": "Bu fark, kendi zevk ve sevgi dilinizin dışına çıkmaya ve genişlemeye davet eder. Farklılıkları merakla karşıladığınızda, birbirinizden yeni güzellikler ve değerler öğrenirsiniz.",
+    "golge": "Zevkler ve değerler sürekli çakışırsa, ortak keyifler bulmak yorucu hale gelebilir. Sevgi farklı dillerde ifade edildiğinde, biriniz sevildiğini tam hissetmeyebilir.",
+    "ton": "farklı, uyarlanan"
+  },
+  {
+    "id": "SIN_ACI_MARS_MARS_UYUMLU",
+    "faktor": "Mars-Mars uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ortak-tempo",
+      "hareket-gücü",
+      "işbirliği",
+      "enerji"
+    ],
+    "anlam": "Bu temasta enerjileriniz ve hareket biçimleriniz aynı tempoda akar, birlikte iş yapmak doğal ve akıcı gelir. Neyi nasıl yapacağınıza dair içgüdüleriniz örtüştüğü için, aynı anda harekete geçer ve birbirinizi engellemezsiniz. Aranızda güçlü, uyumlu bir eylem ortaklığı vardır.",
+    "guclu": "Ortak enerji ve uyumlu tempo, birlikte çok şey başarmanızı sağlar; biriniz hızlandığında diğeriniz ayak uydurur. Bu bağ maceralarda, projelerde ve mücadelelerde güçlü bir takım ruhu yaratır.",
+    "golge": "Aynı yönde akan güçlü enerji bazen frensiz kalabilir; ikiniz de durmayı bilmeyince yorgunluk birikebilir. Tempolar fazla uyumluyken, kimse dengeleyici bir sakinlik getirmeyebilir.",
+    "ton": "dinamik, uyumlu"
+  },
+  {
+    "id": "SIN_ACI_MARS_MARS_ZORLU",
+    "faktor": "Mars-Mars zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "rekabet",
+      "irade-çatışması",
+      "yöntem-farkı",
+      "sürtüşme"
+    ],
+    "anlam": "Bu temasta iradeleriniz ve hareket biçimleriniz kolayca çarpışır, neyi nasıl yapacağınız konusunda sık sık ters düşersiniz. Biriniz bir yöntemi savunurken diğeriniz tam tersini ister, bu da rekabet ve sürtüşme yaratır. Aranızda hem kışkırtıcı hem yıpratıcı bir güç çekişmesi dolaşır.",
+    "guclu": "Bu rekabet sizi keskinleştirir; birbirinizi zorlayarak daha hızlı, daha güçlü olmaya itersiniz. Enerji ortak bir hedefe yönlendirildiğinde, çarpışan iradeler güçlü bir mücadele kuvvetine dönüşebilir.",
+    "golge": "Farklı yöntemler ve eşit irade, kimin dediğinin olacağına dair sürekli bir çekişme yaratabilir. Rekabet işbirliğinin önüne geçerse, enerjinizin çoğu birbirinizle uğraşmaya harcanabilir.",
+    "ton": "rekabetçi, sürtüşmeli"
+  },
+  {
+    "id": "SIN_ACI_MERKUR_MERKUR_UYUMLU",
+    "faktor": "Merkür-Merkür uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "zihinsel uyum",
+      "akıcı iletişim",
+      "ortak dil",
+      "anlaşma"
+    ],
+    "anlam": "İkinizin zihinleri aynı frekansta çalışıyor: konuşurken kelimeler kolayca akıyor ve birbirinizi yarım cümleden anlıyorsunuz. Düşünme hızınız ve mantık kurma biçiminiz benzediği için sohbet hiç yorulmadan saatlerce uzayabiliyor. Aranızda doğal bir 'aynı dilden konuşma' hissi var.",
+    "guclu": "Fikir alışverişi zahmetsiz ve keyifli; birbirinizin cümlesini tamamlayabilir, en karmaşık konuları bile rahatça çözebilirsiniz. Bu zihinsel akıcılık, hem günlük meselelerde hem önemli kararlarda sizi güçlü bir takım yapar.",
+    "golge": "Çok fazla benzeştiğiniz için birbirinizin kör noktalarını fark edemeyebilir, aynı yanılgıları paylaşabilirsiniz. Bazen sohbet zihinde kalıp duygusal derinliğe inmeyi atlayabilir.",
+    "ton": "akıcı ve zihinsel"
+  },
+  {
+    "id": "SIN_ACI_MERKUR_MERKUR_ZORLU",
+    "faktor": "Merkür-Merkür zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "farklı düşünme",
+      "yanlış anlaşılma",
+      "iletişim gerilimi",
+      "zihinsel çatışma"
+    ],
+    "anlam": "İkiniz dünyayı farklı zihinsel haritalarla okuyorsunuz: biri detaycıyken diğeri büyük resme bakıyor olabilir. Aynı şeyi söylerken farklı şeyleri kastedebiliyor, bu yüzden zaman zaman birbirinizi yanlış anlıyorsunuz. Aranızdaki iletişim, üzerinde bilinçli çalışılması gereken bir alan.",
+    "guclu": "Farklı düşünme tarzlarınız, birbirinize alternatif bakış açıları sunarak zihinsel ufkunuzu genişletebilir. Anlaşmak için çaba harcadığınızda, çok daha kapsamlı ve olgun bir ortak anlayışa ulaşırsınız.",
+    "golge": "Söylenenle anlaşılan sık sık birbirini tutmaz; küçük bir kelime seçimi gereksiz tartışmalara dönüşebilir. Sabırsız anlarda 'beni hiç anlamıyorsun' duygusu ikinizi de yorabilir.",
+    "ton": "gergin ama öğretici"
+  },
+  {
+    "id": "SIN_ACI_AY_MERKUR_UYUMLU",
+    "faktor": "Ay-Merkür uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygu-zihin köprüsü",
+      "anlaşılma",
+      "empatik iletişim",
+      "açıklık"
+    ],
+    "anlam": "Birinizin duyguları ile diğerinizin zihni arasında doğal bir köprü kuruluyor: hisler kelimelere kolayca dökülüyor. Konuşurken sadece bilgi değil, duygu da paylaşılıyor ve bu yüzden gerçekten anlaşıldığınızı hissediyorsunuz. Aranızda hem akılla hem kalple buluşan bir iletişim var.",
+    "guclu": "İçsel dünyanızı anlatmak ikinizin de yanında güvenli; biri hisseder, diğeri o hissi anlayan kelimeleri bulur. Bu bağ, derin ve şifalı sohbetlere zemin hazırlar.",
+    "golge": "Duygusal anlayış o kadar rahat ki, gerektiğinde objektif ve mesafeli kalmak zorlaşabilir. Bazen mantık, duygunun gölgesinde kalıp net kararları zorlaştırabilir.",
+    "ton": "sıcak ve anlayışlı"
+  },
+  {
+    "id": "SIN_ACI_AY_MERKUR_ZORLU",
+    "faktor": "Ay-Merkür zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "mantık-duygu kopukluğu",
+      "yanlış okuma",
+      "çözüm vs hissetme",
+      "iletişim mesafesi"
+    ],
+    "anlam": "Biriniz hisleriyle yaklaşırken diğeriniz mantıkla çözüm üretmeye çalışıyor, bu da aranızda bir dil farkı yaratıyor. Biri duygusal destek ararken karşısında akıl yürütme bulabilir, bu da yalnızlık hissine yol açabilir. Kalp ile zihnin ritmi her zaman aynı tutmuyor.",
+    "guclu": "Bu fark, ikinizi de eksik yanınızı geliştirmeye davet eder: duygusal olan netlik kazanır, mantıksal olan empatiyi öğrenir. Birbirinizin dilini öğrendiğinizde denge çok güçlü olur.",
+    "golge": "Bir taraf 'beni dinlemek yerine çözüyorsun', diğer taraf 'mantıklı konuşamıyoruz' diye sıkışabilir. Hassas anlarda yanlış zamanlanmış bir yorum kolayca incitebilir.",
+    "ton": "asenkron ve dikkat isteyen"
+  },
+  {
+    "id": "SIN_ACI_MERKUR_MARS_UYUMLU",
+    "faktor": "Merkür-Mars uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "canlı sohbet",
+      "kışkırtıcı fikir",
+      "verimli enerji",
+      "harekete geçirme"
+    ],
+    "anlam": "Aranızdaki konuşmalar enerjik, hızlı ve kıvılcımlı: biriniz fikir atıyor, diğeriniz onu hemen eyleme dönüştürüyor. Birbirinizin zihnini kışkırtıp harekete geçirdiğiniz için fikirleriniz hiç boşta kalmıyor. Bu bağ, beraber bir şeyler üretmek için adeta yakıt sağlıyor.",
+    "guclu": "Birlikte karar alıp uygulamaya geçmek çok hızlı ve verimli; tartışmalarınız bile sizi ileri taşır. Birbirinizi tatlı bir rekabetle daha keskin, daha cesur düşünmeye iter.",
+    "golge": "Enerji yükseldiğinde sohbet kolayca hararetli bir tartışmaya kayabilir; sözler sertleşebilir. Sabırsızlık, karşıdakinin sözünü kesmeye ve dinlemeyi atlamaya yol açabilir.",
+    "ton": "kıvılcımlı ve dinamik"
+  },
+  {
+    "id": "SIN_ACI_MERKUR_MARS_ZORLU",
+    "faktor": "Merkür-Mars zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "sözlü sürtüşme",
+      "tartışma",
+      "sert ifade",
+      "kışkırtma"
+    ],
+    "anlam": "İletişiminizde keskin bir kenar var: biriniz bir şey söylüyor, diğeriniz savunmaya geçip sertçe karşılık verebiliyor. Fikirler kolayca çatışmaya dönüşüyor ve tonlar gereğinden fazla yükselebiliyor. Aranızdaki sözel enerji hem tahrik edici hem yorucu olabiliyor.",
+    "guclu": "Bu gerilim, dürüstçe ve doğrudan konuşmayı öğretir; birbirinizden gerçek düşüncenizi saklayamazsınız. Yönetildiğinde bu keskinlik, ikinizi de daha net ve cesur ifade etmeye iter.",
+    "golge": "Tartışmalar hızla kişiselleşip kırıcı olabilir; iğneleyici sözler iz bırakır. Biri saldırgan, diğeri sürekli savunmada hissedip yorulabilir.",
+    "ton": "keskin ve sürtünmeli"
+  },
+  {
+    "id": "SIN_ACI_GUNES_SATURN_UYUMLU",
+    "faktor": "Güneş-Satürn uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "istikrar",
+      "olgun destek",
+      "kalıcılık",
+      "güven"
+    ],
+    "anlam": "Aranızda sağlam, zamana dayanıklı bir zemin var: biriniz diğerinin hayatına istikrar ve olgun bir destek getiriyor. Heyecanın geçici dalgalarından çok, kalıcı bir güven hissi bu bağı tanımlıyor. Birlikte ciddi şeyler inşa edebileceğinizi içten içe bilirsiniz.",
+    "guclu": "Birbirinize güvenilir bir omuz, sözünü tutan bir dost olursunuz; zor zamanlarda dağılmazsınız. Bu bağ, sorumluluk ve sadakat üzerine kurulu olduğundan yıllara meydan okur.",
+    "golge": "İlişkiye fazla ciddiyet hakim olduğunda hafiflik ve oyunbazlık geri planda kalabilir. Destekleyen taraf zaman zaman fazla 'öğretmen' veya 'koruyucu' rolüne kayabilir.",
+    "ton": "sağlam ve olgun"
+  },
+  {
+    "id": "SIN_ACI_GUNES_SATURN_ZORLU",
+    "faktor": "Güneş-Satürn zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "baskı hissi",
+      "eleştiri",
+      "sınırlanma",
+      "onaylanmama"
+    ],
+    "anlam": "Bu bağda biriniz, diğerinin parlamasını farkında olmadan kısıtlayabiliyor: eleştiri ya da yüksek beklenti, bir tarafta yetersizlik hissi yaratabiliyor. Güneş tarafı kendini sınırlanmış ya da yeterince onaylanmamış hissedebilir. Aranızda ağırlık ve sorumluluk tonu baskın gelebiliyor.",
+    "guclu": "Doğru kullanıldığında bu açı büyük olgunlaşma getirir; Satürn tarafı diğerine gerçek dayanıklılık ve disiplin kazandırabilir. Zorluğun ardındaki niyet aslında değer vermek ve sağlamlaştırmaktır.",
+    "golge": "Sürekli eleştiri ve onay eksikliği, Güneş tarafının özgüvenini aşındırabilir. Soğukluk ve mesafe, sıcaklığın önüne geçip iki tarafı da yorabilir.",
+    "ton": "ağır ve kısıtlayıcı"
+  },
+  {
+    "id": "SIN_ACI_AY_SATURN_UYUMLU",
+    "faktor": "Ay-Satürn uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygusal güven",
+      "koruyuculuk",
+      "sağlam zemin",
+      "bağlılık"
+    ],
+    "anlam": "Aranızda duyguların güvende olduğu, sarsılmaz bir zemin var: biriniz diğerinin hassas dünyasına istikrarlı bir sığınak sunuyor. Hisler burada savrulmuyor, aksine sahiplenilip korunuyor. Bu bağ, zamanla derinleşen sessiz bir güven duygusu yaratıyor.",
+    "guclu": "Birbirinize duygusal olarak güvenebilir, en kırılgan anlarınızda bile yalnız kalmayacağınızı bilirsiniz. Bu sadakat ve süreklilik, ilişkiye olgun ve şifalı bir kararlılık katar.",
+    "golge": "Duygusal güvenlik bazen aşırı temkine ve hislerin fazla bastırılmasına dönüşebilir. Sorumluluk hissi ağır bastığında spontane sevgi gösterileri azalabilir.",
+    "ton": "güvenli ve koruyucu"
+  },
+  {
+    "id": "SIN_ACI_AY_SATURN_ZORLU",
+    "faktor": "Ay-Satürn zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygusal soğukluk",
+      "mesafe",
+      "sorumluluk yükü",
+      "ketlenme"
+    ],
+    "anlam": "Bu bağda duygular kolayca akmıyor: biriniz sevgi beklerken diğerinin mesafeli ya da soğuk durması bir üşüme hissi yaratabiliyor. Ay tarafı kendini duygusal olarak yalnız, Satürn tarafı ise sorumluluk altında ezilmiş hissedebilir. Sıcaklık burada emek isteyen bir alan.",
+    "guclu": "Bu açı, duygusal olgunluğu ve gerçek bağlılığı öğretir; ucuz heyecanlar yerine sınanmış bir sevgiyi inşa edebilirsiniz. Engelleri aştığınızda aranızdaki bağ çok daha derin ve gerçek olur.",
+    "golge": "Karşılıksız kalma korkusu, Ay tarafını içine kapatabilir; reddedilme hissi büyüyebilir. Duygusal ketlenme, ikinizi de duvarların ardına çekip mesafeyi büyütebilir.",
+    "ton": "mesafeli ve ketlenmiş"
+  },
+  {
+    "id": "SIN_ACI_VENUS_SATURN_UYUMLU",
+    "faktor": "Venüs-Satürn uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "sadakat",
+      "olgun bağlılık",
+      "kalıcı değer",
+      "güvenilirlik"
+    ],
+    "anlam": "Aranızdaki sevgi ve değer, hızlı parlayıp sönen türden değil; sağlam, sadık ve kalıcı bir nitelik taşıyor. Biriniz diğerine güvenilirlik ve süreklilik vaadi getiriyor, bu da bağa olgun bir ağırlık katıyor. Burada sevgi, zamanla daha da değerlenen bir yatırım gibi.",
+    "guclu": "Birbirinize verdiğiniz sözlere sadık kalır, sevginizi sorumlulukla taşırsınız. Bu bağ, modaya kapılmadan, yıllar geçtikçe güçlenen gerçek bir değer üretir.",
+    "golge": "Ciddiyet ve görev hissi öne çıktığında, sevginin oyunbaz ve hafif yanı geride kalabilir. Duyguları açıkça göstermek bazen fazla temkinli olabilir.",
+    "ton": "sadık ve kalıcı"
+  },
+  {
+    "id": "SIN_ACI_VENUS_SATURN_ZORLU",
+    "faktor": "Venüs-Satürn zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "sevgide engel",
+      "mesafe",
+      "görev hissi",
+      "kısıtlanma"
+    ],
+    "anlam": "Bu bağda sevginin önünde görünmez bir engel hissedilebiliyor: yakınlaşma isteği ile çekilme arasında bir gerilim oluşuyor. Biriniz daha fazla sıcaklık beklerken diğerinin temkini soğukluk gibi algılanabiliyor. Sevgi burada özgürce akmak yerine bir görev tonuna bürünebiliyor.",
+    "guclu": "Bu açı, sevginin gerçekliğini sınar ve yüzeysel olanı eler; kalan şey çok daha sağlam olur. Engelleri birlikte aştığınızda, sevginiz olgunlaşıp kalıcı bir değere dönüşebilir.",
+    "golge": "Karşılık görememe ya da yetersiz hissetme, sevgiyi kısıtlanmış ve ağır bir yüke çevirebilir. Mesafe ve soğukluk, iki tarafı da sevilmediğini düşünme tuzağına düşürebilir.",
+    "ton": "kısıtlı ve sınanan"
+  },
+  {
+    "id": "SIN_ACI_VENUS_SATURN_KAVUSUM",
+    "faktor": "Venüs-Satürn kavuşumu",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "bağlayıcı sevgi",
+      "kalıcılık",
+      "ciddiyet",
+      "ağırlık"
+    ],
+    "anlam": "Aranızdaki sevgi yoğun, ciddi ve bağlayıcı bir nitelikle birleşiyor: bu bağ hafif bir flörtten çok, ağırlığı olan bir taahhüt gibi hissediliyor. Sevgi ile sorumluluk burada iç içe geçiyor, bu yüzden bağ hem çok kalıcı hem de bazen yorucu olabiliyor. İkiniz de bunun 'ciddi bir şey' olduğunu derinden hissedersiniz.",
+    "guclu": "Bu bağ, kolay kolay kopmayan, sınavlardan geçip güçlenen türden bir sadakat üretir. Birbirinize verdiğiniz değer, zamana ve zorluğa dayanıklıdır.",
+    "golge": "Sevginin üzerine binen ağırlık ve sorumluluk, zaman zaman boğucu ve mesafeli hissettirebilir. Neşe ve hafiflik, ciddiyetin gölgesinde kaybolabilir.",
+    "ton": "ağır ve bağlayıcı"
+  },
+  {
+    "id": "SIN_ACI_MARS_SATURN_UYUMLU",
+    "faktor": "Mars-Satürn uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "disiplinli çaba",
+      "dayanıklılık",
+      "sabırlı güç",
+      "ortak hedef"
+    ],
+    "anlam": "Aranızda enerji ile disiplinin verimli buluştuğu sağlam bir iş birliği var: biriniz harekete geçirirken diğeriniz o enerjiye yön ve dayanıklılık veriyor. Birlikte uzun soluklu hedeflere sabırla ilerleyebiliyorsunuz. Bu bağ, gücü boşa harcamadan kullanmayı biliyor.",
+    "guclu": "Ortak bir işe giriştiğinizde yorulmadan, planlı ve istikrarlı çalışırsınız; birbirinizi disipline edersiniz. Zorluklar karşısında pes etmeyen, dayanıklı bir takım olursunuz.",
+    "golge": "Fazla kontrol ve ölçülülük, anın spontane enerjisini bastırabilir. Biri hızlanmak isterken diğerinin sürekli frenlemesi zamanla yorabilir.",
+    "ton": "disiplinli ve dayanıklı"
+  },
+  {
+    "id": "SIN_ACI_MARS_SATURN_ZORLU",
+    "faktor": "Mars-Satürn zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "engellenmiş enerji",
+      "frustrasyon",
+      "fren-gaz çatışması",
+      "tıkanma"
+    ],
+    "anlam": "Bu bağda biriniz gaza basarken diğeriniz frene basıyor: hareket etme isteği ile temkin sürekli çarpışıyor. Mars tarafı engellenmiş ve frustre, Satürn tarafı ise aceleci bulup gerilmiş hissedebiliyor. Enerji akmak isterken bir duvara çarpma hissi sık yaşanabiliyor.",
+    "guclu": "Bu sürtünme, dürtüleri olgunlaştırmayı ve sabrı öğretir; doğru kanalize edildiğinde büyük bir dayanıklılık doğar. Birbirinizin aşırılıklarını dengeleyerek daha bilinçli hareket etmeyi öğrenirsiniz.",
+    "golge": "Sürekli engellenme hissi, bastırılmış öfke ve gerginliğe dönüşebilir. Bir tarafın itkisi diğerinin direnciyle karşılaştığında ilişki tıkanmış ve yorucu hissedilebilir.",
+    "ton": "tıkalı ve frustre"
+  },
+  {
+    "id": "SIN_ACI_GUNES_JUPITER_UYUMLU",
+    "faktor": "Güneş-Jüpiter uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "büyüme",
+      "iyimserlik",
+      "cömertlik",
+      "yüceltme"
+    ],
+    "anlam": "Aranızda birbirinizi büyüten, genişleten cömert bir enerji var: biriniz diğerinin potansiyeline inanıp onu yüceltiyor. Birlikteyken kendinizi daha iyimser, daha şanslı ve daha cesur hissediyorsunuz. Bu bağ, ufukları açan ve geleceğe umutla baktıran bir nitelik taşıyor.",
+    "guclu": "Birbirinizin en iyi yanını görür ve büyümesine alan açarsınız; karşılıklı destek bol ve gönülden. Bu pozitif enerji, yeni fırsatları ve birlikte gelişmeyi besler.",
+    "golge": "Aşırı iyimserlik, gerçekçi sınırları gözden kaçırmaya yol açabilir. Birbirinizi şişirip abartılı beklentiler içine girebilirsiniz.",
+    "ton": "genişleyen ve iyimser"
+  },
+  {
+    "id": "SIN_ACI_GUNES_JUPITER_ZORLU",
+    "faktor": "Güneş-Jüpiter zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "abartı",
+      "aşırılık",
+      "fazla vaat",
+      "şişme"
+    ],
+    "anlam": "Bu bağda iyimserlik kolayca abartıya kaçabiliyor: birlikteyken her şey olduğundan büyük ve parlak görünüyor. Vaatler ölçüyü aşabiliyor, beklentiler gerçeğin önüne geçebiliyor. Aranızdaki coşku güzel ama bazen ayağı yere basmıyor.",
+    "guclu": "Bu enerji, cesaret ve genişleme isteği taşır; birbirinizi büyük düşünmeye iter. Ölçüyü bulduğunuzda, sınırları zorlayan ilham verici bir bağ kurarsınız.",
+    "golge": "Fazla vaat, tutulamayan sözlere ve hayal kırıklığına yol açabilir. Aşırılık, savurganlığa ya da kendini fazla büyütmeye dönüşüp dengeyi bozabilir.",
+    "ton": "abartılı ve taşkın"
+  },
+  {
+    "id": "SIN_ACI_AY_JUPITER_UYUMLU",
+    "faktor": "Ay-Jüpiter uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygusal cömertlik",
+      "neşe",
+      "güven",
+      "genişleme"
+    ],
+    "anlam": "Aranızda sıcak, neşeli ve cömert bir duygusal akış var: biriniz diğerinin yanında kalbini rahatça açabiliyor. Birlikteyken iyi hisseder, güvende ve şanslı olduğunuzu duyumsarsınız. Bu bağ, duygulara genişlik ve iyimserlik katan ferah bir hava taşıyor.",
+    "guclu": "Birbirinize bol bol moral, destek ve duygusal bolluk sunarsınız; yanınızda büyümek kolaydır. Kahkaha, iyimserlik ve güven bu bağın doğal armağanlarıdır.",
+    "golge": "Duygusal cömertlik bazen aşırı hoşgörüye ya da abartılı tepkilere kayabilir. Fazla rahatlık, gerçek sorunların üzerinden iyimserlikle geçilmesine yol açabilir.",
+    "ton": "ferah ve neşeli"
+  },
+  {
+    "id": "SIN_ACI_VENUS_JUPITER_UYUMLU",
+    "faktor": "Venüs-Jüpiter uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "bolluk",
+      "keyif",
+      "sosyal genişleme",
+      "şımartma"
+    ],
+    "anlam": "Aranızda keyif, bolluk ve karşılıklı şımartma dolu bir tatlılık var: birlikte vakit geçirmek adeta bir ziyafet gibi hissediliyor. Biriniz diğerine cömertçe değer, güzellik ve neşe sunuyor. Bu bağ, hayatın tadını çıkarmayı ve birbirinizi mutlu etmeyi kolaylaştırıyor.",
+    "guclu": "Birbirinize iyi davranmak, jest yapmak ve keyif sunmak doğal gelir; cömertlik karşılıklıdır. Sosyal ve estetik anlamda birlikte genişler, hayatı daha zengin yaşarsınız.",
+    "golge": "Aşırı keyif ve şımartma, savurganlığa ya da tembelliğe kayabilir. Her şeyin güzel olması beklentisi, zorlu konuların ertelenmesine yol açabilir.",
+    "ton": "cömert ve keyifli"
+  },
+  {
+    "id": "SIN_ACI_GUNES_YUKSELEN_UYUMLU",
+    "faktor": "Güneş-Yükselen uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "kişilik uyumu",
+      "duruş çekimi",
+      "doğal görünüm",
+      "uyumlu izlenim"
+    ],
+    "anlam": "Aranızda kişilikten duruşa uzanan doğal bir uyum var: biriniz olduğu gibi davrandığında diğerine tanıdık ve çekici geliyor. Birinizin özü, diğerinin dışa yansıttığı tarzla güzelce örtüşüyor. Bu bağ, ilk andan itibaren rahat ve akıcı bir 'birbirine yakışma' hissi yaratıyor.",
+    "guclu": "Birbirinizin doğal halini takdir eder, kendinizi olduğunuz gibi gösterirken onaylandığınızı hissedersiniz. Duruşlarınız ve karakterleriniz birbirini tamamlayıp güçlendirir.",
+    "golge": "Uyum o kadar rahat ki bazı gerçek farklılıklar üzerinde durulmadan geçilebilir. Birbirine fazla yakışma hissi, gelişimi zorlayan sürtünmeleri yumuşatabilir.",
+    "ton": "uyumlu ve çekici"
+  },
+  {
+    "id": "SIN_ACI_GUNES_YUKSELEN_ZORLU",
+    "faktor": "Güneş-Yükselen zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ifade gerilimi",
+      "duruş uyumsuzluğu",
+      "farklı izlenim",
+      "kimlik sürtünmesi"
+    ],
+    "anlam": "Bu bağda biriniz kendini ifade ederken diğerinin dışa yansıttığı tavırla bir uyumsuzluk doğabiliyor. Birinin doğal hali, diğerine bazen fazla ya da yersiz gelebiliyor; ilk izlenimde küçük bir sürtünme oluşuyor. Aranızda kim olduğunuz ile nasıl göründüğünüz arasında bir ayar gerekiyor.",
+    "guclu": "Bu fark, ikinizi de kendini daha bilinçli ifade etmeye ve karşıdakinin tarzını tanımaya iter. Üzerinde durulduğunda, farklılık monotonluğu kıran canlı bir kontrast yaratır.",
+    "golge": "Biri kendini fazla baskın, diğeri gölgede hissedebilir; duruşlar çarpışabilir. İlk izlenimdeki uyumsuzluk, gerçek uyumun fark edilmesini zorlaştırabilir.",
+    "ton": "gergin ve ayar isteyen"
+  },
+  {
+    "id": "SIN_ACI_GUNES_YUKSELEN_KAVUSUM",
+    "faktor": "Güneş-Yükselen kavuşumu",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "kimlik kaynaşması",
+      "birbirini görme",
+      "güçlü çekim",
+      "tanınma"
+    ],
+    "anlam": "Aranızda kimliklerin güçlü bir kaynaşması var: biriniz, diğerinin dünyaya açıldığı kapının tam karşısında duruyor. Birbirinizi olduğunuz gibi görüyor ve görüldüğünüzü hissediyorsunuz, bu da yoğun bir tanınma duygusu yaratıyor. Bu bağ, ilk andan itibaren güçlü ve belirgin bir 'seni görüyorum' hissi taşıyor.",
+    "guclu": "Birbirinizin özünü doğrudan algılar, derin bir görülme ve onaylanma hissi yaşarsınız. Bu kaynaşma, kimliklerinizi karşılıklı parlatan canlı bir çekim üretir.",
+    "golge": "Kimlikler çok iç içe geçtiğinde sınırlar bulanıklaşıp birbirinize fazla yansıyabilirsiniz. Yoğun görülme hissi, zaman zaman fazla maruz kalma ve bunaltma duygusuna dönüşebilir.",
+    "ton": "yoğun ve kaynaşmış"
+  },
+  {
+    "id": "SIN_ACI_AY_YUKSELEN_UYUMLU",
+    "faktor": "Ay-Yükselen uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "içgüdüsel rahatlık",
+      "ev hissi",
+      "duygusal akış",
+      "doğal yakınlık"
+    ],
+    "anlam": "Aranızda hiç zorlanmadan kurulan içgüdüsel bir duygusal rahatlık var: biriniz diğerinin yanında adeta evindeymiş gibi hissediyor. Hisler kelimeye dökülmeden bile anlaşılıyor, beden dilleriniz birbirine kolayca uyum sağlıyor. Bu bağ, daha ilk anlardan bir yuva sıcaklığı veriyor.",
+    "guclu": "Birbirinizin yanında doğal, korunaklı ve rahat hissedersiniz; sessizlik bile huzurlu olur. Duygusal okumanız içgüdüsel olduğundan, kelimeye gerek kalmadan anlaşırsınız.",
+    "golge": "Aşırı rahatlık, zaman zaman tembelliğe ya da gereken konuşmaların atlanmasına yol açabilir. Duygusal alışkanlık, ilişkiyi konfor alanında tutup canlılığı azaltabilir.",
+    "ton": "rahat ve sıcak"
+  },
+  {
+    "id": "SIN_ACI_AY_YUKSELEN_ZORLU",
+    "faktor": "Ay-Yükselen zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "duygusal okuma zorluğu",
+      "farklı dışavurum",
+      "yanlış sinyal",
+      "uyum gerginliği"
+    ],
+    "anlam": "Bu bağda duygularınızın dışavurum biçimi birbirine pek uymuyor: biriniz hislerini bir şekilde gösterirken diğeri onu farklı okuyabiliyor. Birinin doğal tavrı, diğerinin duygusal ihtiyacıyla çatışıp yanlış sinyallere yol açabiliyor. İçgüdüsel uyumu yakalamak burada biraz çaba istiyor.",
+    "guclu": "Bu fark, ikinizi de duyguları daha açık ifade etmeye ve karşıdakinin dilini öğrenmeye davet eder. Anladıkça, farklılık sizi birbirinizi daha bilinçli sevmeye yöneltir.",
+    "golge": "Yanlış okunan sinyaller, gereksiz kırgınlıklara ve 'beni hissetmiyorsun' duygusuna yol açabilir. Doğal bir rahatlık yerine, sürekli ayar yapma ihtiyacı yorucu olabilir.",
+    "ton": "uyumsuz ve dikkat isteyen"
+  },
+  {
+    "id": "SIN_ACI_VENUS_YUKSELEN_UYUMLU",
+    "faktor": "Venüs-Yükselen uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "anında beğeni",
+      "sıcaklık",
+      "çekim",
+      "hoşlanma"
+    ],
+    "anlam": "Aranızda daha ilk bakışta hissedilen tatlı bir çekim ve sıcaklık var: biriniz diğerinin tarzını, halini hemen beğeniyor. Birbirinize hoş görünmek ve iyi hissettirmek doğal geliyor. Bu bağ, kolayca akan bir sempati ve karşılıklı beğeni atmosferi yaratıyor.",
+    "guclu": "Birbirinizi çekici ve hoş bulur, yanınızda olmaktan keyif alırsınız; uyumunuz göze ve kalbe hitap eder. Bu sıcaklık, aranızda zahmetsiz bir yakınlık ve incelik üretir.",
+    "golge": "Yüzeysel beğeni, derinlikli uyumun yerini tutuyormuş gibi görünebilir. Her şeyin hoş olması, gerçek meselelerin nazikçe örtbas edilmesine yol açabilir.",
+    "ton": "tatlı ve çekici"
+  },
+  {
+    "id": "SIN_ACI_VENUS_YUKSELEN_KAVUSUM",
+    "faktor": "Venüs-Yükselen kavuşumu",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "güçlü çekim",
+      "estetik uyum",
+      "hoşlanma",
+      "anında sempati"
+    ],
+    "anlam": "Aranızda güçlü ve anında hissedilen bir estetik çekim var: biriniz, diğerinin gözünde adeta güzelliğin ve hoşluğun ta kendisi gibi beliriyor. Birbirinizi görür görmez bir beğeni ve sıcaklık doğuyor. Bu bağ, daha ilk andan belirgin bir hoşlanma ve sempatiyle parlıyor.",
+    "guclu": "Birbirinizi çok çekici bulur, yan yana olmaktan görsel ve duygusal bir haz alırsınız. Bu doğal sempati, aranızda anında bir incelik ve yakınlaşma isteği yaratır.",
+    "golge": "Güçlü ilk çekim, derinlikli uyum beklentisini fazla yükseltebilir. Görünüşe ve hoşlanmaya odaklanmak, daha derin uyumun sınanmasını geciktirebilir.",
+    "ton": "çekici ve parlak"
+  },
+  {
+    "id": "SIN_ACI_MARS_YUKSELEN_UYUMLU",
+    "faktor": "Mars-Yükselen uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "fiziksel çekim",
+      "enerji",
+      "canlandırma",
+      "harekete geçme"
+    ],
+    "anlam": "Aranızda canlandırıcı ve enerjik bir çekim var: biriniz diğerine adeta hareket ve cesaret aşılıyor. Yan yana geldiğinizde tempo yükseliyor, içinizdeki girişkenlik uyanıyor. Bu bağ, ikinizi de daha dinamik, daha cesur ve canlı hissettiriyor.",
+    "guclu": "Birbirinizi harekete geçirir, beraber bir şeyler yapmaya istek duyarsınız; enerjiniz uyumlu akar. Fiziksel ve eylemsel uyumunuz, ilişkiye canlı ve teşvik edici bir ritim katar.",
+    "golge": "Yüksek enerji bazen aceleciliğe ya da fazla hareketliliğe kayabilir. Sürekli aksiyon hali, dinginlik ve sakin paylaşım anlarını gölgede bırakabilir.",
+    "ton": "enerjik ve canlandırıcı"
+  },
+  {
+    "id": "SIN_ACI_MARS_YUKSELEN_ZORLU",
+    "faktor": "Mars-Yükselen zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "kışkırtma",
+      "çarpışma",
+      "tahrik",
+      "gerilim"
+    ],
+    "anlam": "Bu bağda biriniz, diğerinin tavrını farkında olmadan kışkırtabiliyor: enerji kolayca sürtünmeye ve gerginliğe dönüşüyor. Birinin hareketleri diğerini tahrik edebiliyor, bu da hızla yükselen bir çarpışma yaratabiliyor. Aranızdaki dinamik hem uyarıcı hem yıpratıcı olabiliyor.",
+    "guclu": "Bu gerilim, ikinizi de uyanık, canlı ve harekete hazır tutar; aranızda durağanlığa yer yoktur. Doğru yönlendirildiğinde bu kışkırtıcı enerji, tutkulu ve heyecanlı bir itki kaynağına dönüşür.",
+    "golge": "Küçük sürtünmeler hızla çatışmaya tırmanabilir; sabır kolayca tükenebilir. Sürekli tahrik hali, birbirinizi yıpratıp gereksiz çekişmelere sürükleyebilir.",
+    "ton": "kışkırtıcı ve gergin"
+  },
+  {
+    "id": "SIN_ACI_YUKSELEN_YUKSELEN_UYUMLU",
+    "faktor": "Yükselen-Yükselen uyumlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "doğal uyum",
+      "benzer bakış",
+      "uyumlu tempo",
+      "kolay anlaşma"
+    ],
+    "anlam": "Aranızda dünyaya benzer gözlerle bakmaktan doğan doğal bir uyum var: yaklaşımınız ve hayat temponuz birbirine kolayca ayak uyduruyor. Aynı anda harekete geçmek, aynı şeylere yönelmek size doğal geliyor. Bu bağ, hiç zorlanmadan birlikte ilerleyebildiğiniz bir akış sunuyor.",
+    "guclu": "Birbirinizin ritmini ve yaklaşımını kolayca paylaşır, ortak adımlar atmakta zorlanmazsınız. Benzer dünya görüşünüz, aranızda rahat ve uyumlu bir birliktelik yaratır.",
+    "golge": "Çok benzer olmak, ikinizi de aynı kör noktalarda buluşturabilir. Sürtünmesiz uyum, zaman zaman birbirinizi zorlayıp geliştiren kıvılcımdan yoksun kalabilir.",
+    "ton": "akışkan ve uyumlu"
+  },
+  {
+    "id": "SIN_ACI_YUKSELEN_YUKSELEN_ZORLU",
+    "faktor": "Yükselen-Yükselen zorlu açı",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "farklı yaklaşım",
+      "ilk izlenim uyumsuzluğu",
+      "tempo farkı",
+      "ayar gereksinimi"
+    ],
+    "anlam": "Bu bağda dünyaya bakış ve yaşam tempolarınız birbirinden epey farklı: biriniz bir yöne giderken diğeri bambaşka bir yöne çekebiliyor. İlk izlenimde aranızda bir uyumsuzluk, bir 'farklı tellerden çalma' hissi olabiliyor. Ortak bir ritim bulmak burada bilinçli ayar istiyor.",
+    "guclu": "Farklı yaklaşımlarınız, birbirinize alternatif bir dünya sunarak ufkunuzu genişletir. Uyum sağlamayı öğrendiğinizde, bu kontrast ilişkiyi canlı ve öğretici kılar.",
+    "golge": "Farklı tempolar, sürekli birbirini beklemek ya da yetişememek gibi hayal kırıklıkları yaratabilir. İlk izlenimdeki uyumsuzluk, gerçek potansiyelin görülmesini geciktirebilir.",
+    "ton": "farklı ve ayar isteyen"
+  },
+  {
+    "id": "SIN_ACI_YUKSELEN_YUKSELEN_KAVUSUM",
+    "faktor": "Yükselen-Yükselen kavuşumu",
+    "kategori": "sinastri-aci",
+    "anahtar": [
+      "ayna gibi tanıma",
+      "güçlü ilk çekim",
+      "benzer duruş",
+      "anında yakınlık"
+    ],
+    "anlam": "Aranızda ayna gibi bir tanıma var: birbirinizin duruşunda, dünyaya yaklaşımında kendinizi görür gibi olursunuz. İlk karşılaşmada güçlü, neredeyse tanıdık bir çekim ve yakınlık doğuyor. Bu bağ, sanki uzun zamandır tanışıyormuşsunuz hissini hemen veriyor.",
+    "guclu": "Birbirinizin tarzını ve temposunu içgüdüsel olarak anlar, aynı dalga boyunda buluşursunuz. Bu güçlü ilk çekim, aranızda hızlı ve doğal bir yakınlaşma sağlar.",
+    "golge": "Çok benzer olmak, farklılıkların getirdiği canlandırıcı çekimi azaltabilir. Aynalanma fazla yoğunlaştığında, kendi zayıf yanlarınızı karşınızda görmek rahatsız edici olabilir.",
+    "ton": "aynalı ve tanıdık"
+  },
+  {
+    "id": "SIN_EV_GUNES_1",
+    "faktor": "Güneş partnerin 1. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "kimlik",
+      "görünürlük",
+      "çekim",
+      "etki"
+    ],
+    "anlam": "Birinin Güneşi, partnerinin görünen benliğine ve kimliğine düşer; o kişi karşısındakini adeta aydınlatır, ona kendini daha canlı ve görünür hissettirir. İlk andan itibaren güçlü bir tanışıklık ve doğal bir hayranlık duygusu oluşur. Birbirinin varlığında kişi olduğundan daha parlak hisseder.",
+    "guclu": "Anında ilgi, ısıtıcı bir varlık ve karşılıklı görülme hissi; partneri kendi gücüne uyandırma yeteneği.",
+    "golge": "Güneşin sahibi farkında olmadan baskın çıkabilir, diğeri zamanla kendi ışığını gölgede kalmış hissedebilir.",
+    "ton": "parlak, etkileyici"
+  },
+  {
+    "id": "SIN_EV_GUNES_5",
+    "faktor": "Güneş partnerin 5. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "neşe",
+      "yaratıcılık",
+      "oyun",
+      "romantizm"
+    ],
+    "anlam": "Birinin Güneşi, partnerinin oyun, yaratıcılık ve keyif alanını aydınlatır; bu bağ doğal olarak eğlenceli, oyunbaz ve ışıltılı hisseder. Birlikte gülmek, yaratmak ve çocuksu bir coşkuyu paylaşmak kolaylaşır. Karşısındaki kişi diğerinin içindeki ifade arzusunu canlandırır.",
+    "guclu": "Yüksek keyif, ortak yaratıcılık ve hayatı kutlama duygusu; ilişkiye sürekli bir tazelik katar.",
+    "golge": "Eğlence odağı baskınsa derin meseleler ertelenebilir, ışıltı sönünce bağın ciddiyeti sınanabilir.",
+    "ton": "oyunbaz, ışıltılı"
+  },
+  {
+    "id": "SIN_EV_GUNES_7",
+    "faktor": "Güneş partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "ortaklık",
+      "denge",
+      "eş",
+      "tamamlama"
+    ],
+    "anlam": "Birinin Güneşi, partnerinin ilişki ve ortaklık alanına düşer; bu kişi diğerine adeta aradığı eş ya da tamamlayan yoldaş gibi hisseder. Birlikte olmak doğal, dengeli ve yerli yerinde gelir. Karşısındaki, ideal bir ortak imgesini canlandırır.",
+    "guclu": "Güçlü ortaklık potansiyeli, karşılıklı tamamlama ve uzun soluklu bir 'biz' duygusu.",
+    "golge": "Beklentiler idealize edilirse gerçek kişi yerine bir hayale bağlanma riski doğabilir.",
+    "ton": "dengeli, tamamlayıcı"
+  },
+  {
+    "id": "SIN_EV_GUNES_10",
+    "faktor": "Güneş partnerin 10. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "hedef",
+      "itibar",
+      "ilham",
+      "yön"
+    ],
+    "anlam": "Birinin Güneşi, partnerinin hedefler, itibar ve dış dünyadaki yön alanını aydınlatır; bu kişi diğeri için ilham veren, yol gösteren bir figür haline gelir. Karşısındakinin başarısını ve görünürlüğünü destekleme eğilimi güçlüdür. Birlikte ileriye bakmak doğal gelir.",
+    "guclu": "Karşılıklı motivasyon, hedeflere ışık tutma ve birbirinin gelişimine duyulan içten gurur.",
+    "golge": "İlişki fazla 'amaç odaklı' olabilir, sıcaklık yerine performans beklentisi öne geçebilir.",
+    "ton": "ilham veren, yönlendirici"
+  },
+  {
+    "id": "SIN_EV_GUNES_12",
+    "faktor": "Güneş partnerin 12. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "gizem",
+      "ruhsallık",
+      "derinlik",
+      "belirsizlik"
+    ],
+    "anlam": "Birinin Güneşi, partnerinin gizli, ruhsal ve bilinçaltı alanına düşer; bağ derin, sezgisel ve adeta kaderle örülmüş hisseder ama bazen tanımlaması zordur. İki kişi birbirinin görünmeyen yanlarına dokunur. Açıklanamayan bir tanışıklık ve şefkat duygusu belirir.",
+    "guclu": "Derin sezgisel anlayış, koşulsuz şefkat ve ruhsal bir bağ hissi.",
+    "golge": "Belirsizlik, yanlış anlaşılmalar ya da birinin diğerinde 'kaybolma' riski oluşabilir.",
+    "ton": "gizemli, derin"
+  },
+  {
+    "id": "SIN_EV_AY_1",
+    "faktor": "Ay partnerin 1. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "yakınlık",
+      "konfor",
+      "duygu",
+      "içgüdü"
+    ],
+    "anlam": "Birinin Ayı, partnerinin görünen benliğine düşer; ilk andan itibaren güçlü bir duygusal yakınlık ve içgüdüsel konfor oluşur. İki kişi birbirinin yanında rahatlar, sözsüz bir anlaşılma hisseder. Karşısındaki kişi duygularını okuyup yansıtma eğilimindedir.",
+    "guclu": "Anında duygusal rahatlık, sezgisel uyum ve doğal bir güven hissi.",
+    "golge": "Duygular hızla aktarılır, ruh halleri birbirine bulaşıp sınırlar bulanıklaşabilir.",
+    "ton": "sıcak, içgüdüsel"
+  },
+  {
+    "id": "SIN_EV_AY_4",
+    "faktor": "Ay partnerin 4. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "yuva",
+      "aile",
+      "kök",
+      "güven"
+    ],
+    "anlam": "Birinin Ayı, partnerinin ev, aile ve kökler alanına düşer; bu bağ derin bir aidiyet ve güvenli yuva hissi taşır. İki kişi birbirinin yanında 'evde' hisseder. Karşısındaki kişi duygusal bir sığınak ve köklenme duygusu sunar.",
+    "guclu": "Derin aidiyet, besleyici güven ve uzun vadeli duygusal istikrar.",
+    "golge": "Aşırı yakınlık bağımlılığa dönüşebilir, eski aile yaraları ilişkiye taşınabilir.",
+    "ton": "besleyici, köklü"
+  },
+  {
+    "id": "SIN_EV_AY_5",
+    "faktor": "Ay partnerin 5. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "şefkat",
+      "neşe",
+      "oyun",
+      "ifade"
+    ],
+    "anlam": "Birinin Ayı, partnerinin yaratıcılık ve keyif alanına düşer; duygular oyunbaz, şefkatli ve neşeli bir biçimde akar. Birlikte hissetmek ve duyguları paylaşmak keyifli, hafif bir hal alır. Karşısındaki kişi içteki çocuğu sevgiyle açığa çıkarır.",
+    "guclu": "Duygusal sıcaklık, oyunbaz şefkat ve birlikte sevinme yeteneği.",
+    "golge": "Duygusal dalgalanmalar dramatikleşebilir, onay arayışı yüzeyselliğe kayabilir.",
+    "ton": "şefkatli, neşeli"
+  },
+  {
+    "id": "SIN_EV_AY_7",
+    "faktor": "Ay partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "ortaklık",
+      "bakım",
+      "uyum",
+      "duygu"
+    ],
+    "anlam": "Birinin Ayı, partnerinin ilişki alanına düşer; duygusal bir ortaklık ve karşılıklı bakım veren bir bağ doğal gelir. İki kişi birbirini duygusal eş olarak hisseder. Karşısındaki kişi şefkatle sahiplenme ve sahiplenilme duygusunu uyandırır.",
+    "guclu": "Derin duygusal uyum, karşılıklı özen ve güvenli ortaklık hissi.",
+    "golge": "Bakım verme rollerinde dengesizlik oluşabilir, biri fazla muhtaç hissedebilir.",
+    "ton": "şefkatli, uyumlu"
+  },
+  {
+    "id": "SIN_EV_AY_8",
+    "faktor": "Ay partnerin 8. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "mahremiyet",
+      "derinlik",
+      "dönüşüm",
+      "bağ"
+    ],
+    "anlam": "Birinin Ayı, partnerinin derin ve mahrem alanına düşer; duygusal bağ yoğun, dönüştürücü ve adeta dipsizdir. İki kişi birbirinin en korunaklı duygularına erişir. Karşısındaki kişi gizli hisleri yüzeye çıkaran güçlü bir mıknatıs gibidir.",
+    "guclu": "Derin mahrem güven, dönüştürücü yakınlık ve güçlü duygusal sadakat.",
+    "golge": "Yoğunluk kıskançlık, takıntı ya da duygusal kontrol mücadelesine dönüşebilir.",
+    "ton": "yoğun, dönüştürücü"
+  },
+  {
+    "id": "SIN_EV_AY_12",
+    "faktor": "Ay partnerin 12. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "bilinçaltı",
+      "sezgi",
+      "şefkat",
+      "belirsizlik"
+    ],
+    "anlam": "Birinin Ayı, partnerinin bilinçaltı ve gizli alanına düşer; bağ sezgisel, rüya gibi ve sözcüklerin ötesinde hisseder. İki kişi birbirinin söylenmeyen duygularını sezer. Karşısındaki kişi derin ama bazen tanımlanması güç bir şefkat uyandırır.",
+    "guclu": "Derin sezgisel empati, koşulsuz şefkat ve ruhsal bir duygusal bağ.",
+    "golge": "Belirsizlik, gizli duygular ya da kurban-kurtarıcı dinamiği oluşabilir.",
+    "ton": "sezgisel, rüyamsı"
+  },
+  {
+    "id": "SIN_EV_VENUS_1",
+    "faktor": "Venüs partnerin 1. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "çekim",
+      "beğeni",
+      "cazibe",
+      "sıcaklık"
+    ],
+    "anlam": "Birinin Venüsü, partnerinin görünen benliğine düşer; anında bir beğeni, çekim ve hoşlanma duygusu doğar. Karşısındaki kişiyi çekici, sevimli ve hoş bulmak çok kolaydır. İki kişi birbirinin yanında değerli ve beğenilmiş hisseder.",
+    "guclu": "Doğal cazibe, sıcak beğeni ve karşılıklı hoşnutluk; ilişkiye estetik bir haz katar.",
+    "golge": "Çekim yüzeysel kalabilir, beğeni dış görünüşe fazla bağlanırsa derinlik gecikebilir.",
+    "ton": "çekici, sıcak"
+  },
+  {
+    "id": "SIN_EV_VENUS_5",
+    "faktor": "Venüs partnerin 5. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "romantizm",
+      "flört",
+      "keyif",
+      "yaratıcılık"
+    ],
+    "anlam": "Birinin Venüsü, partnerinin oyun ve romantizm alanına düşer; bağ flörtöz, romantik ve yaratıcı bir keyifle dolar. Birlikte eğlenmek, beğenmek ve hoş anlar yaratmak çok doğal gelir. Karşısındaki kişi içteki romantik ifadeyi canlandırır.",
+    "guclu": "Romantik kıvılcım, oyunbaz çekim ve ortak estetik keyif.",
+    "golge": "İlişki sürekli 'hoş ve eğlenceli' kalmaya zorlanırsa zorlu anlarda kırılganlaşabilir.",
+    "ton": "romantik, oyunbaz"
+  },
+  {
+    "id": "SIN_EV_VENUS_7",
+    "faktor": "Venüs partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "uyum",
+      "denge",
+      "ortak",
+      "ideal"
+    ],
+    "anlam": "Birinin Venüsü, partnerinin ilişki alanına düşer; bu kişi diğerine adeta ideal ortak gibi hisseder, uyum ve denge doğal gelir. Birlikte olmak zarif, hoş ve dengeli bir his taşır. Karşısındaki kişi sevgi ve uyum arzusunu doyurur.",
+    "guclu": "Güçlü uyum, karşılıklı zarafet ve uzun soluklu sevgi dolu ortaklık.",
+    "golge": "Çatışmadan fazla kaçınmak, sorunların yüzeyin altında birikmesine yol açabilir.",
+    "ton": "uyumlu, zarif"
+  },
+  {
+    "id": "SIN_EV_VENUS_8",
+    "faktor": "Venüs partnerin 8. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "bağlanma",
+      "mahremiyet",
+      "yoğunluk",
+      "değer"
+    ],
+    "anlam": "Birinin Venüsü, partnerinin mahrem ve derin alanına düşer; sevgi yoğun, bağlayıcı ve dönüştürücü bir hal alır. İki kişi en derin değerlerini ve kırılganlıklarını paylaşır. Karşısındaki kişi güçlü, neredeyse manyetik bir bağ uyandırır.",
+    "guclu": "Derin bağlanma, mahrem güven ve dönüştürücü bir sevgi paylaşımı.",
+    "golge": "Yoğunluk sahiplenme, kıskançlık ya da değer çatışmalarına dönüşebilir.",
+    "ton": "yoğun, bağlayıcı"
+  },
+  {
+    "id": "SIN_EV_VENUS_11",
+    "faktor": "Venüs partnerin 11. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "dostluk",
+      "idealler",
+      "sosyallik",
+      "sevgi"
+    ],
+    "anlam": "Birinin Venüsü, partnerinin dostluk ve idealler alanına düşer; bağ sıcak bir arkadaşlık, ortak değerler ve sosyal sevgiyle örülür. İki kişi birbirini hem sever hem de gerçekten beğenir. Karşısındaki kişi ortak hayalleri ve dostça bir yakınlığı besler.",
+    "guclu": "Güçlü dostluk temeli, ortak idealler ve rahat, baskısız sevgi.",
+    "golge": "İlişki fazla 'arkadaşça' kalıp tutkudan ya da derinlikten yoksunlaşabilir.",
+    "ton": "dostça, sıcak"
+  },
+  {
+    "id": "SIN_EV_MARS_1",
+    "faktor": "Mars partnerin 1. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "enerji",
+      "hareket",
+      "çekim",
+      "kıvılcım"
+    ],
+    "anlam": "Birinin Marsı, partnerinin görünen benliğine düşer; ilişkiye canlı bir enerji, hareket ve kıvılcım katar. Karşısındaki kişi diğerini harekete geçirir, bazen kışkırtır. İki kişi birbirinin yanında daha dinamik ve uyanık hisseder.",
+    "guclu": "Yüksek enerji, harekete geçirici çekim ve canlı bir karşılıklı uyarım.",
+    "golge": "Aynı enerji sürtüşmeye, sabırsızlığa ya da kışkırtıcı çekişmelere dönüşebilir.",
+    "ton": "dinamik, kışkırtıcı"
+  },
+  {
+    "id": "SIN_EV_MARS_5",
+    "faktor": "Mars partnerin 5. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "tutku",
+      "oyun",
+      "ateş",
+      "yaratıcılık"
+    ],
+    "anlam": "Birinin Marsı, partnerinin oyun ve yaratıcılık alanına düşer; bağ tutkulu, ateşli ve yaratıcı bir enerjiyle dolar. Birlikte rekabet etmek, oynamak ve heyecan üretmek doğal gelir. Karşısındaki kişi içteki coşkuyu ve girişkenliği ateşler.",
+    "guclu": "Tutkulu çekim, oyunbaz rekabet ve canlı yaratıcı enerji.",
+    "golge": "Rekabet kızışabilir, heyecan arayışı ego çatışmalarına kayabilir.",
+    "ton": "tutkulu, ateşli"
+  },
+  {
+    "id": "SIN_EV_MARS_7",
+    "faktor": "Mars partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "hareket",
+      "ortaklık",
+      "tutku",
+      "sürtüşme"
+    ],
+    "anlam": "Birinin Marsı, partnerinin ilişki alanına düşer; ortaklığa güçlü bir hareket ve tutku enerjisi taşır. İki kişi birbirini hem güçlü çeker hem de zaman zaman zorlar. Karşısındaki kişi ilişkide aktif, doğrudan bir dinamik uyandırır.",
+    "guclu": "Güçlü karşılıklı çekim, harekete geçiren tutku ve dinamik ortaklık.",
+    "golge": "Aynı enerji kolayca sürtüşmeye, güç çekişmesine ya da tartışmaya dönüşebilir.",
+    "ton": "tutkulu, çekişmeli"
+  },
+  {
+    "id": "SIN_EV_MARS_8",
+    "faktor": "Mars partnerin 8. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "yoğunluk",
+      "çekim",
+      "güç",
+      "mahremiyet"
+    ],
+    "anlam": "Birinin Marsı, partnerinin mahrem ve derin alanına düşer; çekim yoğun, manyetik ve güçlüdür. İki kişi arasında derin bir tutku ve güç alışverişi belirir. Karşısındaki kişi gizli arzuları ve dönüştürücü bir enerjiyi harekete geçirir.",
+    "guclu": "Manyetik çekim, derin tutku ve güçlü bir mahrem bağlanma enerjisi.",
+    "golge": "Yoğunluk güç mücadelesine, kontrol ya da kıskançlık çatışmasına dönüşebilir.",
+    "ton": "manyetik, yoğun"
+  },
+  {
+    "id": "SIN_EV_MARS_10",
+    "faktor": "Mars partnerin 10. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "itki",
+      "hedef",
+      "motivasyon",
+      "güç"
+    ],
+    "anlam": "Birinin Marsı, partnerinin hedefler ve itibar alanına düşer; bu kişi diğerini hedeflerine doğru iter ve motive eder. Karşısındaki, başarı yolunda güçlü bir itici güç olur. İki kişi birlikte ilerlemek ve başarmak için enerji bulur.",
+    "guclu": "Güçlü motivasyon, hedeflere itici enerji ve karşılıklı başarı hırsı.",
+    "golge": "İtki baskıya dönüşebilir, hedefler ve egolar çatışırsa rekabet sertleşebilir.",
+    "ton": "itici, hırslı"
+  },
+  {
+    "id": "SIN_EV_MERKUR_3",
+    "faktor": "Merkür partnerin 3. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "iletişim",
+      "fikir",
+      "sohbet",
+      "günlük"
+    ],
+    "anlam": "Birinin Merkürü, partnerinin iletişim ve günlük zihin alanına düşer; konuşmak, fikir alışverişi yapmak ve birbirini anlamak çok kolay gelir. İki kişi sürekli bir diyalog ve zihinsel uyum içinde olur. Karşısındaki kişi merak ve sohbet arzusunu canlandırır.",
+    "guclu": "Akıcı iletişim, kolay fikir paylaşımı ve canlı bir zihinsel uyum.",
+    "golge": "Aşırı analiz ya da küçük konularda gereksiz tartışmalar gündelik sürtüşme yaratabilir.",
+    "ton": "konuşkan, uyumlu"
+  },
+  {
+    "id": "SIN_EV_MERKUR_7",
+    "faktor": "Merkür partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "diyalog",
+      "anlaşma",
+      "denge",
+      "fikir"
+    ],
+    "anlam": "Birinin Merkürü, partnerinin ilişki alanına düşer; ortaklıkta anlaşmak, konuşmak ve fikirleri dengelemek doğal gelir. İki kişi birbirini bir sohbet ve düşünce ortağı olarak hisseder. Karşısındaki kişi açık iletişim ve karşılıklı anlayış arzusunu besler.",
+    "guclu": "Güçlü zihinsel ortaklık, kolay anlaşma ve dengeli diyalog.",
+    "golge": "Her şeyi mantıkla çözme eğilimi, duyguların geri planda kalmasına yol açabilir.",
+    "ton": "diyalogcu, dengeli"
+  },
+  {
+    "id": "SIN_EV_MERKUR_9",
+    "faktor": "Merkür partnerin 9. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "öğrenme",
+      "ufuk",
+      "keşif",
+      "anlam"
+    ],
+    "anlam": "Birinin Merkürü, partnerinin öğrenme ve geniş ufuklar alanına düşer; birlikte düşünmek, keşfetmek ve ufuk açmak ilham verici gelir. İki kişi birbirinin dünya görüşünü genişletir. Karşısındaki kişi merakı ve büyük resmi görme arzusunu canlandırır.",
+    "guclu": "Ortak öğrenme, ilham veren sohbetler ve birbirinin ufkunu genişletme.",
+    "golge": "İnanç ya da görüş farkları, fikir tartışmalarının inada dönüşmesine yol açabilir.",
+    "ton": "ufuk açıcı, ilham veren"
+  },
+  {
+    "id": "SIN_EV_MERKUR_11",
+    "faktor": "Merkür partnerin 11. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "plan",
+      "dostluk",
+      "fikir",
+      "gelecek"
+    ],
+    "anlam": "Birinin Merkürü, partnerinin idealler ve gelecek alanına düşer; ortak planlar yapmak, fikir üretmek ve geleceği konuşmak doğal gelir. İki kişi zihinsel bir dostluk ve ortak vizyon kurar. Karşısındaki kişi yenilikçi düşünceyi ve birlikte hayal kurmayı besler.",
+    "guclu": "Zihinsel dostluk, ortak planlar ve geleceğe dönük uyumlu vizyon.",
+    "golge": "Fazla teorik kalıp duygusal bağı ihmal etme ya da fikirde takılma riski olabilir.",
+    "ton": "vizyoner, dostça"
+  },
+  {
+    "id": "SIN_EV_JUPITER_5",
+    "faktor": "Jüpiter partnerin 5. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "neşe",
+      "bolluk",
+      "keyif",
+      "cömertlik"
+    ],
+    "anlam": "Birinin Jüpiteri, partnerinin oyun ve yaratıcılık alanına düşer; bağ neşe, bolluk ve cömert bir keyifle dolar. Birlikte eğlenmek, yaratmak ve hayatı kutlamak genişler. Karşısındaki kişi içteki coşkuyu ve iyimserliği büyütür.",
+    "guclu": "Bol neşe, cömert keyif ve birlikte büyüyen yaratıcı coşku.",
+    "golge": "Aşırılık, abartı ya da sürekli eğlence beklentisi sorumluluğu gölgeleyebilir.",
+    "ton": "coşkulu, cömert"
+  },
+  {
+    "id": "SIN_EV_JUPITER_7",
+    "faktor": "Jüpiter partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "cömertlik",
+      "büyüme",
+      "ortaklık",
+      "şans"
+    ],
+    "anlam": "Birinin Jüpiteri, partnerinin ilişki alanına düşer; ortaklık cömert, büyüten ve iyimser bir enerjiyle beslenir. İki kişi birbirinin yanında genişler ve şanslı hisseder. Karşısındaki kişi güven, iyi niyet ve bolluk duygusu uyandırır.",
+    "guclu": "Cömert ortaklık, karşılıklı büyüme ve iyimser, destekleyici bir bağ.",
+    "golge": "Aşırı iyimserlik gerçekçiliği azaltabilir, sınırlar ya da beklentiler şişebilir.",
+    "ton": "cömert, büyüten"
+  },
+  {
+    "id": "SIN_EV_JUPITER_9",
+    "faktor": "Jüpiter partnerin 9. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "inanç",
+      "seyahat",
+      "büyüme",
+      "ufuk"
+    ],
+    "anlam": "Birinin Jüpiteri, partnerinin inanç ve geniş ufuklar alanına düşer; birlikte öğrenmek, keşfetmek ve büyümek doğal gelir. İki kişi birbirinin dünya görüşünü genişletir ve anlam arayışını besler. Karşısındaki kişi macera ve bilgelik arzusunu canlandırır.",
+    "guclu": "Ortak büyüme, ufuk açan maceralar ve birbirinin inancını besleme.",
+    "golge": "Farklı inanç ya da değerler, ahlaki üstünlük yarışına dönüşebilir.",
+    "ton": "genişleten, maceracı"
+  },
+  {
+    "id": "SIN_EV_JUPITER_11",
+    "faktor": "Jüpiter partnerin 11. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "umut",
+      "şans",
+      "dostluk",
+      "gelecek"
+    ],
+    "anlam": "Birinin Jüpiteri, partnerinin idealler ve gelecek alanına düşer; umutları büyütür, sosyal şansı ve ortak hayalleri besler. İki kişi geleceğe iyimser ve cömert bir gözle bakar. Karşısındaki kişi hayalleri genişletir ve dostça bir bolluk getirir.",
+    "guclu": "Büyüyen umutlar, sosyal şans ve ortak hayalleri besleyen iyimserlik.",
+    "golge": "Gerçekçi olmayan hayaller ya da fazla idealize edilen beklentiler hayal kırıklığı yaratabilir.",
+    "ton": "umutlu, cömert"
+  },
+  {
+    "id": "SIN_EV_SATURN_1",
+    "faktor": "Satürn partnerin 1. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "ciddiyet",
+      "ağırlık",
+      "sınav",
+      "olgunluk"
+    ],
+    "anlam": "Birinin Satürnü, partnerinin görünen benliğine düşer; ilişkiye ciddiyet, ağırlık ve bir tür sınav enerjisi katar. Karşısındaki kişi diğerinin kim olduğunu sınar gibi hissedilebilir. Bağ olgun ama bazen mesafeli ya da zorlayıcı gelebilir.",
+    "guclu": "Olgunluk, kalıcılık ve karşılıklı sorumluluk duygusu; ciddi bir güven temeli.",
+    "golge": "Eleştiri, kısıtlama ya da onaylanmama hissi diğerini baskılanmış hissettirebilir.",
+    "ton": "ciddi, olgun"
+  },
+  {
+    "id": "SIN_EV_SATURN_4",
+    "faktor": "Satürn partnerin 4. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "güven",
+      "kök",
+      "sorumluluk",
+      "kısıt"
+    ],
+    "anlam": "Birinin Satürnü, partnerinin ev ve kökler alanına düşer; köklü, sorumlu ama bazen kısıtlayıcı bir güven duygusu oluşur. İki kişi kalıcı bir temel kurma arzusu hisseder. Karşısındaki kişi hem güvenli hem de zaman zaman ağır bir aidiyet uyandırır.",
+    "guclu": "Köklü güven, uzun vadeli istikrar ve sorumlu bir aidiyet duygusu.",
+    "golge": "Duygusal soğukluk, katı kurallar ya da boğucu bir güven hissi oluşabilir.",
+    "ton": "köklü, sorumlu"
+  },
+  {
+    "id": "SIN_EV_SATURN_7",
+    "faktor": "Satürn partnerin 7. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "kalıcılık",
+      "sorumluluk",
+      "bağlılık",
+      "zorluk"
+    ],
+    "anlam": "Birinin Satürnü, partnerinin ilişki alanına düşer; ortaklık kalıcı, sorumlu ama bazen zorlayıcı bir karakter taşır. İki kişi ciddi bir bağlılık ve uzun vadeli taahhüt hisseder. Karşısındaki kişi olgunlaşma ve sorumluluk alma çağrısı uyandırır.",
+    "guclu": "Güçlü bağlılık, kalıcılık ve olgun, sorumlu bir ortaklık temeli.",
+    "golge": "Görev hissi sevgiyi gölgeleyebilir, ilişki ağır ve yük gibi hissedilebilir.",
+    "ton": "kalıcı, sorumlu"
+  },
+  {
+    "id": "SIN_EV_SATURN_8",
+    "faktor": "Satürn partnerin 8. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "bağlılık",
+      "güven",
+      "sınav",
+      "mahremiyet"
+    ],
+    "anlam": "Birinin Satürnü, partnerinin mahrem ve derin alanına düşer; derin bir bağlılık ile birlikte güven ve kontrol sınavı belirir. İki kişi en korunaklı meselelerinde sınanır. Karşısındaki kişi kalıcı ama emek isteyen bir mahrem güven uyandırır.",
+    "guclu": "Derin sadakat, kalıcı bağlılık ve sınanarak güçlenen bir güven.",
+    "golge": "Kontrol, güvensizlik ya da duygusal tutukluk mahrem bağı zorlayabilir.",
+    "ton": "sınayıcı, derin"
+  },
+  {
+    "id": "SIN_EV_SATURN_10",
+    "faktor": "Satürn partnerin 10. evinde",
+    "kategori": "sinastri-ev",
+    "anahtar": [
+      "disiplin",
+      "hedef",
+      "mentor",
+      "sorumluluk"
+    ],
+    "anlam": "Birinin Satürnü, partnerinin hedefler ve itibar alanına düşer; hedeflere disiplin, yapı ve mentor benzeri bir etki katar. Karşısındaki kişi ciddi bir rehber ya da yol gösterici figür gibi hissedilebilir. İki kişi birlikte uzun vadeli başarıya odaklanır.",
+    "guclu": "Disiplinli destek, mentor etkisi ve hedeflere kalıcı yapı kazandırma.",
+    "golge": "Eleştiri ya da otorite tonu baskılayıcı, hiyerarşik bir his yaratabilir.",
+    "ton": "disiplinli, yönlendirici"
+  },
+  {
+    "id": "SIN_EL_AYNI",
+    "faktor": "Aynı baskın element",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "benzerlik",
+      "uyum",
+      "tanıdıklık",
+      "körlük"
+    ],
+    "anlam": "İki kişinin baskın elementi aynıdır; bu doğal bir anlaşma, ortak bir dil ve hemen tanıdık gelen bir uyum yaratır. Aynı ritimde nefes alır, dünyayı benzer şekilde algılarlar. Bu rahatlık güçlüdür ama körlük riskini de beraberinde getirir.",
+    "guclu": "Doğal anlayış, ortak değerler ve çaba gerektirmeyen bir uyum.",
+    "golge": "Aynı zayıflıkları paylaşmak körlük yaratır, eksik element ortak kör nokta olabilir.",
+    "ton": "tanıdık, uyumlu"
+  },
+  {
+    "id": "SIN_EL_ATES_HAVA",
+    "faktor": "Ateş ve Hava",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "canlılık",
+      "ilham",
+      "hareket",
+      "kıvılcım"
+    ],
+    "anlam": "Bir kişinin ateş, diğerinin hava elementi baskındır; hava ateşi körükler, ateş havaya yön verir. Bu birbirini besleyen, canlı ve ilham dolu bir uyumdur. Fikirler eyleme, eylemler heyecana dönüşür.",
+    "guclu": "Karşılıklı ilham, yüksek enerji ve birbirini büyüten canlı bir dinamizm.",
+    "golge": "Sürekli hareket dinginliği zorlaştırabilir, ikisi de duygusal derinliği ihmal edebilir.",
+    "ton": "canlı, ilham veren"
+  },
+  {
+    "id": "SIN_EL_TOPRAK_SU",
+    "faktor": "Toprak ve Su",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "besleme",
+      "verim",
+      "sükunet",
+      "güven"
+    ],
+    "anlam": "Bir kişinin toprak, diğerinin su elementi baskındır; su toprağı besler, toprak suya kap olur. Bu verimli, besleyici ve sakin bir uyumdur. Duygular köklenir, pratiklik şefkatle yumuşar.",
+    "guclu": "Derin güven, besleyici istikrar ve sakin, sürdürülebilir bir yakınlık.",
+    "golge": "Fazla konfor durağanlığa, aşırı içe dönüklük dış dünyadan kopmaya yol açabilir.",
+    "ton": "besleyici, sakin"
+  },
+  {
+    "id": "SIN_EL_ATES_SU",
+    "faktor": "Ateş ve Su",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "tutku",
+      "yoğunluk",
+      "gerilim",
+      "öğreti"
+    ],
+    "anlam": "Bir kişinin ateş, diğerinin su elementi baskındır; bu birleşim buhar gibi yoğun bir tutku üretir ama su ateşi söndürebilir, ateş suyu kaynatabilir. Zorlu ama öğretici bir uyumdur. Coşku ve duygu birbirini hem çeker hem sınar.",
+    "guclu": "Yoğun çekim, tutkulu enerji ve birbirini dönüştürme potansiyeli.",
+    "golge": "Ateşin hızı suyu yaralayabilir, suyun yoğunluğu ateşi boğabilir, denge emek ister.",
+    "ton": "tutkulu, zorlu"
+  },
+  {
+    "id": "SIN_EL_ATES_TOPRAK",
+    "faktor": "Ateş ve Toprak",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "hız",
+      "istikrar",
+      "gerilim",
+      "denge"
+    ],
+    "anlam": "Bir kişinin ateş, diğerinin toprak elementi baskındır; ateş hız ve heyecan ister, toprak istikrar ve sağlamlık. Bu bir hız-istikrar gerilimi ama aynı zamanda güçlü bir dengeleyici potansiyel taşır. Biri ilham verir, diğeri gerçeğe oturtur.",
+    "guclu": "Vizyonu eyleme dökme, heyecanı somuta çevirme ve birbirini dengeleme.",
+    "golge": "Ateş toprağı yavaş, toprak ateşi savruk bulabilir, sabırsızlık çatışma yaratabilir.",
+    "ton": "dengeleyici, gerilimli"
+  },
+  {
+    "id": "SIN_EL_HAVA_SU",
+    "faktor": "Hava ve Su",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "zihin",
+      "duygu",
+      "fark",
+      "çaba"
+    ],
+    "anlam": "Bir kişinin hava, diğerinin su elementi baskındır; biri dünyayı zihinle, diğeri duyguyla okur. Bu farklı diller anlaşmak için bilinçli çaba ister ama tamamlayıcı da olabilir. Mantık ve sezgi birbirinden öğrenebilir.",
+    "guclu": "Zihin ve duygunun birbirini zenginleştirmesi, yeni bir bakış kazanma.",
+    "golge": "Hava soğuk, su fazla duygusal görünebilir, yanlış anlaşılmalar kolay doğar.",
+    "ton": "farklı, tamamlayıcı"
+  },
+  {
+    "id": "SIN_EL_HAVA_TOPRAK",
+    "faktor": "Hava ve Toprak",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "fikir",
+      "pratik",
+      "gerilim",
+      "tamamlama"
+    ],
+    "anlam": "Bir kişinin hava, diğerinin toprak elementi baskındır; biri fikirler ve olasılıklarla, diğeri pratik ve somut olanla ilgilenir. Bu fikir-pratik gerilimi yaratır ama doğru kullanılırsa güçlü bir tamamlama olur. Hayaller plana, planlar gerçeğe dönüşebilir.",
+    "guclu": "Fikirleri hayata geçirme, vizyon ve uygulamayı birleştirme gücü.",
+    "golge": "Hava toprağı katı, toprak havayı dağınık bulabilir, ortak zemin bulmak çaba ister.",
+    "ton": "tamamlayıcı, gerilimli"
+  },
+  {
+    "id": "SIN_GENEL_GUNES_AYNI_BURC",
+    "faktor": "Aynı Güneş burcu",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "benzerlik",
+      "ayna",
+      "tanıdıklık",
+      "yansıma"
+    ],
+    "anlam": "İki kişinin Güneş burcu aynıdır; bu güçlü bir benzerlik, tanıdıklık ve ayna etkisi yaratır. Birbirlerinde kendilerini görür, motivasyonlarını ve ritimlerini doğal anlarlar. Bu yansıma hem rahatlatıcı hem de zaman zaman yüzleştiricidir.",
+    "guclu": "Derin anlayış, ortak ritim ve çaba gerektirmeyen bir tanışıklık.",
+    "golge": "Aynı zayıflıkları paylaşmak, kusurları büyüten bir ayna etkisi yaratabilir.",
+    "ton": "yansıtıcı, tanıdık"
+  },
+  {
+    "id": "SIN_GENEL_GUNES_KARSIT_BURC",
+    "faktor": "Zıt Güneş burçları",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "kutup",
+      "çekim",
+      "tamamlama",
+      "gerilim"
+    ],
+    "anlam": "İki kişinin Güneş burçları birbirinin karşıtıdır; bu zıt kutuplar arasında güçlü bir çekim ve tamamlama enerjisi doğar. Biri diğerinin eksik yanını taşır, birbirlerini hem çeker hem zorlar. Karşıtlık hem bütünleyici hem gerilimlidir.",
+    "guclu": "Güçlü çekim, birbirini tamamlama ve eksik yanları dengeleme potansiyeli.",
+    "golge": "Aynı zıtlık inatlaşırsa kutuplar çatışmaya ve sürekli karşıtlığa dönüşebilir.",
+    "ton": "çekici, kutupsal"
+  },
+  {
+    "id": "SIN_GENEL_COK_UYUMLU",
+    "faktor": "Baskın uyumlu açılar",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "akış",
+      "kolaylık",
+      "uyum",
+      "rahatlık"
+    ],
+    "anlam": "İki harita arasında uyumlu açılar baskındır; bu doğal bir akış, kolaylık ve rahatlık duygusu yaratır. İlişki zorlanmadan, kendiliğinden ilerler gibi hissedilir. Birbirini desteklemek ve anlamak çaba gerektirmez.",
+    "guclu": "Doğal uyum, kolay akış ve birbirini destekleyen rahat bir bağ.",
+    "golge": "Aşırı kolaylık tembelliğe, sürtüşme eksikliği büyüme için itki yokluğuna yol açabilir.",
+    "ton": "akıcı, rahat"
+  },
+  {
+    "id": "SIN_GENEL_COK_ZORLU",
+    "faktor": "Baskın gerilim açıları",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "tutku",
+      "gerilim",
+      "emek",
+      "büyüme"
+    ],
+    "anlam": "İki harita arasında gerilim açıları baskındır; bu tutkulu, dinamik ama emek isteyen bir bağ yaratır. Çekim güçlüdür ama sürtüşme ve zorluk da kaçınılmazdır. Bu bağ kolay değildir ama doğru yönetildiğinde derin bir büyüme getirir.",
+    "guclu": "Güçlü çekim, dinamik enerji ve birbirini büyütme potansiyeli.",
+    "golge": "Sürekli gerilim yorucu olabilir, çatışmalar yönetilmezse bağ aşındırabilir.",
+    "ton": "tutkulu, emek isteyen"
+  },
+  {
+    "id": "SIN_GENEL_DENGELI",
+    "faktor": "Dengeli açılar",
+    "kategori": "sinastri-genel",
+    "anahtar": [
+      "denge",
+      "akış",
+      "büyüme",
+      "sağlamlık"
+    ],
+    "anlam": "İki harita arasında uyum ve gerilim dengelidir; bu hem rahat hem de büyüten bir bağ yaratır. İlişki yeterince akıcıdır ki güven verir, yeterince zorludur ki canlı kalır. Bu denge sürdürülebilir bir yakınlık için sağlam bir temel sunar.",
+    "guclu": "Hem rahatlık hem büyüme, dengeli enerji ve sürdürülebilir bir bağ.",
+    "golge": "Dengeyi korumak farkındalık ister, ihmal edilirse bir tarafa kayabilir.",
+    "ton": "dengeli, sağlam"
+  }
+]

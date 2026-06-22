@@ -1,0 +1,143 @@
+<meta charset="utf-8">
+<title>{{ ad_cift }} — {{ urun_baslik }}</title>
+<style>
+{{ base_css|safe }}
+
+/* ===== SİNASTRİ EKLERİ (standart görsel dilin üstüne) ===== */
+.cover .eyebrow{ color:{{ accent_soft }}; }
+.chart-page .eyebrow{ color:{{ accent_soft }}; }
+.page-title{ color:{{ accent_soft }}; }
+.section-head .hr{ background:linear-gradient(90deg,{{ accent }},transparent); }
+.section .paren{ color:{{ accent }}; }
+.closing .eyebrow{ color:{{ accent_soft }}; }
+.cift-amp{ color:{{ accent }}; font-style:italic; }
+
+/* Çift harita: cross-aspect kaldırıldı → haritalar yan yana sığacak en büyük boyda */
+.chart-page .inner{ justify-content:flex-start; padding:16mm 10mm 0; }
+.dual-wheel{ gap:5mm; }
+.dual-wheel .chart-wheel{ width:92mm; height:92mm; }
+.dual-wheel .dw-label{ font-size:16pt; }
+.block-label{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13.5pt; color:{{ accent_soft }}; text-align:center; margin:9mm 0 4mm; }
+.syn-ov{ columns:2; column-gap:14mm; list-style:none; width:150mm; margin:0 auto; text-align:center; }
+.syn-ov li{ font-size:10.5pt; color:#cdc8e6; padding:1.6mm 0; break-inside:avoid; }
+.syn-ov li b{ color:var(--gold-bright); }
+.ov-note{ max-width:150mm; margin:6mm auto 0; text-align:center; font-family:'Spectral',serif; font-style:italic; font-size:11pt; line-height:1.6; color:#cdc8e6; }
+
+/* Koyu yorum sayfaları (Aranızdaki Gökyüzü Yorumu, Elementlerinizin İmza Sentezi) */
+.txt-page{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.txt-page .inner{ min-height:297mm; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:0 28mm; }
+.txt-page .eyebrow{ color:{{ accent_soft }}; margin-bottom:5mm; }
+.txt-page h2{ font-family:'Cinzel',serif; font-size:20pt; font-weight:600; letter-spacing:.1em; color:var(--gold-bright); line-height:1.32; margin-bottom:9mm; }
+.txt-page p{ font-size:13.5pt; line-height:1.82; color:#dde0ef; max-width:150mm; text-align:center; }
+.txt-page .paren{ color:var(--gold-bright); }
+
+/* Aranızdaki Denge — iki kişilik element×nitelik tablosu (Nitelik Dengesi tarzı) */
+.denge{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.denge .inner{ min-height:297mm; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16mm 22mm; }
+.em-grid{ border-collapse:separate; border-spacing:3mm; margin:6mm auto 0; }
+.em-grid th{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:11.5pt; color:#bdb8d6; padding:0 0 1mm; }
+.em-grid .em-el{ text-align:right; padding-right:2.5mm; color:var(--gold-bright); font-size:12.5pt; vertical-align:middle; }
+.em-cell{ width:46mm; height:25mm; border-radius:2mm; vertical-align:middle; text-align:center; position:relative;
+  border:1px solid rgba(194,163,107,.18); background:rgba(35,35,79,.32); }
+.em-cell.empty{ border-style:dashed; border-color:rgba(120,120,160,.25); background:transparent; }
+.em-cell.pa{ border-color:#7fa6d0; background:rgba(127,166,208,.15); }
+.em-cell.pb{ border-color:#d98fae; background:rgba(217,143,174,.15); }
+.em-cell.ortak{ border-color:#dcc188; background:rgba(220,193,136,.17); }
+.em-cell .em-sign{ display:block; font-family:'Cormorant Garamond',serif; font-size:9pt; color:#9a96c0; margin-bottom:.6mm; }
+.em-cell .em-pts{ display:block; font-size:13.5pt; letter-spacing:1.5px; line-height:1.1; }
+.em-cell .em-own{ position:absolute; top:.7mm; right:1.6mm; font-size:6.5pt; letter-spacing:.05em; text-transform:uppercase; color:#9a96b8; }
+.em-legend{ text-align:center; margin-top:6mm; font-size:9.5pt; color:#bdb8d6; }
+.em-legend .sw{ display:inline-block; width:10px; height:10px; border-radius:2px; margin:0 2px 0 10px; vertical-align:middle; border:1px solid; }
+.denge .el-caption{ max-width:150mm; margin:7mm auto 0; text-align:center; font-family:'Spectral',serif; font-style:italic; font-size:11pt; line-height:1.6; color:#cdc8e6; }
+.denge .el-caption .paren{ color:var(--gold-bright); font-style:normal; }
+
+/* ===== ÜRÜN DESENİ (arkaplan motifi — sevgili=kalp, arkadaş=… ) ===== */
+{{ theme_css|safe }}
+</style>
+
+<!-- ====================== KAPAK ====================== -->
+<section class="sheet cover">
+  <div class="brandmark">{% if logo %}<img src="{{ logo }}" alt="gökname">{% else %}Yıldızname{% endif %}</div>
+  <div class="cover-inner">
+    <div class="sigil">{{ sigil|safe }}</div>
+    <div class="eyebrow">{{ eyebrow_text }}</div>
+    <h1>{{ adA }} <span class="cift-amp">&amp;</span> {{ adB }}</h1>
+    <div class="subtitle">{{ urun_baslik }}</div>
+    <div class="urun-alt">{{ urun_alt }}</div>
+    <div class="rule"></div>
+    <div class="meta">{{ adA }} · {{ dogumA }}<br>{{ adB }} · {{ dogumB }}</div>
+  </div>
+  <div class="foot"><span class="dom">gokname.com</span>{% if disclaimer %}<div class="disclaimer">{{ disclaimer }}</div>{% endif %}</div>
+</section>
+
+<!-- ====================== ÇİFT HARİTA + EV BİNDİRMELERİ ====================== -->
+<section class="sheet chart-page">
+  <div class="inner">
+    <div class="eyebrow page-title" lang="tr">Aranızdaki Gökyüzü</div>
+    {{ dual_wheel|safe }}
+    <div class="block-label">Ev Bindirmeleri · kimin gezegeni diğerinin hangi yaşam alanını aydınlatıyor</div>
+    <ul class="syn-ov">{{ overlays_html|safe }}</ul>
+    <p class="ov-note">Bu yerleşimler, birinizin gezegenlerinin diğerinizin hangi yaşam alanlarını canlandırdığını gösterir. Bu temasların ilişkinize ne kattığını bir sonraki sayfada yorumladık.</p>
+  </div>
+</section>
+
+<!-- ====================== ARANIZDAKI GÖKYÜZÜ YORUMU ====================== -->
+{% if iliski_imzaniz %}
+<section class="sheet txt-page">
+  <div class="inner">
+    <span class="eyebrow">İlişki İmzanız</span>
+    <h2>Aranızdaki Gökyüzü Yorumu</h2>
+    <p>{{ iliski_imzaniz|safe }}</p>
+  </div>
+</section>
+{% endif %}
+
+<!-- ====================== ARANIZDAKI DENGE (element×nitelik tablosu) ====================== -->
+<section class="sheet denge">
+  <div class="inner">
+    <div class="eyebrow page-title" lang="tr">Aranızdaki Denge</div>
+    {{ element_table|safe }}
+    <div class="em-legend">
+      <span class="sw" style="border-color:#7fa6d0;background:rgba(127,166,208,.15)"></span> {{ adA }}
+      <span class="sw" style="border-color:#d98fae;background:rgba(217,143,174,.15)"></span> {{ adB }}
+      <span class="sw" style="border-color:#dcc188;background:rgba(220,193,136,.17)"></span> ortak
+    </div>
+    {% if element_yorum %}<p class="el-caption">{{ element_yorum|safe }}</p>{% endif %}
+  </div>
+</section>
+
+<!-- ====================== ELEMENTLERİNİZİN İMZA SENTEZİ ====================== -->
+<section class="sheet txt-page">
+  <div class="inner">
+    <span class="eyebrow">İmza Sentezi</span>
+    <h2>Elementlerinizin İmza Sentezi</h2>
+    <p>{{ imza_sentezi|safe }}</p>
+  </div>
+</section>
+
+<!-- ====================== BÖLÜMLER ====================== -->
+<section class="sheet sections-sheet">
+  <div class="flow">
+    <div class="sec-spacer"></div>
+    {% for s in sections %}
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">{{ s.eyebrow }}</span>
+        <div class="row"><h2>{{ s.baslik }}</h2><span class="hr"></span></div></div>
+      {{ s.govde|safe }}
+    </div>
+    {% endfor %}
+    <div class="foot-rule"><span>Yıldızname · {{ adA }} &amp; {{ adB }}</span><span>{{ urun_baslik }}</span></div>
+  </div>
+</section>
+
+<!-- ====================== KAPANIŞ ====================== -->
+<section class="sheet closing">
+  <div class="inner">
+    {% if logo %}<img class="clos-logo" src="{{ logo }}" alt="gökname">{% endif %}
+    <span class="eyebrow">Son Söz</span>
+    <h2>{{ kapanis_baslik }}</h2>
+    <p class="lead">{{ kapanis_text }}</p>
+    <div class="end astro">&#10038;</div>
+  </div>
+  {% if disclaimer %}<div class="clos-disclaimer">{{ disclaimer }}</div>{% endif %}
+</section>

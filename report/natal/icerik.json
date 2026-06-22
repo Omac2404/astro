@@ -1,0 +1,141 @@
+{
+  "_aciklama": "Yildizname natal — imza tek-cumleleri + baskinlik + mizac + element-yorum bloklari. v1. Burc anahtarlari chart.json ile birebir ayni (Turkce). render bu dosyadan secer.",
+
+  "gunes": {
+    "Koç": "Cesur, öncü, harekete geçmekten çekinmeyen, kendi yolunu açan bir öz.",
+    "Boğa": "Sağlam, sabırlı, güzelliğe ve güvene değer veren, kolay sarsılmayan bir öz.",
+    "İkizler": "Meraklı, çok yönlü, fikir ve kelimelerle parlayan, hareketli bir öz.",
+    "Yengeç": "Duygusal, koruyucu, ait olmaya ve beslemeye yönelen, içten bir öz.",
+    "Aslan": "Görülmek ve takdir edilmek isteyen, sıcaklık yayan, cömert ve parlak bir öz.",
+    "Başak": "Titiz, çözümleyici, işe yarar olmaya ve düzeltmeye yönelen, mütevazı bir öz.",
+    "Terazi": "Uyum, denge ve adalet arayan, ilişki kuran, zarif bir öz.",
+    "Akrep": "Derin, yoğun, gerçeğin dibine inen, dönüşüm gücü taşıyan bir öz.",
+    "Yay": "Özgür, iyimser, anlam ve ufuk peşinde koşan, maceracı bir öz.",
+    "Oğlak": "Hırslı, disiplinli, kalıcı bir şey inşa etmeye yönelen, sorumlu bir öz.",
+    "Kova": "Özgün, bağımsız, geleceği ve toplumu düşünen, kalıpları kıran bir öz.",
+    "Balık": "Hayalperest, şefkatli, sınırların ötesini sezen, sanatkâr bir öz."
+  },
+
+  "ay": {
+    "Koç": "Duyguların hızlı ve doğrudan; hissettiğin an yaşar, çabuk parlar çabuk geçersin.",
+    "Boğa": "Duygusal güvenliğini istikrar ve konforda bulursun; sakinlik ve dokunulabilir huzur ararsın.",
+    "İkizler": "Duyguların zihninden geçer; konuşarak, anlamlandırarak rahatlarsın.",
+    "Yengeç": "Derin, dalgalı, koruyucu bir iç dünya; yuva ve yakınlık en büyük ihtiyacın.",
+    "Aslan": "Sevildiğini ve görüldüğünü hissetmeye ihtiyacın var; kalbin cömert ve sıcak.",
+    "Başak": "İşe yarayarak ve düzen kurarak güvende hissedersin; kaygını yararlılığa çevirirsin.",
+    "Terazi": "Duygusal dengeni ilişkilerde ve uyumda bulursun; çatışma seni huzursuz eder.",
+    "Akrep": "Duyguların yoğun ve derin; yüzeysel bağ seni doyurmaz, gerçek yakınlık istersin.",
+    "Yay": "Özgürlük ve umut duygusal yakıtın; sıkışınca anlam ve ufuk ararsın.",
+    "Oğlak": "Duygunu kolay göstermezsin; güçlü durmayı, kendi başının çaresine bakmayı seçersin.",
+    "Kova": "Duygulara dostça ve özgür yaklaşırsın; bağımsızlığın korunduğunda rahatsın.",
+    "Balık": "Sınırsız bir empatin var; başkalarının halini süngerleyen, sezgisel bir iç dünya."
+  },
+
+  "yukselen": {
+    "Koç": "Dışarıya enerjik, atılgan, doğrudan bir ilk izlenim; öne çıkan, başlatan bir duruş.",
+    "Boğa": "Sakin, güven veren, sağlam bir ilk izlenim; aceleye gelmeyen, dingin bir duruş.",
+    "İkizler": "Meraklı, konuşkan, hareketli bir ilk izlenim; çabuk bağ kuran bir duruş.",
+    "Yengeç": "Yumuşak, koruyucu, ihtiyatlı bir ilk izlenim; önce mesafeli sonra sıcak bir duruş.",
+    "Aslan": "Sıcak, fark edilen, sahne alan bir ilk izlenim; doğal bir karizma.",
+    "Başak": "Ölçülü, düzenli, mütevazı bir ilk izlenim; gözlemleyen, ince eleyen bir duruş.",
+    "Terazi": "Zarif, kibar, uzlaşmacı bir ilk izlenim; köprü kuran, ortamı yumuşatan bir duruş.",
+    "Akrep": "Yoğun, gizemli, kolay çözülmeyen bir ilk izlenim; güçlü bir varlık hissi.",
+    "Yay": "Açık, samimi, iyimser bir ilk izlenim; özgür ve davetkâr bir duruş.",
+    "Oğlak": "Ciddi, ölçülü, güven veren bir ilk izlenim; olgun ve sorumlu bir duruş.",
+    "Kova": "Özgün, sıra dışı, dostça bir ilk izlenim; herkesten biraz farklı bir duruş.",
+    "Balık": "Yumuşak, sezgisel, akışkan bir ilk izlenim; sınırları belirsiz, şefkatli bir duruş."
+  },
+
+  "aspect_kw": {
+    "gunes": "özün",
+    "ay": "duygusal dünyan",
+    "merkur": "zihnin ve iletişimin",
+    "venus": "sevgi ve değer anlayışın",
+    "mars": "eylem gücün ve arzun",
+    "jupiter": "genişleme ve şans yanın",
+    "saturn": "disiplin ve sınırların",
+    "yukselen": "dışarıya yansıttığın yüz"
+  },
+  "aspect_relation": {
+    "kavusum": "aynı potada birleşip birbirini güçlendiriyor",
+    "altmislik": "birbirine fırsat kapısı aralıyor",
+    "ucgen": "akıcı bir uyumla birbirini besliyor",
+    "kare": "arasında seni olgunlaştıran bir gerilim var",
+    "karsitlik": "arasında denge kurman gereken bir çekim var"
+  },
+  "aspect_etiket": {
+    "kavusum": "Kavuşumu",
+    "altmislik": "Altmışlığı",
+    "ucgen": "Üçgeni",
+    "kare": "Karesi",
+    "karsitlik": "Karşıtlığı"
+  },
+
+  "element_dom": {
+    "Ateş": "hevesli, coşkulu, harekete hazır bir genel ton",
+    "Toprak": "sağlam, pratik, ayağı yere basan bir genel ton",
+    "Hava": "fikirsel, sosyal, iletişime dönük bir genel ton",
+    "Su": "duygusal, sezgisel, derin ve empatik bir genel ton"
+  },
+  "nitelik_dom": {
+    "Öncü": "başlatan, inisiyatif alan",
+    "Sabit": "sürdüren, kararlı, kolay vazgeçmeyen",
+    "Değişken": "uyum sağlayan, esnek, çok yönlü"
+  },
+
+  "element_blocks": {
+    "Ateş": {
+      "baskin": "ateşin coşkusu ve girişkenliği belirgin",
+      "destek": "ateşin verdiği bir kıvılcım ve hareket de var",
+      "eksik": "ateşin azlığı zaman zaman ivme ve cesaret bulmayı zorlaştırabilir"
+    },
+    "Toprak": {
+      "baskin": "toprağın sağlamlığı ve pratikliği belirgin",
+      "destek": "toprağın verdiği bir denge ve gerçekçilik de var",
+      "eksik": "toprağın azlığı somutlaştırma ve sebat konusunda seni zorlayabilir"
+    },
+    "Hava": {
+      "baskin": "havanın zihinselliği ve iletişimi belirgin",
+      "destek": "havanın getirdiği bir esneklik ve fikir bolluğu da var",
+      "eksik": "havanın azlığı geri çekilip nesnel bakmayı güçleştirebilir"
+    },
+    "Su": {
+      "baskin": "suyun duygusallığı ve sezgisi belirgin",
+      "destek": "suyun kattığı bir derinlik ve şefkat de var",
+      "eksik": "suyun azlığı duyguları ifade etmeyi ve sezgiye güvenmeyi zorlaştırabilir"
+    }
+  },
+
+  "mizac": {
+    "safravi": {
+      "ad": "Safravi",
+      "tabiat": "sıcak-kuru",
+      "tagline": "Ateşin mizacı, kıvılcımı çakan.",
+      "metin": "Sende ateş elementi baskın; bu seni sıcak, hareketli ve girişken bir tabiata yerleştirir. Başlatmak, harekete geçmek, ortama enerji vermek doğal halin; bir işin kıvılcımını çakan sensin. Gölgesi çabuk tükenme ve sabırsızlık: ateş hızlı yanar, dinlenmeyi ve başladığını bitirmeyi de hatırlaman gerekir. Dengen, bu coşkuyu boşa harcamadan tek bir yöne kanalize edebildiğinde kurulur."
+    },
+    "demevi": {
+      "ad": "Demevi",
+      "tabiat": "sıcak-nemli",
+      "tagline": "Havanın mizacı, köprüleri kuran.",
+      "metin": "Sende hava elementi baskın; bu seni sosyal, iletişimci ve canlı bir tabiata yerleştirir. Fikirler, kelimeler ve insanlar arasında köprü kurmak senin doğal alanın; meraklı ve uyumlusun. Gölgesi dağılma ve yüzeyde kalma: çok şeye birden ilgi duyup derinleşmeyi atlayabilirsin. Dengen, bu akışkan zihni bir noktada toplayıp köklendirebildiğinde kurulur."
+    },
+    "balgami": {
+      "ad": "Balgami",
+      "tabiat": "soğuk-nemli",
+      "tagline": "Suyun mizacı, derinde hisseden.",
+      "metin": "Sende su elementi baskın; bu seni duygusal, sezgisel ve şefkatli bir tabiata yerleştirir. Hissetmek, beslemek ve derin bağlar kurmak senin doğal alanın; başkalarının halini sezme yeteneğin güçlü. Gölgesi fazla etkilenme ve içe kapanma: duyguların seni sürükleyebilir, kendi sınırını korumayı öğrenmen gerekir. Dengen, bu derin hassasiyeti bir zayıflık değil bir güç olarak kullanabildiğinde kurulur."
+    },
+    "sevdavi": {
+      "ad": "Sevdavi",
+      "tabiat": "soğuk-kuru",
+      "tagline": "Toprağın mizacı, sağlamı inşa eden.",
+      "metin": "Sende toprak elementi baskın; bu seni gerçekçi, disiplinli ve sağlam bir tabiata yerleştirir. İnşa etmek, sürdürmek ve somut sonuç almak senin doğal alanın; sözüne ve emeğine güvenilir. Gölgesi katılık ve fazla temkin: her şeyi kontrol etmek isteyip esnemeyi unutabilirsin. Dengen, bu sağlamlığı korurken akışa ve değişime biraz yer açabildiğinde kurulur."
+    },
+    "karma": {
+      "ad": "Karma",
+      "tabiat": "iki elementin dengesi",
+      "tagline": "Tek bir tabiata sığmayan, iki dünyayı birden taşıyan.",
+      "metin": "Sende iki element neredeyse eşit ağırlıkta; bu yüzden tek bir mizaca sığmazsın, iki dünyayı birden taşırsın. {E1} ile {E2} arasındaki bu denge hem bir zenginlik hem de uyumlaman gereken bir gerilim. Hangi tarafın ne zaman öne çıkacağını tanıdıkça, ikisini birden kullanabilen esnek bir güce dönüşür. {NOT: render E1/E2 yerine baskın iki elementi koyar.}"
+    }
+  }
+}

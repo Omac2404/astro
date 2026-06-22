@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ===== Yıldızname tasarım sistemi (rapor estetiğiyle uyumlu) ===== */
+@theme {
+  /* Marka çekirdeği */
+  --color-night: #1b1b3a;
+  --color-night-deep: #0f0f24;
+  --color-night-2: #23234f;
+  --color-gold: #c2a36b;
+  --color-gold-bright: #dcc188;
+  --color-parchment: #f7f2e9;
+  --color-parchment-shade: #efe6d4;
+  --color-ink: #2b2a3d;
+  --color-muted: #8884ad;
+
+  /* Ürün aksanları (raporlardaki temalarla aynı) */
+  --color-acc-natal: #dcc188;
+  --color-acc-ask: #d98fae;
+  --color-acc-kariyer: #4e9e7d;
+  --color-acc-saglik: #4ea64a;
+  --color-acc-solar: #9b72d0;
+  --color-acc-lilith: #bb3850;
+
+  /* Tipografi */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-spectral), Spectral, Georgia, serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-night-deep);
+  color: var(--color-parchment);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-night-deep);
+}
+
+/* Yardımcı: ince yıldız dokusu (koyu bölümler için) */
+.starfield {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(220, 193, 136, 0.5), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(220, 193, 136, 0.4), transparent),
+    radial-gradient(1px 1px at 40% 80%, rgba(255, 255, 255, 0.35), transparent),
+    radial-gradient(1px 1px at 85% 25%, rgba(220, 193, 136, 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 55% 15%, rgba(255, 255, 255, 0.3), transparent);
+  background-repeat: repeat;
+  background-size: 320px 320px;
+}
+
+/* Görsel placeholder (görsel gelecek alanlar) */
+.img-ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background:
+    repeating-linear-gradient(45deg, rgba(220, 193, 136, 0.06) 0 12px, transparent 12px 24px),
+    var(--color-night-2);
+  border: 1px dashed rgba(220, 193, 136, 0.35);
+  color: rgba(220, 193, 136, 0.7);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Kart için çok hafif, nefes alan parlama (ürün accent rengi --glow ile gelir) */
+@keyframes cardGlow {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.34; }
+}
+.card-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(58% 48% at 82% 4%, var(--glow, #dcc188), transparent 70%);
+  filter: blur(8px);
+  opacity: 0.18;
+  animation: cardGlow 7s ease-in-out infinite;
+}
+/* Hero üst bölge: tek tek (rastgele) parıldayan yıldızlar — her nokta kendi gecikme/süresiyle bağımsız, güçlü glow */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.05; transform: scale(0.55); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 6px 1px currentColor, 0 0 13px 2px currentColor;
+  opacity: 0;
+  animation: twinkle 4s ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* Hero üst bölge: ara ara hızlıca kayan kuyruklu yıldız */
+/* Kayma hızı: pencere %3.2 × 16s döngü ≈ 0.51s'de geçer; döngü uzun → seyrek.
+   İki yıldız aynı sürede (16s) olmalı ki hızları birebir aynı kalsın; farkı delay sağlar. */
+@keyframes shoot {
+  0%         { opacity: 0; transform: rotate(var(--ang, 18deg)) translateX(-200px); }
+  0.3%       { opacity: 1; }
+  2.7%       { opacity: 1; }
+  3.2%, 100% { opacity: 0; transform: rotate(var(--ang, 18deg)) translateX(760px); }
+}
+.shooting-star {
+  position: absolute;
+  height: 2px;
+  width: 150px;
+  border-radius: 999px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.95), #fff);
+  box-shadow: 0 0 7px 1px rgba(255, 255, 255, 0.9);
+  transform-origin: left center;
+  opacity: 0;
+  animation: shoot 16s linear infinite;
+}
+
+/* Tarih/saat girişleri: koyu zeminde takvim/saat ikonu beyaz görünsün */
+.date-white {
+  color-scheme: dark;
+}
+.date-white::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.9;
+  /* her zeminde garantili beyaz: önce tamamen siyaha indir, sonra ters çevir */
+  filter: brightness(0) invert(1);
+}
+.date-white::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* İnce, temaya uygun kaydırma çubuğu (hesabım panelleri) */
+.scroll-soft {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(194, 163, 107, 0.35) transparent;
+}
+.scroll-soft::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-soft::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-soft::-webkit-scrollbar-thumb {
+  background: rgba(194, 163, 107, 0.3);
+  border-radius: 999px;
+}
+.scroll-soft::-webkit-scrollbar-thumb:hover {
+  background: rgba(220, 193, 136, 0.5);
+}
+
+/* Sepete ekleme: ikon/rozet kısa vurgu */
+@keyframes cartpop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-glow { animation: none; }
+  .star-dot { animation: none; opacity: 0.7; }
+  .shooting-star { display: none; }
+}
+
+/* Örnek analizler — mobil peek slider (biri öndeyken yanlardakiler arkadan gelir) */
+.ornek-slider { scrollbar-width: none; -ms-overflow-style: none; scroll-padding-inline: 7%; }
+.ornek-slider::-webkit-scrollbar { display: none; }
+@media (max-width: 639px) {
+  .ornek-slide {
+    animation: ornekPeek linear both;
+    animation-timeline: view(inline);
+    animation-range: cover 6% cover 94%;
+    transform-origin: center;
+  }
+  @keyframes ornekPeek {
+    0%   { transform: scale(0.95); opacity: 1; }
+    50%  { transform: scale(1);    opacity: 1; }
+    100% { transform: scale(0.95); opacity: 1; }
+  }
 }

@@ -37,6 +37,37 @@ yarn-error.log*
 # vercel
 .vercel
 
+# python (faz 3 — natal hesap pipeline)
+/.venv/
+__pycache__/
+report/natal/_ephem/
+report/natal/chart.json
+report/natal/wheel.svg
+report/natal/wheel-*.svg
+report/natal/diagram.svg
+report/natal/out.pdf
+report/natal/onizleme.png
+report/natal/natal-rapor.out.html
+
+# rapor pipeline üretim artıkları (kod commit'lenir, çıktılar commit'lenmez)
+report/natal/birth.json
+report/natal/birth-a.json
+report/natal/birth-b.json
+report/natal/aktif-bloklar.json
+report/natal/rapor-*.txt
+report/natal/_*.json
+report/natal/chart-*.json
+report/natal/*.pdf
+report/natal/*.log
+report/natal/teslimat/
+
+# GERÇEK kullanıcı verisi — ASLA commit etme (üye e-postaları, scrypt şifre hash'leri, siparişler, PII)
+/.data/
+
+# yerel üretim çıktıları ve kaynak görsel klasörü (public/ altına kopyalanır)
+/output/
+/görseller/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

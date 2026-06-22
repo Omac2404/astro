@@ -1,0 +1,625 @@
+<meta charset="utf-8">
+<title>Ayşe, Doğum Haritası Raporu</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Sans+Symbols+2&display=swap');
+
+:root{
+  --night:#1b1b3a; --night-deep:#0f0f24; --night-2:#23234f;
+  --gold:#c2a36b; --gold-bright:#dcc188;
+  --parchment:#f7f2e9; --parchment-shade:#efe6d4;
+  --ink:#2b2a3d; --muted:#6f6b85;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  background:var(--parchment); color:var(--ink);
+  font-family:'Spectral',Georgia,serif; font-size:12.5pt; line-height:1.72;
+  -webkit-print-color-adjust:exact; print-color-adjust:exact;
+}
+@page{ size:A4; margin:0; }
+
+.sheet{ width:210mm; min-height:297mm; position:relative; overflow:hidden; page-break-after:always; }
+.sheet:last-child{ page-break-after:auto; }
+.flow{ padding:20mm 27.5mm; }
+
+.astro{ font-family:'Noto Sans Symbols 2','DejaVu Sans',sans-serif; font-variant-emoji:text; }
+.eyebrow{ font-size:8.5pt; letter-spacing:.34em; text-transform:uppercase; color:var(--gold); font-weight:500; }
+/* Sayfa-başı ana başlıkları (Doğum Anının Gökyüzü, Ana İmzalar, Nitelik Dengesi, Element & Mizaç) */
+.page-title{ font-family:'Cinzel',serif; font-size:16pt; font-weight:600; letter-spacing:.14em; color:var(--gold-bright); line-height:1.25; }
+/* Mor sig-sayfalarını (Ana İmzalar + Nitelik) diğer mor sayfalar gibi dikey ortala */
+.sig-page{ display:flex; flex-direction:column; justify-content:center; }
+h1,h2{ font-family:'Cormorant Garamond',serif; font-weight:500; }
+
+/* pagination comfort */
+p{ margin-bottom:4mm; text-align:justify; orphans:2; widows:2; break-inside:avoid; }
+p:last-child{ margin-bottom:0; }
+
+/* ============ COVER ============ */
+.cover{
+  background:
+    radial-gradient(closest-side at 72% 26%, rgba(150,110,180,.30), transparent 70%),
+    radial-gradient(closest-side at 28% 74%, rgba(120,140,200,.22), transparent 72%),
+    radial-gradient(circle at 50% 44%, rgba(220,193,136,.16), transparent 55%),
+    linear-gradient(170deg,#262657 0%, var(--night) 46%, var(--night-deep) 100%);
+  color:var(--parchment); text-align:center;
+}
+.cover .art{ position:absolute; top:0; left:0; width:210mm; height:297mm; }
+.cover-inner{ position:relative; z-index:3; height:297mm; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; padding:0 26mm; }
+.brandmark{ position:absolute; top:24mm; left:0; right:0; text-align:center; z-index:3;
+  font-family:'Cormorant Garamond',serif; font-size:13pt; letter-spacing:.42em;
+  text-transform:uppercase; color:var(--gold-bright); }
+.cover .sigil{ font-size:34pt; color:var(--gold-bright); margin-bottom:11mm; }
+.cover .eyebrow{ color:#cdc8e6; margin-bottom:7mm; }
+.cover h1{ font-size:50pt; color:#fbf6ec; letter-spacing:.05em; font-weight:400; margin-bottom:3mm; }
+.cover .subtitle{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:17pt;
+  color:var(--gold-bright); margin-bottom:13mm; }
+.cover .rule{ width:48mm; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin-bottom:13mm; }
+.cover .meta{ font-size:9pt; letter-spacing:.2em; text-transform:uppercase; color:#aaa6c8; }
+.cover .foot{ position:absolute; bottom:18mm; left:0; right:0; text-align:center; z-index:3;
+  font-size:8pt; letter-spacing:.3em; text-transform:uppercase; color:#7d7aa6; }
+
+/* ============ CHART ============ */
+.chart-page{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.chart-page .inner{ height:297mm; display:flex; flex-direction:column; align-items:center; padding:17mm 20mm; }
+.chart-page .eyebrow{ color:var(--gold-bright); margin-bottom:6mm; }
+.chart-wheel{ width:117mm; height:117mm; }
+.chart-name{ font-family:'Cormorant Garamond',serif; font-size:18pt; color:#fbf6ec; margin:5mm 0 1mm; }
+.chart-sub{ font-size:9pt; color:#bdb8d6; font-style:italic; margin-bottom:8mm; }
+.pos-table{ width:152mm; }
+.pos-row{ display:flex; align-items:center; gap:5mm; padding:2.4mm 0; border-bottom:1px solid rgba(194,163,107,.20); }
+.pos-row:last-child{ border-bottom:none; }
+.pos-sym{ font-size:13pt; color:var(--gold-bright); width:8mm; text-align:center; flex:0 0 8mm; }
+.pos-sym .asc-svg-sm{ width:4.8mm; height:4.8mm; vertical-align:-1mm; }
+.pos-name{ font-family:'Cormorant Garamond',serif; font-size:12.5pt; color:#fbf6ec; width:26mm; flex:0 0 26mm; }
+.pos-loc{ font-size:9.5pt; color:var(--gold-bright); width:42mm; flex:0 0 42mm; }
+.pos-mean{ font-size:9pt; color:#b6b2d2; font-style:italic; flex:1; }
+
+/* ============ ANA İMZALAR ============ */
+.sig-head{ text-align:center; margin-bottom:9mm; }
+.sig-head .eyebrow{ display:block; margin-bottom:5mm; }
+.sig-head h2{ font-size:30pt; color:var(--ink); }
+.sig-head .dash{ width:30mm; height:1px; background:var(--gold); margin:4mm auto 0; }
+.sig{ display:flex; gap:7mm; align-items:center; padding:3.5mm 0; border-bottom:1px solid rgba(43,42,61,.1); break-inside:avoid; }
+.sig:last-child{ border-bottom:none; }
+.badge{ width:11mm; height:11mm; flex:0 0 11mm; border-radius:50%;
+  border:1px solid var(--gold); background:rgba(194,163,107,.10);
+  display:flex; align-items:center; justify-content:center; }
+.badge .astro{ font-size:13pt; color:var(--gold); }
+.sig .t strong{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:12pt; color:var(--ink); display:block; line-height:1.25; }
+.sig .t span{ font-size:11.5pt; color:#4a4860; }
+/* Ana İmzalar, mor sayfa */
+.sig-page{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.sig-page .flow{ padding:11mm 27.5mm; }
+.sig-page .sig-head{ margin-bottom:4.5mm; }
+.sig-page .sig-head h2{ color:#fbf6ec; font-size:26pt; }
+.sig-page .sig{ border-bottom:1px solid rgba(194,163,107,.16); padding:2.2mm 0; }
+.sig-page .badge{ width:11mm; flex:0 0 11mm; height:auto; border:none; background:none; border-radius:0; }
+.sig-page .badge .sig-glyph{ width:5.2mm; height:5.2mm; display:block; }
+.sig-page .badge .flame-svg{ width:6.8mm; height:6.8mm; display:block; }
+.sig-page .sig .t strong{ color:#fbf6ec; }
+.sig-page .sig .t span{ color:#bdb8d6; }
+.sig-synth{ margin-top:6mm; text-align:left; border-top:1px solid rgba(194,163,107,.18); padding-top:5mm; }
+.sig-synth .lbl{ display:block; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:13pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:4mm; }
+.sig-synth p{ font-size:12pt; line-height:1.72; color:#dad6ec; }
+.sig-synth em{ color:#ece8f7; font-style:italic; }
+.paren{ color:#a8722b; }
+.sig-synth .paren, .element-page .el-comment .paren{ color:var(--gold-bright); }
+/* 12 Ev listesi */
+.house-legend{ margin:0 0 4mm; }
+.house-legend .lbl{ display:block; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:13pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:5mm; }
+.house-grid{ display:grid; grid-template-rows:repeat(6,auto); grid-auto-flow:column; column-gap:11mm; }
+.hrow{ display:flex; gap:3mm; align-items:baseline; padding:1.1mm 0; border-bottom:1px solid rgba(194,163,107,.12); }
+.hrow .hn{ font-family:'Cormorant Garamond',serif; font-size:12.5pt; color:#86829f; width:6mm; flex:0 0 6mm; text-align:right; }
+.hrow .hv{ font-size:10.5pt; color:#b6b2d2; }
+.hrow.on{ background:rgba(224,150,75,.17); border-radius:1.5mm; }
+.hrow.on .hn{ color:#eda85a; font-weight:700; }
+.hrow.on .hv{ color:#f6f2ff; }
+/* Diyagram sayfası */
+.diag-intro{ text-align:center; font-style:italic; font-family:'Cormorant Garamond',serif; font-size:13.5pt; color:#cdc8e6; max-width:140mm; margin:0 auto 3mm; }
+.nitelik-tally{ display:flex; justify-content:center; gap:10mm; margin:0 0 1mm; }
+.nitelik-tally .nt{ font-size:11pt; color:#9a96bd; }
+.nitelik-tally .nt b{ font-family:'Cormorant Garamond',serif; font-weight:600; font-size:13.5pt; color:#c9c4e2; }
+.nitelik-tally .nt.dom, .nitelik-tally .nt.dom b{ color:var(--gold-bright); }
+.diag-inner{ min-height:297mm; display:flex; flex-direction:column; justify-content:center; padding:10mm 27.5mm; }
+.diagram{ width:133mm; height:81mm; margin:3mm 0 6mm; align-self:center; }
+.diagram svg{ display:block; width:100%; height:100%; }
+
+/* ============ SECTIONS ============ */
+.section{ padding-top:13mm; }
+.section:first-of-type{ padding-top:0; }
+.section-head{ margin-bottom:6mm; break-inside:avoid; break-after:avoid; }
+.section-head .eyebrow{ display:block; margin-bottom:3mm; }
+.section-head .row{ display:flex; align-items:center; gap:5mm; }
+.section-head .sym{ width:10mm; height:10mm; flex:0 0 10mm; border-radius:50%;
+  border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; }
+.section-head .sym .astro{ font-size:12pt; color:var(--gold); }
+.section-head h2{ font-size:24pt; color:var(--ink); }
+.section-head .hr{ flex:1; height:1px; background:linear-gradient(90deg,var(--gold),transparent); }
+
+/* ============ UPSELL ============ */
+.upsell{ margin-top:8mm; padding:6mm 7mm; border-radius:2mm; break-inside:avoid;
+  background-color:#14142e;
+  background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%2786%27%20height%3D%2786%27%3E%3Cg%20stroke%3D%27%23c2a36b%27%20stroke-width%3D%270.5%27%20fill%3D%27%23c2a36b%27%20opacity%3D%270.20%27%3E%3Cline%20x1%3D%279%27%20y1%3D%2717%27%20x2%3D%2745%27%20y2%3D%2743%27/%3E%3Cline%20x1%3D%2745%27%20y1%3D%2743%27%20x2%3D%2775%27%20y2%3D%2723%27/%3E%3Cline%20x1%3D%2745%27%20y1%3D%2743%27%20x2%3D%2757%27%20y2%3D%2777%27/%3E%3Ccircle%20cx%3D%279%27%20cy%3D%2717%27%20r%3D%271%27/%3E%3Ccircle%20cx%3D%2745%27%20cy%3D%2743%27%20r%3D%271.4%27/%3E%3Ccircle%20cx%3D%2775%27%20cy%3D%2723%27%20r%3D%271%27/%3E%3Ccircle%20cx%3D%2757%27%20cy%3D%2777%27%20r%3D%271%27/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat:repeat;
+  border:1px solid rgba(194,163,107,.32); border-left:3px solid var(--gold); color:var(--parchment); }
+.upsell .eyebrow{ display:block; margin-bottom:2mm; color:var(--gold-bright); font-weight:600; }
+.upsell .u-title{ font-family:'Cormorant Garamond',serif; font-size:17.5pt; font-weight:600; color:#fbf6ec; margin-bottom:2mm; }
+.upsell p{ font-size:11pt; color:#cdc8e6; margin-bottom:4mm; text-align:left; }
+.upsell a{ display:inline-block; background:var(--gold); color:#241f12; padding:2.7mm 6.5mm;
+  border-radius:1.4mm; font-size:10pt; font-weight:700; letter-spacing:.03em; text-decoration:none; }
+.upsell a::after{ content:" →"; }
+
+.foot-rule{ margin-top:15mm; padding-top:4mm; border-top:1px solid rgba(43,42,61,.12);
+  display:flex; justify-content:space-between; font-size:8pt; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--muted); break-inside:avoid; }
+
+/* ============ CLOSING ============ */
+.closing{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.closing .inner{ height:297mm; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 26mm; }
+.closing .eyebrow{ color:var(--gold-bright); margin-bottom:6mm; }
+.closing h2{ font-size:30pt; color:#fbf6ec; margin-bottom:5mm; }
+.closing .lead{ font-style:italic; font-family:'Cormorant Garamond',serif; font-size:13.5pt; line-height:1.62; color:var(--gold-bright); max-width:132mm; margin-bottom:11mm; }
+.cta-list{ width:128mm; }
+.cta-row{ display:flex; justify-content:space-between; align-items:center; padding:4.4mm 0; border-bottom:1px solid rgba(194,163,107,.28); }
+.cta-row .n{ font-family:'Cormorant Garamond',serif; font-size:14pt; color:#fbf6ec; }
+.cta-row .go{ font-size:8.5pt; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-bright); }
+.closing .note{ margin-top:12mm; font-size:9pt; color:#a9a6c8; max-width:118mm; }
+.closing .end{ margin-top:9mm; font-size:18pt; color:var(--gold); }
+
+/* ============ ELEMENT & MİZAÇ ============ */
+.elemental{ margin-top:9mm; padding:9mm 10mm; border-radius:2mm;
+  background:linear-gradient(160deg,#23234f 0%, #14142e 100%); color:var(--parchment); break-inside:avoid; }
+.elemental .eyebrow{ color:var(--gold-bright); display:block; margin-bottom:6mm; }
+.elemental .mizac{ display:flex; align-items:baseline; gap:5mm; margin-bottom:2mm; }
+.elemental .mizac .lbl{ font-size:8.5pt; letter-spacing:.24em; text-transform:uppercase; color:#bdb8d6; }
+.elemental .mizac .name{ font-family:'Cormorant Garamond',serif; font-size:28pt; color:var(--gold-bright); line-height:1; }
+.elemental .desc{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:13pt; color:#cdc8e6; margin-bottom:8mm; }
+.ebar{ display:flex; align-items:center; gap:5mm; margin-bottom:4mm; }
+.ebar:last-child{ margin-bottom:0; }
+.ebar .en{ width:18mm; flex:0 0 18mm; font-size:10.5pt; color:#ece8f7; }
+.ebar .track{ flex:1; height:4mm; background:rgba(255,255,255,.07); border-radius:2mm; overflow:hidden; }
+.ebar .fill{ display:block; height:100%; border-radius:2mm; }
+.ebar .pct{ width:14mm; flex:0 0 14mm; text-align:right; font-size:10pt; color:var(--gold-bright); }
+.ebar.dom .en{ color:var(--gold-bright); font-weight:600; }
+
+/* ============ ELEMENT PAGE (özel sayfa) ============ */
+.element-page{ background:linear-gradient(175deg,var(--night) 0%, var(--night-deep) 100%); color:var(--parchment); }
+.element-page .inner{ height:297mm; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:0 27.5mm; }
+.element-page .eyebrow{ color:var(--gold-bright); margin-bottom:8mm; }
+.element-page .mizac-big{ display:flex; flex-direction:column; align-items:center; margin-bottom:4mm; }
+.element-page .mizac-big .lbl{ font-size:9pt; letter-spacing:.28em; text-transform:uppercase; color:#bdb8d6; margin-bottom:3mm; }
+.element-page .mizac-big .name{ font-family:'Cormorant Garamond',serif; font-size:40pt; color:var(--gold-bright); line-height:1; font-weight:500; }
+.element-page .m-desc{ font-family:'Cormorant Garamond',serif; font-style:italic; font-size:14pt; color:#cdc8e6; max-width:140mm; margin-bottom:9mm; }
+.element-page .bars{ width:150mm; margin-bottom:8mm; }
+.element-page .ebar{ margin-bottom:5.5mm; }
+.element-page .ebar .en{ font-size:12pt; width:20mm; flex:0 0 20mm; text-align:left; }
+.element-page .ebar .track{ height:5mm; }
+.element-page .ebar .pct{ font-size:11pt; }
+.element-page .m-note{ font-size:9.5pt; font-style:italic; color:#a9a6c8; max-width:115mm; }
+.element-page .el-legend{ width:150mm; margin-bottom:8mm; }
+.element-page .el-comment{ width:150mm; text-align:left; margin-bottom:7mm; }
+.element-page .el-comment .lbl{ display:block; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:13pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:4mm; }
+.element-page .el-comment p{ font-size:12pt; line-height:1.72; color:#dad6ec; }
+.element-page .el-comment em{ color:#ece8f7; font-style:italic; }
+.element-page .leg{ display:flex; gap:5mm; padding:1.9mm 0; border-bottom:1px solid rgba(194,163,107,.14); text-align:left; }
+.element-page .leg:last-child{ border-bottom:none; }
+.element-page .leg .k{ font-family:'Cormorant Garamond',serif; font-size:12.5pt; color:#ece8f7; width:20mm; flex:0 0 20mm; }
+.element-page .leg.dom .k{ color:var(--gold-bright); font-weight:600; }
+.element-page .leg .v{ font-size:10.5pt; color:#b6b2d2; font-style:italic; align-self:center; }
+</style>
+
+<!-- ====================== COVER ====================== -->
+<section class="sheet cover">
+  <svg class="art" viewBox="0 0 210 297" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="trail" gradientUnits="userSpaceOnUse" x1="104" y1="64" x2="180" y2="14">
+        <stop offset="0%" stop-color="#dcc188" stop-opacity="0"/>
+        <stop offset="68%" stop-color="#dcc188" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <!-- star field -->
+    <g fill="#dcc188">
+      <circle cx="30" cy="46" r="1"/><circle cx="62" cy="30" r=".7"/><circle cx="95" cy="52" r=".8"/>
+      <circle cx="150" cy="40" r=".7"/><circle cx="182" cy="64" r="1"/><circle cx="44" cy="92" r=".7"/>
+      <circle cx="120" cy="86" r=".8"/><circle cx="170" cy="110" r=".7"/><circle cx="26" cy="140" r=".8"/>
+      <circle cx="190" cy="150" r=".7"/><circle cx="58" cy="170" r=".8"/><circle cx="138" cy="160" r=".7"/>
+      <circle cx="100" cy="200" r=".7"/><circle cx="40" cy="220" r="1"/><circle cx="165" cy="214" r=".8"/>
+      <circle cx="80" cy="244" r=".7"/><circle cx="124" cy="262" r=".8"/><circle cx="22" cy="256" r=".7"/>
+      <circle cx="186" cy="248" r=".8"/><circle cx="148" cy="236" r=".7"/><circle cx="70" cy="120" r=".7"/>
+    </g>
+    <g fill="#ffffff" opacity=".9">
+      <circle cx="84" cy="66" r="1.3"/><circle cx="158" cy="92" r="1.1"/><circle cx="52" cy="200" r="1.3"/><circle cx="176" cy="186" r="1.1"/>
+    </g>
+    <!-- constellation -->
+    <g stroke="#dcc188" stroke-width=".35" opacity=".55" fill="none">
+      <polyline points="40,62 58,74 78,70 92,84 110,80"/>
+    </g>
+    <g fill="#dcc188">
+      <circle cx="40" cy="62" r="1"/><circle cx="58" cy="74" r="1"/><circle cx="78" cy="70" r="1"/><circle cx="92" cy="84" r="1"/><circle cx="110" cy="80" r="1"/>
+    </g>
+    <!-- shooting star -->
+    <g stroke-linecap="round">
+      <line x1="104" y1="64" x2="123" y2="51.5" stroke="#dcc188" stroke-width="1.1" opacity=".16"/>
+      <line x1="123" y1="51.5" x2="142" y2="39" stroke="#dcc188" stroke-width="1.3" opacity=".34"/>
+      <line x1="142" y1="39" x2="161" y2="26.5" stroke="#e8d39a" stroke-width="1.5" opacity=".6"/>
+      <line x1="161" y1="26.5" x2="180" y2="14" stroke="#fbf6ec" stroke-width="1.7" opacity=".9"/>
+    </g>
+    <circle cx="180" cy="14" r="3.6" fill="#ffffff" opacity=".22"/>
+    <circle cx="180" cy="14" r="1.9" fill="#ffffff"/>
+  </svg>
+
+  <div class="brandmark"><!-- LOGO BURAYA -->Yıldızname</div>
+  <div class="cover-inner">
+    <div class="sigil astro">&#9737;&nbsp;&#9789;</div>
+    <div class="eyebrow">Kişiye Özel Astrolojik Analiz</div>
+    <h1>Ayşe</h1>
+    <div class="subtitle">Doğum Haritası Raporu</div>
+    <div class="rule"></div>
+    <div class="meta">5 Ağustos 1995 · 15:32 · İzmir</div>
+  </div>
+  <div class="foot">Yıldızların Işığında Hazırlanmıştır</div>
+</section>
+
+<!-- ====================== CHART + POSITIONS ====================== -->
+<section class="sheet chart-page">
+  <div class="inner">
+    <div class="eyebrow page-title" lang="tr">Doğum Anının Gökyüzü</div>
+    <svg class="chart-wheel" viewBox="-44 -44 488 488" xmlns="http://www.w3.org/2000/svg" font-family="Spectral, serif">
+<circle cx="200" cy="200" r="196" fill="none" stroke="#c2a36b" stroke-width="1.1" opacity=".85"/>
+<circle cx="200" cy="200" r="166" fill="none" stroke="#c2a36b" stroke-width=".8" opacity=".55"/>
+<circle cx="200" cy="200" r="120" fill="none" stroke="#c2a36b" stroke-width=".7" opacity=".35"/>
+<line x1="357.8" y1="251.4" x2="380.6" y2="258.9" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="361.7" y1="237.5" x2="389.5" y2="243.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="364.4" y1="223.2" x2="391.1" y2="227.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="365.8" y1="208.8" x2="394.2" y2="210.3" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="365.9" y1="194.4" x2="392.9" y2="193.4" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="364.8" y1="179.9" x2="393.1" y2="176.5" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="362.4" y1="165.6" x2="385.9" y2="160.7" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="358.8" y1="151.6" x2="386.1" y2="143.3" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="354.0" y1="137.9" x2="379.0" y2="127.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="348.0" y1="124.8" x2="373.4" y2="111.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="340.9" y1="112.2" x2="363.8" y2="97.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="332.7" y1="100.2" x2="355.4" y2="83.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="323.5" y1="89.0" x2="341.3" y2="73.0" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="313.3" y1="78.7" x2="332.8" y2="57.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="302.3" y1="69.3" x2="319.0" y2="48.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="290.5" y1="60.9" x2="306.1" y2="37.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="278.1" y1="53.5" x2="290.8" y2="29.7" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="265.0" y1="47.3" x2="276.2" y2="21.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="251.4" y1="42.2" x2="258.9" y2="19.4" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="237.5" y1="38.3" x2="243.9" y2="10.5" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="223.2" y1="35.6" x2="227.0" y2="8.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="208.8" y1="34.2" x2="210.3" y2="5.8" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="194.4" y1="34.1" x2="193.4" y2="7.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="179.9" y1="35.2" x2="176.5" y2="6.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="165.6" y1="37.6" x2="160.7" y2="14.1" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="151.6" y1="41.2" x2="143.3" y2="13.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="137.9" y1="46.0" x2="127.9" y2="21.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="124.8" y1="52.0" x2="111.9" y2="26.6" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="112.2" y1="59.1" x2="97.9" y2="36.2" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="100.2" y1="67.3" x2="83.1" y2="44.6" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="89.0" y1="76.5" x2="73.0" y2="58.7" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="78.7" y1="86.7" x2="57.9" y2="67.2" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="69.3" y1="97.7" x2="48.0" y2="81.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="60.9" y1="109.5" x2="37.0" y2="93.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="53.5" y1="121.9" x2="29.7" y2="109.2" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="47.3" y1="135.0" x2="21.0" y2="123.8" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="42.2" y1="148.6" x2="19.4" y2="141.1" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="38.3" y1="162.5" x2="10.5" y2="156.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="35.6" y1="176.8" x2="8.9" y2="173.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="34.2" y1="191.2" x2="5.8" y2="189.7" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="34.1" y1="205.6" x2="7.1" y2="206.6" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="35.2" y1="220.1" x2="6.9" y2="223.5" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="37.6" y1="234.4" x2="14.1" y2="239.3" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="41.2" y1="248.4" x2="13.9" y2="256.7" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="46.0" y1="262.1" x2="21.0" y2="272.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="52.0" y1="275.2" x2="26.6" y2="288.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="59.1" y1="287.8" x2="36.2" y2="302.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="67.3" y1="299.8" x2="44.6" y2="316.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="76.5" y1="311.0" x2="58.7" y2="327.0" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="86.7" y1="321.3" x2="67.2" y2="342.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="97.7" y1="330.7" x2="81.0" y2="352.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="109.5" y1="339.1" x2="93.9" y2="363.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="121.9" y1="346.5" x2="109.2" y2="370.3" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="135.0" y1="352.7" x2="123.8" y2="379.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="148.6" y1="357.8" x2="141.1" y2="380.6" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="162.5" y1="361.7" x2="156.1" y2="389.5" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="176.8" y1="364.4" x2="173.0" y2="391.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="191.2" y1="365.8" x2="189.7" y2="394.2" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="205.6" y1="365.9" x2="206.6" y2="392.9" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="220.1" y1="364.8" x2="223.5" y2="393.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="234.4" y1="362.4" x2="239.3" y2="385.9" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="248.4" y1="358.8" x2="256.7" y2="386.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="262.1" y1="354.0" x2="272.1" y2="379.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="275.2" y1="348.0" x2="288.1" y2="373.4" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="287.8" y1="340.9" x2="302.1" y2="363.8" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="299.8" y1="332.7" x2="316.9" y2="355.4" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="311.0" y1="323.5" x2="327.0" y2="341.3" stroke="#c2a36b" stroke-width="0.9" opacity=".7"/>
+<line x1="321.3" y1="313.3" x2="342.1" y2="332.8" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="330.7" y1="302.3" x2="352.0" y2="319.0" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="339.1" y1="290.5" x2="363.0" y2="306.1" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="346.5" y1="278.1" x2="370.3" y2="290.8" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="352.7" y1="265.0" x2="379.0" y2="276.2" stroke="#c2a36b" stroke-width="0.5" opacity=".35"/>
+<line x1="314.1" y1="237.2" x2="386.4" y2="260.7" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="317.4" y1="175.2" x2="391.8" y2="159.4" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="289.2" y1="119.8" x2="345.8" y2="69.0" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="237.2" y1="85.9" x2="260.7" y2="13.6" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="175.2" y1="82.6" x2="159.4" y2="8.2" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="119.8" y1="110.8" x2="69.0" y2="54.2" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="85.9" y1="162.8" x2="13.6" y2="139.3" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="82.6" y1="224.8" x2="8.2" y2="240.6" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="110.8" y1="280.2" x2="54.2" y2="331.0" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="162.8" y1="314.1" x2="139.3" y2="386.4" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="224.8" y1="317.4" x2="240.6" y2="391.8" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<line x1="280.2" y1="289.2" x2="331.0" y2="345.8" stroke="#c2a36b" stroke-width=".5" opacity=".25"/>
+<rect x="371.7" y="200.6" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M854 0Q854 600 711.0 986.5Q568 1373 399 1373Q270 1373 253.0 1274.5Q236 1176 236 1142Q236 1014 320 886H186Q93 1018 93 1179Q93 1311 174.5 1404.5Q256 1498 402 1498Q774 1498 905 725Q913 676 918 636Q922 676 930 725Q1062 1498 1433 1498Q1580 1498 1661.0 1404.5Q1742 1311 1742 1179Q1742 1018 1649 886H1515Q1600 1014 1600 1143Q1600 1177 1583.0 1275.0Q1566 1373 1436 1373Q1268 1373 1125.0 986.5Q982 600 982 0Z" fill="#dcc188" transform="translate(380.74 209.63) scale(0.0067 -0.0067) translate(-917.5 -749.0)"/>
+<rect x="352.3" y="109.0" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M917 860Q770 860 667.0 756.5Q564 653 564.0 506.0Q564 359 667.0 256.0Q770 153 917.0 153.0Q1064 153 1167.5 256.0Q1271 359 1271.0 506.0Q1271 653 1168.5 756.5Q1066 860 917 860ZM917 1010Q1048 1015 1124 1076Q1210 1142 1258.5 1232.0Q1307 1322 1387.5 1409.0Q1468 1496 1653 1496V1388Q1530 1388 1446.5 1232.0Q1363 1076 1232 968Q1211 949 1188 934Q1234 904 1277 863Q1423 714 1423 504Q1423 295 1275.5 147.5Q1128 0 917 0Q709 0 561.0 147.5Q413 295 413 504Q413 714 561 863Q602 905 650 935Q626 949 605 968Q476 1076 390.5 1232.0Q305 1388 183 1388V1496Q368 1496 461.0 1409.0Q554 1322 590.0 1232.0Q626 1142 711 1076Q788 1015 917 1010Z" fill="#dcc188" transform="translate(361.34 117.97) scale(0.0074 -0.0074) translate(-918.0 -748.0)"/>
+<rect x="289.7" y="39.3" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M530 1276Q362 1298 192 1350V1498Q539 1408 919.0 1408.0Q1299 1408 1642 1498V1347Q1466 1300 1300 1276V222Q1466 199 1642 152V0Q1299 91 919.0 91.0Q539 91 192 0V148Q362 201 530 222ZM682 234Q798 247 915 247Q915 247 1148 234V1265Q1032 1252 915 1252Q915 1252 682 1265Z" fill="#dcc188" transform="translate(298.71 48.29) scale(0.0073 -0.0073) translate(-917.0 -749.0)"/>
+<rect x="200.6" y="10.3" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M1251 241Q1345 241 1411.5 307.5Q1478 374 1478.0 469.0Q1478 564 1412.0 630.0Q1346 696 1251.0 696.0Q1156 696 1090.0 630.0Q1024 564 1024.0 469.0Q1024 374 1090.0 307.5Q1156 241 1251 241ZM1060 64Q748 66 566.0 86.0Q384 106 231 149V273Q484 189 666.0 178.0Q848 167 907 167Q1037 167 1029 193Q898 301 898 468Q898 615 1000.5 718.5Q1103 822 1250 822Q1399 822 1502.0 718.5Q1605 615 1605.0 468.0Q1605 321 1501 218Q1428 141 1305.0 103.0Q1182 65 1060 64ZM585 759Q679 759 745.5 825.0Q812 891 812.0 986.0Q812 1081 745.5 1147.0Q679 1213 585.0 1213.0Q491 1213 424.0 1147.0Q357 1081 357.0 986.0Q357 891 423.5 825.0Q490 759 585 759ZM775 1391Q1088 1389 1270.0 1368.5Q1452 1348 1605 1305V1182Q1352 1266 1171.0 1276.5Q990 1287 932 1287Q799 1287 807 1261Q938 1153 938 987Q938 839 835.5 735.5Q733 632 586 632Q437 632 334.0 735.5Q231 839 231 987Q231 1133 335 1236Q408 1313 530.5 1351.5Q653 1390 775 1391Z" fill="#dcc188" transform="translate(209.63 19.26) scale(0.0080 -0.0080) translate(-918.0 -727.5)"/>
+<rect x="109.0" y="29.7" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M660 396Q735 425 760.0 481.5Q785 538 785 577Q785 612 771 647Q742 722 685.5 747.0Q629 772 590 772Q554 772 519 758Q444 728 419.5 672.5Q395 617 395 578Q395 543 409 507Q439 431 494.5 406.5Q550 382 589 382Q624 382 660 396ZM672 1134Q672 1295 783.5 1395.5Q895 1496 1075 1496Q1247 1496 1356.0 1385.5Q1465 1275 1465 1099Q1465 912 1320.0 661.0Q1175 410 1175 230Q1179 106 1313 103Q1384 103 1484 191L1549 119Q1422 0 1311 0Q1212 0 1140.0 60.5Q1068 121 1068 232Q1068 431 1211.5 671.5Q1355 912 1355 1106Q1355 1240 1273.0 1322.5Q1191 1405 1059 1405Q932 1405 857.0 1327.5Q782 1250 782 1121Q782 1061 805.0 988.5Q828 916 853 854Q890 756 894.5 692.0Q899 628 899 611Q899 524 867 456Q816 341 700 296Q644 274 588 274Q528 274 441.5 311.5Q355 349 308 469Q286 523 286 579Q286 639 313 699Q364 813 481 859Q536 880 591 880Q667 880 741 839Q749 839 749 852Q749 878 710.5 970.0Q672 1062 672 1134Z" fill="#dcc188" transform="translate(117.97 38.66) scale(0.0074 -0.0074) translate(-917.5 -748.0)"/>
+<rect x="39.3" y="92.3" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M680 1496Q743 1496 802.5 1397.0Q862 1298 862 1170Q902 1289 1001.0 1392.5Q1100 1496 1175 1496Q1237 1496 1278.0 1412.5Q1319 1329 1319 1110V908Q1367 1033 1432.5 1092.5Q1498 1152 1566 1152Q1626 1152 1676.0 1036.0Q1726 920 1726 647Q1726 239 1345 -82Q1346 -176 1492 -369H1324Q1278 -328 1204 -167Q1037 -268 862 -275V-159Q1053 -131 1177 -44L1168 173V1028Q1168 1046 1168 1063Q1168 1344 1122 1345Q1064 1344 997.5 1235.5Q931 1127 868 927V0H717V922Q717 1243 701.5 1296.0Q686 1349 651 1349Q651 1349 650 1349Q650 1349 649 1349Q608 1349 518.5 1236.0Q429 1123 410 908V0H261V1089Q261 1279 109 1470H251Q369 1391 405 1215Q428 1308 519.5 1402.0Q611 1496 680 1496ZM1319 618V58Q1577 308 1601 646Q1601 839 1578.5 908.5Q1556 978 1528 978Q1528 978 1524 978Q1494 978 1422.5 875.0Q1351 772 1319 618Z" fill="#dcc188" transform="translate(48.29 101.29) scale(0.0059 -0.0059) translate(-917.5 -563.5)"/>
+<rect x="10.3" y="181.4" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" fill="#dcc188" transform="translate(19.26 190.37) scale(0.0074 -0.0074) translate(-918.0 -722.0)"/>
+<rect x="29.7" y="273.0" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M1280 271Q1280 160 1331.5 97.5Q1383 35 1472 34H1561V152H1565L1768 -21L1565 -196L1561 -192V-74H1472Q1269 -74 1201 46Q1157 120 1149 238L1128 1028Q1128 1046 1128 1063Q1128 1344 1082 1345Q1024 1344 957.5 1235.5Q891 1127 828 927V0H677V922Q677 1243 661.5 1296.0Q646 1349 611 1349Q611 1349 610 1349Q610 1349 609 1349Q568 1349 478.5 1236.0Q389 1123 370 908V0H221V1089Q221 1279 69 1470H211Q329 1391 365 1215Q388 1308 479.5 1402.0Q571 1496 640 1496Q703 1496 762.5 1397.0Q822 1298 822 1170Q862 1289 961.0 1392.5Q1060 1496 1135 1496Q1197 1496 1238.0 1412.5Q1279 1329 1279 1110V908L1280 272Z" fill="#dcc188" transform="translate(38.66 282.03) scale(0.0065 -0.0065) translate(-918.5 -650.0)"/>
+<rect x="92.3" y="342.7" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M1514 728V1236L809 531L1126 214L1018 106L701 423L277 -1L276 0L170 106L169 107L593 531L276 848L277 849L383 955L384 956L701 639L1406 1344H898V1496H1666V728Z" fill="#dcc188" transform="translate(101.29 351.71) scale(0.0073 -0.0073) translate(-917.5 -747.5)"/>
+<rect x="181.4" y="371.7" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M851 1496Q958 1496 998.5 1063.0Q1039 630 1064 634Q1173 855 1368 855Q1489 855 1565.5 760.0Q1642 665 1642 562Q1642 417 1570.5 331.5Q1499 246 1357 246Q1202 246 1080 379Q1036 219 973.0 111.5Q910 4 772 0H604V118L758 119Q880 123 985 499Q935 515 903.0 909.5Q871 1304 813 1304Q777 1304 700.0 1070.5Q623 837 623 642Q623 627 623 613L465 611Q465 864 394.5 1112.0Q324 1360 192 1366V1463Q339 1463 419.5 1352.0Q500 1241 540 966Q586 1167 631 1255Q672 1346 733.0 1421.0Q794 1496 851 1496ZM1137 510Q1230 365 1360 365Q1521 365 1530 562Q1523 719 1364 738Q1212 738 1137 510Z" fill="#dcc188" transform="translate(190.37 380.74) scale(0.0074 -0.0074) translate(-917.0 -748.0)"/>
+<rect x="273.0" y="352.3" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M176 413Q501 684 616 684Q661 684 674 644Q698 573 754.0 573.0Q810 573 896.0 644.0Q982 715 1038 715Q1092 715 1116 644Q1142 573 1199.0 573.0Q1256 573 1342 644Q1385 680 1426 680Q1550 680 1659 364L1565 313Q1502 498 1407 498Q1356 498 1296 445Q1210 369 1154.0 369.0Q1098 369 1073 444Q1045 522 986 522Q931 522 848 455Q761 384 706 384Q650 384 625 456Q601 526 547 526Q492 526 363.0 419.5Q234 313 229 313L176 411ZM176 884Q500 1153 616 1153Q660 1153 674 1114Q698 1044 754 1044Q809 1044 895 1114Q982 1186 1037.0 1186.0Q1092 1186 1115 1114Q1142 1044 1198 1044Q1255 1044 1341 1114Q1384 1149 1425 1149Q1550 1149 1659 834L1565 784Q1502 969 1407 969Q1356 969 1296 915Q1209 838 1154 838Q1098 838 1072 914Q1045 992 986 992Q931 992 847 924Q761 853 705 853Q650 853 625 925Q601 997 546.0 997.0Q491 997 362.5 890.5Q234 784 229 784L176 881Z" fill="#dcc188" transform="translate(282.03 361.34) scale(0.0074 -0.0074) translate(-917.5 -749.5)"/>
+<rect x="342.7" y="289.7" width="18" height="18" rx="3.5" fill="#2a2a57" stroke="#c2a36b" stroke-width=".6" opacity=".92"/>
+<path d="M1038 665 797 662Q765 324 487 3L322 0Q629 351 656 662H360V834H656Q628 1144 321 1496L487 1493Q765 1173 797 834H1039Q1070 1173 1349 1493L1514 1496Q1207 1144 1180 834H1475L1474 662H1178Q1207 351 1514 0L1348 3Q1069 324 1038 662Z" fill="#dcc188" transform="translate(351.71 298.71) scale(0.0074 -0.0074) translate(-917.5 -748.0)"/>
+<text x="411.7" y="211.3" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">7.ev</text>
+<text x="389.0" y="103.9" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">8.ev</text>
+<text x="315.6" y="22.3" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">9.ev</text>
+<text x="211.3" y="-11.7" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">10.ev</text>
+<text x="103.9" y="11.0" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">11.ev</text>
+<text x="22.3" y="84.4" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">12.ev</text>
+<text x="-11.7" y="188.7" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">1.ev</text>
+<text x="11.0" y="296.1" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">2.ev</text>
+<text x="84.4" y="377.7" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">3.ev</text>
+<text x="188.7" y="411.7" fill="#dcc188" font-size="20.5" font-weight="700" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">4.ev</text>
+<text x="296.1" y="389.0" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">5.ev</text>
+<text x="377.7" y="315.6" fill="#8884ad" font-size="18" font-weight="400" text-anchor="middle" dominant-baseline="central" font-family="Cormorant Garamond, serif">6.ev</text>
+<line x1="80.0" y1="200.0" x2="320.0" y2="200.0" stroke="#dcc188" stroke-width=".8" opacity=".5" stroke-dasharray="2 2"/>
+<path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" fill="#dcc188" transform="translate(67.00 200.00) scale(0.0080 -0.0080) translate(-918.0 -722.0)"/>
+<line x1="159.4" y1="97.8" x2="127.3" y2="282.6" stroke="#7fb0a6" stroke-width="2.2" opacity=".95"/>
+<line x1="207.1" y1="90.2" x2="188.2" y2="309.4" stroke="#c07f5a" stroke-width="1.3" opacity=".75"/>
+<line x1="123.3" y1="121.1" x2="127.3" y2="282.6" stroke="#c07f5a" stroke-width="1.3" opacity=".7"/>
+<line x1="207.1" y1="90.2" x2="90.0" y2="200.0" stroke="#c07f5a" stroke-width="1.3" opacity=".7"/>
+<circle cx="147.5" cy="68.0" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" fill="#ffffff" transform="translate(147.54 68.05) scale(0.0143 -0.0143) translate(-435.0 -353.0)"/>
+<text x="142.0" y="54.1" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">9°</text>
+<circle cx="209.2" cy="58.3" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" fill="#ffffff" transform="translate(209.21 58.30) scale(0.0074 -0.0074) translate(-1200.0 -747.5)"/>
+<text x="210.2" y="43.3" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">14°</text>
+<circle cx="101.0" cy="98.2" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M873 1110Q913 1084 949 1048Q1082 917 1082 728Q1082 540 950 416Q842 316 699 302V93L915 95V-5L695 -6L696 -208H567L566 -5H364V93H566L564 302Q417 315 308 416Q175 540 175 728Q175 917 308 1048Q344 1084 384 1110Q344 1135 308 1172Q175 1303 175 1491V1499H317V1489Q317 1359 408 1269Q493 1186 610 1179H648Q764 1186 849 1269Q940 1359 940 1489V1499H1082V1491Q1082 1303 949 1172Q913 1135 873 1110ZM648 1040H610Q493 1034 408 950Q317 861 317.0 731.0Q317 601 408.5 516.0Q500 431 630 431Q757 431 848.5 516.0Q940 601 940.0 731.0Q940 861 849 950Q764 1034 648 1040Z" fill="#ffffff" transform="translate(101.00 98.20) scale(0.0064 -0.0064) translate(-628.5 -645.5)"/>
+<text x="90.5" y="87.4" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">2°</text>
+<circle cx="341.0" cy="183.2" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M750 1319Q586 1319 470.5 1205.0Q355 1091 355 927Q355 764 470.5 656.0Q586 548 750 548Q911 548 1028.0 656.0Q1145 764 1145 927Q1145 1091 1028.0 1205.0Q911 1319 750 1319ZM344 532Q175 689 175 927Q175 1166 343.0 1332.0Q511 1498 750 1498Q986 1498 1155.5 1332.0Q1325 1166 1325.0 927.0Q1325 688 1156 532Q1020 406 840 388V124H1112V0H840V-257H660V0H388V124H660V389Q479 406 344 532Z" fill="#ffffff" transform="translate(341.01 183.23) scale(0.0063 -0.0063) translate(-750.0 -620.5)"/>
+<text x="355.9" y="181.5" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">24°</text>
+<circle cx="323.8" cy="193.3" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M737 918Q573 918 457.5 804.0Q342 690 342.0 526.0Q342 362 457.5 254.0Q573 146 737 146Q898 146 1015.0 254.0Q1132 362 1132.0 526.0Q1132 690 1015.0 804.0Q898 918 737 918ZM1149 135Q981 -29 737 -29Q502 -29 332.0 129.5Q162 288 162.0 526.0Q162 764 334.5 934.5Q507 1105 737 1096Q965 1088 1077 985L1438 1333H1067L1207 1475H1701V983L1558 840V1213L1200 865Q1312 719 1312 526Q1312 294 1149 135Z" fill="#ffffff" transform="translate(323.82 193.26) scale(0.0071 -0.0071) translate(-931.5 -723.0)"/>
+<text x="338.8" y="192.4" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">21°</text>
+<circle cx="106.2" cy="306.6" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M781 531V532Q903 532 988.0 617.5Q1073 703 1073.0 824.0Q1073 945 988.5 1030.5Q904 1116 781 1116Q660 1116 574.5 1030.5Q489 945 489 824V822H339Q339 1007 468.0 1137.0Q597 1267 781 1267Q968 1267 1097.0 1137.0Q1226 1007 1226 822Q1226 654 1117 531H1344V1496H1495V0H1344V380H339V531Z" fill="#ffffff" transform="translate(106.16 306.57) scale(0.0074 -0.0074) translate(-917.0 -748.0)"/>
+<text x="96.2" y="317.8" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">6°</text>
+<circle cx="184.8" cy="341.2" r="9.5" fill="#20204a" stroke="#c2a36b" stroke-width=".8"/>
+<path d="M554 1165H448V1316H554V1496H706V1316H884V1165H706V778Q817 887 969 887Q1147 887 1266.5 758.0Q1386 629 1386 442Q1386 352 1316.0 237.5Q1246 123 1246 2V0H1095Q1095 132 1165.5 251.0Q1236 370 1236 442Q1236 565 1158.5 649.5Q1081 734 970 734Q860 734 783.0 649.0Q706 564 706 442V0H554Z" fill="#ffffff" transform="translate(184.83 341.19) scale(0.0074 -0.0074) translate(-917.0 -748.0)"/>
+<text x="183.2" y="356.1" fill="#dcc188" font-size="7.5" text-anchor="middle" dominant-baseline="central">11°</text>
+<circle cx="200" cy="200" r="2.2" fill="#dcc188"/>
+</svg>
+    <div class="chart-name">Ayşe</div>
+    <div class="chart-sub">5 Ağustos 1995 · 15:32 · İzmir</div>
+
+    <div class="pos-table">
+      <div class="pos-row"><span class="pos-sym astro">&#9737;</span><span class="pos-name">Güneş</span><span class="pos-loc">Aslan 09°44′ · 11. ev</span><span class="pos-mean">Kimliğin, özün, parlayan yanın</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9789;</span><span class="pos-name">Ay</span><span class="pos-loc">Yengeç 14°20′ · 10. ev</span><span class="pos-mean">Duyguların, ihtiyaçların</span></div>
+      <div class="pos-row"><span class="pos-sym"><svg class="asc-svg-sm" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" transform="translate(12 12) scale(0.0147 -0.0147) translate(-918.0 -722.0)"/></g></svg></span><span class="pos-name">Yükselen</span><span class="pos-loc">Terazi 18°03′</span><span class="pos-mean">Dışa yansıman, ilk izlenim</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9791;</span><span class="pos-name">Merkür</span><span class="pos-loc">Başak 02°15′ · 12. ev</span><span class="pos-mean">Zihnin, iletişim tarzın</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9792;</span><span class="pos-name">Venüs</span><span class="pos-loc">Koç 24°50′ · 7. ev</span><span class="pos-mean">Sevgi ve değerlerin</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9794;</span><span class="pos-name">Mars</span><span class="pos-loc">Koç 21°10′ · 7. ev</span><span class="pos-mean">Arzu, eylem, irade</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9795;</span><span class="pos-name">Jüpiter</span><span class="pos-loc">Yay 06°41′ · 3. ev</span><span class="pos-mean">Şans, genişleme, vizyon</span></div>
+      <div class="pos-row"><span class="pos-sym astro">&#9796;</span><span class="pos-name">Satürn</span><span class="pos-loc">Oğlak 11°55′ · 4. ev</span><span class="pos-mean">Disiplin, sorumluluk, sınır</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== ANA İMZALAR ====================== -->
+<section class="sheet sig-page">
+  <div class="flow">
+    <div class="sig-head">
+      <span class="eyebrow page-title" lang="tr">Haritanın Ana İmzaları</span>
+    </div>
+    <div class="house-legend">
+      <span class="lbl">12 Ev Ne Anlatır? · Senin Dolu Evlerin Vurgulu</span>
+      <div class="house-grid">
+      <div class="hrow"><span class="hn">1</span><span class="hv">Kişilik, görünüş, ilk izlenim</span></div>
+      <div class="hrow"><span class="hn">2</span><span class="hv">Para, değerler, sahip oldukların</span></div>
+      <div class="hrow on"><span class="hn">3</span><span class="hv">Zihin, iletişim, yakın çevre</span></div>
+      <div class="hrow on"><span class="hn">4</span><span class="hv">Yuva, kökler, aile</span></div>
+      <div class="hrow"><span class="hn">5</span><span class="hv">Aşk, yaratıcılık, oyun</span></div>
+      <div class="hrow"><span class="hn">6</span><span class="hv">İş, sağlık, günlük düzen</span></div>
+      <div class="hrow on"><span class="hn">7</span><span class="hv">İlişkiler, ortaklık, evlilik</span></div>
+      <div class="hrow"><span class="hn">8</span><span class="hv">Dönüşüm, ortak kaynaklar, derinlik</span></div>
+      <div class="hrow"><span class="hn">9</span><span class="hv">İnanç, felsefe, uzak yolculuk</span></div>
+      <div class="hrow on"><span class="hn">10</span><span class="hv">Kariyer, itibar, toplumsal rol</span></div>
+      <div class="hrow on"><span class="hn">11</span><span class="hv">Arkadaşlık, topluluk, idealler</span></div>
+      <div class="hrow on"><span class="hn">12</span><span class="hv">Bilinçaltı, ruhsallık, geri çekiliş</span></div>
+      </div>
+    </div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" transform="translate(12 12) scale(0.0260 -0.0260) translate(-435.0 -353.0)"/></g></svg></div><div class="t"><strong>Aslan Güneş · 11. Ev</strong><span>Görülmek ve takdir edilmek isteyen, sosyal çevresinde ısı yayan parlak bir çekirdek.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-1200.0 -747.5)"/></g></svg></div><div class="t"><strong>Yengeç Ay · 10. Ev</strong><span>Derin, korumacı bir duygusal dünya, ama bu yumuşaklık toplum önünde duruyor.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-918.0 -722.0)"/></g></svg></div><div class="t"><strong>Terazi Yükselen</strong><span>Dışa zarif, kibar, uzlaşmacı bir ilk izlenim.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M51 -4V728H783V-4ZM88 33H746V691H88Z" transform="translate(12 12) scale(0.0273 -0.0273) translate(-417.0 -362.0)"/></g></svg></div><div class="t"><strong>Ay–Yükselen Karesi</strong><span>İçeride hissettiğin ile dışarıya yansıttığın arasındaki ince ayar.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M646 863Q503 863 402.5 763.0Q302 663 302 519Q302 377 402.5 276.5Q503 176 646 176Q788 176 888.5 276.5Q989 377 989 519Q989 663 889.5 763.0Q790 863 646 863ZM980 922Q999 906 1017 887Q1169 734 1169.0 518.0Q1169 302 1016.0 149.5Q863 -3 646 -3Q431 -3 278.0 149.5Q125 302 125.0 518.0Q125 734 276.5 887.0Q428 1040 646 1040Q742 1040 826 1011L1096 1478L1250 1389Z" transform="translate(12 12) scale(0.0135 -0.0135) translate(-687.5 -737.5)"/></g></svg></div><div class="t"><strong>Venüs–Mars Kavuşumu · 7. Ev</strong><span>İlişkilerde güçlü çekim, tutku ve doğrudanlık.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M563 730Q443 730 358.5 645.5Q274 561 274.0 441.0Q274 321 358.5 236.5Q443 152 563.0 152.0Q683 152 767.5 236.5Q852 321 852.0 441.0Q852 561 768.0 645.5Q684 730 563 730ZM1510 754Q1630 754 1714.5 838.5Q1799 923 1799.0 1043.0Q1799 1163 1715.0 1247.5Q1631 1332 1510.0 1332.0Q1389 1332 1305.0 1247.5Q1221 1163 1221.0 1043.0Q1221 923 1305.0 838.5Q1389 754 1510 754ZM965 623Q1003 539 1003 439Q1003 258 874.5 129.5Q746 1 563 1Q382 1 253.5 129.5Q125 258 125 439Q125 622 252.5 750.5Q380 879 563 879Q748 879 876 751Q878 748 880 746L1100 883Q1072 956 1072 1041Q1072 1224 1199.5 1352.5Q1327 1481 1510 1481Q1694 1481 1822.0 1352.5Q1950 1224 1950 1041Q1950 860 1821.5 731.5Q1693 603 1510 603Q1329 603 1200 732Q1189 743 1178 755Z" transform="translate(12 12) scale(0.0110 -0.0110) translate(-1037.5 -741.0)"/></g></svg></div><div class="t"><strong>Ay–Satürn Karşıtlığı</strong><span>Duygu ile sorumluluk arasında zaman zaman bir mesafe.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M51 0 454 697 856 0ZM120 40H787L454 618Z" transform="translate(12 12) scale(0.0248 -0.0248) translate(-453.5 -348.5)"/></g></svg></div><div class="t"><strong>Güneş–Jüpiter Üçgeni</strong><span>Doğuştan bir şans, iyimserlik ve genişleme yeteneği.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="flame-svg" viewBox="0 0 24 24"><path d="M12 3 C13.6 7 17 9 15.4 14 C14.7 17 12.8 18.2 12 18.2 C9.9 18.2 8.4 16 9 13.4 C9.4 11.4 11 11 10.2 8.4 C12 9 11.5 5.6 12 3 Z" fill="none" stroke="#dcc188" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="t"><strong>Öncü–Ateş Baskınlığı</strong><span>Başlatan, harekete geçen, hevesli bir genel ton.</span></div></div>
+  </div>
+</section>
+
+<!-- ====================== ELEMENT × NİTELİK DİYAGRAMI ====================== -->
+<section class="sheet sig-page">
+  <div class="diag-inner">
+    <div class="sig-head">
+      <span class="eyebrow page-title" lang="tr">Nitelik Dengesi</span>
+    </div>
+    <p class="diag-intro">Element neyden yapıldığını söyler; nitelik ise o enerjiyi nasıl harekete geçirdiğini. Senin gezegenlerinin çoğu <em>Öncü</em> nitelikte, başlatan, ilk adımı atan bir tabiat.</p>
+    <div class="diagram"><svg viewBox="0 0 596 365" width="596" height="365" xmlns="http://www.w3.org/2000/svg" font-family="Spectral, serif">
+<text x="180" y="30" fill="#dcc188" font-size="17" font-weight="600" text-anchor="middle" letter-spacing="1">ÖNCÜ (5)</text>
+<text x="180" y="46" fill="#9a96bd" font-size="13" font-style="italic" text-anchor="middle">başlatan</text>
+<text x="345" y="30" fill="#cfcae6" font-size="17" font-weight="600" text-anchor="middle" letter-spacing="1">SABİT (1)</text>
+<text x="345" y="46" fill="#9a96bd" font-size="13" font-style="italic" text-anchor="middle">sürdüren</text>
+<text x="510" y="30" fill="#cfcae6" font-size="17" font-weight="600" text-anchor="middle" letter-spacing="1">DEĞİŞKEN (2)</text>
+<text x="510" y="46" fill="#9a96bd" font-size="13" font-style="italic" text-anchor="middle">uyarlayan</text>
+<circle cx="20" cy="97" r="5" fill="#d9a85e"/>
+<text x="34" y="97" fill="#e7e3f4" font-size="16.5" font-weight="400" dominant-baseline="central">Ateş</text>
+<rect x="102" y="64" width="156" height="66" rx="6" fill="rgba(194,163,107,.20)" stroke="#c2a36b" stroke-width="1.4"/>
+<path d="M750 1319Q586 1319 470.5 1205.0Q355 1091 355 927Q355 764 470.5 656.0Q586 548 750 548Q911 548 1028.0 656.0Q1145 764 1145 927Q1145 1091 1028.0 1205.0Q911 1319 750 1319ZM344 532Q175 689 175 927Q175 1166 343.0 1332.0Q511 1498 750 1498Q986 1498 1155.5 1332.0Q1325 1166 1325.0 927.0Q1325 688 1156 532Q1020 406 840 388V124H1112V0H840V-257H660V0H388V124H660V389Q479 406 344 532Z" fill="#ffffff" transform="translate(165.00 97.00) scale(0.0097 -0.0097) translate(-750.0 -620.5)"/>
+<path d="M737 918Q573 918 457.5 804.0Q342 690 342.0 526.0Q342 362 457.5 254.0Q573 146 737 146Q898 146 1015.0 254.0Q1132 362 1132.0 526.0Q1132 690 1015.0 804.0Q898 918 737 918ZM1149 135Q981 -29 737 -29Q502 -29 332.0 129.5Q162 288 162.0 526.0Q162 764 334.5 934.5Q507 1105 737 1096Q965 1088 1077 985L1438 1333H1067L1207 1475H1701V983L1558 840V1213L1200 865Q1312 719 1312 526Q1312 294 1149 135Z" fill="#ffffff" transform="translate(195.00 97.00) scale(0.0110 -0.0110) translate(-931.5 -723.0)"/>
+<rect x="267" y="64" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" fill="#ffffff" transform="translate(345.00 97.00) scale(0.0221 -0.0221) translate(-435.0 -353.0)"/>
+<rect x="432" y="64" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<path d="M781 531V532Q903 532 988.0 617.5Q1073 703 1073.0 824.0Q1073 945 988.5 1030.5Q904 1116 781 1116Q660 1116 574.5 1030.5Q489 945 489 824V822H339Q339 1007 468.0 1137.0Q597 1267 781 1267Q968 1267 1097.0 1137.0Q1226 1007 1226 822Q1226 654 1117 531H1344V1496H1495V0H1344V380H339V531Z" fill="#ffffff" transform="translate(510.00 97.00) scale(0.0114 -0.0114) translate(-917.0 -748.0)"/>
+<circle cx="20" cy="172" r="5" fill="#9a8a55"/>
+<text x="34" y="172" fill="#e7e3f4" font-size="16.5" font-weight="400" dominant-baseline="central">Toprak</text>
+<rect x="102" y="139" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<path d="M554 1165H448V1316H554V1496H706V1316H884V1165H706V778Q817 887 969 887Q1147 887 1266.5 758.0Q1386 629 1386 442Q1386 352 1316.0 237.5Q1246 123 1246 2V0H1095Q1095 132 1165.5 251.0Q1236 370 1236 442Q1236 565 1158.5 649.5Q1081 734 970 734Q860 734 783.0 649.0Q706 564 706 442V0H554Z" fill="#ffffff" transform="translate(180.00 172.00) scale(0.0114 -0.0114) translate(-917.0 -748.0)"/>
+<rect x="267" y="139" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
+<rect x="432" y="139" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<path d="M873 1110Q913 1084 949 1048Q1082 917 1082 728Q1082 540 950 416Q842 316 699 302V93L915 95V-5L695 -6L696 -208H567L566 -5H364V93H566L564 302Q417 315 308 416Q175 540 175 728Q175 917 308 1048Q344 1084 384 1110Q344 1135 308 1172Q175 1303 175 1491V1499H317V1489Q317 1359 408 1269Q493 1186 610 1179H648Q764 1186 849 1269Q940 1359 940 1489V1499H1082V1491Q1082 1303 949 1172Q913 1135 873 1110ZM648 1040H610Q493 1034 408 950Q317 861 317.0 731.0Q317 601 408.5 516.0Q500 431 630 431Q757 431 848.5 516.0Q940 601 940.0 731.0Q940 861 849 950Q764 1034 648 1040Z" fill="#ffffff" transform="translate(510.00 172.00) scale(0.0100 -0.0100) translate(-628.5 -645.5)"/>
+<circle cx="20" cy="247" r="5" fill="#9aa6c4"/>
+<text x="34" y="247" fill="#e7e3f4" font-size="16.5" font-weight="400" dominant-baseline="central">Hava</text>
+<rect x="102" y="214" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<text x="180" y="247" fill="#ffffff" font-size="13" font-family="Spectral,serif" text-anchor="middle" dominant-baseline="central">AC</text>
+<rect x="267" y="214" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
+<rect x="432" y="214" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
+<circle cx="20" cy="322" r="5" fill="#6f9a9a"/>
+<text x="34" y="322" fill="#e7e3f4" font-size="16.5" font-weight="400" dominant-baseline="central">Su</text>
+<rect x="102" y="289" width="156" height="66" rx="6" fill="rgba(110,108,170,.16)" stroke="#c2a36b" stroke-width=".7"/>
+<path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" fill="#ffffff" transform="translate(180.00 322.00) scale(0.0114 -0.0114) translate(-1200.0 -747.5)"/>
+<rect x="267" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
+<rect x="432" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
+</svg></div>
+    <div class="sig-synth">
+      <span class="lbl">İmza Sentezi</span>
+      <p>Bu sekiz imza tek bir insanı anlatıyor: dışa zarif ve uzlaşmacı <span class="paren">(Terazi Yükselen)</span>, içeride ise parlamak isteyen bir ateş <span class="paren">(Aslan Güneş)</span> ile korunmak isteyen derin bir su <span class="paren">(Yengeç Ay)</span> aynı anda taşıyan biri. Senin temel ritmin bu ikisi arasında salınır, görülme arzusu ile yuvana çekilme ihtiyacı. İlişkilerinde bu içsel ısı doğrudan tutkuya dönüşür <span class="paren">(Venüs–Mars kavuşumu)</span>; kariyer ve duygu alanında ise Satürn sana sabır ve sağlamlık katar, Ay–Satürn karşıtlığının öğrettiği duygusal dayanıklılık, başta mesafe gibi görünse de zamanla en güçlü zırhın olur. Güneş–Jüpiter üçgenin tüm bu yapıya bir <em>şans ve genişleme</em> duygusu serpiştirir: kapılar sana nispeten kolay açılır. Genel tonun öncü ve ateşli, başlatan, harekete geçen biri, ama altındaki toprak <span class="paren">(Oğlak Satürn)</span> bu hevesi kalıcı işlere çevirmeni sağlar. Kısaca sen; zarafetle tutkuyu, coşkuyla disiplini, görünürlükle derinliği aynı bedende taşıyan, karşıtlıklarından güç devşiren bir haritasın.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== ELEMENT & MİZAÇ ====================== -->
+<section class="sheet element-page">
+  <div class="inner">
+    <span class="eyebrow page-title" lang="tr">Element Dengesi &amp; Mizacın</span>
+    <div class="mizac-big">
+      <span class="name">Safravi</span>
+    </div>
+    <p class="m-desc">Ateş elementi baskın, hızlı, girişken, hevesli, doğrudan bir doğa. Klasik mizaç sınıflamasında <em>sıcak-kuru</em> tabiat.</p>
+    <div class="bars">
+      <div class="ebar dom"><span class="en">Ateş</span><span class="track"><span class="fill" style="width:50%;background:linear-gradient(90deg,#d9a85e,#c98a45);"></span></span><span class="pct">%50</span></div>
+      <div class="ebar"><span class="en">Toprak</span><span class="track"><span class="fill" style="width:25%;background:#9a8a55;"></span></span><span class="pct">%25</span></div>
+      <div class="ebar"><span class="en">Su</span><span class="track"><span class="fill" style="width:12.5%;background:#6f9a9a;"></span></span><span class="pct">%12,5</span></div>
+      <div class="ebar"><span class="en">Hava</span><span class="track"><span class="fill" style="width:12.5%;background:#9aa6c4;"></span></span><span class="pct">%12,5</span></div>
+    </div>
+    <div class="el-legend">
+      <div class="leg dom"><span class="k">Ateş</span><span class="v">irade, coşku, eylem ve ilham</span></div>
+      <div class="leg"><span class="k">Toprak</span><span class="v">pratiklik, istikrar, somutluk ve güven</span></div>
+      <div class="leg"><span class="k">Hava</span><span class="v">düşünce, iletişim, sosyallik ve esneklik</span></div>
+      <div class="leg"><span class="k">Su</span><span class="v">duygu, sezgi, şefkat ve derinlik</span></div>
+    </div>
+    <div class="el-comment">
+      <span class="lbl">Element Dengen</span>
+      <p>Sende ateş açık ara baskın <span class="paren">(%50)</span>: hayata iradeyle, coşkuyla ve eylemle yaklaşan, hareketten beslenen bir doğa. Toprak <span class="paren">(%25)</span> bu ateşe sağlam bir zemin veriyor, Satürn ve Başak'ın disipliniyle, çoğu ateşli insandan daha fazla "başladığını bitirme" gücün var. Buna karşılık hava ve su sende görece zayıf kalıyor <span class="paren">(ikisi de %12,5)</span>. Su'nun düşüklüğü ilginç, çünkü Ay'ın derin bir su burcunda <span class="paren">(Yengeç)</span>: duygusal derinliğin güçlü, ama dengede "akışkan" tarafın ince, duyguların yoğun yaşanır, kolay akıp dışa vurulmaz; onlara bilinçli alan açman iyi gelir. Hava'nın düşüklüğü ise dünyayı soyut analizden çok eylem ve sezgiyle kavradığını gösterir; ara ara bir adım geri çekilip meseleyi konuşarak "havalandırmak" dengeni tamamlar. Kısaca sen bir "yapan-kuran" karışımısın; ateşinle toprağın seni üretken kılar, su ile havayı bilinçli beslemen ise seni bütünler.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ====================== SECTIONS ====================== -->
+<section class="sheet">
+  <div class="flow">
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">I · Çekirdek</span>
+        <div class="row"><span class="sym"><span class="astro">&#9737;</span></span><h2>Sen Kimsin?</h2><span class="hr"></span></div></div>
+      <p>Ayşe, sende ilk göze çarpan şey içten gelen o parlama isteği, Aslan Güneşin <span class="paren">(özünde liderlik ve görülme arzusu taşıyan çekirdeğin)</span> seni doğal olarak takdir edilmeye, sıcaklık yaymaya çeken bir merkezle donatmış. İçten, cömert, biraz da dramatik bir tarafın var; bir ortama girdiğinde fark edilen, etrafına ilham veren birisin. Bu enerji arkadaş grupların ve topluluklar alanında <span class="paren">(11. ev)</span> konumlandığı için, asıl ışığını kalabalıkların, ortak ideallerin, gelecek hayallerinin içinde buluyorsun.</p>
+      <p>Ama burada hikâyenin ikinci katmanı devreye giriyor: içeride seni asıl besleyen şey alkış değil, güven ve yakınlık <span class="paren">(Yengeç Ayın)</span>. Bir yanın görülmek için öne çıkmak isterken, bir yanın kabuğuna çekilip korunmayı özlüyor, işte Güneş’inle Ay’ının bu zıt çekimleri senin en derin gerilimini anlatıyor. Bu bir kusur değil, aksine senin en derin malzemen. Bu çelişkiyi tanıdıkça, ne zaman sahneye çıkıp ne zaman dinlenmen gerektiğini bilen olgun bir denge kuruyorsun.</p>
+      <p>Genel tonunda öncü-ateş baskınlığı var; başlatmak, harekete geçmek sana kolay geliyor. Heves ve inisiyatif senin doğal halin. Gölgesi şu: bazen başladığını bitirmeden bir sonrakine geçebilirsin. Neyse ki haritanın derinliğinde bu hevesi dengeleyen ciddi bir yapı da var, ona birazdan geleceğiz.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">II · Dış İzlenim</span>
+        <div class="row"><span class="sym"><span class="astro">&#9810;</span></span><h2>Dışarıya Yansıman</h2><span class="hr"></span></div></div>
+      <p>Çekirdeğin ne kadar ateşli olsa da, dünyaya açılan kapın çok daha yumuşak ve dengeli: Terazi Yükselenin sana zarif, kibar, uzlaşmacı bir ilk izlenim kazandırıyor. İnsanlar seninle ilk tanıştığında hoş, dengeli ve çekici biri görür; ortamı yumuşatan, köprü kuran biri. Estetik duygun ve diplomasi yeteneğin doğal.</p>
+      <p>Burada güzel bir tezat var: içeride Aslan'ın gururu ve Koç'un atılganlığı yanarken, dışarıya bu kadar uyumlu bir yüz çıkarman. Ama Terazi maskesinin gölgesini de unutma: çatışmadan kaçma ve onaylanma kaygısı seni kendi gerçek isteğini ertelemeye itebilir. İçindeki Aslan'ın net duruşuna güvenmeyi öğrendikçe, hem kibar hem dürüst olabilen bir denge kuruyorsun. Ay–Yükselen karen de bunu pekiştirir: içeride hissettiğin yoğunluk her zaman bu pürüzsüz Terazi yüzüne birebir yansımaz, bazen kendini olduğundan daha sakin gösterirsin.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">III · İç Dünya</span>
+        <div class="row"><span class="sym"><span class="astro">&#9789;</span></span><h2>Duygusal Dünyan</h2><span class="hr"></span></div></div>
+      <p>Ayşe, duygusal dünyan haritanın en derin ve en hassas yeri. Yengeç Ayın sana zengin, dalgalı, sezgileri güçlü bir iç dünya vermiş; güven, yakınlık ve ait olma ihtiyacın çok belirgin. Sevdiklerini kanatlarının altına alır, korur, beslersin. Sadakatin gerçek; bir kez bağ kurduğunda kolay vazgeçmezsin.</p>
+      <p>İşte burada haritanın en olgunlaştırıcı yanı devreye giriyor: Ay-Satürn karşıtlığı. Bu yerleşim, duyguların ile sorumlulukların arasına bir mesafe koyabiliyor; bazen şefkat göstermek ya da almak zorlaşabilir, kendini geri çeker, "güçlü görünmeliyim" diye hislerini ketleyebilirsin. Ama bu açının armağanı şu: olgunlaştıkça inanılmaz bir duygusal dayanıklılık ve sarsılmaz bir sadakat geliştiriyorsun.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">IV · Zihin</span>
+        <div class="row"><span class="sym"><span class="astro">&#9791;</span></span><h2>Zihnin &amp; İletişimin</h2><span class="hr"></span></div></div>
+      <p>Zihnin, ateşli çekirdeğinin aksine serin ve düzenli işliyor: Merkür Başak'ta. Keskin, analitik, detayları gören bir zekan var. Konuşmadan önce süzgeçten geçirir, mantığını işletirsin. Bu Merkür'ün 12. evde olması, zihninin sezgiyle de çalıştığını gösteriyor; düşüncelerin perde arkasında, sessizce olgunlaşıyor.</p>
+      <p>Bir de Merkür-Jüpiter karen var: detaycı Başak zihnin ile büyük resmi gören Jüpiter arasında yaratıcı bir gerilim. Bu sana muazzam bir fikir bolluğu ve vizyon kazandırıyor; ama dikkat etmezsen abartmaya ya da küçük kritik detayları atlamaya yol açabilir. İkisini barıştırdığında, geniş hayal kurup titizce uygulayabildiğinde, güçlü bir zihinsel kombinasyonun olur.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">V · Bağlar</span>
+        <div class="row"><span class="sym"><span class="astro">&#9792;</span></span><h2>Aşk &amp; İlişkiler</h2><span class="hr"></span></div></div>
+      <p>Ayşe, aşk alanın haritanın en tutkulu köşesi. Venüs ve Mars'ın Koç'ta ve tam da ilişkiler evinde <span class="paren">(7. ev)</span> kavuşmuş, çok canlı bir imza. Aşkta girişken ve doğrudansın; ilk adımı atmaktan çekinmezsin. Bu sana kuvvetli bir çekim gücü ve tutkulu bir ilişki tarzı veriyor.</p>
+      <p>Gölgesi ise sabırsızlık ve çabuk alevlenip çabuk sönme eğilimi. Fetih heyecanı geçtiğinde ilgiyi canlı tutmak senin için öğrenilen bir alan. Dışarıdaki Terazi yumuşaklığın ve içerideki Yengeç'in güven ihtiyacı, bu doğrudan tutkuyla bir araya geliyor: hem hızlı parlayan bir tutku hem derin bir yakınlık özlemi taşıyorsun. İdeal ilişkin, bu ateşi söndürmeden sana güven ve süreklilik de verebilen biriyle olur.</p>
+      <div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Aşk &amp; İlişki Haritan</div><p>Venüs, Mars, 5. ve 8. evin, ilişki kalıpların, ideal partner profilin ve zamanlaman derinlemesine. Haritan bizde, tek tıkla derinleş.</p><a href="#">Aşk Haritanı keşfet</a></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">VI · Yön</span>
+        <div class="row"><span class="sym"><span class="astro">&#9796;</span></span><h2>Kariyer &amp; Yaşam Yönün</h2><span class="hr"></span></div></div>
+      <p>Kariyer alanında sende hem hırs hem derinlik var. Yengeç Ayın 10. evde olması, mesleki duruşuna duygusal, besleyici bir nitelik katıyor, işine kalbini koyan birisin. Aslan Güneşinin görülme arzusuyla birleşince, dış dünyada iz bırakmak senin için anlamlı.</p>
+      <p>İşte burada en sağlam temel devreye giriyor: Satürn Oğlak'ta, kendi evinde, kökler alanında <span class="paren">(4. ev)</span>. Bu, ateşli doğanı dengeleyen disiplinli yapı. Ağırdan alabilirsin ama bir kez başladığında sağlam, kalıcı bir şey kurarsın. Bir de Güneş-Jüpiter üçgenin sana iyimserlik ve fırsatları çekme yeteneği veriyor, kapılar sana nispeten kolay açılır. Şansla disiplini birleştirdiğinde yön bulman zor olmaz.</p>
+      <div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Kariyer &amp; Para Haritan</div><p>10. ev, Satürn, MC ve para göstergelerin, sana uygun meslekler ve doğru zamanlamalar üzerine tam analiz. Haritan bizde, tek tıkla derinleş.</p><a href="#">Kariyer Haritanı keşfet</a></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">VII · Beden</span>
+        <div class="row"><span class="sym"><span class="astro">&#9792;</span></span><h2>Sağlık &amp; Enerji</h2><span class="hr"></span></div></div>
+      <p>Genel enerji tonun yüksek ve hareketli, coşkulu, girişken, çabuk harekete geçen bir bünye. Gölgesi çabuk tükenme; ateş hızlı yanar ama dinlenmeyi de hatırlamalı. Toprak elementin <span class="paren">(Başak, Oğlak)</span> bu ateşi dengelerken, duygusal yoğunluğun bedeninde stres olarak birikebilir. Senin için sağlık, ateşle suyu dengelemek: hem hareket hem dinlenme, düzenli ritim ve duyguları biriktirmeden ifade etmek.</p>
+      <div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Sağlık &amp; Enerji Haritan</div><p>6. ev, bedensel enerjin ve element dengen üzerine, sana özel denge ve canlılık rehberi. Haritan bizde, tek tıkla derinleş.</p><a href="#">Sağlık Haritanı keşfet</a></div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><span class="eyebrow">VIII · Bütünlük</span>
+        <div class="row"><span class="sym"><span class="astro">&#10022;</span></span><h2>Güçlü Yönlerin &amp; Gelişim Alanların</h2><span class="hr"></span></div></div>
+      <p>Güçlü yanların belirgin: doğal bir karizma ve ilham verme gücü <span class="paren">(Aslan Güneş)</span>, derin bir şefkat ve sadakat <span class="paren">(Yengeç Ay)</span>, ilişkilerde köprü kuran bir diplomasi <span class="paren">(Terazi Yükselen)</span>, keskin bir zihin <span class="paren">(Başak Merkür)</span>, geniş bir vizyon <span class="paren">(Jüpiter)</span> ve tüm bunların altında sarsılmaz bir disiplin <span class="paren">(Oğlak Satürn)</span>. Hem parlayabilen hem inşa edebilen nadir bir kombinasyon.</p>
+      <p>Gelişim alanların bir denge meselesi. Görülme isteğinle korunma ihtiyacın arasındaki gerilimi tanıdıkça, bu huzursuzluk öz-farkındalığa dönüşüyor. Ay-Satürn'ün duygusal ketlenmesini kendine şefkat göstererek yumuşatabilirsin, güçlü görünmek zorunda değilsin. İçsel değerini dışarıdan gelen alkışa bağlamamayı öğrenmek ise en özgürleştirici dersin. Hiçbiri kusur değil; hepsi farkındalıkla dönüşen ham malzeme.</p>
+      <div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Lilith &amp; Karmik Raporun</div><p>Lilith, Ay Düğümleri ve Kiron üzerinden ruhsal yolculuğun, karmik desenlerin ve gölge tarafın. Haritan bizde, tek tıkla derinleş.</p><a href="#">Karmik Raporunu keşfet</a></div>
+    </div>
+
+    <div class="foot-rule"><span>Yıldızname · Ayşe</span><span>Doğum Haritası Raporu</span></div>
+  </div>
+</section>
+
+<!-- ====================== CLOSING ====================== -->
+<section class="sheet closing">
+  <div class="inner">
+    <span class="eyebrow">Son Söz</span>
+    <h2>Karşıtlıklar Dansı</h2>
+    <p class="lead">İçinde hem sahneye çıkmak isteyen bir ateş, hem de yuvasına çekilmek isteyen bir su taşıyorsun. Bu iki ses zaman zaman birbiriyle çekişse de seni bölmek için değil, zenginleştirmek için oradalar; çünkü sen coşkuyu sabırla, parlamayı derinlikle, zarafeti tutkuyla aynı bedende taşıyabilen ender insanlardansın. Haritan bir kader listesi değil, elindeki ham malzemenin bir haritası: hangi yanını ne zaman öne çıkaracağını öğrendikçe, bu karşıtlıklar birer engel olmaktan çıkıp en güçlü araçlarına dönüşüyor. Yıldızlar yalnızca eğilimi fısıldar; son sözü her zaman sen söylersin. Ve görünen o ki, söyleyecek çok güzel sözlerin var.</p>
+    <div class="end astro">&#10038;</div>
+  </div>
+</section>

@@ -1,5 +1,6 @@
 // Doğum haritası sentez script'i.
-// test/sample-chart.json'u okur, aktif_bloklar'a göre blokları çeker,
+// test/sample-chart-v3.json'u okur, element/mizaç'ı src/lib/element-mizac.mjs
+// motorundan hesaplar, aktif_bloklar'a göre blokları çeker,
 // synthesis-natal.md'yi system olarak kullanır, Claude'a gönderir,
 // raporu output/ altına yazar ve konsola basar.
 //
@@ -7,6 +8,7 @@
 
 import fs from "node:fs";
 import Anthropic from "@anthropic-ai/sdk";
+import { elementMizacHesapla } from "../src/lib/element-mizac.mjs";
 
 // --- .env.local'den ANTHROPIC_API_KEY yükle (Next.js dışında çalıştığımız için elle) ---
 const envText = fs.readFileSync(".env.local", "utf8");
@@ -21,7 +23,14 @@ for (const line of envText.split("\n")) {
 const client = new Anthropic();
 
 // --- Girdileri oku ---
-const chart = JSON.parse(fs.readFileSync("test/sample-chart-v2.json", "utf8"));
+const chart = JSON.parse(fs.readFileSync("test/sample-chart-v3.json", "utf8"));
+
+// --- Element & mizaç'ı GERÇEK motordan hesapla (asla elle girme) ---
+const em = elementMizacHesapla(chart.harita_ozeti);
+chart.element_dagilim = em.yuzde; // {ates,toprak,hava,su}
+chart.mizac = em.mizac.ad; // "Safravi" vb.
+console.log("[ELEMENT/MİZAÇ]", em.yuzde, "baskın:", em.baskin_ad, "mizaç:", em.mizac.ad);
+
 const allBlocks = JSON.parse(fs.readFileSync("src/blocks/natal-blocks.json", "utf8"));
 const system = fs.readFileSync("src/prompts/synthesis-natal.md", "utf8");
 
@@ -51,6 +60,11 @@ const userMessage = [
   "## AÇILAR",
   ...chart.acilar.map((a) => `- ${a}`),
   "",
+  "## ELEMENT & MİZAÇ (motordan hesaplandı)",
+  `- Element dağılımı: Ateş %${em.yuzde.ates}, Toprak %${em.yuzde.toprak}, Hava %${em.yuzde.hava}, Su %${em.yuzde.su}`,
+  `- Baskın element: ${em.baskin_ad} (anlamı: ${em.element_anlam[em.baskin]})`,
+  `- Mizaç: ${em.mizac.ad} (${em.mizac.lat}, ${em.mizac.tabiat})`,
+  "",
   "## ANLAM BLOKLARI (yalnızca bunları kullan)",
   ...selected.map((b) =>
     [
@@ -69,7 +83,7 @@ const userMessage = [
 // --- Çalıştır (Opus 4.8'de karar kılındı), streaming ile çıktıyı dosyaya yaz ---
 const MODEL = "claude-opus-4-8";
 const MAX_TOKENS = 14000; // rapor ~3500 kelime hedefli; uzun çıktı için streaming
-const OUT_PATH = "output/rapor-ayse-v3.txt";
+const OUT_PATH = "output/rapor-ayse-v6.txt";
 
 console.log(`\n${"=".repeat(60)}\n  MODEL: ${MODEL}  (max_tokens: ${MAX_TOKENS}, streaming)\n${"=".repeat(60)}`);
 try {
