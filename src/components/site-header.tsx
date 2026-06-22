@@ -152,8 +152,10 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* Mobil drawer — SAĞDAN kayar. Header DIŞINDA: header'ın backdrop-blur'u fixed çocuğu hapsetmesin diye. */}
-      <div className={`fixed inset-0 z-[60] lg:hidden ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
+      {/* Mobil drawer — SAĞDAN kayar. Header DIŞINDA: header'ın backdrop-blur'u fixed çocuğu hapsetmesin diye.
+          overflow-hidden: kapalıyken translate-x-full ile sağ dışına itilen panel sayfa genişliğini
+          artırmasın (mobilde yatay kayma/zoom-out önlenir). Açıkken panel viewport içinde olduğu için kırpılmaz. */}
+      <div className={`fixed inset-0 z-[60] overflow-hidden lg:hidden ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
         {/* karartma */}
         <div
           className={`absolute inset-0 bg-night-deep/70 backdrop-blur-sm transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"}`}
