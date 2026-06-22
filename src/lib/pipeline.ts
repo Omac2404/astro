@@ -14,7 +14,13 @@ const bekle = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const ROOT = process.cwd();
 const NATAL = path.join(ROOT, "report", "natal");
-const PY = path.join(ROOT, ".venv", "Scripts", "python.exe");
+// venv Python yolu OS'a göre değişir: Windows -> .venv\Scripts\python.exe, Linux/macOS -> .venv/bin/python.
+// PYTHON_BIN ile tamamen override edilebilir (ör. Docker'da sistem python'u veya farklı venv yolu).
+const PY =
+  process.env.PYTHON_BIN ||
+  (process.platform === "win32"
+    ? path.join(ROOT, ".venv", "Scripts", "python.exe")
+    : path.join(ROOT, ".venv", "bin", "python"));
 
 export const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
 

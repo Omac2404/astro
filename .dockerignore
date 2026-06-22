@@ -1,0 +1,39 @@
+# Build context'i küçült + imaja sır/çöp sızdırma
+.git
+node_modules
+.next
+.venv
+# Sırlar imaja GÖMÜLMEZ — ANTHROPIC_API_KEY EasyPanel ortam değişkeninden gelir
+.env
+.env.local
+.env.*.local
+
+# Kalıcı/gerçek veri ve üretim çıktıları imaja girmemeli
+.data
+output
+görseller
+coverage
+
+# Rapor pipeline üretim artıkları (imajda yeniden üretilir)
+report/natal/_ephem
+report/natal/chart.json
+report/natal/chart-*.json
+report/natal/wheel*.svg
+report/natal/diagram.svg
+report/natal/out.pdf
+report/natal/onizleme.png
+report/natal/natal-rapor.out.html
+report/natal/birth*.json
+report/natal/_*.json
+report/natal/rapor-*.txt
+report/natal/aktif-bloklar.json
+report/natal/teslimat
+
+# Geliştirme/araç
+*.tsbuildinfo
+ss
+ssler
+test
+DEPLOYMENT.md
+CLAUDE.md
+AGENTS.md

@@ -37,7 +37,10 @@ python3.12 -m venv .venv
 ```
 
 ### Chrome yolu
-`report/natal/render.mjs` ve görsel testler Chrome'u `C:\Program Files\Google\Chrome\Application\chrome.exe` (Windows) yolundan arar. **Linux'ta** bu yolu sunucudaki Chrome/Chromium yoluna göre güncelle (ör. `/usr/bin/google-chrome`).
+`report/natal/render.mjs` Chrome'u şu sırayla arar: **`CHROME_PATH`** env değişkeni → Linux varsayılanları (`/usr/bin/google-chrome-stable`, `/usr/bin/google-chrome`, `/usr/bin/chromium-browser`, `/usr/bin/chromium`) → Windows yolları. Yani Linux'ta artık kodu elle düzenlemek gerekmez; standart bir konuma Chrome/Chromium kurulu olması veya `CHROME_PATH` verilmesi yeterli. (Docker imajında `google-chrome-stable` kuruludur ve `CHROME_PATH` set edilir.)
+
+### Python (venv) yolu
+`src/lib/pipeline.ts` venv python'unu OS'a göre seçer: Windows'ta `.venv\Scripts\python.exe`, Linux/macOS'ta `.venv/bin/python`. **`PYTHON_BIN`** env değişkeniyle tamamen override edilebilir (ör. Docker'da farklı bir venv yolu). Bu yüzden venv'i proje kökünde `.venv` olarak kurmak yeterli.
 
 ---
 
@@ -63,6 +66,26 @@ npm start            # production (port 3000)
 ```
 
 Önüne **Nginx** reverse proxy + HTTPS (Let's Encrypt) koy. SEO için site adresini admin panelden gerçek domain olarak ayarla.
+
+---
+
+## 4b. EasyPanel ile dağıtım (Docker — önerilen)
+
+Repoda hazır bir **`Dockerfile`** var: tek imajda Node 22 + Python 3.12 + Google Chrome stable + Türkçe/sembol fontları kurulur, venv `/app/.venv`'e oluşturulur, `npm run build` çalışır, `npm start` ile 3000 portunda yayınlanır.
+
+EasyPanel'de:
+
+1. **App** servisi oluştur → kaynak olarak GitHub reposu `Webreta/astro` (branch: `master`).
+2. **Build:** yöntem **Dockerfile** (Nixpacks değil — Python+Chrome gerektiği için). Dockerfile yolu: `Dockerfile`.
+3. **Environment** (ortam değişkenleri):
+   - `ANTHROPIC_API_KEY` = `sk-ant-...` (zorunlu — rapor sentezi). **Bu anahtar repoda/imajda yok; buraya elle gir.**
+   - (Opsiyonel) `CHROME_PATH` ve `PYTHON_BIN` Dockerfile'da zaten set; dokunmana gerek yok.
+4. **Port:** container portu `3000` → domaine bağla. EasyPanel HTTPS/Let's Encrypt'i otomatik halleder.
+5. **Volume (KALICI VERİ — şart):** bir volume oluştur ve **`/app/.data`** yoluna bağla. Bu olmadan her deploy/restart'ta üyeler, siparişler, raporlar ve PDF'ler **silinir**.
+6. Deploy et. İlk açılışta süper admin seed edilir (bkz. §6) ve `.data/` otomatik oluşur.
+7. (İlk rapor) `skyfield`, ilk üretimde `de421.bsp` (~17MB) indirip `report/natal/_ephem/` altına cache'ler — sunucunun dışarı internet erişimi olmalı. İstersen bu klasörü de bir volume'a bağlayıp tekrar indirmeyi önleyebilirsin.
+
+> Not: Bu imaj kasıtlı olarak "tam" (slim-standalone değil) — rapor pipeline'ı `child_process` ile Python script'leri + venv + Chrome'u sürdüğü için node_modules ve report/ kaynakları imajda tam tutulur.
 
 ---
 

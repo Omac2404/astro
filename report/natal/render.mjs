@@ -18,8 +18,15 @@ const OUT_PDF = path.join(__dirname, "out.pdf");
 const OUT_PNG = path.join(__dirname, "onizleme.png");
 
 // Sistemde kurulu Chrome (CHROME_PATH ile override edilebilir). Chromium İNDİRMİYORUZ.
+// CHROME_PATH önce denenir; ardından OS varsayılan yolları (Linux sunucu + Windows geliştirme).
 const CANDIDATES = [
   process.env.CHROME_PATH,
+  // Linux (VPS / Docker)
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/google-chrome",
+  "/usr/bin/chromium-browser",
+  "/usr/bin/chromium",
+  // Windows (yerel geliştirme)
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
   "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
@@ -30,7 +37,7 @@ if (!CHROME) throw new Error("Chrome/Edge bulunamadı. CHROME_PATH ortam değiş
 const browser = await puppeteer.launch({
   executablePath: CHROME,
   headless: true,
-  args: ["--no-sandbox", "--font-render-hinting=none"],
+  args: ["--no-sandbox", "--disable-dev-shm-usage", "--font-render-hinting=none"],
 });
 try {
   const page = await browser.newPage();
