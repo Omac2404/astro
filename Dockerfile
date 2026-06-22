@@ -29,7 +29,9 @@ WORKDIR /app
 #    npm ci yerine npm install: lockfile Windows'ta üretildiğinde Linux'a özgü optional
 #    bağımlılıklar (@emnapi/* vb.) eksik kalabiliyor; npm install bu drift'e dayanıklıdır.
 COPY package.json package-lock.json ./
-RUN npm install --no-audit --no-fund
+# --include=dev: NODE_ENV=production iken bile devDependencies kurulur.
+# next build, tailwindcss/@tailwindcss/postcss/typescript (devDeps) olmadan derlenmez.
+RUN npm install --include=dev --no-audit --no-fund
 
 # 3) Python sanal ortam + rapor motoru bağımlılıkları (skyfield, jinja2, fonttools, tzdata)
 COPY report/natal/requirements.txt report/natal/requirements.txt
