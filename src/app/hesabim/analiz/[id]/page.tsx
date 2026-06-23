@@ -2,19 +2,20 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getProduct } from "@/lib/products";
 import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
+import { AnalizHazirlaniyorModal } from "@/components/analiz-hazirlaniyor";
 
 export default function AnalizBilgiPage() {
-  const router = useRouter();
   const { id } = useParams<{ id: string }>();
   const [slug, setSlug] = useState<string | null>(null);
   const [k1, setK1] = useState<Kisi>(bosKisi());
   const [k2, setK2] = useState<Kisi>(bosKisi());
   const [hata, setHata] = useState("");
   const [yuk, setYuk] = useState(false);
+  const [basladi, setBasladi] = useState(false);
 
   useEffect(() => {
     fetch("/api/account/reports")
@@ -43,15 +44,15 @@ export default function AnalizBilgiPage() {
     const d = await r.json();
     setYuk(false);
     if (!r.ok) return setHata(d.error || "Gönderilemedi.");
-    router.push("/hesabim");
-    router.refresh();
+    // Yönlendirme YOK: sayfada kal, "hazırlanıyor" popup'ını aç (üretim arka planda kuyrukta başladı).
+    setBasladi(true);
   };
 
   return (
     <div className="mx-auto max-w-lg px-5 py-14">
       <Link href="/hesabim" className="text-sm text-parchment/55 hover:text-gold-bright">← Hesabım</Link>
       <h1 className="mt-3 text-center font-display text-4xl font-semibold">Doğum Bilgileri</h1>
-      <p className="mt-3 text-center text-sm leading-relaxed text-parchment/60">
+      <p className="mt-3 text-center text-[13px] leading-relaxed text-parchment/60">
         Analizin bu bilgilere göre hazırlanır.
         <br />
         <span className="font-medium text-[#c3a6e8]">Doğum saati ne kadar net olursa rapor o kadar isabetli olur.</span>
@@ -59,7 +60,7 @@ export default function AnalizBilgiPage() {
 
       {/* Mini analiz kartı */}
       {p && (
-        <div className="mt-6 flex items-center gap-4 rounded-2xl border border-gold/15 bg-night-deep p-4">
+        <div className="mt-6 flex items-center gap-4 rounded-2xl border border-gold/15 bg-night p-4">
           <div className="relative h-20 w-15 shrink-0 overflow-hidden rounded-lg border border-gold/15" style={{ width: "3.5rem" }}>
             {p.gorsel ? (
               <Image src={p.gorsel} alt={p.ad} fill sizes="56px" style={{ objectPosition: p.objectPos ?? "center 22%" }} className="object-cover" />
@@ -74,7 +75,7 @@ export default function AnalizBilgiPage() {
         </div>
       )}
 
-      <form onSubmit={gonder} className="mt-6 space-y-6 rounded-2xl border border-gold/15 bg-night-deep p-6">
+      <form onSubmit={gonder} className="mt-6 space-y-6 rounded-2xl border border-gold/15 bg-night p-6">
         {cift ? (
           <>
             <PersonFields k={k1} set={(patch) => setK1((s) => ({ ...s, ...patch }))} baslik="1. Kişi" />
@@ -89,6 +90,8 @@ export default function AnalizBilgiPage() {
           {yuk ? "Gönderiliyor…" : "Gönder ve Analizi Başlat"}
         </button>
       </form>
+
+      {basladi && <AnalizHazirlaniyorModal />}
     </div>
   );
 }

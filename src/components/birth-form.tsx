@@ -2,7 +2,7 @@
 import { IL_LISTESI } from "@/lib/tr-cities";
 
 const inputCls =
-  "w-full rounded-xl border border-gold/20 bg-night px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
+  "w-full rounded-xl border border-gold/20 bg-night-deep px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
 const dateCls = inputCls + " date-white";
 const labelCls = "mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55";
 
@@ -37,7 +37,7 @@ export function PersonFields({ k, set, baslik }: { k: Kisi; set: (patch: Partial
       </div>
 
       {/* Yurtdışı switch */}
-      <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-gold/15 bg-night px-4 py-2.5">
+      <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-gold/15 bg-night-deep px-4 py-2.5">
         <span className="text-sm text-parchment/80">Yurtdışında doğdu</span>
         <input type="checkbox" checked={k.yurtdisi} onChange={(e) => set({ yurtdisi: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
       </label>
