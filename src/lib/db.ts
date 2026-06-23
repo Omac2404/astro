@@ -440,12 +440,13 @@ export function getGenelAyar(): GenelAyar {
     iletisim: { ...ILETISIM_DEFAULT, ...(stored.iletisim ?? {}) },
     // Kayıtlı yasal sayfalar kullanılır; ancak içeriği BOŞ bırakılmış bir sayfa varsa
     // (ör. Hakkımızda) aynı slug'lı varsayılan içerikle doldurulur — boş "yakında eklenecek" kalmasın.
-    yasal: Array.isArray(stored.yasal)
-      ? stored.yasal.map((y) => {
-          const def = YASAL_DEFAULT.find((d) => d.slug === y.slug);
-          return def && !String(y.icerik ?? "").trim() ? { ...y, icerik: def.icerik } : y;
-        })
-      : YASAL_DEFAULT,
+    yasal: (Array.isArray(stored.yasal) ? stored.yasal : YASAL_DEFAULT).map((y) => {
+      const def = YASAL_DEFAULT.find((d) => d.slug === y.slug);
+      const ic = def && !String(y.icerik ?? "").trim() ? def.icerik : (y.icerik ?? "");
+      // Domain her zaman gokname.com (Türkçe karaktersiz). Kayıtlı eski metinlerde ö'lü
+      // yazılmış "Gökname.com/gökname.com" varsa düzelt (marka adı "Gökname" korunur).
+      return { ...y, icerik: ic.replace(/[Gg]ökname\.com/g, "gokname.com") };
+    }),
   };
 }
 export function setGenelAyar(patch: Partial<GenelAyar>): GenelAyar {
