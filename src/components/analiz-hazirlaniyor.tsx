@@ -35,7 +35,7 @@ const STARS = [
   { top: 14, left: 95, size: 1.7, delay: 2.2, dur: 3.6, color: "#ffffff" },
 ];
 
-type Durum = { durum: string; dosya?: string } | null;
+type Durum = { durum: string; dosya?: string; hata?: string } | null;
 
 export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
   const [text, setText] = useState("");
@@ -137,6 +137,11 @@ export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
               <p className="mt-2 text-[13px] leading-relaxed text-parchment/60">
                 Raporun şu an oluşturulamadı. “Analizlerim”den tekrar deneyebilirsin; sorun sürerse kısa sürede biz hallederiz.
               </p>
+              {report?.hata && (
+                <p className="mt-3 max-h-28 overflow-y-auto rounded-lg border border-rose-400/20 bg-rose-500/5 px-3 py-2 text-left font-mono text-[11px] leading-relaxed text-rose-200/80">
+                  {report.hata}
+                </p>
+              )}
               <Link href="/hesabim" className="mt-5 block w-full rounded-full bg-gold py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright">
                 Analizlerime Git
               </Link>

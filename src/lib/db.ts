@@ -702,6 +702,7 @@ export type Report = {
   adminIletti?: boolean; // admin "Rapor Oluştur"dan üretip atadıysa
   indirildi?: boolean;   // müşteri raporu indirdiyse
   dosya?: string; // hazır PDF dosya id
+  hata?: string; // üretim başarısız olduysa son hata (kullanıcıya/teşhise gösterilir)
   tarih: string;
 };
 export function getReports(): Report[] {
@@ -737,7 +738,7 @@ export function attachReportFile(reportId: string, dosyaId: string): Report | nu
   const list = getReports();
   const i = list.findIndex((r) => r.id === reportId);
   if (i < 0) return null;
-  list[i] = { ...list[i], dosya: dosyaId, durum: "hazir" };
+  list[i] = { ...list[i], dosya: dosyaId, durum: "hazir", hata: undefined };
   write("reports.json", list);
   return list[i];
 }
@@ -756,11 +757,11 @@ export function markReportIndirildi(dosyaId: string, email: string): void {
   }
   if (degisti) write("reports.json", list);
 }
-export function setReportDurum(reportId: string, durum: Report["durum"]): Report | null {
+export function setReportDurum(reportId: string, durum: Report["durum"], hata?: string): Report | null {
   const list = getReports();
   const i = list.findIndex((r) => r.id === reportId);
   if (i < 0) return null;
-  list[i] = { ...list[i], durum };
+  list[i] = { ...list[i], durum, hata };
   write("reports.json", list);
   return list[i];
 }
@@ -843,7 +844,7 @@ export function setReportBirthInfo(reportId: string, email: string, dogum: Dogum
   const list = getReports();
   const i = list.findIndex((r) => r.id === reportId && r.email.toLowerCase() === email.trim().toLowerCase());
   if (i < 0) return null;
-  list[i] = { ...list[i], dogum, dogum2, durum: "olusturuluyor" };
+  list[i] = { ...list[i], dogum, dogum2, durum: "olusturuluyor", hata: undefined };
   write("reports.json", list);
   return list[i];
 }

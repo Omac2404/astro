@@ -133,8 +133,8 @@ export function runReportGeneration(reportId: string, slug: string, dogum: Dogum
       attachReportFile(reportId, saveFile(pdf, "pdf")); // -> hazir + dosya
     } catch (e) {
       // 3 denemeye rağmen üretilemedi: kullanıcı tekrar deneyebilsin / admin elle üretebilsin
-      setReportDurum(reportId, "bekliyor");
       const mesaj = e instanceof Error ? e.message : String(e);
+      setReportDurum(reportId, "bekliyor", mesaj); // hatayı sakla -> popup/Analizlerim'de görünür
       console.error("[runReportGeneration]", reportId, mesaj);
       const r = findReport(reportId);
       adminHataMaili(
