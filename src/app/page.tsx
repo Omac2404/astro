@@ -34,7 +34,7 @@ export default function Home() {
         />
         <div className="relative z-10 mx-auto max-w-6xl px-5 py-20 sm:py-28 grid lg:grid-cols-2 gap-12 items-center">
           <div className="relative z-10">
-            <h1 className="font-display text-[2.7rem] sm:text-6xl font-semibold leading-[1.05] text-parchment">
+            <h1 className="font-display text-[2.35rem] sm:text-6xl font-semibold leading-[1.05] text-parchment">
               {heroBaslik(hero.baslik)}
             </h1>
             {hero.altMetin && (
@@ -46,9 +46,10 @@ export default function Home() {
                   <span className="text-sm font-semibold uppercase tracking-[0.18em] text-[#a98fd6]">{hero.rozet}</span>
                 )}
                 <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  {hero.fiyatMetin && <span className="text-parchment/70">{hero.fiyatMetin}</span>}
-                  {hero.eskiFiyat && <span className="text-2xl font-medium text-[#a98fd6]/80 line-through">{hero.eskiFiyat}</span>}
-                  {hero.yeniFiyat && <span className="font-body text-4xl font-semibold text-gold-bright">{hero.yeniFiyat}</span>}
+                  {/* Mobilde metin kendi satırını alır (w-full); iki fiyat birlikte alta düşer, aynı satırda kalır. */}
+                  {hero.fiyatMetin && <span className="w-full text-parchment/70 sm:w-auto">{hero.fiyatMetin}</span>}
+                  {hero.eskiFiyat && <span className="text-xl font-medium text-[#a98fd6]/80 line-through sm:text-2xl">{hero.eskiFiyat}</span>}
+                  {hero.yeniFiyat && <span className="font-body text-3xl font-semibold text-gold-bright sm:text-4xl">{hero.yeniFiyat}</span>}
                 </div>
               </div>
             )}

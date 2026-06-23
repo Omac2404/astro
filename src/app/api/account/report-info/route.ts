@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { setReportBirthInfo, type DogumBilgi } from "@/lib/db";
 import { currentUser } from "@/lib/session";
-import { sendMail } from "@/lib/mail";
 import { runReportGeneration, URETILEBILIR } from "@/lib/pipeline";
 
 export const runtime = "nodejs";
@@ -34,7 +33,8 @@ export async function POST(req: Request) {
 
   const r = setReportBirthInfo(String(b.reportId ?? ""), u.email, dogum, dogum2);
   if (!r) return NextResponse.json({ error: "Analiz kaydı bulunamadı." }, { status: 404 });
-  sendMail(u.email, `Analizin hazırlanıyor — ${r.urunAd}`, `Doğum bilgilerini aldık. "${r.urunAd}" analizin hazırlanıyor; hazır olunca haber vereceğiz.`);
+  // NOT: "Analizin hazırlanıyor" bilgi e-postası kaldırıldı (e-posta maliyeti/trafiği).
+  //      Durum zaten sayfadaki popup + "Analizlerim"de canlı görünüyor.
 
   // Gerçek üretimi başlat (sıralı kuyrukta, arka planda). Desteklenen ürünler için.
   if (URETILEBILIR.includes(r.slug)) {
