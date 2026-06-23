@@ -102,7 +102,7 @@ export default function OdemePage() {
 
       <form onSubmit={ode} className="mt-8 grid gap-6 lg:grid-cols-[1fr_320px] lg:items-start">
         {/* Fatura bilgileri */}
-        <div className="rounded-2xl border border-gold/15 bg-night-deep/50 p-6">
+        <div className="rounded-2xl border border-gold/15 bg-night p-6">
           <h2 className="font-display text-2xl font-semibold text-parchment">Fatura Bilgileri</h2>
 
           <div className="mt-5 space-y-4">
@@ -137,7 +137,7 @@ export default function OdemePage() {
         </div>
 
         {/* Özet */}
-        <aside className="rounded-2xl border border-gold/20 bg-night-deep/60 p-5 lg:sticky lg:top-32">
+        <aside className="rounded-2xl border border-gold/20 bg-night p-5 lg:sticky lg:top-32">
           <h3 className="font-display text-lg font-semibold text-parchment">Sipariş Özeti</h3>
           <ul className="mt-3 space-y-2 text-sm">
             {items.map((it) => (

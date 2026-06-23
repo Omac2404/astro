@@ -14,7 +14,7 @@ export function BuyButtons({ slug, ad, fiyat, eskiFiyat, gorsel, objectPos }: Pr
   return (
     <div className="mt-5 space-y-3">
       {inCart ? (
-        <Link href="/sepet" className="block w-full rounded-full bg-gold py-3 text-center font-medium text-night-deep transition-colors hover:bg-gold-bright">
+        <Link href="/sepet" className="block w-full rounded-full bg-[#9b72d0] py-3 text-center font-medium text-white transition-colors hover:bg-[#ab86db]">
           Sepete Eklendi ✓ · Sepete Git
         </Link>
       ) : (
@@ -60,7 +60,7 @@ export function MobileBuyBar({ slug, ad, fiyat, eskiFiyat, gorsel, objectPos }: 
           </div>
         </div>
         {inCart ? (
-          <Link href="/sepet" className="shrink-0 rounded-full bg-gold px-5 py-2.5 text-sm font-medium text-night-deep">
+          <Link href="/sepet" className="shrink-0 rounded-full bg-[#9b72d0] px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#ab86db]">
             Sepete Git ✓
           </Link>
         ) : (

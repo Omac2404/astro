@@ -129,7 +129,7 @@ export function SiteHeader() {
               ) : (
                 <Link href="/giris" className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gold/50 bg-gold/10 px-3.5 py-1.5 text-[12.5px] font-medium text-gold-bright transition-colors hover:bg-gold/20 sm:px-5 sm:text-[13.5px]">
                   <SunIcon />
-                  Giriş Yap / Üye Ol
+                  Giriş Yap<span className="hidden sm:inline"> / Üye Ol</span>
                 </Link>
               )}
             </div>

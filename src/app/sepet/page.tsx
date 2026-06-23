@@ -29,7 +29,7 @@ export default function SepetPage() {
       <h1 className="font-display text-4xl font-semibold">Sepetin</h1>
 
       {count === 0 ? (
-        <div className="mt-10 rounded-2xl border border-dashed border-gold/20 px-6 py-16 text-center">
+        <div className="mt-10 rounded-2xl border border-dashed border-gold/20 bg-night px-6 py-16 text-center">
           <svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" className="mx-auto text-gold-bright/45">
             {/* çanta gövdesi */}
             <path d="M6.2 3.5 3.6 6.8V19a2 2 0 0 0 2 2h12.8a2 2 0 0 0 2-2V6.8l-2.6-3.3z" />
@@ -48,7 +48,7 @@ export default function SepetPage() {
           {/* Ürünler */}
           <div className="space-y-3">
             {items.map((it) => (
-              <div key={`${it.slug}${it.hediye ? ":h" : ""}`} className="flex items-center gap-4 rounded-xl border border-gold/15 bg-night-deep/50 p-3 sm:p-4">
+              <div key={`${it.slug}${it.hediye ? ":h" : ""}`} className="flex items-center gap-4 rounded-xl border border-gold/15 bg-night p-3 sm:p-4">
                 {/* Mini görsel */}
                 <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gold/15 sm:h-20 sm:w-20">
                   {it.gorsel ? (
@@ -98,7 +98,7 @@ export default function SepetPage() {
           </div>
 
           {/* Özet */}
-          <aside className="rounded-2xl border border-gold/20 bg-night-deep/60 p-5 lg:sticky lg:top-32">
+          <aside className="rounded-2xl border border-gold/20 bg-night p-5 lg:sticky lg:top-32">
             <div className="flex items-center justify-between border-b border-gold/10 pb-3">
               <span className="text-parchment/75">{count} ürün</span>
               <span className="font-body text-3xl font-semibold text-gold-bright">{total} ₺</span>
