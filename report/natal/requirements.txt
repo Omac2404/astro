@@ -5,6 +5,7 @@ skyfield        # gezegen ekliptik boylamlari (JPL DE421). pyswisseph yerine: Wi
 jinja2          # rapor sablonu (natal-rapor.html.j2) doldurma
 fonttools       # glif -> vektor path cikarimi (wheel_gen / diagram_gen; DEVIR-BRIFI §3a)
 tzdata          # Windows'ta zoneinfo IANA tz veritabani (Europe/Istanbul) icin sart
+spiceypy        # Lilith&Karmik: Kiron (2060) JPL SPK kernel'inden (kernels/chiron.bsp) okunur
 
 # PDF render: weasyprint/GTK DEGIL -> headless Chrome (Node: puppeteer-core).
 #   npm install puppeteer-core   (repo kokunde; sistemde kurulu Chrome'u kullanir)

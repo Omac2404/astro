@@ -14,7 +14,8 @@ import os
 import compute as C
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-EPH = os.path.join(HERE, "_ephem")
+EPH = os.path.join(HERE, "_ephem")        # skyfield runtime indirmeleri (de421.bsp)
+KERN = os.path.join(HERE, "kernels")      # commit'li statik SPICE kernel'leri (naif0012.tls, chiron.bsp)
 AU_KM = 149597870.7
 _SPICE_READY = False
 
@@ -46,8 +47,10 @@ def _ensure_spice():
     if _SPICE_READY:
         return
     import spiceypy as spice
-    for k in ("naif0012.tls", "de421.bsp", "chiron.bsp"):
-        spice.furnsh(os.path.join(EPH, k))
+    # Statik kernel'ler kernels/ altında (commit'li); de421.bsp skyfield ile _ephem'e iner.
+    spice.furnsh(os.path.join(KERN, "naif0012.tls"))
+    spice.furnsh(os.path.join(EPH, "de421.bsp"))
+    spice.furnsh(os.path.join(KERN, "chiron.bsp"))
     _SPICE_READY = True
 
 

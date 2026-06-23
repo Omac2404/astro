@@ -57,7 +57,7 @@ function FaqItem({ it, open, onToggle }: { it: FaqEntry; open: boolean; onToggle
 }
 
 export function Faq({ items }: { items: FaqEntry[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // ilk soru açık başlar, diğerleri kapalı
   return (
     <div className="space-y-3">
       {items.map((it, i) => (
