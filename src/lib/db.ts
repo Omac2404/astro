@@ -438,7 +438,14 @@ export function getGenelAyar(): GenelAyar {
     sss: Array.isArray(stored.sss) ? stored.sss : SSS_DEFAULT,
     hero: { ...HERO_DEFAULT, ...(stored.hero ?? {}) },
     iletisim: { ...ILETISIM_DEFAULT, ...(stored.iletisim ?? {}) },
-    yasal: Array.isArray(stored.yasal) ? stored.yasal : YASAL_DEFAULT,
+    // Kayıtlı yasal sayfalar kullanılır; ancak içeriği BOŞ bırakılmış bir sayfa varsa
+    // (ör. Hakkımızda) aynı slug'lı varsayılan içerikle doldurulur — boş "yakında eklenecek" kalmasın.
+    yasal: Array.isArray(stored.yasal)
+      ? stored.yasal.map((y) => {
+          const def = YASAL_DEFAULT.find((d) => d.slug === y.slug);
+          return def && !String(y.icerik ?? "").trim() ? { ...y, icerik: def.icerik } : y;
+        })
+      : YASAL_DEFAULT,
   };
 }
 export function setGenelAyar(patch: Partial<GenelAyar>): GenelAyar {
