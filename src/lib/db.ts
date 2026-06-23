@@ -413,9 +413,9 @@ Bu koşullar zaman zaman güncellenebilir; güncel sürüm her zaman bu sayfada 
   {
     slug: "hakkimizda",
     baslik: "Hakkımızda",
-    icerik: `Gökname, gökyüzünün senin doğduğun andaki eşsiz duruşunu; gerçek astronomik hesaplara ve özenle tasarlanmış bir yorum sistemine dayanarak, tamamen sana özel astroloji raporlarına dönüştüren dijital bir platformdur. Gökname.com ekibi olarak amacımız, astrolojiyi genel geçer burç yorumlarının ötesine taşımak; herkesin kendini daha derin, daha şefkatli ve daha berrak bir gözle tanımasına yardımcı olan, anlaşılır ve içten bir rehber sunmaktır.
+    icerik: `Gökname, gökyüzünün senin doğduğun andaki eşsiz duruşunu; gerçek astronomik hesaplara ve özenle tasarlanmış bir yorum sistemine dayanarak, tamamen sana özel astroloji raporlarına dönüştüren dijital bir platformdur. gokname.com ekibi olarak amacımız, astrolojiyi genel geçer burç yorumlarının ötesine taşımak; herkesin kendini daha derin, daha şefkatli ve daha berrak bir gözle tanımasına yardımcı olan, anlaşılır ve içten bir rehber sunmaktır.
 
-Her analiz, doğum tarihin, saatin ve yerinden yola çıkılarak gerçek gök konumlarının hassas biçimde hesaplanmasıyla başlar; ardından alanında uzmanlarca hazırlanan kapsamlı bir anlam kütüphanesi ve gelişmiş yorum altyapımızla sentezlenir. Sonuç, internetteki sıradan yorumlardan değil, yalnızca senin doğum haritandan doğan; derinlikli ve okuması keyifli bir rapordur. Gökname.com ekibi olarak verilerinin gizliliğine önem verir, bilgilerini yalnızca senin raporunu hazırlamak için kullanırız. Bu yıldızlı yolculukta sana eşlik etmekten mutluluk duyuyoruz.`,
+Her analiz, doğum tarihin, saatin ve yerinden yola çıkılarak gerçek gök konumlarının hassas biçimde hesaplanmasıyla başlar; ardından alanında uzmanlarca hazırlanan kapsamlı bir anlam kütüphanesi ve gelişmiş yorum altyapımızla sentezlenir. Sonuç, internetteki sıradan yorumlardan değil, yalnızca senin doğum haritandan doğan; derinlikli ve okuması keyifli bir rapordur. gokname.com ekibi olarak verilerinin gizliliğine önem verir, bilgilerini yalnızca senin raporunu hazırlamak için kullanırız. Bu yıldızlı yolculukta sana eşlik etmekten mutluluk duyuyoruz.`,
   },
 ];
 

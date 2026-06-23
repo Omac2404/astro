@@ -111,6 +111,12 @@ export function SiteFooter() {
             </Social>
           )}
         </div>
+
+        {/* Ödeme logoları — Mastercard · Visa · Troy + PayTR (sistemdeki görseller) */}
+        <div className="mt-9 flex flex-col items-center gap-2.5 opacity-90">
+          <Image src="/gorsel/odeme-kartlar.png" alt="Mastercard, Visa, Troy" width={1152} height={272} unoptimized className="h-7 w-auto" />
+          <Image src="/gorsel/odeme-paytr.webp" alt="PayTR" width={2000} height={430} unoptimized className="h-3.5 w-auto brightness-0 invert" />
+        </div>
       </div>
 
       {/* Alt bar */}
