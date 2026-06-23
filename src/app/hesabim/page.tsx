@@ -24,7 +24,7 @@ export default async function HesabimPage() {
 
       {/* ÜST SIRA: Hesap + Hediye kodu gir + Hediye Kodlarım (yan yana) */}
       <div className="mt-8 grid gap-5 lg:grid-cols-3">
-        <section className="rounded-2xl border border-gold/15 bg-night p-6">
+        <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
             <KartIkon d="account" />
             Hesap
@@ -46,7 +46,7 @@ export default async function HesabimPage() {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-gold/15 bg-night p-6">
+        <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
             <KartIkon d="giftIn" />
             Hediye Kodun Var mı?
@@ -57,7 +57,7 @@ export default async function HesabimPage() {
           <GiftRedeem />
         </section>
 
-        <section className="rounded-2xl border border-gold/15 bg-night p-6">
+        <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
             <KartIkon d="gift" />
             Satın Aldığım Hediye Kodlarım

@@ -95,7 +95,7 @@ export function Analizlerim() {
   }, [reports]);
 
   return (
-    <section className="rounded-2xl border border-gold/15 bg-night p-6">
+    <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
@@ -106,7 +106,7 @@ export function Analizlerim() {
           </Link>
         </div>
       ) : (
-        <div className="scroll-soft mt-4 max-h-[21rem] space-y-3 overflow-y-auto pr-2">
+        <div className="scroll-soft mt-4 max-h-[21rem] space-y-3 overflow-y-auto overflow-x-hidden pr-1.5">
           {(reports ?? []).map((r) => {
             const p = getProduct(r.slug);
             const bas = baslangic.current[r.id];
@@ -179,12 +179,12 @@ export function Siparislerim() {
   }, []);
 
   return (
-    <section className="rounded-2xl border border-gold/15 bg-night p-6">
+    <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="siparis" className="!h-[22px] !w-[22px]" />Siparişlerim</h2>
       {orders && orders.length === 0 ? (
         <p className="mt-4 text-sm text-parchment/55">Henüz siparişin yok.</p>
       ) : (
-        <div className="scroll-soft mt-4 max-h-[21rem] space-y-3 overflow-y-auto pr-2">
+        <div className="scroll-soft mt-4 max-h-[21rem] space-y-3 overflow-y-auto overflow-x-hidden pr-1.5">
           {(orders ?? []).map((o) => (
             <div key={o.id} className="rounded-xl border border-gold/10 bg-night-2 p-3">
               <div className="flex items-center justify-between gap-3">
@@ -231,7 +231,7 @@ export function HediyeKodlarim() {
   return (
     <>
       {codes && codes.length === 0 ? null : (
-        <div className="scroll-soft mt-1 max-h-[8.5rem] space-y-2 overflow-y-auto pr-2">
+        <div className="scroll-soft mt-1 max-h-[8.5rem] space-y-2 overflow-y-auto overflow-x-hidden pr-1.5">
           {(codes ?? []).map((g) => {
             const aktif = g.durum === "aktif";
             return (
