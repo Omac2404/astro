@@ -13,7 +13,7 @@ const ETAPLAR = [
   "Açılar ölçülüyor",
   "İmzalar ve elementler analiz ediliyor",
   "Anlam blokları eşleşiyor",
-  "Yapay zekâ yorumluyor",
+  "Sistemimiz tarafından yorumlanıyor",
   "PDF hazırlanıyor",
 ];
 
