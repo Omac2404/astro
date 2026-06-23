@@ -48,8 +48,8 @@ export default function Home() {
                 <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
                   {/* Mobilde metin kendi satırını alır (w-full); iki fiyat birlikte alta düşer, aynı satırda kalır. */}
                   {hero.fiyatMetin && <span className="w-full text-parchment/70 sm:w-auto">{hero.fiyatMetin}</span>}
-                  {hero.eskiFiyat && <span className="text-xl font-medium text-[#a98fd6]/80 line-through sm:text-2xl">{hero.eskiFiyat}</span>}
-                  {hero.yeniFiyat && <span className="font-body text-3xl font-semibold text-gold-bright sm:text-4xl">{hero.yeniFiyat}</span>}
+                  {hero.eskiFiyat && <span className="text-2xl font-medium text-[#a98fd6]/80 line-through sm:text-3xl">{hero.eskiFiyat}</span>}
+                  {hero.yeniFiyat && <span className="font-body text-[2.6rem] font-semibold leading-none text-gold-bright sm:text-5xl">{hero.yeniFiyat}</span>}
                 </div>
               </div>
             )}
