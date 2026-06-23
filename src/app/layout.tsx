@@ -7,9 +7,28 @@ import { getSeoAyar } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
+// headKod içindeki <meta name="..." content="..."> etiketlerini ayıkla — Metadata API ile
+// gerçekten <head>'e basılsınlar (Google site-verification yalnız head'de okunur). İki sıra varyantı.
+function metaCiftleri(headKod: string): Record<string, string> {
+  const out: Record<string, string> = {};
+  let m: RegExpExecArray | null;
+  const reNameFirst = /<meta\s+[^>]*name=["']([^"']+)["'][^>]*content=["']([^"']*)["'][^>]*>/gi;
+  while ((m = reNameFirst.exec(headKod))) out[m[1]] = m[2];
+  const reContentFirst = /<meta\s+[^>]*content=["']([^"']*)["'][^>]*name=["']([^"']+)["'][^>]*>/gi;
+  while ((m = reContentFirst.exec(headKod))) out[m[2]] ??= m[1];
+  return out;
+}
+
 export function generateMetadata(): Metadata {
-  const fav = getSeoAyar().favicon.trim();
-  return fav ? { icons: { icon: fav, shortcut: fav, apple: fav } } : {};
+  const seo = getSeoAyar();
+  const meta: Metadata = {};
+  const fav = seo.favicon.trim();
+  if (fav) meta.icons = { icon: fav, shortcut: fav, apple: fav };
+  if (seo.headAktif && seo.headKod) {
+    const other = metaCiftleri(seo.headKod);
+    if (Object.keys(other).length) meta.other = other;
+  }
+  return meta;
 }
 
 const cormorant = Cormorant_Garamond({
@@ -33,8 +52,12 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${cormorant.variable} ${spectral.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-night-deep text-parchment antialiased">
-        {/* Header kodu — Search Console / Analytics / Pixel. SSR ile basılır, scriptler çalışır. */}
-        {seo.headAktif && seo.headKod ? <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: seo.headKod }} /> : null}
+        {/* Header kodu — Analytics / Pixel scriptleri (body'de de çalışır). <meta> etiketleri
+            buradan çıkarılır; onlar generateMetadata ile gerçek <head>'e basılır (verification için şart). */}
+        {(() => {
+          const govde = seo.headAktif && seo.headKod ? seo.headKod.replace(/<meta\b[^>]*>/gi, "").trim() : "";
+          return govde ? <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: govde }} /> : null;
+        })()}
         <SiteChrome footer={<SiteFooter />}>{children}</SiteChrome>
         {/* Body (</body>) öncesi kod — chat widget, dönüşüm/uzak API. */}
         {seo.bodyAktif && seo.bodyKod ? <div suppressHydrationWarning dangerouslySetInnerHTML={{ __html: seo.bodyKod }} /> : null}
