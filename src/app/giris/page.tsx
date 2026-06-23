@@ -46,7 +46,7 @@ function GirisForm() {
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-5 py-16">
-      <div className="rounded-3xl border border-gold/20 bg-night-deep/70 p-7 backdrop-blur-sm sm:p-9">
+      <div className="rounded-3xl border border-gold/20 bg-night p-7 sm:p-9">
         <h1 className="text-center font-display text-3xl font-semibold text-parchment">{kayit ? "Üye Ol" : "Giriş Yap"}</h1>
         <p className="mt-2 text-center text-sm leading-relaxed text-parchment/60">
           {kayit ? "E-posta ve bir şifre belirle, hesabını oluştur." : "Hesabına giriş yap, analizlerini görüntüle."}

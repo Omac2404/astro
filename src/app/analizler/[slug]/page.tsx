@@ -137,7 +137,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
           </div>
 
           {/* Analizi nasıl yapacağım? */}
-          <div className="mt-10 max-w-2xl rounded-2xl border border-gold/15 bg-night-deep/50 p-6">
+          <div className="mt-10 max-w-2xl rounded-2xl border border-gold/15 bg-night p-6">
             <h2 className="font-display text-3xl text-gold-bright">Analizi nasıl yapacağım?</h2>
             <ol className="mt-5 space-y-4">
               {[
