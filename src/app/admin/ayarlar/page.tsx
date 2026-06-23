@@ -447,8 +447,25 @@ function SanalPosBolum() {
 type Sss = { q: string; a: string; btnText?: string; btnHref?: string };
 type Hero = { baslik: string; altMetin: string; rozet: string; fiyatMetin: string; eskiFiyat: string; yeniFiyat: string; btn1Metin: string; btn1Link: string; btn2Metin: string; btn2Link: string };
 const HERO_BOS: Hero = { baslik: "", altMetin: "", rozet: "", fiyatMetin: "", eskiFiyat: "", yeniFiyat: "", btn1Metin: "", btn1Link: "", btn2Metin: "", btn2Link: "" };
-type Iletisim = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string };
-const ILETISIM_BOS: Iletisim = { eposta: "", telefon: "", adres: "", instagram: "", x: "", tiktok: "" };
+type Iletisim = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string; instagramAktif: boolean; xAktif: boolean; tiktokAktif: boolean };
+const ILETISIM_BOS: Iletisim = { eposta: "", telefon: "", adres: "", instagram: "", x: "", tiktok: "", instagramAktif: false, xAktif: false, tiktokAktif: false };
+
+// Küçük aç/kapa switch'i (bakım modu switch'iyle aynı stil) — sosyal medya görünürlüğü için
+function MiniSwitch({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      onClick={onToggle}
+      title={on ? "Sitede gösteriliyor" : "Sitede gizli"}
+      className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? "bg-emerald-500" : "bg-white/15"}`}
+    >
+      <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-night-deep transition-all ${on ? "left-[22px]" : "left-0.5"}`} />
+    </button>
+  );
+}
 type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim };
 const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS };
 
@@ -474,6 +491,7 @@ function GenelBolum() {
   const set = <K extends keyof Genel>(k: K, v: Genel[K]) => setG((s) => ({ ...s, [k]: v }));
   const heroSet = (k: keyof Hero, v: string) => setG((s) => ({ ...s, hero: { ...s.hero, [k]: v } }));
   const ilSet = (k: keyof Iletisim, v: string) => setG((s) => ({ ...s, iletisim: { ...s.iletisim, [k]: v } }));
+  const ilToggle = (k: "instagramAktif" | "xAktif" | "tiktokAktif") => setG((s) => ({ ...s, iletisim: { ...s.iletisim, [k]: !s.iletisim[k] } }));
 
   useEffect(() => {
     fetch("/api/admin/settings").then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
@@ -592,17 +610,29 @@ function GenelBolum() {
             <label className={labelCls}>Adres</label>
             <input value={g.iletisim.adres} onChange={(e) => ilSet("adres", e.target.value)} placeholder="Mahalle, Cadde No, İlçe / İl" className={`${inputCls} mt-1.5 w-full`} />
           </div>
-          <div>
-            <label className={labelCls}>Instagram (link)</label>
-            <input value={g.iletisim.instagram} onChange={(e) => ilSet("instagram", e.target.value)} placeholder="https://instagram.com/..." className={`${inputCls} mt-1.5 w-full`} />
-          </div>
-          <div>
-            <label className={labelCls}>X (link)</label>
-            <input value={g.iletisim.x} onChange={(e) => ilSet("x", e.target.value)} placeholder="https://x.com/..." className={`${inputCls} mt-1.5 w-full`} />
-          </div>
-          <div>
-            <label className={labelCls}>TikTok (link)</label>
-            <input value={g.iletisim.tiktok} onChange={(e) => ilSet("tiktok", e.target.value)} placeholder="https://tiktok.com/@..." className={`${inputCls} mt-1.5 w-full`} />
+          <div className="sm:col-span-2 mt-1 grid gap-3 border-t border-gold/10 pt-4">
+            <p className="text-xs text-parchment/45">Sosyal medya: switch <span className="text-emerald-300">açık</span> olan hesaplar sitede (footer + iletişim sayfası) görünür. Kapalıysa link girilmiş olsa bile gizlenir.</p>
+            <div>
+              <label className={labelCls}>Instagram (link)</label>
+              <div className="mt-1.5 flex items-center gap-2.5">
+                <input value={g.iletisim.instagram} onChange={(e) => ilSet("instagram", e.target.value)} placeholder="https://instagram.com/..." className={`${inputCls} min-w-0 flex-1`} />
+                <MiniSwitch on={g.iletisim.instagramAktif} onToggle={() => ilToggle("instagramAktif")} label="Instagram'ı sitede göster" />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>X (link)</label>
+              <div className="mt-1.5 flex items-center gap-2.5">
+                <input value={g.iletisim.x} onChange={(e) => ilSet("x", e.target.value)} placeholder="https://x.com/..." className={`${inputCls} min-w-0 flex-1`} />
+                <MiniSwitch on={g.iletisim.xAktif} onToggle={() => ilToggle("xAktif")} label="X'i sitede göster" />
+              </div>
+            </div>
+            <div>
+              <label className={labelCls}>TikTok (link)</label>
+              <div className="mt-1.5 flex items-center gap-2.5">
+                <input value={g.iletisim.tiktok} onChange={(e) => ilSet("tiktok", e.target.value)} placeholder="https://tiktok.com/@..." className={`${inputCls} min-w-0 flex-1`} />
+                <MiniSwitch on={g.iletisim.tiktokAktif} onToggle={() => ilToggle("tiktokAktif")} label="TikTok'u sitede göster" />
+              </div>
+            </div>
           </div>
         </div>
       </Panel>

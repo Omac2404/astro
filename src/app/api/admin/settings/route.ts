@@ -54,6 +54,9 @@ export async function POST(req: Request) {
       instagram: String(it.instagram ?? "").trim().slice(0, 200),
       x: String(it.x ?? "").trim().slice(0, 200),
       tiktok: String(it.tiktok ?? "").trim().slice(0, 200),
+      instagramAktif: !!it.instagramAktif,
+      xAktif: !!it.xAktif,
+      tiktokAktif: !!it.tiktokAktif,
     };
   }
   if ("yasal" in b && Array.isArray(b.yasal)) {

@@ -242,8 +242,8 @@ const HERO_DEFAULT: HeroAyar = {
 };
 
 // İletişim sayfasında gösterilen bilgiler
-export type IletisimAyar = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string };
-const ILETISIM_DEFAULT: IletisimAyar = { eposta: "destek@gokname.com", telefon: "", adres: "", instagram: "", x: "", tiktok: "" };
+export type IletisimAyar = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string; instagramAktif: boolean; xAktif: boolean; tiktokAktif: boolean };
+const ILETISIM_DEFAULT: IletisimAyar = { eposta: "destek@gokname.com", telefon: "", adres: "", instagram: "", x: "", tiktok: "", instagramAktif: false, xAktif: false, tiktokAktif: false };
 
 // Yasal sayfalar (footer + /yasal/[slug]). icerik: ## başlık + boş satır = paragraf.
 export type YasalSayfa = { slug: string; baslik: string; icerik: string };
@@ -413,7 +413,9 @@ Bu koşullar zaman zaman güncellenebilir; güncel sürüm her zaman bu sayfada 
   {
     slug: "hakkimizda",
     baslik: "Hakkımızda",
-    icerik: ``,
+    icerik: `Gökname, gökyüzünün senin doğduğun andaki eşsiz duruşunu; gerçek astronomik hesaplara ve özenle tasarlanmış bir yorum sistemine dayanarak, tamamen sana özel astroloji raporlarına dönüştüren dijital bir platformdur. Amacımız, astrolojiyi genel geçer burç yorumlarının ötesine taşımak; herkesin kendini daha derin, daha şefkatli ve daha berrak bir gözle tanımasına yardımcı olan, anlaşılır ve içten bir rehber sunmaktır.
+
+Her analiz, doğum tarihin, saatin ve yerinden yola çıkılarak gerçek gök konumlarının hassas biçimde hesaplanmasıyla başlar; ardından alanında uzmanlarca hazırlanan kapsamlı bir anlam kütüphanesi ve gelişmiş yorum altyapımızla sentezlenir. Sonuç, internetteki sıradan yorumlardan değil, yalnızca senin doğum haritandan doğan; derinlikli ve okuması keyifli bir rapordur. Verilerinin gizliliğine önem verir, bilgilerini yalnızca senin raporunu hazırlamak için kullanırız. Yıldızlı yolculuğunda sana eşlik etmekten mutluluk duyuyoruz.`,
   },
 ];
 

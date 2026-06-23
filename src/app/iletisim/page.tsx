@@ -7,7 +7,7 @@ export const generateMetadata = () => seoMetadata("/iletisim");
 
 export default function IletisimPage() {
   const il = getGenelAyar().iletisim;
-  const sosyalVar = il.instagram || il.x || il.tiktok;
+  const sosyalVar = (il.instagram && il.instagramAktif) || (il.x && il.xAktif) || (il.tiktok && il.tiktokAktif);
   return (
     <div className="mx-auto max-w-5xl px-5 py-16">
       <header className="max-w-2xl">
@@ -42,17 +42,17 @@ export default function IletisimPage() {
             <div className="rounded-xl border border-gold/15 bg-night p-5">
               <h3 className="font-display text-lg text-gold-bright">Sosyal medya</h3>
               <div className="mt-2 flex flex-wrap gap-3">
-                {il.instagram && (
+                {il.instagram && il.instagramAktif && (
                   <a href={il.instagram} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
                     Instagram
                   </a>
                 )}
-                {il.x && (
+                {il.x && il.xAktif && (
                   <a href={il.x} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
                     X
                   </a>
                 )}
-                {il.tiktok && (
+                {il.tiktok && il.tiktokAktif && (
                   <a href={il.tiktok} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
                     TikTok
                   </a>
