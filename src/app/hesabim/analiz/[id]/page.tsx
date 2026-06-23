@@ -91,7 +91,7 @@ export default function AnalizBilgiPage() {
         </button>
       </form>
 
-      {basladi && <AnalizHazirlaniyorModal />}
+      {basladi && <AnalizHazirlaniyorModal reportId={id} />}
     </div>
   );
 }
