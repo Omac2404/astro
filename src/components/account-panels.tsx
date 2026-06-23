@@ -95,7 +95,7 @@ export function Analizlerim() {
   }, [reports]);
 
   return (
-    <section className="rounded-2xl border border-gold/15 bg-night-deep p-6">
+    <section className="rounded-2xl border border-gold/15 bg-night p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
@@ -115,8 +115,8 @@ export function Analizlerim() {
             const animasyon = r.durum === "olusturuluyor" || (r.durum === "hazir" && bas !== undefined && gecen < MIN_SURE);
             const isim = r.dogum?.ad ? ` - ${r.dogum.ad}${r.dogum2?.ad ? " & " + r.dogum2.ad : ""}` : "";
             return (
-              <div key={r.id} className="flex items-center gap-3 rounded-xl border border-gold/10 bg-night p-3">
-                <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded-md border border-gold/15">
+              <div key={r.id} className="flex items-center gap-2.5 rounded-xl border border-gold/10 bg-night-2 p-2.5">
+                <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded-md border border-gold/15">
                   {p?.gorsel ? (
                     <Image src={p.gorsel} alt="" fill sizes="48px" style={{ objectPosition: p.objectPos ?? "center 22%" }} className="object-cover" />
                   ) : (
@@ -124,7 +124,7 @@ export function Analizlerim() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate font-medium text-parchment/90">{r.urunAd}</div>
+                  <div className="truncate text-[14px] font-medium text-parchment/90">{r.urunAd}</div>
                   {animasyon ? (
                     <Hazirlaniyor />
                   ) : r.durum === "hazir" ? (
@@ -147,12 +147,12 @@ export function Analizlerim() {
                   )}
                 </div>
                 {!animasyon && r.durum === "hazir" && r.dosya ? (
-                  <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-3.5 py-2 text-xs font-medium text-night-deep transition-colors hover:bg-gold-bright">
+                  <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-3 py-1.5 text-[11px] font-medium text-night-deep transition-colors hover:bg-gold-bright">
                     İndir
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
                   </a>
                 ) : !animasyon && r.durum === "bekliyor" ? (
-                  <Link href={`/hesabim/analiz/${r.id}`} className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold/40 px-3.5 py-2 text-xs font-medium text-gold-bright transition-colors hover:bg-gold/10">
+                  <Link href={`/hesabim/analiz/${r.id}`} className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold/40 px-3 py-1.5 text-[11px] font-medium text-gold-bright transition-colors hover:bg-gold/10">
                     {r.dogum ? "Tekrar dene" : "Analiz"}
                     <span aria-hidden>→</span>
                   </Link>
@@ -179,19 +179,19 @@ export function Siparislerim() {
   }, []);
 
   return (
-    <section className="rounded-2xl border border-gold/15 bg-night-deep p-6">
+    <section className="rounded-2xl border border-gold/15 bg-night p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="siparis" className="!h-[22px] !w-[22px]" />Siparişlerim</h2>
       {orders && orders.length === 0 ? (
         <p className="mt-4 text-sm text-parchment/55">Henüz siparişin yok.</p>
       ) : (
         <div className="scroll-soft mt-4 max-h-[21rem] space-y-3 overflow-y-auto pr-2">
           {(orders ?? []).map((o) => (
-            <div key={o.id} className="rounded-xl border border-gold/10 bg-night p-3.5">
+            <div key={o.id} className="rounded-xl border border-gold/10 bg-night-2 p-3">
               <div className="flex items-center justify-between gap-3">
-                <span className="font-mono text-sm text-parchment/80">{o.id}</span>
+                <span className="font-mono text-[13px] text-parchment/80">{o.id}</span>
                 <span className="font-body font-semibold text-gold-bright">{o.total} ₺</span>
               </div>
-              <div className="mt-1 text-[13px] text-parchment/55">{o.items.map((i) => i.ad + (i.hediye ? " (hediye)" : "")).join(", ")}</div>
+              <div className="mt-1 text-xs text-parchment/55">{o.items.map((i) => i.ad + (i.hediye ? " (hediye)" : "")).join(", ")}</div>
               <div className="mt-2 flex items-center gap-3 text-xs">
                 <span className="text-parchment/45">{o.tarih.slice(0, 10)}</span>
                 {o.faturaDosya ? (
@@ -240,7 +240,7 @@ export function HediyeKodlarim() {
                 type="button"
                 onClick={() => kopyala(g.kod)}
                 title="Kopyalamak için tıkla"
-                className="block w-full rounded-lg border border-gold/10 bg-night p-2.5 text-left transition-colors hover:border-gold/35"
+                className="block w-full rounded-lg border border-gold/10 bg-night-2 p-2.5 text-left transition-colors hover:border-gold/35"
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 font-mono text-sm tracking-wide text-gold-bright">
