@@ -322,8 +322,8 @@ function YasalBolum() {
 }
 
 // ---------------- Sanal POS (PayTR) ----------------
-type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; hasKey?: boolean; hasSalt?: boolean };
-const PAYTR_BOS: Paytr = { aktif: false, merchantId: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false };
+type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; saglayici: "paytr" | "iyzico"; hasKey?: boolean; hasSalt?: boolean };
+const PAYTR_BOS: Paytr = { aktif: false, merchantId: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr" };
 
 function SanalPosBolum() {
   const [f, setF] = useState<Paytr>(PAYTR_BOS);
@@ -346,7 +346,7 @@ function SanalPosBolum() {
 
   const kaydet = async (e: React.FormEvent) => {
     e.preventDefault(); setMsg(""); setYuk(true);
-    const body: Record<string, unknown> = { aktif: f.aktif, merchantId: f.merchantId, testMod: f.testMod, maxTaksit: f.maxTaksit, tekCekim: f.tekCekim, basvuruModu: f.basvuruModu };
+    const body: Record<string, unknown> = { aktif: f.aktif, merchantId: f.merchantId, testMod: f.testMod, maxTaksit: f.maxTaksit, tekCekim: f.tekCekim, basvuruModu: f.basvuruModu, saglayici: f.saglayici };
     if (key) body.merchantKey = key;
     if (salt) body.merchantSalt = salt;
     const r = await fetch("/api/admin/paytr", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -393,6 +393,23 @@ function SanalPosBolum() {
 
         {/* Sağ: ödeme seçenekleri + bildirim url */}
         <div className="space-y-5">
+          <Panel className="p-6">
+            <h2 className="font-display text-lg font-semibold text-parchment">Ödeme Sağlayıcı (Logo)</h2>
+            <p className="mt-0.5 text-xs text-parchment/45">Sitede (footer + ödeme + ürün sayfası) gösterilecek sağlayıcı logosu. Yalnızca görsel rozet; ödeme entegrasyonunu değiştirmez.</p>
+            <div className="mt-3 grid grid-cols-2 gap-1 rounded-full border border-gold/20 bg-night p-1 text-sm">
+              {(["paytr", "iyzico"] as const).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => set("saglayici", p)}
+                  className={`rounded-full py-2 font-medium transition-colors ${f.saglayici === p ? "bg-gold text-night-deep" : "text-parchment/70 hover:text-gold-bright"}`}
+                >
+                  {p === "paytr" ? "PayTR" : "iyzico"}
+                </button>
+              ))}
+            </div>
+          </Panel>
+
           <Panel className="p-6">
             <h2 className="mb-4 font-display text-lg font-semibold text-parchment">Ödeme Seçenekleri</h2>
             <div className="space-y-4">

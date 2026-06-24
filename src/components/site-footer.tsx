@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getGenelAyar } from "@/lib/db";
+import { getGenelAyar, getPaytr } from "@/lib/db";
 
 // Header ile aynı sıra (hesabım/giriş yok)
 const LINKS = [
@@ -27,6 +27,7 @@ function Social({ href, label, external, children }: { href: string; label: stri
 
 export function SiteFooter() {
   const { yasal, iletisim: il } = getGenelAyar();
+  const saglayici = getPaytr().saglayici;
   return (
     <footer className="relative overflow-hidden border-t border-gold/15 bg-night-deep">
       {/* ince üst ışıltı + hafif yıldız dokusu + üstte ortalı hâle */}
@@ -115,7 +116,11 @@ export function SiteFooter() {
         {/* Ödeme logoları — Mastercard · Visa · Troy + PayTR (sistemdeki görseller) */}
         <div className="mt-9 flex flex-col items-center gap-2.5 opacity-90">
           <Image src="/gorsel/odeme-kartlar.png" alt="Mastercard, Visa, Troy" width={1152} height={272} unoptimized className="h-7 w-auto" />
-          <Image src="/gorsel/odeme-paytr.webp" alt="PayTR" width={2000} height={430} unoptimized className="h-3.5 w-auto brightness-0 invert" />
+          {saglayici === "iyzico" ? (
+            <Image src="/gorsel/odeme-iyzico.png" alt="iyzico" width={462} height={123} unoptimized className="h-4 w-auto" />
+          ) : (
+            <Image src="/gorsel/odeme-paytr.webp" alt="PayTR" width={2000} height={430} unoptimized className="h-3.5 w-auto brightness-0 invert" />
+          )}
         </div>
       </div>
 
