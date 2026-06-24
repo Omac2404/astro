@@ -662,6 +662,27 @@ export function deleteFile(id: string) {
   try { fs.unlinkSync(path.join(filesDir(), path.basename(id))); } catch {}
 }
 
+// İndirme/paylaşım için anlamlı dosya adı: "<isim>-<ürün>-<kısaid>.pdf".
+// Türkçe karakterler sadeleştirilir; rapor/gen-rapor/fatura kaydından bağlam bulunur.
+function _slugAd(s: string): string {
+  const tr: Record<string, string> = { "ç": "c", "Ç": "c", "ğ": "g", "Ğ": "g", "ı": "i", "İ": "i", "ö": "o", "Ö": "o", "ş": "s", "Ş": "s", "ü": "u", "Ü": "u" };
+  return s.replace(/[çÇğĞıİöÖşŞüÜ]/g, (m) => tr[m] ?? m).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 70);
+}
+export function dosyaIndirmeAdi(id: string): string {
+  const kisa = id.replace(/\.[^.]+$/, "").slice(0, 8);
+  const raporAdi = (urunAd: string, ad?: string, ad2?: string) => {
+    const base = _slugAd([[ad, ad2].filter(Boolean).join(" "), urunAd].filter(Boolean).join(" "));
+    return `${base || "rapor"}-${kisa}.pdf`;
+  };
+  const r = getReports().find((x) => x.dosya === id);
+  if (r) return raporAdi(r.urunAd, r.dogum?.ad, r.dogum2?.ad);
+  const g = getGenReports().find((x) => x.dosya === id);
+  if (g) return raporAdi(g.urunAd, g.dogum?.ad, g.dogum2?.ad);
+  const o = getOrders().find((x) => x.faturaDosya === id);
+  if (o) return `fatura-${_slugAd(o.id) || "siparis"}.pdf`;
+  return id.endsWith(".pdf") ? id : `${id}.pdf`;
+}
+
 // ---- Siparişler ----
 export type OrderItem = { slug: string; ad: string; fiyat: number; hediye?: boolean };
 export type Fatura = FaturaBilgi; // sipariş faturası = üye fatura bilgisiyle aynı şema

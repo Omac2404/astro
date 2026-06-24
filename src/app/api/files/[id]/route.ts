@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readFile, getReportsByEmail, getOrdersByEmail, markReportIndirildi } from "@/lib/db";
+import { readFile, getReportsByEmail, getOrdersByEmail, markReportIndirildi, dosyaIndirmeAdi } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -23,7 +23,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   return new NextResponse(new Uint8Array(buf), {
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${id}"`,
+      "Content-Disposition": `inline; filename="${dosyaIndirmeAdi(id)}"`,
     },
   });
 }
