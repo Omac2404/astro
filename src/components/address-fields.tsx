@@ -20,6 +20,11 @@ export function AddressFields({
 }) {
   return (
     <div className="space-y-4">
+      <label className="flex cursor-pointer items-center gap-2.5 text-sm text-parchment/75">
+        <input type="checkbox" checked={a.yurtdisi} onChange={(e) => set({ yurtdisi: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
+        Yurtdışında yaşıyorum
+      </label>
+
       {a.yurtdisi ? (
         <div className="grid grid-cols-2 gap-3">
           <div>
@@ -53,11 +58,6 @@ export function AddressFields({
         <label className={labelCls}>Açık Adres</label>
         <textarea value={a.acikAdres} onChange={(e) => set({ acikAdres: e.target.value })} rows={2} placeholder="Mahalle, cadde, no, daire" className={inputCls} />
       </div>
-
-      <label className="flex cursor-pointer items-center gap-2.5 text-sm text-parchment/75">
-        <input type="checkbox" checked={a.yurtdisi} onChange={(e) => set({ yurtdisi: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
-        Yurtdışında yaşıyorum
-      </label>
     </div>
   );
 }

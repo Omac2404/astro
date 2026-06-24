@@ -53,7 +53,7 @@ export default function SepetPage() {
               <path d="M12 7.5h.01" />
             </svg>
             <p>
-              Bir analizi <span className="font-medium text-gold-bright">birden fazla adet</span> alabilirsin; her biri için <span className="font-medium text-gold-bright">farklı doğum bilgileri</span> girebilirsin. Adedi aşağıdaki <span className="font-medium text-gold-bright">− / +</span> ile ayarla.
+              Bir analizi <span className="font-medium text-gold-bright">birden fazla adet</span> alabilirsin; her biri için <span className="font-medium text-gold-bright">farklı doğum bilgileri</span> girebilirsin.
             </p>
           </div>
 
