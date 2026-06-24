@@ -17,7 +17,6 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.boundsPen import BoundsPen
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 PY = sys.executable
 REPO = os.path.dirname(os.path.dirname(HERE))
 COVER_IMG = os.path.join(REPO, "src", "kapak", "113854.jpg")  # tüm raporların kapak arkaplanı
@@ -497,18 +496,18 @@ def syn_element_table(A, B, adA, adB):
 def render_sinastri(product):
     """Motor 3 — Sinastri (çift uyum): iki harita + çapraz açılar, kendine yeten şablon."""
     cfg = PRODUCTS[product]
-    chart = json.load(open(os.path.join(IO, "chart.json"), encoding="utf-8"))
+    chart = json.load(open(os.path.join(HERE, "chart.json"), encoding="utf-8"))
     A, B = chart["person_a"], chart["person_b"]
     adA, adB = A["meta"]["ad"], B["meta"]["ad"]
 
     # 1) İki çark: person_a / person_b -> ayrı dosya -> wheel_gen
-    json.dump(A, open(os.path.join(IO, "_pa.json"), "w", encoding="utf-8"), ensure_ascii=False)
-    json.dump(B, open(os.path.join(IO, "_pb.json"), "w", encoding="utf-8"), ensure_ascii=False)
+    json.dump(A, open(os.path.join(HERE, "_pa.json"), "w", encoding="utf-8"), ensure_ascii=False)
+    json.dump(B, open(os.path.join(HERE, "_pb.json"), "w", encoding="utf-8"), ensure_ascii=False)
     genenv = {**os.environ, "PRODUCT": product}
     subprocess.run([PY, os.path.join(HERE, "wheel_gen.py"), "_pa.json", "wheel-a.svg"], check=True, env=genenv)
     subprocess.run([PY, os.path.join(HERE, "wheel_gen.py"), "_pb.json", "wheel-b.svg"], check=True, env=genenv)
-    wheel_a = open(os.path.join(IO, "wheel-a.svg"), encoding="utf-8").read().replace("<svg ", '<svg class="chart-wheel" ', 1)
-    wheel_b = open(os.path.join(IO, "wheel-b.svg"), encoding="utf-8").read().replace("<svg ", '<svg class="chart-wheel" ', 1)
+    wheel_a = open(os.path.join(HERE, "wheel-a.svg"), encoding="utf-8").read().replace("<svg ", '<svg class="chart-wheel" ', 1)
+    wheel_b = open(os.path.join(HERE, "wheel-b.svg"), encoding="utf-8").read().replace("<svg ", '<svg class="chart-wheel" ', 1)
     dual_wheel = (
         '<div class="dual-wheel">'
         f'<div class="dw-col"><div class="dw-label">{adA}</div>{wheel_a}<div class="dw-sub">Doğum Haritası</div></div>'
@@ -530,7 +529,7 @@ def render_sinastri(product):
     overlays_html = "".join(ov)
 
     # 3) Sentez prozları
-    rpath = os.path.join(IO, f"rapor-{product}.txt")
+    rpath = os.path.join(HERE, f"rapor-{product}.txt")
     parsed = parse_report(open(rpath, encoding="utf-8").read()) if os.path.exists(rpath) else {}
     if not parsed:
         print(f"[uyarı] rapor-{product}.txt yok — bölümler boş")
@@ -572,7 +571,7 @@ def render_sinastri(product):
     ctx["base_css"] = Environment(autoescape=False).from_string(mstyle.group(1)).render(**ctx) if mstyle else ""
     env = Environment(loader=FileSystemLoader(HERE), autoescape=False)
     html = env.get_template("sinastri-rapor.html.j2").render(**ctx)
-    out_html = os.path.join(IO, "natal-rapor.out.html")
+    out_html = os.path.join(HERE, "natal-rapor.out.html")
     open(out_html, "w", encoding="utf-8").write(html)
     print(f"ok -> natal-rapor.out.html (sinastri: {adA} & {adB})")
     r = subprocess.run(["node", os.path.join(HERE, "render.mjs"), out_html], capture_output=True, text=True)
@@ -590,7 +589,7 @@ def main():
         render_sinastri(product); return
     cfg = PRODUCTS.get(product, PRODUCTS["natal"])
 
-    chart = json.load(open(os.path.join(IO, "chart.json"), encoding="utf-8"))
+    chart = json.load(open(os.path.join(HERE, "chart.json"), encoding="utf-8"))
     icr = json.load(open(os.path.join(HERE, "icerik.json"), encoding="utf-8"))
     # Solar Return kapak notu (dinamik): SR anı açıklaması + doğum-yeri/bulunduğun-yer
     sr_meta = chart.get("sr")
@@ -607,13 +606,13 @@ def main():
     genenv = {**os.environ, "PRODUCT": product}
     subprocess.run([PY, os.path.join(HERE, "wheel_gen.py")], check=True, env=genenv)
     subprocess.run([PY, os.path.join(HERE, "diagram_gen.py")], check=True, env=genenv)
-    wheel_svg = open(os.path.join(IO, "wheel.svg"), encoding="utf-8").read()
-    diagram_svg = open(os.path.join(IO, "diagram.svg"), encoding="utf-8").read()
+    wheel_svg = open(os.path.join(HERE, "wheel.svg"), encoding="utf-8").read()
+    diagram_svg = open(os.path.join(HERE, "diagram.svg"), encoding="utf-8").read()
     # Solar Return: 2-haritalı sayfa için natal çarkı da üret (chart-natal.json -> wheel-natal.svg)
     natal_wheel_svg = ""
-    if product == "solar" and os.path.exists(os.path.join(IO, "chart-natal.json")):
+    if product == "solar" and os.path.exists(os.path.join(HERE, "chart-natal.json")):
         subprocess.run([PY, os.path.join(HERE, "wheel_gen.py"), "chart-natal.json", "wheel-natal.svg"], check=True, env=genenv)
-        natal_wheel_svg = open(os.path.join(IO, "wheel-natal.svg"), encoding="utf-8").read()
+        natal_wheel_svg = open(os.path.join(HERE, "wheel-natal.svg"), encoding="utf-8").read()
 
     P = {p["id"]: p for p in chart["planets"]}
     asc = chart["asc"]; asc_si = asc["sign_idx"]
@@ -728,7 +727,7 @@ def main():
     asc_glyph_svg = f'<svg class="asc-svg-sm" viewBox="0 0 24 24">{glyph_path(SIGN_CODES[asc_si], 12, 12, 17, "#dcc188")}</svg>'
 
     # --- Sentez prozları (ürünün bölümleri + İmza Sentezi + kapanış) ---
-    rpath = os.path.join(IO, f"rapor-{product}.txt")
+    rpath = os.path.join(HERE, f"rapor-{product}.txt")
     if os.path.exists(rpath):
         parsed = parse_report(open(rpath, encoding="utf-8").read())
     else:
@@ -812,7 +811,7 @@ def main():
     html = re.sub(r'(<div class="sig-synth">[\s\S]*?)<p>[\s\S]*?</p>',
                   lambda mm: mm.group(1) + f"<p>{imza_sentezi}</p>", html, count=1)
 
-    out_html = os.path.join(IO, "natal-rapor.out.html")
+    out_html = os.path.join(HERE, "natal-rapor.out.html")
     open(out_html, "w", encoding="utf-8").write(html)
     print("ok -> natal-rapor.out.html | imza:", len(signatures), "| mizaç:", mizac_ad)
 

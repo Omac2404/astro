@@ -483,8 +483,8 @@ function MiniSwitch({ on, onToggle, label }: { on: boolean; onToggle: () => void
     </button>
   );
 }
-type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim; esRaporSayisi: number };
-const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS, esRaporSayisi: 1 };
+type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim };
+const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS };
 
 // ISO ↔ datetime-local (input value) dönüşümü, yerel saatle
 function isoToLocal(iso: string): string {
@@ -708,11 +708,6 @@ function GenelBolum() {
               <div>
                 <label className={labelCls}>Sanal POS oranı (%)</label>
                 <input type="number" step="0.01" min="0" value={g.posOrani} onChange={(e) => set("posOrani", Number(e.target.value))} className={`${inputCls} mt-1.5 w-full`} />
-              </div>
-              <div className="sm:col-span-2">
-                <label className={labelCls}>Aynı anda üretilecek rapor sayısı</label>
-                <input type="number" step="1" min="1" max="3" value={g.esRaporSayisi} onChange={(e) => set("esRaporSayisi", Number(e.target.value))} className={`${inputCls} mt-1.5 w-full`} />
-                <p className="mt-1 text-xs text-parchment/45"><b className="text-parchment/70">1</b> = tek tek (güvenli/varsayılan). Yükseltirsen aynı anda o kadar rapor paralel üretilir; bekleyen müşteri daha az bekler. Sunucu yükü artar, beğenmezsen <b className="text-parchment/70">1</b>'e çek, anında eski davranışa döner. (Önerilen 1-2.)</p>
               </div>
             </div>
           </Panel>

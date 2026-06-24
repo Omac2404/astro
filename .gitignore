@@ -60,7 +60,6 @@ report/natal/chart-*.json
 report/natal/*.pdf
 report/natal/*.log
 report/natal/teslimat/
-report/natal/jobs/
 
 # GERÇEK kullanıcı verisi — ASLA commit etme (üye e-postaları, scrypt şifre hash'leri, siparişler, PII)
 /.data/

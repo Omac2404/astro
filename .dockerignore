@@ -28,7 +28,6 @@ report/natal/_*.json
 report/natal/rapor-*.txt
 report/natal/aktif-bloklar.json
 report/natal/teslimat
-report/natal/jobs
 
 # Geliştirme/araç
 *.tsbuildinfo

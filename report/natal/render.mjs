@@ -12,11 +12,10 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const IO = process.env.NATAL_IO || __dirname; // işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 // İsteğe bağlı arg: render edilecek HTML (yoksa statik şablon). FAZ3: render.py out.html'i geçer.
 const HTML = process.argv[2] ? path.resolve(process.argv[2]) : path.join(__dirname, "natal-rapor-sablon2.html");
-const OUT_PDF = path.join(IO, "out.pdf");
-const OUT_PNG = path.join(IO, "onizleme.png");
+const OUT_PDF = path.join(__dirname, "out.pdf");
+const OUT_PNG = path.join(__dirname, "onizleme.png");
 
 // Sistemde kurulu Chrome (CHROME_PATH ile override edilebilir). Chromium İNDİRMİYORUZ.
 // CHROME_PATH önce denenir; ardından OS varsayılan yolları (Linux sunucu + Windows geliştirme).

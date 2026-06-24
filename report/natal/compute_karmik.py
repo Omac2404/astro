@@ -16,7 +16,6 @@ import compute as C
 import karmik as K
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 
 
 def main():
@@ -25,7 +24,7 @@ def main():
     except Exception:
         pass
 
-    birth = json.load(open(os.path.join(IO, "birth.json"), encoding="utf-8"))
+    birth = json.load(open(os.path.join(HERE, "birth.json"), encoding="utf-8"))
     chart = C.compute_chart(birth)  # natal
 
     y, mo, d = birth["tarih"]
@@ -37,7 +36,7 @@ def main():
     # Kiron UTC bileşenleriyle (karmik.chiron_lon str2et'i UTC sayar)
     chart["karmik"] = K.karmik_points(t, utc.year, utc.month, utc.day, utc.hour, utc.minute, asc_si)
 
-    json.dump(chart, open(os.path.join(IO, "chart.json"), "w", encoding="utf-8"),
+    json.dump(chart, open(os.path.join(HERE, "chart.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
 
     print("ok -> chart.json (natal + karmik)")

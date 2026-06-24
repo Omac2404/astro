@@ -7,7 +7,6 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.boundsPen import BoundsPen
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 # Girdi/çıktı argümanı: varsayılan chart.json -> wheel.svg. SR'da natal için: chart-natal.json wheel-natal.svg
 IN_JSON = sys.argv[1] if len(sys.argv) > 1 else "chart.json"
 OUT_SVG = sys.argv[2] if len(sys.argv) > 2 else "wheel.svg"
@@ -42,7 +41,7 @@ def glyph_path(code, cx, cy, box, fill):
     return ""
 
 # --- chart.json oku ---
-chart = json.load(open(os.path.join(IO, IN_JSON), encoding="utf-8"))
+chart = json.load(open(os.path.join(HERE, IN_JSON), encoding="utf-8"))
 ASC = chart["asc"]["lon"]
 ASC_SI = chart["asc"]["sign_idx"]
 PLANETS = chart["planets"]            # her biri: glyph(int), lon, house, ...
@@ -124,5 +123,5 @@ if os.environ.get("PRODUCT", "natal") == "ask":
     S.append('<path d="M12 20.5 C12 20.5 3.8 14.2 3.8 8.7 C3.8 6 6 3.8 8.6 3.8 C10.3 3.8 11.6 4.9 12 6.2 C12.4 4.9 13.7 3.8 15.4 3.8 C18 3.8 20.2 6 20.2 8.7 C20.2 14.2 12 20.5 12 20.5 Z" fill="#e6b3c5" fill-opacity="0.16" stroke="#e6b3c5" stroke-width="0.9" transform="translate(200 200) scale(1.7) translate(-12 -12)"/>')
 S.append('</svg>')
 svg = "\n".join(x for x in S if x)
-open(os.path.join(IO, OUT_SVG), "w", encoding="utf-8").write(svg)
+open(os.path.join(HERE, OUT_SVG), "w", encoding="utf-8").write(svg)
 print(f"{OUT_SVG} ok, len", len(svg))

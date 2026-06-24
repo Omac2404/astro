@@ -8,9 +8,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
-const IO = process.env.NATAL_IO || HERE; // işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 
-const chart = JSON.parse(fs.readFileSync(path.join(IO, "chart.json"), "utf8"));
+const chart = JSON.parse(fs.readFileSync(path.join(HERE, "chart.json"), "utf8"));
 const isSinastri = chart.tip === "sinastri";
 const LIB = path.resolve(HERE, "../../src/blocks/" + (isSinastri ? "sinastri-blocks.json" : "natal-blocks.json"));
 const blocks = JSON.parse(fs.readFileSync(LIB, "utf8"));
@@ -104,7 +103,7 @@ for (const [cat, list] of Object.entries(byCat)) {
 
 // aktif_bloklar olarak da yaz (sentez pipeline'ı için) — tekilleştirilmiş
 const uniq = (arr) => [...new Set(arr)];
-const out = path.join(IO, "aktif-bloklar.json");
+const out = path.join(HERE, "aktif-bloklar.json");
 const aktif = uniq(selected.map((w) => w.id));
 fs.writeFileSync(out, JSON.stringify({ ad: chart.meta.ad, aktif_bloklar: aktif, eksik: uniq(missing.map((w) => w.id)) }, null, 2), "utf8");
 console.log(`\n-> aktif-bloklar.json yazıldı (${aktif.length} benzersiz blok)`);

@@ -8,7 +8,6 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
-const IO = process.env.NATAL_IO || HERE; // işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 
 // --- ANTHROPIC_API_KEY: önce process.env (EasyPanel/Docker ortam değişkeni),
 //     yoksa .env.local (yerel geliştirme). Prod'da .env.local imajda bulunmaz; çökmemeli. ---
@@ -24,11 +23,11 @@ if (!process.env.ANTHROPIC_API_KEY) {
   console.error("HATA: ANTHROPIC_API_KEY tanımlı değil (ne ortam değişkeni ne .env.local).");
   process.exit(1);
 }
-const client = new Anthropic();
+const client = new Anthropic({ maxRetries: 0 }); // retry'ı aşağıda elle yönetiyoruz (streaming için)
 
 // --- Girdiler ---
-const chart = JSON.parse(fs.readFileSync(path.join(IO, "chart.json"), "utf8"));
-const sel = JSON.parse(fs.readFileSync(path.join(IO, "aktif-bloklar.json"), "utf8"));
+const chart = JSON.parse(fs.readFileSync(path.join(HERE, "chart.json"), "utf8"));
+const sel = JSON.parse(fs.readFileSync(path.join(HERE, "aktif-bloklar.json"), "utf8"));
 const product = process.argv[2] || "natal";
 const isSinastri = product.startsWith("sinastri") || chart.tip === "sinastri";
 const allBlocks = JSON.parse(fs.readFileSync(path.join(ROOT, "src/blocks/" + (isSinastri ? "sinastri-blocks.json" : "natal-blocks.json")), "utf8"));
@@ -102,7 +101,7 @@ if (isSinastri) {
 }
 
 const MODEL = "claude-opus-4-8";
-const OUT = path.join(IO, `rapor-${product}.txt`);
+const OUT = path.join(HERE, `rapor-${product}.txt`);
 
 // Em-dash (—, U+2014) temizliği: bağlaçtan önceyse boşluk, değilse virgül. Kısa tire (–, U+2013) dokunulmaz.
 function stripEmDash(s) {
@@ -140,16 +139,43 @@ function missingSections(text, req) {
 console.log(`\n${"=".repeat(60)}\n  MODEL: ${MODEL} (gerçek chart + otomatik selectBlocks)\n${"=".repeat(60)}`);
 const req = REQUIRED[product] || [];
 const MAX_ATTEMPTS = 3;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+// Geçici (retry edilebilir) hata mı? Overloaded (529), rate limit (429), 5xx, ağ kopması.
+function isTransient(e) {
+  const status = e?.status;
+  const type = e?.error?.error?.type || e?.error?.type;
+  if (type === "overloaded_error" || type === "api_error") return true;
+  if (status === 429 || status === 408 || status === 409 || (status >= 500 && status <= 599)) return true;
+  if (status === undefined && /overload|timeout|ECONNRESET|ETIMEDOUT|fetch failed/i.test(e?.message || "")) return true;
+  return false;
+}
+// Stream'i geçici hatalarda exponential backoff ile yeniden dener.
+const API_RETRIES = 6; // ~ 2,4,8,16,32,60 sn ⇒ toplam ~2 dk dayanır
+async function streamWithRetry() {
+  for (let r = 0; ; r++) {
+    try {
+      const stream = client.messages.stream({
+        model: MODEL, max_tokens: 14000, thinking: { type: "disabled" },
+        system, messages: [{ role: "user", content: userMessage }],
+      });
+      stream.on("text", (d) => process.stdout.write(d));
+      return await stream.finalMessage();
+    } catch (e) {
+      if (r >= API_RETRIES || !isTransient(e)) throw e;
+      const wait = Math.min(2 ** (r + 1) * 1000, 60000) + Math.floor(Math.random() * 1000);
+      const why = e?.error?.error?.type || e?.error?.type || e?.status || e?.message;
+      console.warn(`\n⏳ API geçici hata (${why}) → ${Math.round(wait / 1000)} sn sonra tekrar (${r + 1}/${API_RETRIES})...`);
+      await sleep(wait);
+    }
+  }
+}
+
 let text = "", fin = null, miss = [];
 try {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     if (attempt > 1) console.warn(`\n⚠️  Eksik/boş bölüm: [${miss.join(", ")}] → yeniden üretiliyor (deneme ${attempt}/${MAX_ATTEMPTS})...\n`);
-    const stream = client.messages.stream({
-      model: MODEL, max_tokens: 14000, thinking: { type: "disabled" },
-      system, messages: [{ role: "user", content: userMessage }],
-    });
-    stream.on("text", (d) => process.stdout.write(d));
-    fin = await stream.finalMessage();
+    fin = await streamWithRetry();
     text = stripEmDash(fin.content.filter((b) => b.type === "text").map((b) => b.text).join(""));
     miss = missingSections(text, req);
     if (!miss.length) break;
@@ -162,6 +188,11 @@ try {
   }
   console.log(`\n\n[✓ ${OUT} | token: girdi ${fin.usage.input_tokens}, çıktı ${fin.usage.output_tokens} | ${fin.stop_reason} | ${req.length} bölüm tam]`);
 } catch (e) {
-  console.error("❌", e instanceof Anthropic.APIError ? `API ${e.status}: ${e.message}` : e.message);
+  const t = e?.error?.error?.type || e?.error?.type;
+  if (isTransient(e)) {
+    console.error(`\n❌ API hâlâ yoğun (${t || e?.status || e?.message}) — ${API_RETRIES} denemeye rağmen geçmedi. Birkaç dakika sonra tekrar dene.`);
+  } else {
+    console.error("❌", e instanceof Anthropic.APIError ? `API ${e.status} ${t || ""}: ${e.message}` : e.message);
+  }
   process.exit(1);
 }

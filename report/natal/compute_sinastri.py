@@ -18,7 +18,6 @@ Girdi: report/natal/birth-a.json + birth-b.json (her biri compute.birth şeması
 import os, sys, json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 sys.path.insert(0, HERE)
 from compute import compute_chart, ASPECTS, AYLAR  # tek-harita çekirdeği + açı tablosu
 
@@ -102,7 +101,7 @@ REF_B = {"ad": "Mehmet", "tarih": [1992, 3, 18], "saat": [9, 10],
          "il": "İstanbul", "ilce": "Kadıköy", "lat": 40.9904, "lon": 29.0270}
 
 def _load(name, fallback):
-    p = os.path.join(IO, name)
+    p = os.path.join(HERE, name)
     if os.path.exists(p):
         with open(p, encoding="utf-8") as f:
             return json.load(f)
@@ -116,7 +115,7 @@ def main():
     birth_a = _load("birth-a.json", REF_A)
     birth_b = _load("birth-b.json", REF_B)
     chart = compute_synastry(birth_a, birth_b)
-    out = os.path.join(IO, "chart.json")
+    out = os.path.join(HERE, "chart.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(chart, f, ensure_ascii=False, indent=2)
     print("ok -> chart.json (sinastri)")
