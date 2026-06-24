@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMembers, getOrders, getGenelAyar } from "@/lib/db";
+import { getMembers, getOrders, getGenelAyar, faturaAdres } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { getUsdTry } from "@/lib/kur";
 
@@ -9,7 +9,7 @@ export async function GET() {
   const u = await requireAdmin();
   if (!u) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
 
-  const members = getMembers().map((m) => ({ email: m.email, ad: m.fatura?.ad ?? null, tel: m.fatura?.tel ?? null, adres: m.fatura?.adres ?? null, kayit: m.kayit }));
+  const members = getMembers().map((m) => ({ email: m.email, ad: m.fatura?.ad ?? null, tel: m.fatura?.tel ?? null, adres: faturaAdres(m.fatura) || null, kayit: m.kayit }));
   const orders = getOrders().map((o) => ({
     id: o.id,
     email: o.email,

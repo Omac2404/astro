@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getMembers, getReportsByEmail, getGiftCodes, deleteMember } from "@/lib/db";
+import { getMembers, getReportsByEmail, getGiftCodes, deleteMember, faturaAdres } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -14,7 +14,7 @@ export async function GET() {
       id: m.id,
       email: m.email,
       kayit: m.kayit,
-      fatura: m.fatura ?? null,
+      fatura: m.fatura ? { ...m.fatura, adres: faturaAdres(m.fatura) } : null,
       analizler: getReportsByEmail(m.email).map((r) => ({ urunAd: r.urunAd, durum: r.durum })),
       hediyeKodlari: codes.filter((c) => c.sahip.toLowerCase() === e).map((c) => ({ urunAd: c.urunAd, durum: c.durum, kod: c.kod })),
       hediyeEdilen: codes.filter((c) => (c.kullanan || "").toLowerCase() === e).map((c) => ({ urunAd: c.urunAd, kod: c.kod })),

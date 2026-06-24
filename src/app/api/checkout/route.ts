@@ -17,7 +17,12 @@ export async function POST(req: Request) {
   }
   const body = await req.json().catch(() => ({}));
   const raw: Array<string | { slug: string; hediye?: boolean }> = Array.isArray(body.items) ? body.items : [];
-  const fatura: Fatura | undefined = body.fatura;
+  // Fatura — client'tan gelen yapısal adresi temizleyerek al (güvenli).
+  const rf = body.fatura && typeof body.fatura === "object" ? (body.fatura as Record<string, unknown>) : undefined;
+  const s = (k: string) => String(rf?.[k] ?? "").trim().slice(0, 200);
+  const fatura: Fatura | undefined = rf
+    ? { ad: s("ad"), email: s("email") || u.email, tel: s("tel"), yurtdisi: !!rf.yurtdisi, il: s("il"), ilce: s("ilce"), ulke: s("ulke"), sehir: s("sehir"), acikAdres: s("acikAdres") }
+    : undefined;
   if (!raw.length) return NextResponse.json({ error: "Sepet boş." }, { status: 400 });
 
   // Fiyatları sunucudan al (güvenli) — client'a güvenme
@@ -31,7 +36,7 @@ export async function POST(req: Request) {
   if (!items.length) return NextResponse.json({ error: "Geçerli ürün yok." }, { status: 400 });
 
   // Fatura bilgilerini üyeye kaydet (bir dahaki ödemede otomatik dolsun)
-  if (fatura && fatura.ad) setMemberFatura(u.email, { ad: fatura.ad, email: fatura.email || u.email, tel: fatura.tel, adres: fatura.adres });
+  if (fatura && fatura.ad) setMemberFatura(u.email, fatura);
 
   const order = addOrder(u.email, items, fatura, typeof body.kaynak === "string" ? body.kaynak : undefined);
   const urunListe = items.map((it) => `• ${it.ad}${it.hediye ? " (hediye)" : ""} — ${it.fiyat} ₺`).join("\n");

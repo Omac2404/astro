@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPaytr, getOrdersByEmail, paytrOid } from "@/lib/db";
+import { getPaytr, getOrdersByEmail, paytrOid, faturaAdres } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { odemeToken, userBasket, GET_TOKEN_URL, IFRAME_URL } from "@/lib/paytr";
 
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
     no_installment: noInstallment,
     max_installment: maxInstallment,
     user_name: order.fatura?.ad || u.email,
-    user_address: order.fatura?.adres || "-",
+    user_address: faturaAdres(order.fatura) || "-",
     user_phone: order.fatura?.tel || "-",
     merchant_ok_url: `${origin}/hesabim`,
     merchant_fail_url: `${origin}/sepet`,

@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AddressFields, bosAdres, type Adres } from "@/components/address-fields";
 
 const inputCls = "w-full rounded-xl border border-gold/20 bg-night px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
 const labelCls = "mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55";
 
 export default function FaturaPage() {
   const router = useRouter();
-  const [f, setF] = useState({ ad: "", email: "", tel: "", adres: "" });
+  const [f, setF] = useState({ ad: "", email: "", tel: "" });
+  const [adr, setAdr] = useState<Adres>(bosAdres());
   const [msg, setMsg] = useState("");
   const [ok, setOk] = useState(false);
   const [yuk, setYuk] = useState(false);
@@ -19,8 +21,15 @@ export default function FaturaPage() {
     fetch("/api/account/fatura")
       .then((r) => r.json())
       .then((d) => {
-        if (d.fatura) setF({ ad: d.fatura.ad ?? "", email: d.fatura.email ?? d.email ?? "", tel: d.fatura.tel ?? "", adres: d.fatura.adres ?? "" });
-        else if (d.email) setF((s) => ({ ...s, email: d.email }));
+        if (d.fatura) {
+          setF({ ad: d.fatura.ad ?? "", email: d.fatura.email ?? d.email ?? "", tel: d.fatura.tel ?? "" });
+          setAdr({
+            yurtdisi: !!d.fatura.yurtdisi,
+            il: d.fatura.il ?? "", ilce: d.fatura.ilce ?? "",
+            ulke: d.fatura.ulke ?? "", sehir: d.fatura.sehir ?? "",
+            acikAdres: d.fatura.acikAdres ?? "",
+          });
+        } else if (d.email) setF((s) => ({ ...s, email: d.email }));
       })
       .catch(() => {});
   }, []);
@@ -29,7 +38,7 @@ export default function FaturaPage() {
     e.preventDefault();
     setMsg("");
     setYuk(true);
-    const r = await fetch("/api/account/fatura", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
+    const r = await fetch("/api/account/fatura", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...f, ...adr }) });
     const d = await r.json();
     setYuk(false);
     if (r.ok) { setOk(true); setMsg("Fatura bilgilerin kaydedildi."); }
@@ -55,10 +64,7 @@ export default function FaturaPage() {
           <label className={labelCls}>Telefon</label>
           <input required type="tel" value={f.tel} onChange={(e) => set("tel", e.target.value)} placeholder="05xx xxx xx xx" className={inputCls} />
         </div>
-        <div>
-          <label className={labelCls}>Adres</label>
-          <textarea value={f.adres} onChange={(e) => set("adres", e.target.value)} rows={3} placeholder="Fatura adresi" className={inputCls} />
-        </div>
+        <AddressFields a={adr} set={(p) => setAdr((s) => ({ ...s, ...p }))} inputCls={inputCls} labelCls={labelCls} />
         {msg && <p className={`text-sm ${ok ? "text-emerald-300" : "text-rose-300"}`}>{msg}</p>}
         <div className="flex gap-3">
           <button type="submit" disabled={yuk} className="rounded-full bg-gold px-6 py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">

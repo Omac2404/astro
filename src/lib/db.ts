@@ -41,7 +41,22 @@ export function verifyPw(pw: string, stored: string): boolean {
 }
 
 // ---- Üyeler ----
-export type FaturaBilgi = { ad: string; email: string; tel?: string; adres?: string };
+export type FaturaBilgi = {
+  ad: string; email: string; tel?: string;
+  yurtdisi?: boolean;        // true: ülke/şehir serbest metin; false/undefined: il (dropdown)/ilçe
+  il?: string; ilce?: string;        // Türkiye
+  ulke?: string; sehir?: string;     // yurtdışı
+  acikAdres?: string;        // mahalle/cadde/no/daire
+  adres?: string;            // ESKİ kayıtlar (tek satır) — geriye uyumlu, salt görüntü
+};
+
+// Fatura adresini görüntü için tek satıra dönüştürür (yapısal alanlar; yoksa eski 'adres').
+export function faturaAdres(f?: Partial<FaturaBilgi> | null): string {
+  if (!f) return "";
+  const parts = f.yurtdisi ? [f.acikAdres, f.sehir, f.ulke] : [f.acikAdres, f.ilce, f.il];
+  const s = parts.map((x) => String(x ?? "").trim()).filter(Boolean).join(", ");
+  return s || String(f.adres ?? "").trim();
+}
 export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi };
 
 export function getMembers(): Member[] {
@@ -649,7 +664,7 @@ export function deleteFile(id: string) {
 
 // ---- Siparişler ----
 export type OrderItem = { slug: string; ad: string; fiyat: number; hediye?: boolean };
-export type Fatura = { ad: string; email: string; tel?: string; adres?: string };
+export type Fatura = FaturaBilgi; // sipariş faturası = üye fatura bilgisiyle aynı şema
 export type Order = {
   id: string;
   email: string;

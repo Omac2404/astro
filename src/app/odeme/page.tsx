@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart";
 import { PaymentBadges } from "@/components/payment-badges";
+import { AddressFields, bosAdres, type Adres } from "@/components/address-fields";
 
 const inputCls =
   "w-full rounded-xl border border-gold/20 bg-night/50 px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
@@ -14,7 +15,8 @@ export default function OdemePage() {
   const { items, total, count, clear } = useCart();
   const router = useRouter();
   const [uye, setUye] = useState<boolean | null>(null);
-  const [f, setF] = useState({ ad: "", email: "", tel: "", adres: "" });
+  const [f, setF] = useState({ ad: "", email: "", tel: "" });
+  const [adr, setAdr] = useState<Adres>(bosAdres());
   const [onay, setOnay] = useState(false);
   const [hata, setHata] = useState("");
   const [yuk, setYuk] = useState(false);
@@ -36,7 +38,14 @@ export default function OdemePage() {
                   ad: fd.fatura.ad ?? s.ad,
                   email: fd.fatura.email ?? s.email,
                   tel: fd.fatura.tel ?? s.tel,
-                  adres: fd.fatura.adres ?? s.adres,
+                }));
+                setAdr((s) => ({
+                  yurtdisi: !!fd.fatura.yurtdisi,
+                  il: fd.fatura.il ?? "",
+                  ilce: fd.fatura.ilce ?? "",
+                  ulke: fd.fatura.ulke ?? "",
+                  sehir: fd.fatura.sehir ?? "",
+                  acikAdres: fd.fatura.acikAdres ?? "",
                 }));
               }
             })
@@ -53,7 +62,7 @@ export default function OdemePage() {
     setHata("");
     if (!onay) return setHata("Devam etmek için ön bilgilendirme ve mesafeli satış sözleşmesini onaylamalısın.");
     setYuk(true);
-    const fatura = { ad: f.ad, email: f.email, tel: f.tel, adres: f.adres };
+    const fatura = { ad: f.ad, email: f.email, tel: f.tel, yurtdisi: adr.yurtdisi, il: adr.il, ilce: adr.ilce, ulke: adr.ulke, sehir: adr.sehir, acikAdres: adr.acikAdres };
     let kaynak: string | undefined;
     try { kaynak = localStorage.getItem("gn_source") || undefined; } catch {}
     const r = await fetch("/api/checkout", {
@@ -118,10 +127,7 @@ export default function OdemePage() {
               <label className={labelCls}>Telefon</label>
               <input required type="tel" value={f.tel} onChange={(e) => set("tel", e.target.value)} placeholder="05xx xxx xx xx" className={inputCls} />
             </div>
-            <div>
-              <label className={labelCls}>Adres</label>
-              <textarea value={f.adres} onChange={(e) => set("adres", e.target.value)} rows={2} placeholder="Fatura adresi" className={inputCls} />
-            </div>
+            <AddressFields a={adr} set={(p) => setAdr((s) => ({ ...s, ...p }))} inputCls={inputCls} labelCls={labelCls} />
           </div>
 
           {/* Onay tiki — mesafeli satış mevzuatı: ön bilgilendirme + sözleşme + dijital üründe cayma hakkı */}

@@ -17,8 +17,12 @@ export async function POST(req: Request) {
   const ad = String(b.ad ?? "").trim();
   const email = String(b.email ?? "").trim() || u.email;
   const tel = String(b.tel ?? "").trim();
-  const adres = String(b.adres ?? "").trim();
   if (!ad) return NextResponse.json({ error: "Ad Soyad gerekli." }, { status: 400 });
-  setMemberFatura(u.email, { ad, email, tel, adres });
+  const s = (k: string) => String(b[k] ?? "").trim().slice(0, 200);
+  setMemberFatura(u.email, {
+    ad, email, tel,
+    yurtdisi: !!b.yurtdisi,
+    il: s("il"), ilce: s("ilce"), ulke: s("ulke"), sehir: s("sehir"), acikAdres: s("acikAdres"),
+  });
   return NextResponse.json({ ok: true });
 }
