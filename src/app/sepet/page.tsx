@@ -44,8 +44,21 @@ export default function SepetPage() {
           </Link>
         </div>
       ) : (
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_300px] lg:items-start">
-          {/* Ürünler */}
+        <>
+          {/* Bilgi notu — aynı analizi birden fazla adet alma + her birine farklı doğum bilgisi */}
+          <div className="mt-6 flex items-start gap-3 rounded-xl border border-gold/20 bg-night px-4 py-3.5 text-sm leading-relaxed text-parchment/75">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 shrink-0 text-gold-bright" aria-hidden>
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 11v5" />
+              <path d="M12 7.5h.01" />
+            </svg>
+            <p>
+              Bir analizi <span className="font-medium text-gold-bright">birden fazla adet</span> alabilirsin; her biri için <span className="font-medium text-gold-bright">farklı doğum bilgileri</span> girebilirsin. Adedi aşağıdaki <span className="font-medium text-gold-bright">− / +</span> ile ayarla.
+            </p>
+          </div>
+
+          <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_300px] lg:items-start">
+            {/* Ürünler */}
           <div className="space-y-3">
             {items.map((it) => (
               <div key={`${it.slug}${it.hediye ? ":h" : ""}`} className="flex items-center gap-4 rounded-xl border border-gold/15 bg-night p-3 sm:p-4">
@@ -120,7 +133,8 @@ export default function SepetPage() {
               Alışverişe devam et
             </Link>
           </aside>
-        </div>
+          </div>
+        </>
       )}
     </div>
   );
