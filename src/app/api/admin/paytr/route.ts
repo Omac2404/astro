@@ -27,7 +27,7 @@ export async function POST(req: Request) {
   if ("maxTaksit" in b) patch.maxTaksit = Math.max(0, Math.floor(Number(b.maxTaksit) || 0));
   if ("tekCekim" in b) patch.tekCekim = !!b.tekCekim;
   if ("basvuruModu" in b) patch.basvuruModu = !!b.basvuruModu;
-  if ("saglayici" in b) patch.saglayici = b.saglayici === "iyzico" ? "iyzico" : "paytr";
+  if ("saglayici" in b) patch.saglayici = b.saglayici === "iyzico" ? "iyzico" : b.saglayici === "yok" ? "yok" : "paytr";
   // Gizli alanlar yalnızca doluysa güncellenir (boş bırakılırsa korunur)
   if (typeof b.merchantKey === "string" && b.merchantKey.length > 0) patch.merchantKey = b.merchantKey.trim();
   if (typeof b.merchantSalt === "string" && b.merchantSalt.length > 0) patch.merchantSalt = b.merchantSalt.trim();

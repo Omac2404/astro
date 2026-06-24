@@ -560,7 +560,7 @@ export type PaytrConfig = {
   maxTaksit: number;     // max_installment (0 = PayTR varsayılanı)
   tekCekim: boolean;     // no_installment — taksidi kapat
   basvuruModu: boolean;  // PayTR başvuru modu: ödeme butonu çalışmaz, "bağlantı bekleniyor" uyarısı verir
-  saglayici: "paytr" | "iyzico"; // sitede gösterilecek ödeme sağlayıcı LOGOSU (entegrasyon hâlâ PayTR)
+  saglayici: "paytr" | "iyzico" | "yok"; // sitede gösterilecek sağlayıcı LOGOSU ("yok" = yalnız kart logoları)
 };
 const PAYTR_DEFAULT: PaytrConfig = {
   aktif: false, merchantId: "", merchantKey: "", merchantSalt: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr",

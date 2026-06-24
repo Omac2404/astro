@@ -5,11 +5,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export function PaymentBadges() {
-  const [saglayici, setSaglayici] = useState<"paytr" | "iyzico">("paytr");
+  const [saglayici, setSaglayici] = useState<"paytr" | "iyzico" | "yok">("paytr");
   useEffect(() => {
     fetch("/api/odeme-saglayici")
       .then((r) => r.json())
-      .then((d) => { if (d.saglayici === "iyzico" || d.saglayici === "paytr") setSaglayici(d.saglayici); })
+      .then((d) => { if (["paytr", "iyzico", "yok"].includes(d.saglayici)) setSaglayici(d.saglayici); })
       .catch(() => {});
   }, []);
 
@@ -26,8 +26,8 @@ export function PaymentBadges() {
       <div className="mt-3 flex flex-col items-center gap-3">
         {/* Mastercard · Visa · Troy (sabit) */}
         <Image src="/gorsel/odeme-kartlar.png" alt="Mastercard, Visa, Troy" width={1152} height={272} unoptimized className="h-10 w-auto" />
-        {/* Sağlayıcı logosu */}
-        {saglayici === "iyzico" ? (
+        {/* Sağlayıcı logosu — "yok"ta gizli (yalnız kart logoları kalır) */}
+        {saglayici === "yok" ? null : saglayici === "iyzico" ? (
           <Image src="/gorsel/odeme-iyzico.png" alt="iyzico" width={462} height={123} unoptimized className="h-5 w-auto" />
         ) : (
           <Image src="/gorsel/odeme-paytr.webp" alt="PayTR" width={2000} height={430} unoptimized className="h-[18px] w-auto brightness-0 invert" />

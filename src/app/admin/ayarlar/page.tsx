@@ -322,7 +322,7 @@ function YasalBolum() {
 }
 
 // ---------------- Sanal POS (PayTR) ----------------
-type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; saglayici: "paytr" | "iyzico"; hasKey?: boolean; hasSalt?: boolean };
+type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; saglayici: "paytr" | "iyzico" | "yok"; hasKey?: boolean; hasSalt?: boolean };
 const PAYTR_BOS: Paytr = { aktif: false, merchantId: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr" };
 
 function SanalPosBolum() {
@@ -395,16 +395,16 @@ function SanalPosBolum() {
         <div className="space-y-5">
           <Panel className="p-6">
             <h2 className="font-display text-lg font-semibold text-parchment">Ödeme Sağlayıcı (Logo)</h2>
-            <p className="mt-0.5 text-xs text-parchment/45">Sitede (footer + ödeme + ürün sayfası) gösterilecek sağlayıcı logosu. Yalnızca görsel rozet; ödeme entegrasyonunu değiştirmez.</p>
-            <div className="mt-3 grid grid-cols-2 gap-1 rounded-full border border-gold/20 bg-night p-1 text-sm">
-              {(["paytr", "iyzico"] as const).map((p) => (
+            <p className="mt-0.5 text-xs text-parchment/45">Sitede (footer + ödeme) gösterilecek sağlayıcı logosu. “Gösterme” seçilirse yalnızca kart logoları (Mastercard/Visa/Troy) kalır. Yalnızca görsel rozet; ödeme entegrasyonunu değiştirmez.</p>
+            <div className="mt-3 grid grid-cols-3 gap-1 rounded-full border border-gold/20 bg-night p-1 text-sm">
+              {([["paytr", "PayTR"], ["iyzico", "iyzico"], ["yok", "Gösterme"]] as const).map(([p, label]) => (
                 <button
                   key={p}
                   type="button"
                   onClick={() => set("saglayici", p)}
                   className={`rounded-full py-2 font-medium transition-colors ${f.saglayici === p ? "bg-gold text-night-deep" : "text-parchment/70 hover:text-gold-bright"}`}
                 >
-                  {p === "paytr" ? "PayTR" : "iyzico"}
+                  {label}
                 </button>
               ))}
             </div>
