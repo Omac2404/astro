@@ -444,8 +444,9 @@ export type GenelAyar = {
   hero: HeroAyar;         // anasayfa hero metin/butonları
   iletisim: IletisimAyar; // iletişim sayfası bilgileri
   yasal: YasalSayfa[];    // yasal sayfalar (footer + /yasal/[slug])
+  esRaporSayisi: number;  // aynı anda üretilecek rapor sayısı (eşzamanlılık). 1 = seri (varsayılan/güvenli)
 };
-const GENEL_DEFAULT: GenelAyar = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, yasal: YASAL_DEFAULT };
+const GENEL_DEFAULT: GenelAyar = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, yasal: YASAL_DEFAULT, esRaporSayisi: 1 };
 export function getGenelAyar(): GenelAyar {
   const stored = read<Partial<GenelAyar>>("genel.json", {});
   return {

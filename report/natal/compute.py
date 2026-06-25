@@ -18,7 +18,9 @@ from zoneinfo import ZoneInfo
 from skyfield.api import Loader
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-load = Loader(os.path.join(HERE, "_ephem"))  # de421.bsp burada cache'lenir
+# İşe-özel I/O klasörü (eşzamanlı üretim izolasyonu). Tanımsızsa script dizini = bugünkü davranış.
+IO = os.environ.get("NATAL_IO") or HERE
+load = Loader(os.path.join(HERE, "_ephem"))  # de421.bsp burada cache'lenir (paylaşılan, statik)
 
 # --- Sabitler (§5) ---
 SIGNS = ["Koç","Boğa","İkizler","Yengeç","Aslan","Başak",
@@ -247,7 +249,7 @@ def main():
     except Exception:
         pass
     # birth.json varsa onu, yoksa referans Ayşe'yi kullan
-    bpath = os.path.join(HERE, "birth.json")
+    bpath = os.path.join(IO, "birth.json")
     if os.path.exists(bpath):
         with open(bpath, encoding="utf-8") as f:
             birth = json.load(f)
@@ -255,7 +257,7 @@ def main():
         birth = REFERENCE
 
     chart = compute_chart(birth)
-    out = os.path.join(HERE, "chart.json")
+    out = os.path.join(IO, "chart.json")
     with open(out, "w", encoding="utf-8") as f:
         json.dump(chart, f, ensure_ascii=False, indent=2)
     print("ok -> chart.json")

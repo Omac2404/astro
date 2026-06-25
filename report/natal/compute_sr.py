@@ -25,6 +25,7 @@ from zoneinfo import ZoneInfo
 import compute as C  # aynı klasör; compute.py çekirdeği
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 TR = ZoneInfo("Europe/Istanbul")
 UTC = ZoneInfo("UTC")
 SUN_DEG_PER_DAY = 0.9856473  # ortalama; iterasyonun adım katsayısı (kök bulmaya etkisi yok)
@@ -51,7 +52,7 @@ def main():
     except Exception:
         pass
 
-    birth = json.load(open(os.path.join(HERE, "birth.json"), encoding="utf-8"))
+    birth = json.load(open(os.path.join(IO, "birth.json"), encoding="utf-8"))
     # Güncel konum verilmişse varsayılan relocated SR (bulunulan yere göre); değilse doğum yeri.
     loc_mode = sys.argv[1] if len(sys.argv) > 1 else ("guncel" if "sr_lat" in birth else "dogum")
     y, mo, d = birth["tarih"]
@@ -95,10 +96,10 @@ def main():
 
     # 2-harita sayfası + karşılaştırma için natal haritayı da üret
     natal_chart = C.compute_chart(birth)
-    json.dump(natal_chart, open(os.path.join(HERE, "chart-natal.json"), "w", encoding="utf-8"),
+    json.dump(natal_chart, open(os.path.join(IO, "chart-natal.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
 
-    json.dump(chart, open(os.path.join(HERE, "chart.json"), "w", encoding="utf-8"),
+    json.dump(chart, open(os.path.join(IO, "chart.json"), "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
 
     # --- Doğrulama çıktısı ---

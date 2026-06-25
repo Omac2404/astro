@@ -7,6 +7,7 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.boundsPen import BoundsPen
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+IO = os.environ.get("NATAL_IO") or HERE  # işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 FONTS = ["C:/Windows/Fonts/seguisym.ttf",
          "/usr/share/fonts/truetype/noto/NotoSansSymbols2-Regular.ttf",
          "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"]
@@ -29,7 +30,7 @@ def gp(code, cx, cy, box, fill):
             return f'<path d="{d}" fill="{fill}" transform="translate({cx:.2f} {cy:.2f}) scale({s:.4f} {-s:.4f}) translate({-mx:.1f} {-my:.1f})"/>'
     return ""
 
-chart = json.load(open(os.path.join(HERE, "chart.json"), encoding="utf-8"))
+chart = json.load(open(os.path.join(IO, "chart.json"), encoding="utf-8"))
 
 GOLD = "#c2a36b"; GOLDB = "#dcc188"; MUT = "#9a96bd"
 EL = [("Ateş", "#d9a85e"), ("Toprak", "#9a8a55"), ("Hava", "#9aa6c4"), ("Su", "#6f9a9a")]
@@ -89,5 +90,5 @@ for j, (el, ec) in enumerate(EL):
                 S.append(gp(it, gx, gy, 17, "#ffffff"))
 S.append('</svg>')
 svg = "\n".join(x for x in S if x)
-open(os.path.join(HERE, "diagram.svg"), "w", encoding="utf-8").write(svg)
+open(os.path.join(IO, "diagram.svg"), "w", encoding="utf-8").write(svg)
 print("diagram.svg ok", W, H, len(svg))

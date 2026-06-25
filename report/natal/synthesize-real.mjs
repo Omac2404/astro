@@ -8,6 +8,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
+const IO = process.env.NATAL_IO || HERE; // işe-özel I/O (eşzamanlılık izolasyonu); yoksa script dizini
 
 // --- ANTHROPIC_API_KEY: önce process.env (EasyPanel/Docker ortam değişkeni),
 //     yoksa .env.local (yerel geliştirme). Prod'da .env.local imajda bulunmaz; çökmemeli. ---
@@ -26,8 +27,8 @@ if (!process.env.ANTHROPIC_API_KEY) {
 const client = new Anthropic({ maxRetries: 0 }); // retry'ı aşağıda elle yönetiyoruz (streaming için)
 
 // --- Girdiler ---
-const chart = JSON.parse(fs.readFileSync(path.join(HERE, "chart.json"), "utf8"));
-const sel = JSON.parse(fs.readFileSync(path.join(HERE, "aktif-bloklar.json"), "utf8"));
+const chart = JSON.parse(fs.readFileSync(path.join(IO, "chart.json"), "utf8"));
+const sel = JSON.parse(fs.readFileSync(path.join(IO, "aktif-bloklar.json"), "utf8"));
 const product = process.argv[2] || "natal";
 const isSinastri = product.startsWith("sinastri") || chart.tip === "sinastri";
 const allBlocks = JSON.parse(fs.readFileSync(path.join(ROOT, "src/blocks/" + (isSinastri ? "sinastri-blocks.json" : "natal-blocks.json")), "utf8"));
@@ -101,7 +102,7 @@ if (isSinastri) {
 }
 
 const MODEL = "claude-opus-4-8";
-const OUT = path.join(HERE, `rapor-${product}.txt`);
+const OUT = path.join(IO, `rapor-${product}.txt`);
 
 // Em-dash (—, U+2014) temizliği: bağlaçtan önceyse boşluk, değilse virgül. Kısa tire (–, U+2013) dokunulmaz.
 function stripEmDash(s) {

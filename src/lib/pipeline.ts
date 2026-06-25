@@ -5,7 +5,8 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { updateGenReport, attachReportFile, setReportDurum, saveFile, getGenReports, getSmtp, findReport, type DogumBilgi } from "@/lib/db";
+import crypto from "node:crypto";
+import { updateGenReport, attachReportFile, setReportDurum, saveFile, getGenReports, getSmtp, findReport, getGenelAyar, type DogumBilgi } from "@/lib/db";
 import { ilKoordinat } from "@/lib/tr-cities";
 import { geocode } from "@/lib/geocode";
 import { sendMail } from "@/lib/mail";
@@ -24,9 +25,9 @@ const PY =
 
 export const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
 
-function run(cmd: string, args: string[]): Promise<void> {
+function run(cmd: string, args: string[], env?: NodeJS.ProcessEnv): Promise<void> {
   return new Promise((resolve, reject) => {
-    const p = spawn(cmd, args, { cwd: ROOT, env: process.env });
+    const p = spawn(cmd, args, { cwd: ROOT, env: env ?? process.env });
     let err = "";
     p.stderr.on("data", (d) => (err += d.toString()));
     p.stdout.on("data", () => {});
@@ -35,12 +36,27 @@ function run(cmd: string, args: string[]): Promise<void> {
   });
 }
 
-// --- Sıralı üretim kuyruğu (paylaşılan dosya çakışmasını önler) ---
-let kuyruk: Promise<unknown> = Promise.resolve();
+// --- Sınırlı eşzamanlılık havuzu ---
+// Aynı anda kaç rapor üretileceği admin ayarından gelir (esRaporSayisi). Varsayılan 1 = eski seri davranış.
+// Her iş kendi izole klasöründe (NATAL_IO) koştuğu için >1'de paylaşılan dosya çakışması olmaz.
+// GERİ DÖNÜŞ: admin'den sayıyı 1 yap -> anında tek-tek (bugünkü) davranışa döner.
+const ESZAMAN = () => Math.max(1, Math.min(5, Math.floor(getGenelAyar().esRaporSayisi) || 1));
+let aktif = 0;
+const bekleyenler: Array<() => void> = [];
 function siraya<T>(fn: () => Promise<T>): Promise<T> {
-  const next = kuyruk.then(fn, fn);
-  kuyruk = next.catch(() => {});
-  return next as Promise<T>;
+  return (async () => {
+    if (aktif < ESZAMAN()) aktif++;
+    else await new Promise<void>((r) => bekleyenler.push(r)); // slot, biten iş tarafından devredilir (aktif zaten artırılır)
+    try {
+      return await fn();
+    } finally {
+      aktif--;
+      while (bekleyenler.length && aktif < ESZAMAN()) {
+        aktif++;
+        bekleyenler.shift()!();
+      }
+    }
+  })();
 }
 
 type Birth = { ad: string; tarih: [number, number, number]; saat: [number, number]; il: string; ilce: string; lat: number; lon: number };
@@ -61,30 +77,39 @@ async function birthFromDogum(d: DogumBilgi): Promise<Birth> {
   return { ad: d.ad, tarih: [y, m, dd], saat: [hh || 0, mm || 0], il: d.yer, ilce: "", lat: g[0], lon: g[1] };
 }
 
-function writeBirth(file: string, b: Birth) {
-  fs.writeFileSync(path.join(NATAL, file), JSON.stringify({ ...b, sr_lat: b.lat, sr_lon: b.lon }, null, 2));
+function writeBirth(dir: string, file: string, b: Birth) {
+  fs.writeFileSync(path.join(dir, file), JSON.stringify({ ...b, sr_lat: b.lat, sr_lon: b.lon }, null, 2));
 }
 
-// Ana üretim: slug + 1 (veya çift için 2) kişi -> out.pdf buffer
+// Ana üretim: slug + 1 (veya çift için 2) kişi -> out.pdf buffer.
+// Her üretim KENDİ izole klasöründe (report/natal/jobs/<id>) koşar; scriptler bu klasörü
+// NATAL_IO env'iyle kullanır. Böylece eşzamanlı üretimler birbirinin dosyasını ezmez.
 async function uret(slug: string, a: Birth, b2?: Birth): Promise<Buffer> {
-  const cift = slug.startsWith("sinastri");
-  if (cift) {
-    if (!b2) throw new Error("Çift analiz için ikinci kişi gerekli.");
-    writeBirth("birth-a.json", a);
-    writeBirth("birth-b.json", b2);
-    await run(PY, [path.join(NATAL, "compute_sinastri.py")]);
-  } else {
-    writeBirth("birth.json", a);
-    if (slug === "lilith") await run(PY, [path.join(NATAL, "compute_karmik.py")]);
-    else if (slug === "solar") await run(PY, [path.join(NATAL, "compute_sr.py"), "dogum"]);
-    else await run(PY, [path.join(NATAL, "compute.py")]);
+  const jobDir = path.join(NATAL, "jobs", crypto.randomBytes(6).toString("hex"));
+  fs.mkdirSync(jobDir, { recursive: true });
+  const env = { ...process.env, NATAL_IO: jobDir };
+  try {
+    const cift = slug.startsWith("sinastri");
+    if (cift) {
+      if (!b2) throw new Error("Çift analiz için ikinci kişi gerekli.");
+      writeBirth(jobDir, "birth-a.json", a);
+      writeBirth(jobDir, "birth-b.json", b2);
+      await run(PY, [path.join(NATAL, "compute_sinastri.py")], env);
+    } else {
+      writeBirth(jobDir, "birth.json", a);
+      if (slug === "lilith") await run(PY, [path.join(NATAL, "compute_karmik.py")], env);
+      else if (slug === "solar") await run(PY, [path.join(NATAL, "compute_sr.py"), "dogum"], env);
+      else await run(PY, [path.join(NATAL, "compute.py")], env);
+    }
+    await run("node", [path.join(NATAL, "selectBlocks.mjs")], env);
+    await run("node", [path.join(NATAL, "synthesize-real.mjs"), slug], env);
+    await run(PY, [path.join(NATAL, "render.py"), slug], env);
+    const pdfPath = path.join(jobDir, "out.pdf");
+    if (!fs.existsSync(pdfPath)) throw new Error("PDF üretilemedi (out.pdf yok).");
+    return fs.readFileSync(pdfPath);
+  } finally {
+    try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch {}
   }
-  await run("node", [path.join(NATAL, "selectBlocks.mjs")]);
-  await run("node", [path.join(NATAL, "synthesize-real.mjs"), slug]);
-  await run(PY, [path.join(NATAL, "render.py"), slug]);
-  const pdfPath = path.join(NATAL, "out.pdf");
-  if (!fs.existsSync(pdfPath)) throw new Error("PDF üretilemedi (out.pdf yok).");
-  return fs.readFileSync(pdfPath);
 }
 
 // Geçici API/ağ hatalarına karşı otomatik tekrar: 3 deneme, arada artan bekleme.
