@@ -85,7 +85,7 @@ for j, (el, ec) in enumerate(EL):
             gx = x + CW / 2 + (k - (n - 1) / 2) * 30
             gy = y + CH / 2
             if it == "AC":
-                S.append(f'<text x="{gx:.0f}" y="{gy:.0f}" fill="#ffffff" font-size="13" font-family="Spectral,serif" text-anchor="middle" dominant-baseline="central">AC</text>')
+                S.append(f'<text x="{gx:.0f}" y="{gy:.0f}" fill="#ffffff" font-size="12" font-family="Spectral,serif" text-anchor="middle" dominant-baseline="central">Yük.</text>')
             else:
                 S.append(gp(it, gx, gy, 17, "#ffffff"))
 S.append('</svg>')
