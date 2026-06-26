@@ -57,7 +57,7 @@ export function faturaAdres(f?: Partial<FaturaBilgi> | null): string {
   const s = parts.map((x) => String(x ?? "").trim()).filter(Boolean).join(", ");
   return s || String(f.adres ?? "").trim();
 }
-export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi };
+export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi; google?: boolean };
 
 export function getMembers(): Member[] {
   return read<Member[]>("members.json", []);
@@ -73,6 +73,16 @@ export function addMember(email: string, pw: string): { error?: string; member?:
   const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: hashPw(pw), kayit: new Date().toISOString() };
   write("members.json", [...getMembers(), member]);
   return { member };
+}
+// Google ile giriş: e-posta varsa o üyeyle eşle (hesap bağlama), yoksa şifresiz üye oluştur.
+// sifre="" -> verifyPw her zaman false döner; Google üyesi şifre girişi yapamaz (isterse "şifremi unuttum" ile belirler).
+export function upsertGoogleMember(email: string): { member: Member; created: boolean } {
+  const e = email.trim().toLowerCase();
+  const existing = findMember(e);
+  if (existing) return { member: existing, created: false };
+  const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: "", kayit: new Date().toISOString(), google: true };
+  write("members.json", [...getMembers(), member]);
+  return { member, created: true };
 }
 export function setMemberPassword(email: string, pw: string): boolean {
   const list = getMembers();
