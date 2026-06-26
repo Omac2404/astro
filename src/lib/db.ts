@@ -246,7 +246,7 @@ const SSS_DEFAULT: SssItem[] = [
   { q: "Raporu beğenmezsem iade alabilir miyim?", a: "Her analiz **tamamen sana özel üretildiği** için hazırlandıktan sonra iade yapılamaz. Yine de bir sorun yaşarsan bizimle iletişime geç; çözüm bulmak için elimizden geleni yaparız.", btnText: "Bize Ulaş", btnHref: "/iletisim" },
   { q: "Başkasına hediye edebilir miyim?", a: "Evet. Ürün sayfasında “Hediye Olarak Al” ile satın alırsan bir hediye kodu verilir. Bu kodu sevdiğine iletirsin; o da sisteme üye olup hesabından kodu girerek analizini açar." },
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
-  { q: "Sağlık analizi tıbbi tavsiye mi?", a: "Hayır. Sağlık & Enerji analizi mizaç, element dengesi ve enerji tarzı üzerine bir denge rehberidir; **tıbbi teşhis ya da tedavi yerine geçmez.** Ciddi şikâyetlerde mutlaka bir uzmana başvurmalısın." },
+  { q: "Enerji & Mizaç analizi tıbbi tavsiye mi?", a: "Hayır. Enerji & Mizaç analizi mizaç, element dengesi ve enerji tarzı üzerine bir denge rehberidir; **tıbbi teşhis ya da tedavi yerine geçmez.** Ciddi şikâyetlerde mutlaka bir uzmana başvurmalısın." },
 ];
 
 // Anasayfa hero (başlıkta **...** = altın vurgu)
@@ -515,8 +515,8 @@ const SEO_DEFAULT: SeoAyar = {
   siteUrl: "https://gokname.com",
   favicon: "",
   sayfalar: [
-    SEO_SAYFA("/", "Anasayfa", "Gökname — Kişiye Özel Astroloji Analizleri", "Gerçek astronomik hesaba dayalı, tamamen sana özel hazırlanan astroloji analizleri: doğum haritası, aşk, kariyer, sağlık ve karmik raporlar.", 1),
-    SEO_SAYFA("/analizler", "Analizler", "Analizler — Gökname", "Doğum haritası, aşk, kariyer, sağlık, karmik ve çift uyumu analizleri. Kişiye özel, gerçek gökyüzü hesabıyla."),
+    SEO_SAYFA("/", "Anasayfa", "Gökname — Kişiye Özel Astroloji Analizleri", "Gerçek astronomik hesaba dayalı, tamamen sana özel hazırlanan astroloji analizleri: doğum haritası, aşk, kariyer, enerji & mizaç ve karmik raporlar.", 1),
+    SEO_SAYFA("/analizler", "Analizler", "Analizler — Gökname", "Doğum haritası, aşk, kariyer, enerji & mizaç, karmik ve çift uyumu analizleri. Kişiye özel, gerçek gökyüzü hesabıyla."),
     SEO_SAYFA("/ornekler", "Örnek Analizler", "Örnek Analizler — Gökname", "Satın almadan önce her analizin gerçek bir örneğini incele."),
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),

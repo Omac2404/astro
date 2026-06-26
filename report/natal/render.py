@@ -37,7 +37,7 @@ DISCLAIMER_SINASTRI = ("Bu rapor, iki doğum haritasının astrolojik yorumuna d
 HOUSE_DESC = [
     "Kişilik, görünüş, ilk izlenim", "Para, değerler, sahip oldukların",
     "Zihin, iletişim, yakın çevre", "Yuva, kökler, aile",
-    "Aşk, yaratıcılık, oyun", "İş, sağlık, günlük düzen",
+    "Aşk, yaratıcılık, oyun", "İş, hizmet, günlük düzen",
     "İlişkiler, ortaklık, evlilik", "Dönüşüm, ortak kaynaklar, derinlik",
     "İnanç, felsefe, uzak yolculuk", "Kariyer, itibar, toplumsal rol",
     "Arkadaşlık, topluluk, idealler", "Bilinçaltı, ruhsallık, geri çekiliş",
@@ -101,7 +101,7 @@ SEXTILE_SVG = ('<svg class="sig-glyph" viewBox="0 0 24 24"><g stroke="#dcc188" s
 # --- Upsell kartları (cross-sell) ---
 UP_ASK = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Aşk &amp; İlişki Haritan</div><p>Venüs, Mars, 5. ve 8. evin, ilişki kalıpların, ideal partner profilin ve zamanlaman derinlemesine.</p><a href="#">Aşk Haritanı keşfet</a></div>'
 UP_KARIYER = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Kariyer &amp; Para Haritan</div><p>10. ev, Satürn, MC ve para göstergelerin, sana uygun meslekler ve doğru zamanlamalar üzerine tam analiz.</p><a href="#">Kariyer Haritanı keşfet</a></div>'
-UP_SAGLIK = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Sağlık &amp; Enerji Haritan</div><p>6. ev, bedensel enerjin ve element dengen üzerine, sana özel denge ve canlılık rehberi.</p><a href="#">Sağlık Haritanı keşfet</a></div>'
+UP_SAGLIK = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Enerji &amp; Mizaç Haritan</div><p>6. ev, bedensel enerjin ve element dengen üzerine, sana özel denge ve canlılık rehberi.</p><a href="#">Enerji &amp; Mizaç Haritanı keşfet</a></div>'
 UP_LILITH = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Lilith &amp; Karmik Raporun</div><p>Lilith, Ay Düğümleri ve Kiron üzerinden ruhsal yolculuğun, karmik desenlerin ve gölge tarafın.</p><a href="#">Karmik Raporunu keşfet</a></div>'
 UP_SINASTRI = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Sevgili / Eş Uyum Raporu</div><p>Haritanı sevdiğininkiyle karşılaştırıp aranızdaki çekim, uyum ve gerilim noktalarını ortaya koyan ikili analiz. İki doğum verisiyle, tek tıkla.</p><a href="#">Uyum Raporunu keşfet</a></div>'
 UP_SOLAR = '<div class="upsell"><span class="eyebrow">Daha Derine</span><div class="u-title">Solar Return (Yıl Haritan)</div><p>Bu doğum gününden bir sonrakine, yılın ana temaları, öne çıkan yaşam alanların ve fırsat pencereleri üzerine kişisel yıllık harita okuması.</p><a href="#">Yıl Haritanı keşfet</a></div>'
@@ -183,7 +183,7 @@ FOCUS_KARIYER = {
     "chart_lead": "Kariyer haritanın başrolünde",
 }
 
-# Sağlık & Enerji teması: şifa teali (aqua) aksan + yaprak arkaplan deseni + yaprak sigil.
+# Enerji & Mizaç teması: şifa teali (aqua) aksan + yaprak arkaplan deseni + yaprak sigil.
 SIGIL_SAGLIK = ('<svg viewBox="0 0 24 24" width="40" height="40" style="vertical-align:middle">'
                 '<path d="M12 2 C17 7 17 15 12 22 C7 15 7 7 12 2 Z" fill="none" stroke="#97d68b" stroke-width="1.2"/>'
                 '<path d="M12 4.5 L12 19.5" fill="none" stroke="#97d68b" stroke-width="1"/></svg>')
@@ -215,15 +215,15 @@ THEME_SAGLIK = (
     ".chart-page::before,.sig-page::before,.element-page::before,.closing::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.08;background-repeat:repeat;background-image:" + _LMOTIF + ";}"
 )
 FOCUS_SAGLIK = {
-    "noun": "Sağlık", "houses": [1, 6, 8],
-    "labels": {1: "beden ve canlılık", 6: "sağlık, rutin ve bağışıklık", 8: "yenilenme ve dayanıklılık"},
-    "houses_lead": "Sağlık ve enerjinle en doğrudan ilgili evler", "area": "sağlık", "area2": "sağlık",
+    "noun": "Enerji", "houses": [1, 6, 8],
+    "labels": {1: "beden ve canlılık", 6: "günlük düzen, rutin ve dayanıklılık", 8: "yenilenme ve dayanıklılık"},
+    "houses_lead": "Enerji ve canlılığınla en doğrudan ilgili evler", "area": "enerji", "area2": "enerji",
     "read_from": "Güneş ve Mars'ının burç ve ev yerleşiminden",
     "planets": ["gunes", "mars"],
     "roles": {"gunes": ("Güneş", "yaşam gücünü ve genel canlılığını"),
               "mars": ("Mars", "fiziksel enerjini, dayanıklılığını ve hareket dürtünü"),
               "ay": ("Ay", "bedensel ritmini ve günlük enerji dalgalanmanı")},
-    "chart_lead": "Sağlık ve enerji haritanın başrolünde",
+    "chart_lead": "Enerji ve mizaç haritanın başrolünde",
 }
 
 # Solar Return teması: ametist/mor-leylak aksan + güneş-ışını (sunburst) desen + güneş sigil.
@@ -317,7 +317,7 @@ PRODUCTS = {
             ("Zihnin", "IV · Zihin", "Zihnin &amp; İletişimin", 9791, None),
             ("Aşk", "V · Bağlar", "Aşk &amp; İlişkiler", 9792, None),
             ("Kariyer", "VI · Yön", "Kariyer &amp; Yaşam Yönün", 9796, None),
-            ("Sağlık", "VII · Beden", "Sağlık &amp; Enerji", 9792, None),
+            ("Sağlık", "VII · Beden", "Enerji &amp; Mizaç", 9792, None),
             ("Güçlü", "VIII · Bütünlük", "Güçlü Yönlerin &amp; Gelişim Alanların", 10022, None),
         ],
     },
@@ -354,15 +354,15 @@ PRODUCTS = {
         ],
     },
     "saglik": {
-        "urun_baslik": "Sağlık & Enerji Haritası",
-        "urun_alt": "doğum haritanın sağlık ve enerji odaklı okuması",
+        "urun_baslik": "Enerji & Mizaç Haritası",
+        "urun_alt": "doğum haritanın enerji ve mizaç odaklı okuması",
         "theme_css": THEME_SAGLIK, "sigil": SIGIL_SAGLIK,
-        "urun_etiket": ' <span class="lbl-sub">(sağlık &amp; enerjiye yönelik)</span>',
+        "urun_etiket": ' <span class="lbl-sub">(enerji &amp; mizaca yönelik)</span>',
         "focus": FOCUS_SAGLIK,
         "sections": [
             ("Enerji İmzan", "I · Canlılık", "Enerji İmzan &amp; Yaşam Gücün", 9737, None),
             ("Bedensel Yapın", "II · Beden", "Bedensel Yapın &amp; Mizacın", 9789, None),
-            ("Günlük Sağlık", "III · Rutin", "Günlük Sağlık &amp; Rutinin", 9791, None),
+            ("Günlük Enerji", "III · Rutin", "Günlük Enerji &amp; Rutinin", 9791, None),
             ("Stres", "IV · Denge", "Stres &amp; Denge", 9796, None),
             ("Güçlü ve Hassas", "V · Eğilim", "Güçlü ve Hassas Alanların", 9794, None),
             ("Yenilenme", "VI · Yenilenme", "Yenilenme &amp; Dayanıklılık", 9795, None),
