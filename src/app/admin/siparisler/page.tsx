@@ -9,7 +9,7 @@ type Fatura = { ad?: string; email?: string; tel?: string; adres?: string };
 type Order = {
   id: string;
   email: string;
-  items: { slug: string; ad: string }[];
+  items: { slug: string; ad: string; hediye?: boolean; fiyat?: number }[];
   total: number;
   durum: "odendi" | "bekliyor" | "iade";
   hediye: boolean;
@@ -63,6 +63,8 @@ export default function SiparislerPage() {
   const [bit, setBit] = useState("");
   const [hizli, setHizli] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [editing, setEditing] = useState<Order | null>(null);
+  const [editItems, setEditItems] = useState<Record<string, number>>({});
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const load = () => fetch("/api/admin/orders").then((r) => r.json()).then((d) => setOrders(d.orders ?? [])).catch(() => {});
@@ -120,6 +122,25 @@ export default function SiparislerPage() {
     setBusy(null);
     if (r.ok) load();
     else { const d = await r.json().catch(() => ({})); alert(d.error || "İşlem başarısız."); }
+  };
+
+  // Sepeti düzenle (yalnız bekleyen sipariş) — normal kalemler; hediye kalemleri korunur
+  const openEdit = (o: Order) => {
+    const grup: Record<string, number> = {};
+    for (const it of o.items) if (!it.hediye) grup[it.slug] = (grup[it.slug] || 0) + 1;
+    setEditItems(grup);
+    setEditing(o);
+  };
+  const closeEdit = () => { setEditing(null); setEditItems({}); };
+  const setQty = (slug: string, q: number) => setEditItems((s) => { const n = { ...s }; if (q <= 0) delete n[slug]; else n[slug] = Math.min(50, q); return n; });
+  const kaydetSepet = async () => {
+    if (!editing) return;
+    const items = Object.entries(editItems).filter(([, q]) => q > 0).map(([slug, adet]) => ({ slug, adet }));
+    setBusy(editing.id);
+    const r = await fetch("/api/admin/orders/items", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId: editing.id, items }) });
+    setBusy(null);
+    if (r.ok) { closeEdit(); load(); }
+    else { const d = await r.json().catch(() => ({})); alert(d.error || "Kaydedilemedi."); }
   };
 
   return (
@@ -220,9 +241,14 @@ export default function SiparislerPage() {
                       <div className="flex items-center gap-2">
                         <Badge tone={TONE[o.durum]}>{ETIKET[o.durum]}</Badge>
                         {o.durum === "bekliyor" && (
-                          <button onClick={() => odendiYap(o.id)} disabled={busy === o.id} className="rounded-lg border border-emerald-400/40 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-50">
-                            {busy === o.id ? "…" : "Ödendi ✓"}
-                          </button>
+                          <>
+                            <button onClick={() => openEdit(o)} disabled={busy === o.id} title="Sepeti düzenle" className="rounded-lg border border-gold/30 p-1.5 text-gold-bright transition-colors hover:bg-gold/10 disabled:opacity-50">
+                              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                            </button>
+                            <button onClick={() => odendiYap(o.id)} disabled={busy === o.id} className="rounded-lg border border-emerald-400/40 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-50">
+                              {busy === o.id ? "…" : "Ödendi ✓"}
+                            </button>
+                          </>
                         )}
                       </div>
                     </td>
@@ -247,6 +273,63 @@ export default function SiparislerPage() {
           </div>
         )}
       </Panel>
+
+      {/* Sepeti Düzenle popup (yalnız bekleyen sipariş) */}
+      {editing && (() => {
+        const satirlar = Object.entries(editItems);
+        const total = satirlar.reduce((t, [slug, q]) => { const p = PRODUCTS.find((x) => x.slug === slug); return t + (p ? p.fiyat * q : 0); }, 0);
+        const eklenebilir = PRODUCTS.filter((p) => !(p.slug in editItems));
+        return (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4" onClick={closeEdit}>
+            <div className="w-full max-w-lg rounded-2xl border border-gold/20 bg-night-deep p-6" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold text-parchment">Sepeti Düzenle</h3>
+                <span className="font-mono text-xs text-parchment/50">{editing.id}</span>
+              </div>
+              <p className="mt-1 text-xs text-parchment/45">Yalnızca bekleyen siparişte. Hediye kalemleri korunur; fiyatlar sunucudan kesinleşir.</p>
+
+              <div className="mt-4 space-y-2">
+                {satirlar.length === 0 ? (
+                  <p className="rounded-lg border border-gold/10 bg-night/40 px-3 py-4 text-center text-sm text-parchment/45">Sepette ürün yok. Aşağıdan ekle.</p>
+                ) : satirlar.map(([slug, q]) => {
+                  const p = PRODUCTS.find((x) => x.slug === slug);
+                  return (
+                    <div key={slug} className="flex items-center gap-3 rounded-lg border border-gold/15 bg-night/50 px-3 py-2">
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm text-parchment/85">{p?.ad ?? slug}</div>
+                        <div className="text-xs text-parchment/45">{p ? `${p.fiyat} ₺ × ${q} = ${p.fiyat * q} ₺` : slug}</div>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <button type="button" onClick={() => setQty(slug, q - 1)} className="h-7 w-7 rounded-lg border border-gold/25 text-parchment/80 transition-colors hover:bg-gold/10">−</button>
+                        <span className="w-6 text-center text-sm text-parchment">{q}</span>
+                        <button type="button" onClick={() => setQty(slug, q + 1)} className="h-7 w-7 rounded-lg border border-gold/25 text-parchment/80 transition-colors hover:bg-gold/10">+</button>
+                        <button type="button" onClick={() => setQty(slug, 0)} title="Çıkar" className="ml-1 h-7 w-7 rounded-lg border border-rose-400/30 text-rose-300 transition-colors hover:bg-rose-500/10">×</button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {eklenebilir.length > 0 && (
+                <select value="" onChange={(e) => { if (e.target.value) setQty(e.target.value, (editItems[e.target.value] || 0) + 1); }} className="mt-3 w-full rounded-lg border border-gold/20 bg-night px-3 py-2 text-sm text-parchment outline-none focus:border-gold/55" style={{ colorScheme: "dark" }}>
+                  <option value="">+ Ürün ekle…</option>
+                  {eklenebilir.map((p) => <option key={p.slug} value={p.slug}>{p.ad} — {p.fiyat} ₺</option>)}
+                </select>
+              )}
+
+              <div className="mt-4 flex items-center justify-between border-t border-gold/10 pt-3">
+                <span className="text-sm text-parchment/60">Toplam</span>
+                <span className="font-body text-xl font-semibold text-gold-bright">{total} ₺</span>
+              </div>
+
+              <div className="mt-4 flex justify-end gap-2">
+                <button type="button" onClick={closeEdit} className="rounded-full border border-gold/25 px-4 py-2 text-sm text-parchment/70 transition-colors hover:text-gold-bright">İptal</button>
+                <button type="button" onClick={kaydetSepet} disabled={busy === editing.id} className="rounded-full bg-gold px-5 py-2 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">{busy === editing.id ? "Kaydediliyor…" : "Kaydet"}</button>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

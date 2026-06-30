@@ -614,6 +614,21 @@ export function markOrderPaid(orderId: string): { order: Order; created: boolean
   return { order, created: true };
 }
 
+// Admin "Sepeti Düzenle" (yalnız "bekliyor" sipariş): NORMAL kalemleri verilen listeyle değiştir,
+// hediye kalemleri korunur. normalItems fiyat/ad sunucudan (catalog) doğrulanmış gelmeli (route).
+export function updateOrderItems(orderId: string, normalItems: OrderItem[]): Order | null {
+  const list = getOrders();
+  const i = list.findIndex((o) => o.id === orderId);
+  if (i < 0) return null;
+  if (list[i].durum !== "bekliyor") return null; // yalnızca bekleyen sipariş düzenlenebilir
+  const hediyeKalemler = list[i].items.filter((it) => it.hediye);
+  const items: OrderItem[] = [...hediyeKalemler, ...normalItems.map((it) => ({ ...it, hediye: false }))];
+  const order: Order = { ...list[i], items, total: items.reduce((t, x) => t + x.fiyat, 0), hediye: items.some((x) => x.hediye) };
+  list[i] = order;
+  write("orders.json", list);
+  return order;
+}
+
 // ---- Fiyat override'ları (admin -> fronta yansır). eskiFiyat=0 → indirim yok (üstü çizili gösterilmez) ----
 export type PriceOverride = { fiyat: number; eskiFiyat: number };
 export function getPrices(): Record<string, PriceOverride> {
