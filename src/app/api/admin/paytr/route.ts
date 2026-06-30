@@ -28,6 +28,8 @@ export async function POST(req: Request) {
   if ("tekCekim" in b) patch.tekCekim = !!b.tekCekim;
   if ("basvuruModu" in b) patch.basvuruModu = !!b.basvuruModu;
   if ("saglayici" in b) patch.saglayici = b.saglayici === "iyzico" ? "iyzico" : b.saglayici === "yok" ? "yok" : "paytr";
+  if ("odemeModu" in b) patch.odemeModu = b.odemeModu === "whatsapp" ? "whatsapp" : "pos";
+  if ("whatsappNumara" in b) patch.whatsappNumara = String(b.whatsappNumara ?? "").trim();
   // Gizli alanlar yalnızca doluysa güncellenir (boş bırakılırsa korunur)
   if (typeof b.merchantKey === "string" && b.merchantKey.length > 0) patch.merchantKey = b.merchantKey.trim();
   if (typeof b.merchantSalt === "string" && b.merchantSalt.length > 0) patch.merchantSalt = b.merchantSalt.trim();

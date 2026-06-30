@@ -20,6 +20,11 @@ export default function OdemePage() {
   const [onay, setOnay] = useState(false);
   const [hata, setHata] = useState("");
   const [yuk, setYuk] = useState(false);
+  const [mod, setMod] = useState<"pos" | "whatsapp">("pos");
+
+  useEffect(() => {
+    fetch("/api/odeme-saglayici").then((r) => r.json()).then((d) => { if (d.odemeModu === "whatsapp") setMod("whatsapp"); }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -75,6 +80,15 @@ export default function OdemePage() {
     if (!r.ok) {
       if (d.needLogin) router.push("/giris?next=/odeme");
       else setHata(d.error || "Ödeme başarısız.");
+      return;
+    }
+    // WhatsApp modu: hazır mesajla WhatsApp'a yönlendir, siparişi "bekliyor"da bırak
+    if (d.whatsapp?.url) {
+      clear();
+      const win = window.open(d.whatsapp.url, "_blank");
+      if (!win) window.location.href = d.whatsapp.url; // popup engellendiyse aynı sekmede aç
+      router.push("/hesabim?yeni=1");
+      router.refresh();
       return;
     }
     clear();
@@ -159,8 +173,11 @@ export default function OdemePage() {
           </div>
           {hata && <p className="mt-3 text-sm text-rose-300">{hata}</p>}
           <button type="submit" disabled={yuk} className="mt-4 w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
-            {yuk ? "İşleniyor…" : "Ödemeyi Tamamla"}
+            {yuk ? "İşleniyor…" : mod === "whatsapp" ? "WhatsApp'a Yönlendir" : "Ödemeyi Tamamla"}
           </button>
+          {mod === "whatsapp" && !yuk && (
+            <p className="mt-2 text-center text-xs text-parchment/45">Sipariş özetin hazır bir mesajla WhatsApp'ta açılır; göndererek havale/EFT ile ödeyebilirsin.</p>
+          )}
           <PaymentBadges />
           <Link href="/sepet" className="mt-3 block text-center text-sm text-parchment/55 hover:text-gold-bright">
             ← Sepete dön

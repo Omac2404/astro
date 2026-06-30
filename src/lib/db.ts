@@ -572,9 +572,12 @@ export type PaytrConfig = {
   tekCekim: boolean;     // no_installment — taksidi kapat
   basvuruModu: boolean;  // PayTR başvuru modu: ödeme butonu çalışmaz, "bağlantı bekleniyor" uyarısı verir
   saglayici: "paytr" | "iyzico" | "yok"; // sitede gösterilecek sağlayıcı LOGOSU ("yok" = yalnız kart logoları)
+  odemeModu: "pos" | "whatsapp"; // "pos" = sanal pos (normal); "whatsapp" = WhatsApp/havale yönlendirme
+  whatsappNumara: string;        // WhatsApp yönlendirme numarası (wa.me için rakamlara indirgenir)
 };
 const PAYTR_DEFAULT: PaytrConfig = {
   aktif: false, merchantId: "", merchantKey: "", merchantSalt: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr",
+  odemeModu: "pos", whatsappNumara: "+90 506 244 05 36",
 };
 export function getPaytr(): PaytrConfig {
   return { ...PAYTR_DEFAULT, ...read<Partial<PaytrConfig>>("paytr.json", {}) };
@@ -596,6 +599,19 @@ export function markOrderPaidByOid(merchantOid: string): Order | null {
   list[i] = { ...list[i], durum: "odendi", odemeTarih: new Date().toISOString() };
   write("orders.json", list);
   return list[i];
+}
+// Admin "Ödendi" butonu (WhatsApp/havale): bekleyen siparişi ödendiye çevir + ürünleri hesaba tanımla.
+// İdempotent: zaten "odendi" ise tekrar atama yapmaz (çift tıkta ürün ikilenmez). created=true → ilk kez ödendi.
+export function markOrderPaid(orderId: string): { order: Order; created: boolean } | null {
+  const list = getOrders();
+  const i = list.findIndex((o) => o.id === orderId);
+  if (i < 0) return null;
+  if (list[i].durum === "odendi") return { order: list[i], created: false };
+  const order: Order = { ...list[i], durum: "odendi", odemeTarih: new Date().toISOString() };
+  list[i] = order;
+  write("orders.json", list);
+  assignOrderItems(order); // pending siparişte kalemler henüz atanmamıştı; şimdi tanımla
+  return { order, created: true };
 }
 
 // ---- Fiyat override'ları (admin -> fronta yansır). eskiFiyat=0 → indirim yok (üstü çizili gösterilmez) ----
@@ -718,24 +734,30 @@ export function getOrders(): Order[] {
 export function getOrdersByEmail(email: string): Order[] {
   return getOrders().filter((o) => o.email.toLowerCase() === email.trim().toLowerCase());
 }
-export function addOrder(email: string, items: OrderItem[], fatura: Fatura | undefined, kaynak?: string): Order {
+// Sipariş kalemlerini hesaba tanımla: hediye → hediye kodu (alıcı=satın alan), normal → analiz hakkı (rapor)
+export function assignOrderItems(order: Order) {
+  for (const it of order.items) {
+    if (it.hediye) createGiftCode(it.slug, it.ad, order.email, "musteri");
+    else addReport(order.email, it.slug, it.ad, "bekliyor");
+  }
+}
+// opts.pending=true (WhatsApp/havale modu): sipariş "bekliyor" oluşur, ürünler HENÜZ atanmaz
+// (admin "Ödendi" deyince atanır). Varsayılan (pos/normal): anında "odendi" + ürünler atanır.
+export function addOrder(email: string, items: OrderItem[], fatura: Fatura | undefined, kaynak?: string, opts?: { pending?: boolean }): Order {
+  const pending = !!opts?.pending;
   const order: Order = {
     id: "GN-" + crypto.randomBytes(3).toString("hex").toUpperCase(),
     email: email.trim().toLowerCase(),
     items,
     total: items.reduce((t, i) => t + i.fiyat, 0),
-    durum: "odendi",
+    durum: pending ? "bekliyor" : "odendi",
     hediye: items.some((i) => i.hediye),
     fatura,
     kaynak: kaynak && kaynak.trim() ? kaynak.trim().toLowerCase() : "direkt",
     tarih: new Date().toISOString(),
   };
   write("orders.json", [order, ...getOrders()]);
-  // Hediye kalemi → hediye kodu (alıcı=satın alan); normal kalem → analiz hakkı
-  for (const it of items) {
-    if (it.hediye) createGiftCode(it.slug, it.ad, email, "musteri");
-    else addReport(email, it.slug, it.ad, "bekliyor");
-  }
+  if (!pending) assignOrderItems(order);
   return order;
 }
 export function attachInvoice(orderId: string, dosyaId: string): Order | null {

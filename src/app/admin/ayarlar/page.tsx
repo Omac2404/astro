@@ -322,8 +322,8 @@ function YasalBolum() {
 }
 
 // ---------------- Sanal POS (PayTR) ----------------
-type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; saglayici: "paytr" | "iyzico" | "yok"; hasKey?: boolean; hasSalt?: boolean };
-const PAYTR_BOS: Paytr = { aktif: false, merchantId: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr" };
+type Paytr = { aktif: boolean; merchantId: string; testMod: boolean; maxTaksit: number; tekCekim: boolean; basvuruModu: boolean; saglayici: "paytr" | "iyzico" | "yok"; odemeModu: "pos" | "whatsapp"; whatsappNumara: string; hasKey?: boolean; hasSalt?: boolean };
+const PAYTR_BOS: Paytr = { aktif: false, merchantId: "", testMod: true, maxTaksit: 0, tekCekim: false, basvuruModu: false, saglayici: "paytr", odemeModu: "pos", whatsappNumara: "" };
 
 function SanalPosBolum() {
   const [f, setF] = useState<Paytr>(PAYTR_BOS);
@@ -346,7 +346,7 @@ function SanalPosBolum() {
 
   const kaydet = async (e: React.FormEvent) => {
     e.preventDefault(); setMsg(""); setYuk(true);
-    const body: Record<string, unknown> = { aktif: f.aktif, merchantId: f.merchantId, testMod: f.testMod, maxTaksit: f.maxTaksit, tekCekim: f.tekCekim, basvuruModu: f.basvuruModu, saglayici: f.saglayici };
+    const body: Record<string, unknown> = { aktif: f.aktif, merchantId: f.merchantId, testMod: f.testMod, maxTaksit: f.maxTaksit, tekCekim: f.tekCekim, basvuruModu: f.basvuruModu, saglayici: f.saglayici, odemeModu: f.odemeModu, whatsappNumara: f.whatsappNumara };
     if (key) body.merchantKey = key;
     if (salt) body.merchantSalt = salt;
     const r = await fetch("/api/admin/paytr", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -368,6 +368,31 @@ function SanalPosBolum() {
 
   return (
     <form onSubmit={kaydet} className="max-w-5xl">
+      {/* Ödeme Yöntemi — ana anahtar */}
+      <Panel className="mb-5 p-6">
+        <h2 className="font-display text-lg font-semibold text-parchment">Ödeme Yöntemi</h2>
+        <p className="mt-0.5 text-xs text-parchment/45">Müşteri ödeme sayfasında hangi akışı görür. <b className="text-parchment/70">Sanal POS</b> = normal kart ödemesi (mevcut akış). <b className="text-parchment/70">WhatsApp</b> = ödeme yerine hazır mesajla WhatsApp'a yönlendirir; sipariş <b className="text-parchment/70">“bekliyor”</b> düşer, havaleyi alınca Siparişler'den <b className="text-parchment/70">“Ödendi ✓”</b> ile tamamlanır (ürünler o an hesaba tanımlanır).</p>
+        <div className="mt-3 grid max-w-sm grid-cols-2 gap-1 rounded-full border border-gold/20 bg-night p-1 text-sm">
+          {([["pos", "Sanal POS"], ["whatsapp", "WhatsApp"]] as const).map(([m, label]) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => set("odemeModu", m)}
+              className={`rounded-full py-2 font-medium transition-colors ${f.odemeModu === m ? "bg-gold text-night-deep" : "text-parchment/70 hover:text-gold-bright"}`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {f.odemeModu === "whatsapp" && (
+          <div className="mt-4 max-w-sm">
+            <label className={labelCls}>WhatsApp Numarası</label>
+            <input value={f.whatsappNumara} onChange={(e) => set("whatsappNumara", e.target.value)} placeholder="+90 5xx xxx xx xx" className={`${inputCls} mt-1.5 w-full`} />
+            <p className="mt-1 text-xs text-parchment/40">Müşteri bu numaraya yönlendirilir. Ülke kodu dahil yaz; boşluk/işaret serbest (wa.me için otomatik sadeleşir).</p>
+          </div>
+        )}
+      </Panel>
+
       <div className="grid gap-5 lg:grid-cols-2 lg:items-start">
         {/* Sol: mağaza bilgileri */}
         <div className="space-y-5">

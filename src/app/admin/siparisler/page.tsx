@@ -112,6 +112,16 @@ export default function SiparislerPage() {
     if (r.ok) load();
   };
 
+  // "Ödendi" (WhatsApp/havale): bekleyen siparişi tamamla, ürünler hesaba tanımlansın
+  const odendiYap = async (orderId: string) => {
+    if (!confirm("Bu siparişi ÖDENDİ olarak işaretle? Sepetteki ürünler müşterinin hesabına tanımlanacak ve onay e-postası gönderilecek.")) return;
+    setBusy(orderId);
+    const r = await fetch("/api/admin/orders/paid", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ orderId }) });
+    setBusy(null);
+    if (r.ok) load();
+    else { const d = await r.json().catch(() => ({})); alert(d.error || "İşlem başarısız."); }
+  };
+
   return (
     <div>
       <PageHead title="Siparişler" desc={`${filtered.length} / ${orders.length} sipariş — en güncel üstte.`} action={<SearchBox value={q} onChange={setQ} placeholder="ID, e-posta, ad, telefon…" />} />
@@ -206,7 +216,16 @@ export default function SiparislerPage() {
                     <td className="px-4 py-3 text-parchment/85">{o.total} ₺</td>
                     <td className="px-4 py-3"><span className="rounded-full border border-gold/20 bg-night px-2 py-0.5 text-xs capitalize text-parchment/70">{o.kaynak || "direkt"}</span></td>
                     <td className="px-4 py-3 whitespace-nowrap text-parchment/60">{tarihSaat(o.tarih)}</td>
-                    <td className="px-4 py-3"><Badge tone={TONE[o.durum]}>{ETIKET[o.durum]}</Badge></td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <Badge tone={TONE[o.durum]}>{ETIKET[o.durum]}</Badge>
+                        {o.durum === "bekliyor" && (
+                          <button onClick={() => odendiYap(o.id)} disabled={busy === o.id} className="rounded-lg border border-emerald-400/40 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-50">
+                            {busy === o.id ? "…" : "Ödendi ✓"}
+                          </button>
+                        )}
+                      </div>
+                    </td>
                     <td className="px-4 py-3"><FaturaKopyala o={o} /></td>
                     <td className="px-4 py-3">
                       <div className="flex items-center justify-end gap-2">
