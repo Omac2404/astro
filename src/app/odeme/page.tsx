@@ -195,9 +195,9 @@ export default function OdemePage() {
             )}
           </button>
           {mod === "whatsapp" && !yuk && (
-            <p className="mt-2 text-center text-xs leading-relaxed text-parchment/45">Kurumsal WhatsApp numaramıza gönderilen siparişleriniz, ödeme alındığı durumda 10 dk içinde hesabınıza tanımlanacaktır. Merak ettiğiniz her şeyi kurumsal numaramız üzerinden siparişinizle birlikte sorabilirsiniz.</p>
+            <p className="mt-2 text-center text-xs leading-relaxed text-white">Ödemeler havale/EFT ile yapılır. Kurumsal WhatsApp numaramıza gönderilen siparişleriniz, ödeme alındığı durumda 10 dk içinde hesabınıza tanımlanacaktır. Merak ettiğiniz her şeyi kurumsal numaramız üzerinden siparişinizle birlikte sorabilirsiniz.</p>
           )}
-          <PaymentBadges />
+          {mod !== "whatsapp" && <PaymentBadges />}
           <Link href="/sepet" className="mt-3 block text-center text-sm text-parchment/55 hover:text-gold-bright">
             ← Sepete dön
           </Link>
