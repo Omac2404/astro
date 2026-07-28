@@ -1,5 +1,5 @@
 // synthesize-real.mjs — FAZ 4 zinciri: compute chart.json + selectBlocks -> Claude sentez -> rapor.
-// compute.py(chart.json) + selectBlocks(aktif-bloklar.json) + natal-blocks.json + v5 prompt(Opus 4.8)
+// compute.py(chart.json) + selectBlocks(aktif-bloklar.json) + natal-blocks.json + v5 prompt(Sonnet 5)
 // Çalıştır (repo kökünden):  node report/natal/synthesize-real.mjs
 import fs from "node:fs";
 import path from "node:path";
@@ -101,7 +101,7 @@ if (isSinastri) {
   ].join("\n");
 }
 
-const MODEL = "claude-opus-4-8";
+const MODEL = "claude-sonnet-5"; // maliyet için Opus 4.8'den düşürüldü (ücretsiz ürün); gerekirse claude-haiku-4-5
 const OUT = path.join(IO, `rapor-${product}.txt`);
 
 // Em-dash (—, U+2014) temizliği: bağlaçtan önceyse boşluk, değilse virgül. Kısa tire (–, U+2013) dokunulmaz.
