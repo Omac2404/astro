@@ -46,6 +46,8 @@ export async function GET(req: Request) {
     }
 
     const next = saved.next && saved.next.startsWith("/") ? saved.next : "/hesabim";
+    // Doğum bilgisi yoksa (Google üyeleri vermez) önce onu iste — bir kez, sonra kilitli.
+    if (!member.dogum) return NextResponse.redirect(base + "/hesabim/dogum?next=" + encodeURIComponent(next));
     return NextResponse.redirect(base + next);
   } catch (e) {
     return fail(e instanceof Error ? e.message : "Google girişi başarısız.");

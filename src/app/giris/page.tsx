@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
 
 type Mode = "giris" | "kayit";
 
@@ -17,6 +18,7 @@ function GirisForm() {
   const [email, setEmail] = useState("");
   const [sifre, setSifre] = useState("");
   const [sifre2, setSifre2] = useState("");
+  const [k, setK] = useState<Kisi>(bosKisi()); // kayıtta doğum bilgisi (bir kez, sonradan değişmez)
   const [hata, setHata] = useState(params.get("hata") || ""); // Google callback hatası buraya düşer
   const [yuk, setYuk] = useState(false);
 
@@ -35,7 +37,7 @@ function GirisForm() {
     const r = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, sifre }),
+      body: JSON.stringify(kayit ? { email, sifre, dogum: toDogum(k) } : { email, sifre }),
     });
     const d = await r.json();
     setYuk(false);
@@ -81,6 +83,13 @@ function GirisForm() {
             <div>
               <label htmlFor="sifre2" className="mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55">Şifre (tekrar)</label>
               <input id="sifre2" type="password" required minLength={6} autoComplete="new-password" value={sifre2} onChange={(e) => setSifre2(e.target.value)} placeholder="Şifreni tekrar gir" className={inputCls} />
+            </div>
+          )}
+
+          {kayit && (
+            <div className="space-y-4 rounded-xl border border-gold/10 bg-night-deep/40 p-4">
+              <p className="text-xs leading-relaxed text-parchment/55">Analizlerin için doğum bilgin. <span className="font-medium text-[#c3a6e8]">Bir kez girilir, sonradan değiştirilemez</span> — dikkatli gir.</p>
+              <PersonFields k={k} set={(patch) => setK((s) => ({ ...s, ...patch }))} />
             </div>
           )}
 

@@ -57,7 +57,7 @@ export function faturaAdres(f?: Partial<FaturaBilgi> | null): string {
   const s = parts.map((x) => String(x ?? "").trim()).filter(Boolean).join(", ");
   return s || String(f.adres ?? "").trim();
 }
-export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi; google?: boolean };
+export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi; google?: boolean; dogum?: DogumBilgi };
 
 export function getMembers(): Member[] {
   return read<Member[]>("members.json", []);
@@ -65,14 +65,27 @@ export function getMembers(): Member[] {
 export function findMember(email: string): Member | undefined {
   return getMembers().find((m) => m.email.toLowerCase() === email.trim().toLowerCase());
 }
-export function addMember(email: string, pw: string): { error?: string; member?: Member } {
+export function addMember(email: string, pw: string, dogum?: DogumBilgi): { error?: string; member?: Member } {
   const e = email.trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return { error: "Geçerli bir e-posta gir." };
   if (pw.length < 6) return { error: "Şifre en az 6 karakter olmalı." };
   if (findMember(e)) return { error: "Bu e-posta zaten kayıtlı." };
-  const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: hashPw(pw), kayit: new Date().toISOString() };
+  const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: hashPw(pw), kayit: new Date().toISOString(), ...(dogum ? { dogum } : {}) };
   write("members.json", [...getMembers(), member]);
   return { member };
+}
+// Hesabın doğum bilgisi — BİR KEZ set edilir, sonra değiştirilemez (kilitli).
+export function setMemberDogum(email: string, dogum: DogumBilgi): { ok: boolean; locked?: boolean } {
+  const list = getMembers();
+  const i = list.findIndex((m) => m.email.toLowerCase() === email.trim().toLowerCase());
+  if (i < 0) return { ok: false };
+  if (list[i].dogum) return { ok: false, locked: true }; // zaten var, değiştirilemez
+  list[i] = { ...list[i], dogum };
+  write("members.json", list);
+  return { ok: true };
+}
+export function getMemberDogum(email: string): DogumBilgi | undefined {
+  return findMember(email)?.dogum;
 }
 // Google ile giriş: e-posta varsa o üyeyle eşle (hesap bağlama), yoksa şifresiz üye oluştur.
 // sifre="" -> verifyPw her zaman false döner; Google üyesi şifre girişi yapamaz (isterse "şifremi unuttum" ile belirler).

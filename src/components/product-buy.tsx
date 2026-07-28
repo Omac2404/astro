@@ -24,19 +24,22 @@ function useAnalizYap(slug: string) {
   const yap = async () => {
     setHata("");
     setYuk(true);
-    let d: { ok?: boolean; error?: string; needLogin?: boolean } = {};
+    let d: { ok?: boolean; error?: string; needLogin?: boolean; needBirth?: boolean; cift?: boolean; reportId?: string } = {};
     try {
       const r = await fetch("/api/analiz/olustur", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug }) });
       d = await r.json();
       if (!r.ok) {
         setYuk(false);
         if (d.needLogin) return router.push(`/giris?next=/analizler/${slug}`);
+        if (d.needBirth) return router.push(`/hesabim/dogum?next=${encodeURIComponent(`/analizler/${slug}`)}`);
         return setHata(d.error || "Bir hata oluştu.");
       }
     } catch {
       setYuk(false);
       return setHata("Bağlantı hatası. Tekrar dene.");
     }
+    // Çift analiz: 2. kişi bilgisi için analiz sayfasına; tek kişilik: üretim başladı, Analizlerim'e
+    if (d.cift && d.reportId) { router.push(`/hesabim/analiz/${d.reportId}`); return; }
     router.push("/hesabim?yeni=1");
     router.refresh();
   };

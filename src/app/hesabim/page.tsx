@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/session";
+import { getMemberDogum } from "@/lib/db";
 import { LogoutButton } from "@/components/account-actions";
 import { Analizlerim } from "@/components/account-panels";
 import { KartIkon } from "@/components/kart-ikon";
@@ -9,6 +10,7 @@ export const dynamic = "force-dynamic";
 export default async function HesabimPage() {
   const u = await currentUser();
   if (!u || u.type !== "member") redirect("/giris?next=/hesabim");
+  const dogum = getMemberDogum(u.email);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
@@ -38,6 +40,16 @@ export default async function HesabimPage() {
               <dt className="text-parchment/50">Şifre</dt>
               <dd>
                 <a href="/sifremi-unuttum" className="text-gold-bright hover:underline">Değiştir</a>
+              </dd>
+            </div>
+            <div className="border-t border-gold/10 pt-3">
+              <dt className="mb-1 text-parchment/50">Doğum bilgin <span className="text-[11px] text-parchment/35">(değiştirilemez)</span></dt>
+              <dd>
+                {dogum ? (
+                  <div className="text-parchment/85">{dogum.ad} · {dogum.tarih}{dogum.saat ? ` ${dogum.saat}` : ""} · {dogum.yer}</div>
+                ) : (
+                  <a href="/hesabim/dogum" className="text-gold-bright hover:underline">Doğum bilgini gir →</a>
+                )}
               </dd>
             </div>
           </dl>

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { setReportBirthInfo, type DogumBilgi } from "@/lib/db";
+import { setReportBirthInfo, getMemberDogum, type DogumBilgi } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { runReportGeneration, URETILEBILIR } from "@/lib/pipeline";
 
@@ -21,8 +21,9 @@ export async function POST(req: Request) {
   if (!u || u.type !== "member") return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
   const b = await req.json().catch(() => ({}));
 
-  const dogum = parseDogum(b.dogum);
-  if (!dogum) return NextResponse.json({ error: "İsim, doğum tarihi ve yer zorunlu." }, { status: 400 });
+  // 1. kişi HER ZAMAN hesabın doğum bilgisi (client'tan gelen yok sayılır, değiştirilemez).
+  const dogum = getMemberDogum(u.email);
+  if (!dogum) return NextResponse.json({ error: "Önce doğum bilgini gir.", needBirth: true }, { status: 400 });
 
   let dogum2: DogumBilgi | undefined;
   if (b.dogum2) {
