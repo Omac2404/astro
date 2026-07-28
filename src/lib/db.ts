@@ -806,6 +806,22 @@ export function getReports(): Report[] {
 export function getReportsByEmail(email: string): Report[] {
   return getReports().filter((r) => r.email.toLowerCase() === email.trim().toLowerCase());
 }
+
+// ---- Günlük analiz limiti (ücretsiz ürün: hesap başına gün 1) ----
+export const GUNLUK_ANALIZ_LIMITI = 1;
+// Bir ISO tarihin TR takvim gününü (YYYY-MM-DD, Europe/Istanbul) verir.
+function trGun(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
+}
+// Üyenin BUGÜN (TR takvim günü) oluşturduğu analiz (rapor) sayısı.
+export function uyeBugunAnalizSayisi(email: string): number {
+  const bugun = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
+  return getReportsByEmail(email).filter((r) => trGun(r.tarih) === bugun).length;
+}
+// Üye bugün yeni analiz oluşturabilir mi? (admin akışları bu kontrolü çağırmaz)
+export function uyeAnalizYapabilirMi(email: string): boolean {
+  return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
+}
 export function addReport(
   email: string,
   slug: string,
