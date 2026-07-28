@@ -97,6 +97,7 @@ export function Analizlerim() {
   return (
     <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
+      <p className="mt-1.5 text-xs leading-relaxed text-parchment/45">Her analiz, oluşturulduktan <b className="text-parchment/70">30 gün</b> sonra hesabından otomatik silinir. Dilediğin zaman PDF olarak indirebilirsin.</p>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
           <div className="text-2xl text-gold-bright/50">✶</div>

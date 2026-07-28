@@ -40,19 +40,7 @@ export default function Home() {
             {hero.altMetin && (
               <p className="mt-5 max-w-md text-lg leading-relaxed text-parchment/70">{hero.altMetin}</p>
             )}
-            {(hero.rozet || hero.fiyatMetin || hero.eskiFiyat || hero.yeniFiyat) && (
-              <div className="mt-7">
-                {hero.rozet && (
-                  <span className="text-sm font-semibold uppercase tracking-[0.18em] text-[#a98fd6]">{hero.rozet}</span>
-                )}
-                <div className="mt-1.5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  {/* Mobilde metin kendi satırını alır (w-full); iki fiyat birlikte alta düşer, aynı satırda kalır. */}
-                  {hero.fiyatMetin && <span className="w-full text-parchment/70 sm:w-auto">{hero.fiyatMetin}</span>}
-                  {hero.eskiFiyat && <span className="text-2xl font-medium text-[#a98fd6]/80 line-through sm:text-3xl">{hero.eskiFiyat}</span>}
-                  {hero.yeniFiyat && <span className="font-body text-[2.6rem] font-semibold leading-none text-gold-bright sm:text-5xl">{hero.yeniFiyat}</span>}
-                </div>
-              </div>
-            )}
+            {/* Fiyat/lansman promosu kaldırıldı (ücretsiz modele geçildi) */}
             <div className="mt-8 flex flex-wrap gap-4">
               {hero.btn1Metin && (
                 <Link href={hero.btn1Link || "/analizler"} className="rounded-full bg-gold px-7 py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright">

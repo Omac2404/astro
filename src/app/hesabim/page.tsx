@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/session";
-import { LogoutButton, GiftRedeem, FaturaButton } from "@/components/account-actions";
-import { Analizlerim, Siparislerim, HediyeKodlarim } from "@/components/account-panels";
+import { LogoutButton } from "@/components/account-actions";
+import { Analizlerim } from "@/components/account-panels";
 import { KartIkon } from "@/components/kart-ikon";
 
 export const dynamic = "force-dynamic";
@@ -22,8 +22,8 @@ export default async function HesabimPage() {
         <LogoutButton />
       </header>
 
-      {/* ÜST SIRA: Hesap + Hediye kodu gir + Hediye Kodlarım (yan yana) */}
-      <div className="mt-8 grid gap-5 lg:grid-cols-3">
+      {/* Hesap + Analizlerim */}
+      <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:items-start">
         <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
             <KartIkon d="account" />
@@ -41,38 +41,11 @@ export default async function HesabimPage() {
               </dd>
             </div>
           </dl>
-          <div className="mt-4 border-t border-gold/10 pt-4">
-            <FaturaButton />
-          </div>
         </section>
 
-        <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
-          <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
-            <KartIkon d="giftIn" />
-            Hediye Kodun Var mı?
-          </h2>
-          <p className="mb-3 mt-1.5 text-sm leading-relaxed text-parchment/55">
-            Sana hediye edilen kodu gir.
-          </p>
-          <GiftRedeem />
-        </section>
-
-        <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
-          <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
-            <KartIkon d="gift" />
-            Satın Aldığım Hediye Kodlarım
-          </h2>
-          <p className="mb-3 mt-1.5 text-sm leading-relaxed text-parchment/55">
-            Satın aldığın kodlar, sevdiklerine gönderebilirsin.
-          </p>
-          <HediyeKodlarim />
-        </section>
-      </div>
-
-      {/* ALT SIRA: Analizlerim + Siparişlerim (yan yana) */}
-      <div className="mt-5 grid gap-5 lg:grid-cols-2">
-        <Analizlerim />
-        <Siparislerim />
+        <div className="lg:col-span-2">
+          <Analizlerim />
+        </div>
       </div>
     </div>
   );

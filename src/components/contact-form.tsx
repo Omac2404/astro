@@ -8,6 +8,7 @@ const inputCls = "w-full rounded-lg border border-gold/20 bg-night-deep px-4 py-
 export function ContactForm() {
   const [ad, setAd] = useState("");
   const [eposta, setEposta] = useState("");
+  const [tel, setTel] = useState("");
   const [konu, setKonu] = useState("");
   const [mesaj, setMesaj] = useState("");
   const [onay, setOnay] = useState(false);
@@ -18,10 +19,10 @@ export function ContactForm() {
     e.preventDefault();
     if (!onay) { setSonuc({ ok: false, t: "Devam etmek için aydınlatma metnini onaylamalısın." }); return; }
     setYuk(true); setSonuc(null);
-    const r = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ad, eposta, konu, mesaj }) });
+    const r = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ad, eposta, tel, konu, mesaj }) });
     const d = await r.json().catch(() => ({}));
     setYuk(false);
-    if (r.ok) { setSonuc({ ok: true, t: "Mesajın bize ulaştı, 24 saat içinde döneceğiz." }); setAd(""); setEposta(""); setKonu(""); setMesaj(""); setOnay(false); }
+    if (r.ok) { setSonuc({ ok: true, t: "Mesajın bize ulaştı, 24 saat içinde döneceğiz." }); setAd(""); setEposta(""); setTel(""); setKonu(""); setMesaj(""); setOnay(false); }
     else setSonuc({ ok: false, t: d.error || "Gönderilemedi, lütfen tekrar dene." });
   };
 
@@ -38,9 +39,15 @@ export function ContactForm() {
           <input type="email" value={eposta} onChange={(e) => setEposta(e.target.value)} required placeholder="ornek@eposta.com" className={inputCls} />
         </div>
       </div>
-      <div>
-        <label className="mb-1.5 block text-sm text-parchment/70">Konu</label>
-        <input value={konu} onChange={(e) => setKonu(e.target.value)} placeholder="Mesajının konusu" className={inputCls} />
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label className="mb-1.5 block text-sm text-parchment/70">Telefon</label>
+          <input type="tel" value={tel} onChange={(e) => setTel(e.target.value)} placeholder="05xx xxx xx xx" className={inputCls} />
+        </div>
+        <div>
+          <label className="mb-1.5 block text-sm text-parchment/70">Konu</label>
+          <input value={konu} onChange={(e) => setKonu(e.target.value)} placeholder="Mesajının konusu" className={inputCls} />
+        </div>
       </div>
       <div>
         <label className="mb-1.5 block text-sm text-parchment/70">Mesajın</label>

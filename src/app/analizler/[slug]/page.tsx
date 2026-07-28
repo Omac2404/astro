@@ -181,10 +181,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               <div className="mb-3 lg:hidden">
                 <h2 className="font-display text-2xl font-semibold leading-tight text-parchment">{p.ad}</h2>
               </div>
-              <div className="flex items-baseline gap-2.5">
-                <span className="font-body text-5xl font-semibold text-gold-bright">Ücretsiz</span>
-                <span className="text-sm text-parchment/50">günde 1 analiz</span>
-              </div>
+              <div className="font-body text-2xl font-semibold text-gold-bright">Her gün 1 analiz hakkı</div>
 
               <BuyButtons slug={p.slug} ad={p.ad} />
 
@@ -195,9 +192,6 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
                 <li className="flex justify-between"><span>Hazırlanış</span><span className="text-parchment/85">Kişiye özel</span></li>
               </ul>
             </div>
-          </div>
-          <div className="mt-3 flex justify-center">
-            <Image src="/gorsel/odeme-kartlar.png" alt="Mastercard, Visa, Troy" width={1152} height={272} unoptimized className="h-7 w-auto" />
           </div>
         </aside>
       </div>

@@ -241,10 +241,8 @@ const SSS_DEFAULT: SssItem[] = [
   { q: "Yurt dışında doğdum, yine de alabilir miyim?", a: "Tabii. **Dünyanın her yerindeki doğum yerleri** desteklenir; şehir ile ülkeyi girmen yeterli, saat dilimi ve koordinatlar otomatik hesaplanır." },
   { q: "Raporu ne zaman alırım?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca sana e-posta ile haber veririz. Analizi e-postada göndermeyiz; hesabına giriş yapıp orada görüntüler ve indirirsin." },
   { q: "Raporu nasıl ve nereden görüntülerim?", a: "Tüm analizlerin hesabındaki “Hesabım” sayfasında listelenir. Hazır olan raporu oradan istediğin zaman okuyabilir ve PDF olarak indirebilirsin." },
-  { q: "Önce satın almadan örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
-  { q: "Ödeme bilgilerim güvende mi?", a: "Evet. Ödemeler **güvenli sanal pos altyapısı** üzerinden alınır; kart bilgilerin bizim sunucularımızda saklanmaz, doğrudan banka altyapısında işlenir." },
-  { q: "Raporu beğenmezsem iade alabilir miyim?", a: "Her analiz **tamamen sana özel üretildiği** için hazırlandıktan sonra iade yapılamaz. Yine de bir sorun yaşarsan bizimle iletişime geç; çözüm bulmak için elimizden geleni yaparız.", btnText: "Bize Ulaş", btnHref: "/iletisim" },
-  { q: "Başkasına hediye edebilir miyim?", a: "Evet. Ürün sayfasında “Hediye Olarak Al” ile satın alırsan bir hediye kodu verilir. Bu kodu sevdiğine iletirsin; o da sisteme üye olup hesabından kodu girerek analizini açar." },
+  { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
+  { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir; aynı analizi **ayda bir kez** oluşturabilirsin. Hazırlanan raporlar 30 gün hesabında kalır, sonra otomatik silinir." },
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
   { q: "Enerji & Mizaç analizi tıbbi tavsiye mi?", a: "Hayır. Enerji & Mizaç analizi mizaç, element dengesi ve enerji tarzı üzerine bir denge rehberidir; **tıbbi teşhis ya da tedavi yerine geçmez.** Ciddi şikâyetlerde mutlaka bir uzmana başvurmalısın." },
 ];
@@ -821,6 +819,12 @@ export function uyeBugunAnalizSayisi(email: string): number {
 // Üye bugün yeni analiz oluşturabilir mi? (admin akışları bu kontrolü çağırmaz)
 export function uyeAnalizYapabilirMi(email: string): boolean {
   return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
+}
+// Aynı analizi (slug) son 30 günde zaten yaptı mı? — ürün başına aylık limit.
+// Rapor 30 günde silindiği için "mevcut var" ≈ "son 30 günde yapıldı"; slot silinince yeniden açılır.
+export function uyeUrunKilitli(email: string, slug: string): boolean {
+  const sinir = Date.now() - RAPOR_SAKLAMA_GUN * 24 * 60 * 60 * 1000;
+  return getReportsByEmail(email).some((r) => r.slug === slug && new Date(r.tarih).getTime() >= sinir);
 }
 
 // ---- Saklama süresi: analizler 30 gün sonra silinir (tembel temizlik) ----

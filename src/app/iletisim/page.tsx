@@ -13,7 +13,7 @@ export default function IletisimPage() {
       <header className="max-w-2xl">
         <h1 className="font-display text-5xl font-semibold">Bize ulaş</h1>
         <p className="mt-4 text-lg leading-relaxed text-parchment/70">
-          Analizlerin, siparişin ya da hediye kodun hakkında her sorunda buradayız.
+          Analizlerin hakkında her sorunda buradayız. <span className="text-parchment/85">Reklam ve iş birliği</span> teklifleri için de bu sayfadan yazabilirsin.
         </p>
       </header>
 

@@ -8,6 +8,7 @@ export async function POST(req: Request) {
   const b = await req.json().catch(() => ({}));
   const ad = String(b.ad ?? "").trim().slice(0, 120);
   const eposta = String(b.eposta ?? "").trim().slice(0, 160);
+  const tel = String(b.tel ?? "").trim().slice(0, 40);
   const konu = String(b.konu ?? "").trim().slice(0, 200);
   const mesaj = String(b.mesaj ?? "").trim().slice(0, 4000);
 
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
   sendIletisimEvent(
     "iletisimForm",
     konu ? `İletişim: ${konu}` : "Yeni iletişim mesajı",
-    `Gönderen: ${ad} <${eposta}>\nKonu: ${konu || "—"}\n\n${mesaj}`
+    `Gönderen: ${ad} <${eposta}>\nTelefon: ${tel || "—"}\nKonu: ${konu || "—"}\n\n${mesaj}`
   );
   return NextResponse.json({ ok: true });
 }

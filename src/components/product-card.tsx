@@ -57,7 +57,7 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
             </span>
           </div>
           <div className="flex flex-col items-end gap-0.5">
-            <span className="font-body text-2xl font-semibold text-gold-bright">Ücretsiz</span>
+            <span className="inline-flex items-center gap-1 font-body text-base font-semibold text-gold-bright transition-transform group-hover:translate-x-0.5">İncele <span aria-hidden>→</span></span>
           </div>
         </div>
       </div>
