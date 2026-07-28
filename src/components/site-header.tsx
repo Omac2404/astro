@@ -35,27 +35,9 @@ function CartIcon() {
     return () => clearTimeout(t);
   }, [bump]);
 
-  return (
-    <Link
-      href="/sepet"
-      aria-label="Sepet"
-      className="relative inline-flex h-11 w-11 items-center justify-center text-parchment/85 transition-colors duration-300 hover:text-gold-bright"
-    >
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={pulse ? "animate-[cartpop_0.5s_ease]" : ""}>
-        {/* çanta gövdesi */}
-        <path d="M6.2 3.5 3.6 6.8V19a2 2 0 0 0 2 2h12.8a2 2 0 0 0 2-2V6.8l-2.6-3.3z" />
-        {/* üst kıvrım */}
-        <path d="M3.6 6.8h16.8" />
-        {/* kulp (gülen kesim) */}
-        <path d="M15.8 10a3.8 3.8 0 0 1-7.6 0" />
-      </svg>
-      {count > 0 && (
-        <span className={`absolute -right-0 -top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gold px-1 text-[11px] font-bold text-night-deep shadow-[0_0_0_2px_#0f0f24] ${pulse ? "animate-[cartpop_0.5s_ease]" : ""}`}>
-          {count}
-        </span>
-      )}
-    </Link>
-  );
+  // Ürünler artık ücretsiz — sepet/ödeme kaldırıldı, ikon gösterilmiyor.
+  void count; void pulse;
+  return null;
 }
 
 export function SiteHeader() {

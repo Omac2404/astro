@@ -141,7 +141,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
             <h2 className="font-display text-3xl text-gold-bright">Analizi nasıl yapacağım?</h2>
             <ol className="mt-5 space-y-4">
               {[
-                { t: "Satın al", d: `${p.ad}'ni sepete ekle ve ödemeni tamamla.` },
+                { t: "Analizi başlat", d: `Ücretsiz. “Analizi Yap”a bas, ${p.ad} hesabına tanımlansın.` },
                 { t: "Doğum bilgilerini gir", d: "Hesabındaki “Analizlerim” alanından doğum tarihi, saati ve yerini gir." },
                 { t: "Raporun hazırlansın", d: "Birkaç dakika içinde gerçek gökyüzü hesaplanır, sana özel sentezlenir ve yorumlanır." },
                 { t: "İndir", d: "Hesabından dilediğin zaman raporunu PDF olarak indirebilirsin." },
@@ -181,20 +181,12 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               <div className="mb-3 lg:hidden">
                 <h2 className="font-display text-2xl font-semibold leading-tight text-parchment">{p.ad}</h2>
               </div>
-              <div className="flex flex-col gap-1">
-                {p.eskiFiyat ? (
-                  <span className="text-[11px] font-semibold uppercase tracking-wide text-[#a98fd6]">Lansmana özel</span>
-                ) : null}
-                <div className="flex items-baseline gap-2.5">
-                  {p.eskiFiyat ? (
-                    <span className="text-2xl font-medium text-[#a98fd6] line-through">{p.eskiFiyat} ₺</span>
-                  ) : null}
-                  <span className="font-body text-6xl font-semibold text-gold-bright">{p.fiyat} ₺</span>
-                  <span className="text-sm text-parchment/50">tek seferlik</span>
-                </div>
+              <div className="flex items-baseline gap-2.5">
+                <span className="font-body text-5xl font-semibold text-gold-bright">Ücretsiz</span>
+                <span className="text-sm text-parchment/50">günde 1 analiz</span>
               </div>
 
-              <BuyButtons slug={p.slug} ad={p.ad} fiyat={p.fiyat} eskiFiyat={p.eskiFiyat} gorsel={p.gorsel} objectPos={p.objectPos} />
+              <BuyButtons slug={p.slug} ad={p.ad} />
 
               <ul className="mt-6 space-y-2 border-t border-gold/10 pt-5 text-sm text-parchment/65">
                 <li className="flex justify-between"><span>Format</span><span className="text-parchment/85">PDF raporu</span></li>
@@ -210,7 +202,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
         </aside>
       </div>
 
-      <MobileBuyBar slug={p.slug} ad={p.ad} fiyat={p.fiyat} eskiFiyat={p.eskiFiyat} gorsel={p.gorsel} objectPos={p.objectPos} />
+      <MobileBuyBar slug={p.slug} ad={p.ad} />
     </div>
   );
 }

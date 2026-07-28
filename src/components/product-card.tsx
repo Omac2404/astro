@@ -57,17 +57,7 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
             </span>
           </div>
           <div className="flex flex-col items-end gap-0.5">
-            {p.eskiFiyat && (
-              <span className="text-[10.5px] font-semibold uppercase tracking-wide text-[#a98fd6]">
-                Lansmana özel
-              </span>
-            )}
-            <div className="flex items-baseline gap-2">
-              {p.eskiFiyat && (
-                <span className="text-lg font-medium text-[#a98fd6] line-through">{p.eskiFiyat} ₺</span>
-              )}
-              <span className="font-body text-3xl font-semibold text-gold-bright">{p.fiyat} ₺</span>
-            </div>
+            <span className="font-body text-2xl font-semibold text-gold-bright">Ücretsiz</span>
           </div>
         </div>
       </div>
