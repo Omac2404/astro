@@ -822,6 +822,27 @@ export function uyeBugunAnalizSayisi(email: string): number {
 export function uyeAnalizYapabilirMi(email: string): boolean {
   return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
 }
+
+// ---- Saklama süresi: analizler 30 gün sonra silinir (tembel temizlik) ----
+export const RAPOR_SAKLAMA_GUN = 30;
+// 30 günden eski raporları (kayıt + PDF dosyası) siler. İlgili okuma uçlarında çağrılır.
+// Dönen değer: silinen rapor sayısı. Başka kayıt (gen rapor, fatura) kullanmıyorsa PDF de silinir.
+export function pruneOldReports(): number {
+  const sinir = Date.now() - RAPOR_SAKLAMA_GUN * 24 * 60 * 60 * 1000;
+  const list = getReports();
+  const eskiler = list.filter((r) => new Date(r.tarih).getTime() < sinir);
+  if (!eskiler.length) return 0;
+  const kalan = list.filter((r) => new Date(r.tarih).getTime() >= sinir);
+  write("reports.json", kalan);
+  // Silinen raporların PDF'leri: başka kayıt kullanmıyorsa dosyayı da sil
+  const halaKullanilan = new Set([
+    ...kalan.map((r) => r.dosya),
+    ...getGenReports().map((g) => g.dosya),
+    ...getOrders().map((o) => o.faturaDosya),
+  ].filter(Boolean) as string[]);
+  for (const r of eskiler) if (r.dosya && !halaKullanilan.has(r.dosya)) deleteFile(r.dosya);
+  return eskiler.length;
+}
 export function addReport(
   email: string,
   slug: string,

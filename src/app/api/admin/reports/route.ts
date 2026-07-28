@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getReports, addReport, attachReportFile, saveFile, findMember } from "@/lib/db";
+import { getReports, addReport, attachReportFile, saveFile, findMember, pruneOldReports } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { PRODUCTS } from "@/lib/products";
 import { sendEvent } from "@/lib/mail";
@@ -9,6 +9,7 @@ export const runtime = "nodejs";
 export async function GET() {
   const u = await requireAdmin();
   if (!u) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
+  pruneOldReports(); // 30 günden eski analizleri temizle (tembel)
   return NextResponse.json({ reports: getReports() });
 }
 
