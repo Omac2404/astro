@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/lib/products";
 import { KartIkon } from "@/components/kart-ikon";
 
-type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; tarih: string };
+type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; hata?: string; tarih: string };
 type Order = { id: string; items: { slug: string; ad: string; fiyat: number; hediye?: boolean }[]; total: number; durum: string; hediye: boolean; faturaDosya?: string; tarih: string };
 type Gift = { kod: string; urunAd: string; durum: "aktif" | "kullanildi"; kullanan?: string; tarih: string };
 
@@ -142,6 +142,7 @@ export function Analizlerim() {
                     <>
                       <span className="mt-1 inline-flex items-center rounded-full border border-rose-400/30 bg-rose-500/10 px-2 py-0.5 text-[11px] font-medium text-rose-300">Oluşturulamadı</span>
                       <div className="mt-1 text-[11px] leading-relaxed text-parchment/45">Geçici bir sorun oldu, raporun oluşturulamadı. Tekrar deneyebilirsin; sorun sürerse kısa sürede biz hallederiz.</div>
+                      {r.hata && <div className="mt-1 max-h-20 overflow-y-auto rounded border border-rose-400/15 bg-rose-500/5 px-2 py-1 font-mono text-[10px] leading-relaxed text-rose-200/70">{r.hata}</div>}
                     </>
                   ) : (
                     <span className="mt-1 inline-flex items-center rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300">Bilgi bekleniyor</span>
