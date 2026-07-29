@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
 type Props = { slug: string; ad: string; fiyat?: number; eskiFiyat?: number; gorsel?: string; objectPos?: string };
 
@@ -16,16 +17,20 @@ function SparkIco({ className = "" }: { className?: string }) {
   );
 }
 
-// Limit / hata uyarısı — pop-up (mobilde alt bar düzenini bozmasın diye)
+// Limit / hata uyarısı — pop-up. body'ye PORTAL ile basılır: aksi halde alt sabit bar'ın
+// `backdrop-blur`'ı (veya herhangi bir transform/filter atası) yeni bir containing block
+// oluşturup `fixed`i viewport yerine bar'a göre konumluyordu (mobilde sayfa ortasında kalıyordu).
 function UyariModal({ mesaj, onClose }: { mesaj: string; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-5" onClick={onClose}>
+  if (typeof document === "undefined") return null;
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-5" onClick={onClose}>
       <div className="w-full max-w-sm rounded-2xl border border-gold/25 bg-night-deep p-6 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-amber-400/30 bg-amber-500/10 text-amber-300"><SparkIco /></div>
         <p className="text-sm leading-relaxed text-parchment/85">{mesaj}</p>
         <button onClick={onClose} className="mt-5 w-full rounded-full bg-gold py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Tamam</button>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

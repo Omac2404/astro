@@ -151,6 +151,10 @@ export function runGeneration(genId: string, slug: string, dogum: DogumBilgi, do
 
 // Üye doğum bilgisi girince kendi raporunu üretir (sıralı kuyrukta)
 export function runReportGeneration(reportId: string, slug: string, dogum: DogumBilgi, dogum2?: DogumBilgi) {
+  // Üretim tetiklendi: durumu HEMEN "olusturuluyor"a al (kuyrukta beklese bile). Böylece
+  // "bekliyor + dogum" hiçbir zaman yanlışlıkla "Oluşturulamadı" gibi görünmez; gerçek hata
+  // olursa catch bloğu "bekliyor"a + hata mesajına döner.
+  setReportDurum(reportId, "olusturuluyor");
   return siraya(async () => {
     try {
       const a = await birthFromDogum(dogum);
