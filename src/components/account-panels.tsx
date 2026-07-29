@@ -104,7 +104,6 @@ export function Analizlerim() {
   return (
     <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
-      <p className="mt-1.5 text-xs leading-relaxed text-parchment/45">Analizler bir süre sonra otomatik silinir; her analizin <b className="text-parchment/70">silinme tarihi</b> kartında yazılıdır. O tarihe kadar istediğin zaman PDF olarak indirebilirsin.</p>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
           <div className="text-2xl text-gold-bright/50">✶</div>
@@ -155,7 +154,7 @@ export function Analizlerim() {
                     <span className="mt-1 inline-flex items-center rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300">Bilgi bekleniyor</span>
                   )}
                   {r.silmeTarih && !animasyon && (
-                    <div className="mt-1 text-[10px] text-parchment/35">{kisaTarih(r.silmeTarih)} tarihinde silinir{r.slug === "aylik" ? " · her ayın 1'inde yenilenir" : ""}</div>
+                    <div className="mt-1 text-[10px] text-[#e8975a]">{kisaTarih(r.silmeTarih)} tarihinde silinir{r.slug === "aylik" ? " · her ayın 1'inde yenilenir" : ""}</div>
                   )}
                 </div>
                 {!animasyon && r.durum === "hazir" && r.dosya ? (

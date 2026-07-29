@@ -160,8 +160,6 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               <div className="mb-3 lg:hidden">
                 <h2 className="font-display text-2xl font-semibold leading-tight text-parchment">{p.ad}</h2>
               </div>
-              <div className="font-body text-2xl font-semibold text-gold-bright">Her gün 1 analiz hakkı</div>
-
               <BuyButtons slug={p.slug} ad={p.ad} />
 
               <ul className="mt-6 space-y-2 border-t border-gold/10 pt-5 text-sm text-parchment/65">

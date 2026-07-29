@@ -72,7 +72,6 @@ function GirisForm() {
         <form onSubmit={onSubmit} className="mt-7 space-y-4">
           {kayit && (
             <div className="space-y-3 rounded-xl border border-gold/10 bg-night-deep/40 p-4">
-              <p className="text-xs leading-relaxed text-parchment/55">Analizlerin için doğum bilgin. <span className="font-medium text-[#c3a6e8]">Bir kez girilir, sonradan değiştirilemez</span> — dikkatli gir.</p>
               <PersonFields k={k} set={(patch) => setK((s) => ({ ...s, ...patch }))} />
             </div>
           )}

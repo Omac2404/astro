@@ -45,7 +45,7 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
         <h3 className="mt-1.5 font-display text-[1.65rem] leading-tight font-semibold text-parchment">
           {p.ad}
         </h3>
-        <p className="mt-2 text-[15px] leading-relaxed text-parchment/65 flex-1">{p.kartKisa}</p>
+        <p className="mt-2 text-[15px] leading-relaxed flex-1" style={{ color: p.accent }}>{p.kartKisa}</p>
 
         <div className="mt-4 flex items-end justify-between border-t border-gold/10 pt-3">
           <div className="flex flex-col items-start gap-1.5">
