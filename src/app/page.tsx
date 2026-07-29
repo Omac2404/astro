@@ -82,17 +82,10 @@ export default function Home() {
           </Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {BIREYSEL.slice(0, 3).map((p) => (
+          {BIREYSEL.map((p) => (
             <ProductCard key={p.slug} p={p} badge="Bireysel Analiz" />
           ))}
         </div>
-        {BIREYSEL.length > 3 && (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:mx-auto lg:max-w-[760px]">
-            {BIREYSEL.slice(3).map((p) => (
-              <ProductCard key={p.slug} p={p} badge="Bireysel Analiz" />
-            ))}
-          </div>
-        )}
 
         {/* Çift analizleri — çerçeve içinde 2'li */}
         <div className="relative mt-14 rounded-3xl border-2 border-gold/30 p-5 sm:p-8">

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { setReportBirthInfo, getMemberDogum, type DogumBilgi } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { runReportGeneration, URETILEBILIR } from "@/lib/pipeline";
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
   // Gerçek üretimi başlat (sıralı kuyrukta, arka planda). Desteklenen ürünler için.
   if (URETILEBILIR.includes(r.slug)) {
-    runReportGeneration(r.id, r.slug, dogum, dogum2);
+    after(() => runReportGeneration(r.id, r.slug, dogum, dogum2));
   }
   return NextResponse.json({ ok: true });
 }

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { addReport, getMemberDogum, uyeAnalizYapabilirMi, uyeUrunKilitli, GUNLUK_ANALIZ_LIMITI } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { getProductPriced } from "@/lib/catalog";
@@ -43,8 +43,9 @@ export async function POST(req: Request) {
   const r = addReport(u.email, p.slug, p.ad, "bekliyor", undefined, { dogum });
 
   if (!cift) {
-    // Tek kişilik: hesabın doğum bilgisiyle anında üretime al (arka planda kuyrukta)
-    if (URETILEBILIR.includes(p.slug)) runReportGeneration(r.id, p.slug, dogum);
+    // Tek kişilik: hesabın doğum bilgisiyle üret. after() ile response SONRASI çalışır —
+    // production'da fire-and-forget'in düşmesini engeller (dev'de fark etmez).
+    if (URETILEBILIR.includes(p.slug)) after(() => runReportGeneration(r.id, p.slug, dogum));
     return NextResponse.json({ ok: true, reportId: r.id, uretiliyor: true });
   }
   // Çift (sinastri): 2. kişi bilgisi analiz sayfasında girilecek
