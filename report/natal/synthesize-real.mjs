@@ -101,7 +101,10 @@ if (isSinastri) {
   ].join("\n");
 }
 
-const MODEL = "claude-sonnet-5"; // maliyet için Opus 4.8'den düşürüldü (ücretsiz ürün); gerekirse claude-haiku-4-5
+const MODEL = "claude-haiku-4-5"; // ücretsiz ürün için en ucuz model; kalite yetmezse claude-sonnet-5
+// Haiku (eski nesil) thinking:{disabled}'ı farklı ele alır; Sonnet 5 omit'te adaptive açar.
+// Haiku'da thinking'i hiç göndermeyiz (=düşünmez, en ucuz); Sonnet/Opus'ta açıkça disabled.
+const THINKING = MODEL.startsWith("claude-haiku") ? {} : { thinking: { type: "disabled" } };
 const OUT = path.join(IO, `rapor-${product}.txt`);
 
 // Em-dash (—, U+2014) temizliği: bağlaçtan önceyse boşluk, değilse virgül. Kısa tire (–, U+2013) dokunulmaz.
@@ -157,7 +160,7 @@ async function streamWithRetry() {
   for (let r = 0; ; r++) {
     try {
       const stream = client.messages.stream({
-        model: MODEL, max_tokens: 14000, thinking: { type: "disabled" },
+        model: MODEL, max_tokens: 14000, ...THINKING,
         system, messages: [{ role: "user", content: userMessage }],
       });
       stream.on("text", (d) => process.stdout.write(d));

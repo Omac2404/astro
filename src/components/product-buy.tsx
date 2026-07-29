@@ -6,7 +6,7 @@ import { useState } from "react";
 
 type Props = { slug: string; ad: string; fiyat?: number; eskiFiyat?: number; gorsel?: string; objectPos?: string };
 
-// Yıldız/parıltı ikonu — "Analizi Yap" için (sepet/hediye ikonları kaldırıldı; ürün artık ücretsiz)
+// Yıldız/parıltı ikonu — "Analizi Yap" için
 function SparkIco({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className={`shrink-0 ${className}`} aria-hidden>
@@ -16,7 +16,20 @@ function SparkIco({ className = "" }: { className?: string }) {
   );
 }
 
-// "Analizi Yap": üye + günlük limit kontrolüyle analiz hakkı oluşturur, sonra Analizlerim'e yönlendirir.
+// Limit / hata uyarısı — pop-up (mobilde alt bar düzenini bozmasın diye)
+function UyariModal({ mesaj, onClose }: { mesaj: string; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-5" onClick={onClose}>
+      <div className="w-full max-w-sm rounded-2xl border border-gold/25 bg-night-deep p-6 text-center" onClick={(e) => e.stopPropagation()}>
+        <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-amber-400/30 bg-amber-500/10 text-amber-300"><SparkIco /></div>
+        <p className="text-sm leading-relaxed text-parchment/85">{mesaj}</p>
+        <button onClick={onClose} className="mt-5 w-full rounded-full bg-gold py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Tamam</button>
+      </div>
+    </div>
+  );
+}
+
+// "Analizi Yap": üye + doğum bilgisi + günlük/aylık limit kontrolüyle analiz hakkı oluşturur.
 function useAnalizYap(slug: string) {
   const router = useRouter();
   const [yuk, setYuk] = useState(false);
@@ -38,16 +51,15 @@ function useAnalizYap(slug: string) {
       setYuk(false);
       return setHata("Bağlantı hatası. Tekrar dene.");
     }
-    // Çift analiz: 2. kişi bilgisi için analiz sayfasına; tek kişilik: üretim başladı, Analizlerim'e
     if (d.cift && d.reportId) { router.push(`/hesabim/analiz/${d.reportId}`); return; }
     router.push("/hesabim?yeni=1");
     router.refresh();
   };
-  return { yap, yuk, hata };
+  return { yap, yuk, hata, setHata };
 }
 
 export function BuyButtons({ slug }: Props) {
-  const { yap, yuk, hata } = useAnalizYap(slug);
+  const { yap, yuk, hata, setHata } = useAnalizYap(slug);
   return (
     <div className="mt-5 space-y-3">
       <button
@@ -58,24 +70,24 @@ export function BuyButtons({ slug }: Props) {
         <SparkIco />
         {yuk ? "Hazırlanıyor…" : "Analizi Yap"}
       </button>
-      {hata && <p className="text-center text-sm text-rose-300">{hata}</p>}
-      <p className="text-center text-xs text-parchment/45">Ücretsiz · günde 1 analiz hakkın var</p>
+      <p className="text-center text-xs text-parchment/45">Günde 1 analiz hakkın var</p>
       <Link href={`/ornekler#${slug}`} className="block w-full py-1 text-center text-sm text-parchment/70 hover:text-gold-bright">
         veya örnekleri incele
       </Link>
+      {hata && <UyariModal mesaj={hata} onClose={() => setHata("")} />}
     </div>
   );
 }
 
-// Mobilde alt sabit bar — ürün adı + "Ücretsiz" + Analizi Yap
+// Mobilde alt sabit bar — ürün adı + Analizi Yap
 export function MobileBuyBar({ slug, ad }: Props) {
-  const { yap, yuk, hata } = useAnalizYap(slug);
+  const { yap, yuk, hata, setHata } = useAnalizYap(slug);
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-gold/20 bg-night-deep/95 px-4 py-3 backdrop-blur-md lg:hidden">
       <div className="mx-auto flex max-w-2xl items-center gap-3">
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[13px] font-medium text-parchment/85">{ad}</div>
-          <div className="font-body text-lg font-semibold text-gold-bright">Ücretsiz{hata ? <span className="ml-2 text-xs font-normal text-rose-300">{hata}</span> : null}</div>
+          <div className="truncate text-sm font-medium text-parchment/85">{ad}</div>
+          <div className="text-xs text-parchment/45">Günde 1 analiz hakkın var</div>
         </div>
         <button
           onClick={yap}
@@ -86,6 +98,7 @@ export function MobileBuyBar({ slug, ad }: Props) {
           {yuk ? "Hazırlanıyor…" : "Analizi Yap"}
         </button>
       </div>
+      {hata && <UyariModal mesaj={hata} onClose={() => setHata("")} />}
     </div>
   );
 }

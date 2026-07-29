@@ -151,7 +151,7 @@ export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
               <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-2 border-gold/25 border-t-gold-bright" />
               <h2 className="font-display text-2xl font-semibold text-parchment">Analizin Hazırlanıyor</h2>
               <p className="mt-2 text-[13px] leading-relaxed text-parchment/60">
-                Birkaç dakika sürebilir. Bu ekranı kapatabilirsin; hazır olunca burada ve “Analizlerim”de görünür.
+                Yoğunluğa göre üretim süresi değişebilir. Analizin sıraya alındı; sıran gelince otomatik hazırlanır. Bu ekranı kapatabilirsin, hazır olunca burada ve “Analizlerim”de görünür.
               </p>
               <div className="mt-4 flex min-h-[1.5rem] items-center justify-center text-sm text-sky-300">
                 {text}

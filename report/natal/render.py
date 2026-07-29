@@ -445,9 +445,10 @@ def parse_report(txt):
         m = re.match(r"^##\s+(.+?)\s*$", line)
         if m:
             if cur is not None: secs[cur] = "\n".join(buf).strip()
-            cur, buf = m.group(1).strip(), []
-        elif cur is not None:
-            buf.append(line)
+            # Başlıktaki numara önekini at ("2. Dışarıya..." -> "Dışarıya...") — model başlığa numara koyarsa eşleşme bozulmasın
+            cur, buf = re.sub(r"^\d+[.)]\s*", "", m.group(1).strip()), []
+        elif cur is not None and not re.match(r"^\s*-{3,}\s*$", line):
+            buf.append(line)  # yatay çizgi (---) satırlarını gövdeye alma
     if cur is not None: secs[cur] = "\n".join(buf).strip()
     return secs
 

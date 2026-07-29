@@ -66,16 +66,20 @@ export function SiteFooter() {
           ))}
         </nav>
 
-        {/* Yasal sayfalar — alt satır */}
-        {yasal.length > 0 && (
-          <nav className="mt-5 flex max-w-2xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-parchment/45">
-            {yasal.map((y) => (
-              <Link key={y.slug} href={`/yasal/${y.slug}`} className="transition-colors hover:text-gold-bright">
-                {y.baslik}
-              </Link>
-            ))}
-          </nav>
-        )}
+        {/* Yasal sayfalar — satışla ilgili olanlar (mesafeli satış, ön bilgilendirme, iade/cayma) ücretsiz modelde gizli */}
+        {(() => {
+          const gizli = ["mesafeli-satis", "on-bilgilendirme", "iade"];
+          const gorunen = yasal.filter((y) => !gizli.includes(y.slug));
+          return gorunen.length > 0 ? (
+            <nav className="mt-5 flex max-w-2xl flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-parchment/45">
+              {gorunen.map((y) => (
+                <Link key={y.slug} href={`/yasal/${y.slug}`} className="transition-colors hover:text-gold-bright">
+                  {y.baslik}
+                </Link>
+              ))}
+            </nav>
+          ) : null;
+        })()}
 
         {/* Sosyal — yalnızca admin'de switch'i AÇIK ve linki girilmiş hesaplar + e-posta */}
         <div className="mt-9 flex justify-center gap-3">

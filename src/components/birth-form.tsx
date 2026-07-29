@@ -19,10 +19,10 @@ export const toDogum = (k: Kisi) => ({
 
 export function PersonFields({ k, set, baslik }: { k: Kisi; set: (patch: Partial<Kisi>) => void; baslik?: string }) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {baslik && <h3 className="font-display text-lg font-semibold text-gold-bright">{baslik}</h3>}
       <div>
-        <label className={labelCls}>İsim (soyadı yazmana gerek yok)</label>
+        <label className={labelCls}>İsim</label>
         <input required maxLength={25} value={k.ad} onChange={(e) => set({ ad: e.target.value })} placeholder="İsim (hitaben)" className={inputCls} />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -59,7 +59,7 @@ export function PersonFields({ k, set, baslik }: { k: Kisi; set: (patch: Partial
       ) : (
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className={labelCls}>Doğum Yeri (İl)</label>
+            <label className={labelCls}>Doğum Yeri</label>
             <select required value={k.il} onChange={(e) => set({ il: e.target.value })} className={inputCls} style={{ colorScheme: "dark" }}>
               <option value="" disabled>İl seç</option>
               {IL_LISTESI.map((il) => (

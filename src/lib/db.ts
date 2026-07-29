@@ -250,14 +250,13 @@ export type SssItem = { q: string; a: string; btnText?: string; btnHref?: string
 const SSS_DEFAULT: SssItem[] = [
   { q: "Analizler gerçekten kişiye özel mi?", a: "Evet. **Şablon metin kullanmıyoruz.** Doğduğun anın gökyüzü gerçek astronomik veriyle hesaplanır ve tam senin haritana özel, akıcı bir okuma sentezlenir." },
   { q: "Hangi astroloji sistemini kullanıyorsunuz?", a: "Tropikal zodyak ve **gerçek astronomik hesap** kullanıyoruz; gezegen konumların doğduğun anın gökyüzünden tam isabetle çıkarılır. Ev sisteminde Tüm Burç (Whole Sign) yöntemini esas alırız." },
-  { q: "Doğum saatimi tam bilmiyorum, yine de alabilir miyim?", a: "Alabilirsin. Ancak yükselen burç ve ev yerleşimleri doğum saatine bağlıdır; saat ne kadar net olursa rapor o kadar isabetli olur. Saatini bilmiyorsan da gezegen burçları ve genel okuma anlamlıdır." },
-  { q: "Yurt dışında doğdum, yine de alabilir miyim?", a: "Tabii. **Dünyanın her yerindeki doğum yerleri** desteklenir; şehir ile ülkeyi girmen yeterli, saat dilimi ve koordinatlar otomatik hesaplanır." },
-  { q: "Raporu ne zaman alırım?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca sana e-posta ile haber veririz. Analizi e-postada göndermeyiz; hesabına giriş yapıp orada görüntüler ve indirirsin." },
+  { q: "Doğum saatimi tam bilmiyorum, yine de yapabilir miyim?", a: "Yapabilirsin. Ancak yükselen burç ve ev yerleşimleri doğum saatine bağlıdır; saat ne kadar net olursa rapor o kadar isabetli olur. Saatini bilmiyorsan da gezegen burçları ve genel okuma anlamlıdır." },
+  { q: "Yurt dışında doğdum, yine de yapabilir miyim?", a: "Tabii. **Dünyanın her yerindeki doğum yerleri** desteklenir; şehir ile ülkeyi girmen yeterli, saat dilimi ve koordinatlar otomatik hesaplanır." },
+  { q: "Raporum ne zaman hazır olur?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca hesabındaki \"Analizlerim\" alanında görünür ve PDF olarak indirebilirsin." },
   { q: "Raporu nasıl ve nereden görüntülerim?", a: "Tüm analizlerin hesabındaki “Hesabım” sayfasında listelenir. Hazır olan raporu oradan istediğin zaman okuyabilir ve PDF olarak indirebilirsin." },
   { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
   { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir; aynı analizi **ayda bir kez** oluşturabilirsin. Hazırlanan raporlar 30 gün hesabında kalır, sonra otomatik silinir." },
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
-  { q: "Enerji & Mizaç analizi tıbbi tavsiye mi?", a: "Hayır. Enerji & Mizaç analizi mizaç, element dengesi ve enerji tarzı üzerine bir denge rehberidir; **tıbbi teşhis ya da tedavi yerine geçmez.** Ciddi şikâyetlerde mutlaka bir uzmana başvurmalısın." },
 ];
 
 // Anasayfa hero (başlıkta **...** = altın vurgu)

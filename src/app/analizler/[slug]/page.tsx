@@ -74,27 +74,6 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
             <p className="mt-3 text-lg leading-relaxed text-parchment/75">{p.aciklama}</p>
           </div>
 
-          {/* Satın almadan önce gör */}
-          <div
-            className="relative mt-9 max-w-2xl overflow-hidden rounded-2xl border border-gold/10 bg-night/70 p-5"
-            style={{ "--glow": p.accent } as React.CSSProperties}
-          >
-            <div className="card-glow" />
-            <div className="relative">
-              <h3 className="font-display text-xl text-gold-bright">Satın almadan önce gör</h3>
-              <p className="mt-1.5 text-[15px] leading-relaxed text-parchment/65">
-                Bu analizin gerçek örneklerini inceleyebilirsin.
-              </p>
-              <Link
-                href={`/ornekler#${p.slug}`}
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold text-night-deep transition-transform hover:scale-[1.03]"
-                style={{ backgroundColor: p.accent }}
-              >
-                Örnekleri İncele →
-              </Link>
-            </div>
-          </div>
-
           {/* Rapor kalitesi */}
           <div
             className="relative mt-9 max-w-2xl overflow-hidden rounded-2xl border border-gold/10 bg-night/70 p-5"
