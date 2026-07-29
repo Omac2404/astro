@@ -178,6 +178,8 @@ export const PRODUCTS: Product[] = [
     accent: "#c3a6e8",
     accentVar: "acc-solar",
     glyph: "☽",
+    gorsel: "/gorsel/aylik.webp",
+    objectPos: "center 42%",
     fiyat: 99,
     sure: "12-14 sayfa",
     bolumler: [
