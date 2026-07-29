@@ -168,6 +168,33 @@ export const PRODUCTS: Product[] = [
     ornekSayisi: 2,
   },
   {
+    slug: "aylik",
+    ad: "Aylık Burç Yorumu",
+    tamAd: "Doğum haritana özel aylık gökyüzü (transit) yorumu",
+    kisa: "Bu ayın gökyüzü, haritanı nasıl etkiliyor",
+    kartKisa: "Bu ayın enerjisi, sana özel aylık rehber",
+    aciklama:
+      "Doğum haritan ile bu ayın gök geçişlerini (transitleri) birleştiren aylık yorum: bu ay hangi enerjiler öne çıkıyor, hangi yaşam alanların aktive oluyor, fırsat ve dikkat alanların neler. Her ay yeniden yapabilirsin.",
+    accent: "#c3a6e8",
+    accentVar: "acc-solar",
+    glyph: "☽",
+    fiyat: 99,
+    sure: "12-14 sayfa",
+    bolumler: [
+      { baslik: "Ayın İmzası & Öne Çıkanlar", aciklama: "Bu ayın gökyüzünün haritanı nasıl aktive ettiği ve ana temalar." },
+      { baslik: "Ayın Tonu & Genel Enerji", aciklama: "Transit Güneş: ayın genel havası ve enerjinin tonu." },
+      { baslik: "Öne Çıkan Yaşam Alanları", aciklama: "Transitlerin aktive ettiği evler: bu ay hangi yaşam alanların canlı." },
+      { baslik: "Aşk & Duygusal İklim", aciklama: "Venüs ve Ay: bu ay aşk ve duygularının rengi." },
+      { baslik: "İş, Para & Sorumluluk", aciklama: "Merkür, Mars, Satürn: bu ay kariyer ve maddi konular." },
+      { baslik: "Enerji, Beden & Ruh Hali", aciklama: "Mars ve genel enerji: bu ay motivasyonun ve iç ritmin." },
+      { baslik: "Fırsat & Akış", aciklama: "Uyumlu transitler: bu ayın açık kapıları." },
+      { baslik: "Dikkat & Denge", aciklama: "Sert açılar ve retrolar: sabır ve özen isteyen alanlar." },
+      { baslik: "Element Dengen", aciklama: "Natal element dağılımının bu ayın enerjisiyle uyumu." },
+      { baslik: "Son Söz", aciklama: "Ayı toparlayan, umut veren kişiye özel bir kapanış." },
+    ],
+    ornekSayisi: 0,
+  },
+  {
     slug: "solar",
     gizli: true, // siteden gizlendi (admin/pipeline'da kalır) — 2026-06-21
     ad: "Solar Return Analizi",

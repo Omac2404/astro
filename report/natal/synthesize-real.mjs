@@ -32,7 +32,7 @@ const sel = JSON.parse(fs.readFileSync(path.join(IO, "aktif-bloklar.json"), "utf
 const product = process.argv[2] || "natal";
 const isSinastri = product.startsWith("sinastri") || chart.tip === "sinastri";
 const allBlocks = JSON.parse(fs.readFileSync(path.join(ROOT, "src/blocks/" + (isSinastri ? "sinastri-blocks.json" : "natal-blocks.json")), "utf8"));
-const URUN_AD = { natal: "Doğum Haritası (Natal)", ask: "Aşk & İlişki Haritası (doğum haritasının aşk odaklı okuması)", kariyer: "Kariyer & Para Haritası (doğum haritasının kariyer ve para odaklı okuması)", saglik: "Enerji & Mizaç Haritası (doğum haritasının enerji ve mizaç odaklı okuması)", solar: "Solar Return / Yıl Haritası (doğum gününden bir sonrakine, o yılın gökyüzü teması)", lilith: "Lilith & Karmik Harita (doğum haritasının gölge, karma ve ruhsal yolculuk okuması)", "sinastri-sevgili": "Sevgili/Eş Uyum Raporu (iki doğum haritasının birbirine etkisi, çekim ve uyum dinamikleri)", "sinastri-arkadas": "Arkadaşlık Uyum Raporu (iki doğum haritasının dostluk uyumu ve dinamikleri)" };
+const URUN_AD = { natal: "Doğum Haritası (Natal)", ask: "Aşk & İlişki Haritası (doğum haritasının aşk odaklı okuması)", kariyer: "Kariyer & Para Haritası (doğum haritasının kariyer ve para odaklı okuması)", saglik: "Enerji & Mizaç Haritası (doğum haritasının enerji ve mizaç odaklı okuması)", solar: "Solar Return / Yıl Haritası (doğum gününden bir sonrakine, o yılın gökyüzü teması)", aylik: "Aylık Burç Yorumu (doğum haritasının o ayki gök geçişleriyle/transitleriyle okunması)", lilith: "Lilith & Karmik Harita (doğum haritasının gölge, karma ve ruhsal yolculuk okuması)", "sinastri-sevgili": "Sevgili/Eş Uyum Raporu (iki doğum haritasının birbirine etkisi, çekim ve uyum dinamikleri)", "sinastri-arkadas": "Arkadaşlık Uyum Raporu (iki doğum haritasının dostluk uyumu ve dinamikleri)" };
 const system = fs.readFileSync(path.join(ROOT, `src/prompts/synthesis-${product}.md`), "utf8");
 
 const KW_AD = { gunes: "Güneş", ay: "Ay", merkur: "Merkür", venus: "Venüs", mars: "Mars", jupiter: "Jüpiter", saturn: "Satürn", yukselen: "Yükselen" };
@@ -96,8 +96,20 @@ if (isSinastri) {
     "## ELEMENT & MİZAÇ (motordan hesaplandı)",
     `- Element dağılımı: Ateş %${elDag["Ateş"]}, Toprak %${elDag["Toprak"]}, Hava %${elDag["Hava"]}, Su %${elDag["Su"]}`,
     `- Mizaç: ${chart.mizac.ad} (${chart.mizac.tabiat})`, "",
+    // Aylık burç yorumu: o ayın gökyüzü (transit) verisi
+    ...(chart.aylik ? [
+      `## BU AYIN GÖKYÜZÜ — ${chart.aylik.ay} (transit; yorumun ODAĞI budur)`,
+      "Bu ayki gezegenlerin burcu ve SENİN natal evlerinden hangisini aktive ettiği:",
+      ...chart.aylik.transitler.map((t) => `- ${t.ad}: ${t.sign}${t.retro ? " (retro/geri)" : ""} — senin ${t.house}. evinde`),
+      "",
+      "### Bu ayın tetiklediği natal temalar (transit açıları, en sıkıdan)",
+      ...chart.aylik.aspects.slice(0, 14).map((a) => `- transit ${a.t} ${ASP_AD[a.type]} natal ${a.n} (${a.orb}°)`),
+      "",
+    ] : []),
     "## ANLAM BLOKLARI (yalnızca bunları kullan)", ...blokMetni, "",
-    `Yukarıdaki verileri ve blokları harmanlayıp ${chart.meta.ad} için sistem promptundaki çıktı formatına uygun, akıcı bir rapor yaz. Sadece raporu yaz; düşünce sürecini yazma.`,
+    chart.aylik
+      ? `Yukarıdaki natal haritayı BU AYIN gökyüzü (transit) verisiyle harmanlayıp ${chart.meta.ad} için ${chart.aylik.ay} aylık burç yorumunu yaz. Odak: bu ay hangi enerjiler öne çıkıyor, hangi yaşam alanları (evler) aktive oluyor, fırsat ve dikkat alanları neler. Natal blokları o ayın transitleriyle bağla. Sistem promptundaki çıktı formatına uy. Sadece raporu yaz; düşünce sürecini yazma.`
+      : `Yukarıdaki verileri ve blokları harmanlayıp ${chart.meta.ad} için sistem promptundaki çıktı formatına uygun, akıcı bir rapor yaz. Sadece raporu yaz; düşünce sürecini yazma.`,
   ].join("\n");
 }
 
@@ -120,6 +132,7 @@ const REQUIRED = {
   kariyer: ["İmza Sentezi", "İş Kimliğin", "Çalışma Tarzın", "Para ile İlişkin", "Kariyer Yönün", "Büyüme", "Zorluk", "Sana Yakışan Yol", "Element Yorumu"],
   saglik: ["İmza Sentezi", "Enerji İmzan", "Bedensel Yapın", "Günlük Enerji", "Stres", "Güçlü ve Hassas", "Yenilenme", "Sana Yakışan Yaşam Ritmi", "Element Yorumu"],
   solar: ["İmza Sentezi", "Yılın Tonu", "Yılın Odağı", "Duygusal İklim", "Öne Çıkan Alanlar", "Fırsat ve Akış", "Zorluk ve Gerilim", "Yılın Daveti", "Element Yorumu"],
+  aylik: ["İmza Sentezi", "Ayın Tonu", "Öne Çıkan", "Aşk", "İş", "Enerji", "Fırsat", "Dikkat", "Element Yorumu"],
   lilith: ["İmza Sentezi", "Gölgen", "Karmik Geçmiş", "Ruhsal Gelişim", "Yaran", "Tekrar Eden", "Ruhsal Bütünleşme", "Element Yorumu"],
   "sinastri-sevgili": ["İmza Sentezi", "İlişki İmzanız", "İlk Çekim", "Duygusal Bağ", "Zihinsel", "Tutku ve Yakınlık", "Güven ve Süreklilik", "Çatışma", "Birlikte Büyümek", "Element Uyumu"],
   "sinastri-arkadas": ["İmza Sentezi", "İlişki İmzanız", "İlk Tanışma", "Duygusal Anlayış", "Zihinsel Uyum", "Ortak Enerji", "Güven ve Sadakat", "Sürtüşme", "Dostluğunuzu", "Element Uyumu"],

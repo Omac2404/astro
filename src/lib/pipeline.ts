@@ -23,7 +23,7 @@ const PY =
     ? path.join(ROOT, ".venv", "Scripts", "python.exe")
     : path.join(ROOT, ".venv", "bin", "python"));
 
-export const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
+export const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "aylik", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
 
 function run(cmd: string, args: string[], env?: NodeJS.ProcessEnv): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -99,6 +99,7 @@ async function uret(slug: string, a: Birth, b2?: Birth): Promise<Buffer> {
       writeBirth(jobDir, "birth.json", a);
       if (slug === "lilith") await run(PY, [path.join(NATAL, "compute_karmik.py")], env);
       else if (slug === "solar") await run(PY, [path.join(NATAL, "compute_sr.py"), "dogum"], env);
+      else if (slug === "aylik") await run(PY, [path.join(NATAL, "compute_aylik.py")], env);
       else await run(PY, [path.join(NATAL, "compute.py")], env);
     }
     await run("node", [path.join(NATAL, "selectBlocks.mjs")], env);

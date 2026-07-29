@@ -389,6 +389,22 @@ PRODUCTS = {
             ("Yılın Daveti", "VII · Davet", "Yılın Daveti", 10022, None),
         ],
     },
+    "aylik": {
+        "urun_baslik": "Aylık Burç Yorumu",
+        "urun_alt": "doğum haritanın bu ayki gök geçişleriyle okunması",
+        "theme_css": THEME_SOLAR, "sigil": SIGIL_SOLAR,
+        "urun_etiket": ' <span class="lbl-sub">(aylık yorum)</span>',
+        "focus": None,
+        "sections": [
+            ("Ayın Tonu", "I · Ton", "Ayın Tonu &amp; Genel Enerji", 9737, None),
+            ("Öne Çıkan", "II · Odak", "Öne Çıkan Yaşam Alanları", 9795, None),
+            ("Aşk", "III · Kalp", "Aşk &amp; Duygusal İklim", 9792, None),
+            ("İş", "IV · Emek", "İş, Para &amp; Sorumluluk", 9796, None),
+            ("Enerji", "V · Ritim", "Enerji, Beden &amp; Ruh Hali", 9789, None),
+            ("Fırsat", "VI · Akış", "Fırsat &amp; Akış", 10022, None),
+            ("Dikkat", "VII · Denge", "Dikkat &amp; Denge", 9794, None),
+        ],
+    },
     "lilith": {
         "urun_baslik": "Lilith & Karmik Harita",
         "urun_alt": "doğum haritanın gölge, karma ve ruhsal yolculuk okuması",
@@ -592,6 +608,9 @@ def main():
     cfg = PRODUCTS.get(product, PRODUCTS["natal"])
 
     chart = json.load(open(os.path.join(IO, "chart.json"), encoding="utf-8"))
+    # Aylık: kapak alt başlığına ayı yaz (dinamik)
+    if product == "aylik" and chart.get("aylik"):
+        cfg = {**cfg, "urun_alt": f"{chart['aylik']['ay']} · doğum haritanın o ayki gökyüzü okuması"}
     icr = json.load(open(os.path.join(HERE, "icerik.json"), encoding="utf-8"))
     # Solar Return kapak notu (dinamik): SR anı açıklaması + doğum-yeri/bulunduğun-yer
     sr_meta = chart.get("sr")
