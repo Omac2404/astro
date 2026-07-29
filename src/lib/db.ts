@@ -823,10 +823,15 @@ export const GUNLUK_ANALIZ_LIMITI = 1;
 function trGun(iso: string): string {
   return new Date(iso).toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
 }
-// Üyenin BUGÜN (TR takvim günü) oluşturduğu analiz (rapor) sayısı.
+// Üyenin BUGÜN (TR takvim günü) oluşturduğu analiz sayısı.
+// Yalnızca BAŞARILI (hazir) ya da ÜRETİLMEKTE (olusturuluyor) olanlar sayılır; başarısız
+// ("bekliyor" + hata) ya da bilgi bekleyen ("bekliyor") kayıtlar kotayı tüketmez — kullanıcı
+// başarısız bir denemeden sonra hakkını kaybetmesin.
 export function uyeBugunAnalizSayisi(email: string): number {
   const bugun = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Istanbul" });
-  return getReportsByEmail(email).filter((r) => trGun(r.tarih) === bugun).length;
+  return getReportsByEmail(email).filter(
+    (r) => (r.durum === "hazir" || r.durum === "olusturuluyor") && trGun(r.tarih) === bugun
+  ).length;
 }
 // Üye bugün yeni analiz oluşturabilir mi? (admin akışları bu kontrolü çağırmaz)
 export function uyeAnalizYapabilirMi(email: string): boolean {
@@ -846,10 +851,16 @@ export function raporSilmeTarihi(slug: string, tarihISO: string): Date {
   return new Date(d.getTime() + raporSaklamaGun(slug) * 24 * 60 * 60 * 1000);
 }
 
-// Aynı analiz (slug) hâlâ hesapta mı (silme tarihi gelmemiş)? — ürün başına limit; slot silinince açılır.
+// Aynı analiz (slug) hâlâ hesapta geçerli mi? — ürün başına limit; slot silinince açılır.
+// Yalnızca BAŞARILI (hazir, silme tarihi gelmemiş) ya da ÜRETİLMEKTE (olusturuluyor) rapor kilitler.
+// Başarısız/bekleyen ("bekliyor") kayıtlar kilit SAYILMAZ — kullanıcı yeniden deneyebilsin.
 export function uyeUrunKilitli(email: string, slug: string): boolean {
   const now = Date.now();
-  return getReportsByEmail(email).some((r) => r.slug === slug && raporSilmeTarihi(r.slug, r.tarih).getTime() > now);
+  return getReportsByEmail(email).some(
+    (r) =>
+      r.slug === slug &&
+      (r.durum === "olusturuluyor" || (r.durum === "hazir" && raporSilmeTarihi(r.slug, r.tarih).getTime() > now))
+  );
 }
 
 // Silme tarihi gelmiş raporları (kayıt + öksüz PDF) siler. Okuma uçlarında çağrılır (tembel temizlik).
