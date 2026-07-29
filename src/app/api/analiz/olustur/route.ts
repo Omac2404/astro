@@ -24,10 +24,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Önce doğum bilgini girmelisin.", needBirth: true }, { status: 400 });
   }
 
-  // Ürün başına aylık limit: aynı analizi 30 günde bir (rapor silinince slot açılır)
+  // Ürün başına limit: aynı analizi ancak mevcut raporu silindikten sonra tekrar yapabilir (slot açılır)
   if (uyeUrunKilitli(u.email, p.slug)) {
     return NextResponse.json(
-      { error: "Bu analizi zaten yaptın. Aynı analizi ayda bir kez oluşturabilirsin; mevcut raporun (30 gün sonra) silindiğinde tekrar yapabilirsin.", urunKilit: true },
+      { error: "Bu analizi zaten yaptın. Aynı analizi tekrar yapabilmek için mevcut raporun silinmesini beklemelisin (silinme tarihi Analizlerim'de yazılı).", urunKilit: true },
       { status: 429 }
     );
   }

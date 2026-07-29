@@ -16,7 +16,9 @@ export function getProductPriced(slug: string): Product | undefined {
 }
 
 export function bireysel(): Product[] {
-  return getCatalog().filter((p) => !p.slug.startsWith("sinastri") && !p.gizli);
+  // "aylik" (yeni ürün) en başa, gerisi mevcut sırada
+  return getCatalog().filter((p) => !p.slug.startsWith("sinastri") && !p.gizli)
+    .sort((a, b) => (a.slug === "aylik" ? -1 : b.slug === "aylik" ? 1 : 0));
 }
 
 export function cift(): Product[] {

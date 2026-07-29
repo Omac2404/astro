@@ -255,7 +255,7 @@ const SSS_DEFAULT: SssItem[] = [
   { q: "Raporum ne zaman hazır olur?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca hesabındaki \"Analizlerim\" alanında görünür ve PDF olarak indirebilirsin." },
   { q: "Raporu nasıl ve nereden görüntülerim?", a: "Tüm analizlerin hesabındaki “Hesabım” sayfasında listelenir. Hazır olan raporu oradan istediğin zaman okuyabilir ve PDF olarak indirebilirsin." },
   { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
-  { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir; aynı analizi **ayda bir kez** oluşturabilirsin. Hazırlanan raporlar 30 gün hesabında kalır, sonra otomatik silinir." },
+  { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir. Hazırlanan raporlar bir süre hesabında kalır (analize göre değişir), sonra otomatik silinir; her raporun silinme tarihi Analizlerim'de yazılıdır." },
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
 ];
 
@@ -832,25 +832,34 @@ export function uyeBugunAnalizSayisi(email: string): number {
 export function uyeAnalizYapabilirMi(email: string): boolean {
   return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
 }
-// Aynı analizi (slug) son 30 günde zaten yaptı mı? — ürün başına aylık limit.
-// Rapor 30 günde silindiği için "mevcut var" ≈ "son 30 günde yapıldı"; slot silinince yeniden açılır.
-export function uyeUrunKilitli(email: string, slug: string): boolean {
-  const sinir = Date.now() - RAPOR_SAKLAMA_GUN * 24 * 60 * 60 * 1000;
-  return getReportsByEmail(email).some((r) => r.slug === slug && new Date(r.tarih).getTime() >= sinir);
+// ---- Saklama süreleri (ürüne göre) ----
+// natal: 90 gün · çift (sinastri): 5 gün · aylık: her ayın 1'inde (sonraki ayın 1'i) · diğerleri: 30 gün.
+export function raporSaklamaGun(slug: string): number {
+  if (slug === "natal") return 90;
+  if (slug.startsWith("sinastri")) return 5;
+  return 30;
+}
+// Bir raporun otomatik silineceği an (Date). aylık özel: bulunduğu ayın bir sonrasının 1'i.
+export function raporSilmeTarihi(slug: string, tarihISO: string): Date {
+  const d = new Date(tarihISO);
+  if (slug === "aylik") return new Date(d.getFullYear(), d.getMonth() + 1, 1);
+  return new Date(d.getTime() + raporSaklamaGun(slug) * 24 * 60 * 60 * 1000);
 }
 
-// ---- Saklama süresi: analizler 30 gün sonra silinir (tembel temizlik) ----
-export const RAPOR_SAKLAMA_GUN = 30;
-// 30 günden eski raporları (kayıt + PDF dosyası) siler. İlgili okuma uçlarında çağrılır.
-// Dönen değer: silinen rapor sayısı. Başka kayıt (gen rapor, fatura) kullanmıyorsa PDF de silinir.
+// Aynı analiz (slug) hâlâ hesapta mı (silme tarihi gelmemiş)? — ürün başına limit; slot silinince açılır.
+export function uyeUrunKilitli(email: string, slug: string): boolean {
+  const now = Date.now();
+  return getReportsByEmail(email).some((r) => r.slug === slug && raporSilmeTarihi(r.slug, r.tarih).getTime() > now);
+}
+
+// Silme tarihi gelmiş raporları (kayıt + öksüz PDF) siler. Okuma uçlarında çağrılır (tembel temizlik).
 export function pruneOldReports(): number {
-  const sinir = Date.now() - RAPOR_SAKLAMA_GUN * 24 * 60 * 60 * 1000;
+  const now = Date.now();
   const list = getReports();
-  const eskiler = list.filter((r) => new Date(r.tarih).getTime() < sinir);
+  const eskiler = list.filter((r) => raporSilmeTarihi(r.slug, r.tarih).getTime() <= now);
   if (!eskiler.length) return 0;
-  const kalan = list.filter((r) => new Date(r.tarih).getTime() >= sinir);
+  const kalan = list.filter((r) => raporSilmeTarihi(r.slug, r.tarih).getTime() > now);
   write("reports.json", kalan);
-  // Silinen raporların PDF'leri: başka kayıt kullanmıyorsa dosyayı da sil
   const halaKullanilan = new Set([
     ...kalan.map((r) => r.dosya),
     ...getGenReports().map((g) => g.dosya),

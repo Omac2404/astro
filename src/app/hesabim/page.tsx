@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/session";
-import { getMemberDogum } from "@/lib/db";
+import { getMemberDogum, findMember } from "@/lib/db";
 import { LogoutButton } from "@/components/account-actions";
 import { Analizlerim } from "@/components/account-panels";
 import { KartIkon } from "@/components/kart-ikon";
@@ -11,6 +11,7 @@ export default async function HesabimPage() {
   const u = await currentUser();
   if (!u || u.type !== "member") redirect("/giris?next=/hesabim");
   const dogum = getMemberDogum(u.email);
+  const googleUye = !!findMember(u.email)?.google; // Google ile kayıt: şifresi yok, değiştirme satırı gösterilmez
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
@@ -36,12 +37,19 @@ export default async function HesabimPage() {
               <dt className="text-parchment/50">E-posta</dt>
               <dd className="truncate text-parchment/85">{u.email}</dd>
             </div>
-            <div className="flex items-center justify-between gap-4 border-t border-gold/10 pt-3">
-              <dt className="text-parchment/50">Şifre</dt>
-              <dd>
-                <a href="/sifremi-unuttum" className="text-gold-bright hover:underline">Değiştir</a>
-              </dd>
-            </div>
+            {googleUye ? (
+              <div className="flex items-center justify-between gap-4 border-t border-gold/10 pt-3">
+                <dt className="text-parchment/50">Giriş</dt>
+                <dd className="text-parchment/70">Google ile</dd>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between gap-4 border-t border-gold/10 pt-3">
+                <dt className="text-parchment/50">Şifre</dt>
+                <dd>
+                  <a href="/sifremi-unuttum" className="text-gold-bright hover:underline">Değiştir</a>
+                </dd>
+              </div>
+            )}
             <div className="border-t border-gold/10 pt-3">
               <dt className="mb-1 text-parchment/50">Doğum bilgin <span className="text-[11px] text-parchment/35">(değiştirilemez)</span></dt>
               <dd>

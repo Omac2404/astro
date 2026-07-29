@@ -6,7 +6,7 @@ import Link from "next/link";
 const inputCls =
   "w-full rounded-xl border border-gold/20 bg-night/50 px-4 py-3 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
 
-export function ForgotPassword({ scope, title, backHref }: { scope: "member" | "admin"; title: string; backHref: string }) {
+export function ForgotPassword({ scope, title, backHref, backLabel = "Giriş ekranına dön" }: { scope: "member" | "admin"; title: string; backHref: string; backLabel?: string }) {
   const [step, setStep] = useState<"email" | "kod" | "yeni" | "ok">("email");
   const [email, setEmail] = useState("");
   const [demo, setDemo] = useState("");
@@ -106,14 +106,14 @@ export function ForgotPassword({ scope, title, backHref }: { scope: "member" | "
           <div className="mt-7 text-center">
             <p className="text-parchment/75">Şifren güncellendi. Artık yeni şifrenle giriş yapabilirsin.</p>
             <Link href={backHref} className="mt-5 inline-block rounded-full bg-gold px-6 py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright">
-              Giriş ekranına dön
+              {backLabel}
             </Link>
           </div>
         )}
 
         {step !== "ok" && (
           <p className="mt-6 text-center text-sm text-parchment/55">
-            <Link href={backHref} className="hover:text-gold-bright">← Giriş ekranına dön</Link>
+            <Link href={backHref} className="hover:text-gold-bright">← {backLabel}</Link>
           </p>
         )}
       </div>

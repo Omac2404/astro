@@ -172,7 +172,7 @@ export const PRODUCTS: Product[] = [
     ad: "Aylık Burç Yorumu",
     tamAd: "Doğum haritana özel aylık gökyüzü (transit) yorumu",
     kisa: "Bu ayın gökyüzü, haritanı nasıl etkiliyor",
-    kartKisa: "Bu ayın enerjisi, sana özel aylık rehber",
+    kartKisa: "Doğum haritası tabanlı aylık rehber",
     aciklama:
       "Doğum haritan ile bu ayın gök geçişlerini (transitleri) birleştiren aylık yorum: bu ay hangi enerjiler öne çıkıyor, hangi yaşam alanların aktive oluyor, fırsat ve dikkat alanların neler. Her ay yeniden yapabilirsin.",
     accent: "#c3a6e8",

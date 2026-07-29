@@ -6,7 +6,14 @@ import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/lib/products";
 import { KartIkon } from "@/components/kart-ikon";
 
-type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; hata?: string; tarih: string };
+type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; hata?: string; tarih: string; silmeTarih?: string };
+
+// "01.02.2027" biçimi (silme tarihi)
+const kisaTarih = (iso?: string) => {
+  if (!iso) return "";
+  try { const d = new Date(iso); return `${String(d.getDate()).padStart(2, "0")}.${String(d.getMonth() + 1).padStart(2, "0")}.${d.getFullYear()}`; }
+  catch { return ""; }
+};
 type Order = { id: string; items: { slug: string; ad: string; fiyat: number; hediye?: boolean }[]; total: number; durum: string; hediye: boolean; faturaDosya?: string; tarih: string };
 type Gift = { kod: string; urunAd: string; durum: "aktif" | "kullanildi"; kullanan?: string; tarih: string };
 
@@ -97,7 +104,7 @@ export function Analizlerim() {
   return (
     <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
-      <p className="mt-1.5 text-xs leading-relaxed text-parchment/45">Her analiz, oluşturulduktan <b className="text-parchment/70">30 gün</b> sonra otomatik silinir. Bu 30 gün içinde istediğin zaman PDF olarak indirebilirsin.</p>
+      <p className="mt-1.5 text-xs leading-relaxed text-parchment/45">Analizler bir süre sonra otomatik silinir; her analizin <b className="text-parchment/70">silinme tarihi</b> kartında yazılıdır. O tarihe kadar istediğin zaman PDF olarak indirebilirsin.</p>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
           <div className="text-2xl text-gold-bright/50">✶</div>
@@ -146,6 +153,9 @@ export function Analizlerim() {
                     </>
                   ) : (
                     <span className="mt-1 inline-flex items-center rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300">Bilgi bekleniyor</span>
+                  )}
+                  {r.silmeTarih && !animasyon && (
+                    <div className="mt-1 text-[10px] text-parchment/35">{kisaTarih(r.silmeTarih)} tarihinde silinir{r.slug === "aylik" ? " · her ayın 1'inde yenilenir" : ""}</div>
                   )}
                 </div>
                 {!animasyon && r.durum === "hazir" && r.dosya ? (
