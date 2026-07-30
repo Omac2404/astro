@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getProduct } from "@/lib/products";
 import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
-import { AnalizHazirlaniyorModal } from "@/components/analiz-hazirlaniyor";
 
 type Dogum = { ad: string; tarih: string; saat?: string; yer: string };
 
@@ -18,7 +17,6 @@ export default function AnalizBilgiPage() {
   const [k2, setK2] = useState<Kisi>(bosKisi());
   const [hata, setHata] = useState("");
   const [yuk, setYuk] = useState(false);
-  const [basladi, setBasladi] = useState(false);
 
   useEffect(() => {
     fetch("/api/account/reports").then((r) => r.json()).then((d) => {
@@ -49,7 +47,9 @@ export default function AnalizBilgiPage() {
       if (d.needBirth) return router.replace("/hesabim/dogum?next=" + encodeURIComponent(`/hesabim/analiz/${id}`));
       return setHata(d.error || "Gönderilemedi.");
     }
-    setBasladi(true);
+    // Analiz başladı: popup yerine Analizlerim'e git (üretim sırası/durumu orada canlı görünür)
+    router.push("/hesabim?yeni=1");
+    router.refresh();
   };
 
   const dogumOzet = hesapDogum ? `${hesapDogum.ad} · ${hesapDogum.tarih}${hesapDogum.saat ? " " + hesapDogum.saat : ""} · ${hesapDogum.yer}` : "";
@@ -96,8 +96,6 @@ export default function AnalizBilgiPage() {
           {yuk ? "Gönderiliyor…" : cift ? "Gönder ve Analizi Başlat" : "Analizi Başlat"}
         </button>
       </form>
-
-      {basladi && <AnalizHazirlaniyorModal reportId={id} />}
     </div>
   );
 }

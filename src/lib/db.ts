@@ -881,6 +881,11 @@ export function raporSaklamaGun(slug: string): number {
   if (slug.startsWith("sinastri")) return 5;
   return 30;
 }
+// Saklama süresinin insan-okur metni (ürün sayfasında gösterilir).
+export function raporSaklamaMetni(slug: string): string {
+  if (slug === "aylik") return "her ayın 1'inde yenilenir";
+  return `${raporSaklamaGun(slug)} gün sonra otomatik silinir`;
+}
 // Bir raporun otomatik silineceği an (Date). aylık özel: bulunduğu ayın bir sonrasının 1'i.
 export function raporSilmeTarihi(slug: string, tarihISO: string): Date {
   const d = new Date(tarihISO);

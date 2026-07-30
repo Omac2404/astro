@@ -8,6 +8,7 @@ export type Product = {
   kisa: string; // detay sayfası başlık altı (açıklayıcı: "...derin okuması")
   kartKisa: string; // katalog kartı başlık altı (şiirsel kısa tagline)
   aciklama: string; // detay paragrafı
+  vurgu?: string; // açıklama altında öne çıkan tek satır (başlık gibi); yoksa gösterilmez
   accent: string; // hex aksan rengi (rapor temasıyla aynı)
   accentVar: string; // tailwind token adı (acc-*)
   glyph: string; // unicode sembol
@@ -174,7 +175,8 @@ export const PRODUCTS: Product[] = [
     kisa: "Bu ayın gökyüzü, haritanı nasıl etkiliyor",
     kartKisa: "Doğum haritası tabanlı aylık rehber",
     aciklama:
-      "Doğum haritan ile bu ayın gök geçişlerini (transitleri) birleştiren aylık yorum: bu ay hangi enerjiler öne çıkıyor, hangi yaşam alanların aktive oluyor, fırsat ve dikkat alanların neler. Her ay yeniden yapabilirsin.",
+      "Doğum haritan ile bu ayın gök geçişlerini (transitleri) birleştiren aylık yorum: bu ay hangi enerjiler öne çıkıyor, hangi yaşam alanların aktive oluyor, fırsat ve dikkat alanların neler.",
+    vurgu: "Her ay yeniden yapabilirsin.",
     accent: "#c3a6e8",
     accentVar: "acc-solar",
     glyph: "☽",

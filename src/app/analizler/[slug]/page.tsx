@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PRODUCTS, getProduct } from "@/lib/products";
 import { getProductPriced } from "@/lib/catalog";
-import { getSeoSayfa } from "@/lib/db";
+import { getSeoSayfa, raporSaklamaMetni } from "@/lib/db";
 import { seoMetadata } from "@/lib/seo";
 import { BuyButtons, MobileBuyBar } from "@/components/product-buy";
 
@@ -72,6 +72,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
           <div className="mt-9 max-w-2xl">
             <h2 className="font-display text-3xl text-gold-bright">Bu analiz neyi anlatır?</h2>
             <p className="mt-3 text-lg leading-relaxed text-parchment/75">{p.aciklama}</p>
+            {p.vurgu && <p className="mt-4 font-display text-2xl text-gold-bright">{p.vurgu}</p>}
           </div>
 
           {/* Rapor kalitesi */}
@@ -168,6 +169,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
                 <li className="flex justify-between"><span>Teslim</span><span className="text-parchment/85">Hesabında</span></li>
                 <li className="flex justify-between"><span>Hazırlanış</span><span className="text-parchment/85">Kişiye özel</span></li>
               </ul>
+              <p className="mt-3 text-xs leading-relaxed text-parchment/45">Raporun {raporSaklamaMetni(p.slug)}.</p>
             </div>
           </div>
         </aside>
