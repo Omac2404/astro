@@ -7,62 +7,25 @@ export const generateMetadata = () => seoMetadata("/iletisim");
 
 export default function IletisimPage() {
   const il = getGenelAyar().iletisim;
-  const sosyalVar = (il.instagram && il.instagramAktif) || (il.x && il.xAktif) || (il.tiktok && il.tiktokAktif);
   return (
-    <div className="mx-auto max-w-5xl px-5 py-16">
-      <header className="max-w-2xl">
+    <div className="mx-auto max-w-xl px-5 py-16">
+      <header className="text-center">
         <h1 className="font-display text-5xl font-semibold">Bize ulaş</h1>
-        <p className="mt-4 text-lg leading-relaxed text-parchment/70">
+        <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-parchment/70">
           Analizlerin hakkında her sorunda buradayız. <span className="text-parchment/85">Reklam ve iş birliği</span> teklifleri için de bu sayfadan yazabilirsin.
         </p>
+        {il.eposta && (
+          <a
+            href={`mailto:${il.eposta}`}
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-gold/20 bg-night px-5 py-2.5 text-parchment/80 transition-colors hover:border-gold/45 hover:text-gold-bright"
+          >
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+            {il.eposta}
+          </a>
+        )}
       </header>
 
-      <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.2fr]">
-        {/* İletişim bilgileri */}
-        <div className="space-y-6">
-          {il.eposta && (
-            <div className="rounded-xl border border-gold/15 bg-night p-5">
-              <h3 className="font-display text-lg text-gold-bright">E-posta</h3>
-              <a href={`mailto:${il.eposta}`} className="mt-1 block text-parchment/75 transition-colors hover:text-gold-bright">{il.eposta}</a>
-            </div>
-          )}
-          {il.telefon && (
-            <div className="rounded-xl border border-gold/15 bg-night p-5">
-              <h3 className="font-display text-lg text-gold-bright">Telefon</h3>
-              <a href={`tel:${il.telefon.replace(/\s/g, "")}`} className="mt-1 block text-parchment/75 transition-colors hover:text-gold-bright">{il.telefon}</a>
-            </div>
-          )}
-          {il.adres && (
-            <div className="rounded-xl border border-gold/15 bg-night p-5">
-              <h3 className="font-display text-lg text-gold-bright">Adres</h3>
-              <p className="mt-1 leading-relaxed text-parchment/75">{il.adres}</p>
-            </div>
-          )}
-          {sosyalVar && (
-            <div className="rounded-xl border border-gold/15 bg-night p-5">
-              <h3 className="font-display text-lg text-gold-bright">Sosyal medya</h3>
-              <div className="mt-2 flex flex-wrap gap-3">
-                {il.instagram && il.instagramAktif && (
-                  <a href={il.instagram} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
-                    Instagram
-                  </a>
-                )}
-                {il.x && il.xAktif && (
-                  <a href={il.x} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
-                    X
-                  </a>
-                )}
-                {il.tiktok && il.tiktokAktif && (
-                  <a href={il.tiktok} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 rounded-full border border-gold/25 px-4 py-1.5 text-sm text-parchment/80 transition-colors hover:text-gold-bright">
-                    TikTok
-                  </a>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Form */}
+      <div className="mt-10">
         <ContactForm />
       </div>
     </div>

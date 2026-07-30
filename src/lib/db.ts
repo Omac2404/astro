@@ -897,6 +897,9 @@ export function raporSilmeTarihi(slug: string, tarihISO: string): Date {
 // Yalnızca BAŞARILI (hazir, silme tarihi gelmemiş) ya da ÜRETİLMEKTE (olusturuluyor) rapor kilitler.
 // Başarısız/bekleyen ("bekliyor") kayıtlar kilit SAYILMAZ — kullanıcı yeniden deneyebilsin.
 export function uyeUrunKilitli(email: string, slug: string): boolean {
+  // Çift (sinastri) analizler her seferinde FARKLI kişiyle yapılır → ürün kilidi uygulanmaz.
+  // (Yine de günlük 1 analiz limiti geçerli; raporlar 5 gün saklanıp silinir.)
+  if (slug.startsWith("sinastri")) return false;
   const now = Date.now();
   return getReportsByEmail(email).some(
     (r) =>

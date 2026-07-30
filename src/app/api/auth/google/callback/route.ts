@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { exchangeCode, baseUrl } from "@/lib/google";
 import { upsertGoogleMember, createSession } from "@/lib/db";
 import { setSessionCookie } from "@/lib/session";
-import { sendEvent } from "@/lib/mail";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -33,17 +32,9 @@ export async function GET(req: Request) {
     const { email, emailVerified } = await exchangeCode(req, code);
     if (!emailVerified) return fail("Google e-posta adresin doğrulanmamış.");
 
-    const { member, created } = upsertGoogleMember(email);
+    const { member } = upsertGoogleMember(email);
     await setSessionCookie(createSession("member", member.email));
-
-    if (created) {
-      sendEvent(
-        "uyeKayit",
-        member.email,
-        "Aramıza hoş geldin — gokname.com",
-        `Merhaba,\n\ngokname.com'a Google ile hoş geldin! Hesabın oluşturuldu.\n\nDilediğin analizi seçip satın aldıktan sonra, hesabındaki "Analizlerim" alanından doğum bilgilerini girerek raporunu oluşturabilirsin. Gerçek gökyüzü hesabıyla, tamamen sana özel hazırlanır.\n\nYıldızlı yolculuğunda yanındayız.`
-      );
-    }
+    // NOT: "Hoş geldin" e-postası kaldırıldı — sistem yalnızca doğrulama/şifre kodu e-postaları gönderir.
 
     const next = saved.next && saved.next.startsWith("/") ? saved.next : "/hesabim";
     // Doğum bilgisi yoksa (Google üyeleri vermez) önce onu iste — bir kez, sonra kilitli.

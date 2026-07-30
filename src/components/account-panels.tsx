@@ -48,7 +48,6 @@ function Hazirlaniyor() {
         pos++;
         setText(tam.slice(0, pos));
         if (pos < tam.length) timer = setTimeout(ekle, 48);
-        else if (s === ETAPLAR.length - 1) return; // son etap: kalsın
         else timer = setTimeout(sil, 1500);
       };
       const sil = () => {
@@ -56,7 +55,8 @@ function Hazirlaniyor() {
         pos--;
         setText(tam.slice(0, pos));
         if (pos > 0) timer = setTimeout(sil, 28);
-        else timer = setTimeout(() => yaz(s + 1), 260);
+        // Son etaptan sonra başa dön: yazılar sürekli döngüde aksın (üretim uzun sürse de durmaz)
+        else timer = setTimeout(() => yaz((s + 1) % ETAPLAR.length), 260);
       };
       ekle();
     };
@@ -137,7 +137,7 @@ export function Analizlerim() {
                       {r.durum === "olusturuluyor" && r.sira ? (
                         <div className="mt-1">
                           <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-2 py-0.5 text-[11px] font-medium text-sky-300">
-                            {r.sira === 1 ? "Sıra 1 · hazırlanıyor" : `Sırada ${r.sira}. · bekliyor`}
+                            {r.sira}. sıradasınız
                           </span>
                         </div>
                       ) : null}

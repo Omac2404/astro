@@ -33,6 +33,7 @@ export const PRODUCTS: Product[] = [
     kartKisa: "Kim olduğunun kozmik haritası",
     aciklama:
       "Doğduğun anın gökyüzünden yola çıkarak çekirdek kimliğini, duygusal dünyanı, zihnini, ilişki ve kariyer eğilimlerini, güçlü yanlarını ve gelişim alanlarını derinlemesine okuyan bayrak gemisi analiz.",
+    vurgu: "Doğum haritan ömür boyu değişmez; bir kez yapman yeterli.",
     accent: "#dcc188",
     accentVar: "acc-natal",
     glyph: "☉",
@@ -272,6 +273,7 @@ export const PRODUCTS: Product[] = [
     kartKisa: "Çekiminiz, uyumunuz, gerilim noktalarınız",
     aciklama:
       "İki kişinin doğum haritasını yan yana koyup aranızdaki çekimi, duygusal bağı, iletişim ve tutku uyumunu, güven zeminini ve gerilim noktalarını okuyan çift uyum (sinastri) analizi. Romantik ilişkiler ve evlilik için.",
+    vurgu: "Her gün farklı bir kişi için bu analizi yapabilirsiniz.",
     accent: "#dd7a99",
     accentVar: "acc-sevgili",
     glyph: "♥",
@@ -309,6 +311,7 @@ export const PRODUCTS: Product[] = [
     kartKisa: "Sohbetiniz, ortak enerjiniz, güven bağınız",
     aciklama:
       "İki kişinin doğum haritasını karşılaştırıp dostluğunuzdaki kıvılcımı, duygusal anlayışı, sohbet ve enerji uyumunu, güven ve sadakat zeminini ve sürtüşme noktalarını okuyan platonik uyum (sinastri) analizi. Arkadaşlıklar için.",
+    vurgu: "Her gün farklı bir kişi için bu analizi yapabilirsiniz.",
     accent: "#e08e4f",
     accentVar: "acc-arkadas",
     glyph: "✦",
