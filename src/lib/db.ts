@@ -695,6 +695,43 @@ export function clearResetCode(scope: "member" | "admin", email: string) {
   write("resets.json", all);
 }
 
+// ---- Bekleyen kayıtlar (e-posta doğrulamalı üyelik) ----
+// Kayıt formu gönderilince hesap HEMEN açılmaz: 6 haneli kod e-postaya gider ve kayıt burada
+// (şifre HASH'li olarak; düz metin şifre asla saklanmaz) bekletilir. Kod doğrulanınca gerçek üye
+// oluşturulur. 15 dk geçerli.
+type PendingReg = { code: string; exp: number; sifreHash: string; dogum: DogumBilgi };
+function pendingRegs(): Record<string, PendingReg> {
+  return read<Record<string, PendingReg>>("pending-regs.json", {});
+}
+export function createPendingReg(email: string, pw: string, dogum: DogumBilgi): { error?: string; code?: string } {
+  const e = email.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return { error: "Geçerli bir e-posta gir." };
+  if (pw.length < 6) return { error: "Şifre en az 6 karakter olmalı." };
+  if (findMember(e)) return { error: "Bu e-posta zaten kayıtlı." };
+  const code = String(crypto.randomInt(100000, 1000000));
+  const all = pendingRegs();
+  all[e] = { code, exp: Date.now() + 1000 * 60 * 15, sifreHash: hashPw(pw), dogum };
+  write("pending-regs.json", all);
+  return { code };
+}
+// Kod doğruysa gerçek üyeyi oluşturur (şifre zaten hash'li → tekrar hash'lenmez).
+export function verifyPendingRegAndCreate(email: string, code: string): { error?: string; member?: Member } {
+  const e = email.trim().toLowerCase();
+  const rec = pendingRegs()[e];
+  if (!rec || rec.exp < Date.now()) return { error: "Kodun süresi dolmuş. Yeni kod iste." };
+  if (rec.code !== String(code ?? "").trim()) return { error: "Kod hatalı." };
+  if (findMember(e)) { clearPendingReg(e); return { error: "Bu e-posta zaten kayıtlı." }; }
+  const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: rec.sifreHash, kayit: new Date().toISOString(), dogum: rec.dogum };
+  write("members.json", [...getMembers(), member]);
+  clearPendingReg(e);
+  return { member };
+}
+export function clearPendingReg(email: string) {
+  const all = pendingRegs();
+  delete all[email.trim().toLowerCase()];
+  write("pending-regs.json", all);
+}
+
 // ---- Dosya saklama (fatura PDF, rapor PDF) ----
 function filesDir() {
   const d = path.join(DIR, "files");

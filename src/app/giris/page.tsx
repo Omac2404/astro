@@ -21,11 +21,18 @@ function GirisForm() {
   const [k, setK] = useState<Kisi>(bosKisi()); // kayıtta doğum bilgisi (bir kez, sonradan değişmez)
   const [hata, setHata] = useState(params.get("hata") || ""); // Google callback hatası buraya düşer
   const [yuk, setYuk] = useState(false);
+  // E-posta doğrulama (2 aşamalı kayıt): register kod isteyince bu aşamaya geçilir
+  const [kodAsama, setKodAsama] = useState(false);
+  const [kod, setKod] = useState("");
+  const [demoKod, setDemoKod] = useState<string | null>(null); // SMTP kapalıysa test için kod
 
   const kayit = mode === "kayit";
   const switchMode = (m: Mode) => {
     setMode(m);
     setHata("");
+    setKodAsama(false);
+    setKod("");
+    setDemoKod(null);
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -42,13 +49,73 @@ function GirisForm() {
     const d = await r.json();
     setYuk(false);
     if (!r.ok) return setHata(d.error || "Bir hata oluştu.");
+    // Kayıt: hesap hemen açılmaz — e-postaya kod gider, kod aşamasına geç
+    if (kayit && d.needCode) { setDemoKod(d.demoCode ?? null); setKodAsama(true); return; }
     router.push(next);
     router.refresh();
+  };
+
+  // Kod aşaması: doğrula → hesabı oluştur + oturum aç
+  const kodDogrula = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setHata("");
+    if (!kod.trim()) return setHata("Kodu gir.");
+    setYuk(true);
+    const r = await fetch("/api/auth/register/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code: kod }),
+    });
+    const d = await r.json();
+    setYuk(false);
+    if (!r.ok) return setHata(d.error || "Doğrulama başarısız.");
+    router.push(next);
+    router.refresh();
+  };
+
+  // Kodu tekrar gönder (aynı bilgilerle register'ı yeniden çağır)
+  const kodTekrar = async () => {
+    setHata("");
+    setYuk(true);
+    const r = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, sifre, dogum: toDogum(k) }),
+    });
+    const d = await r.json();
+    setYuk(false);
+    if (!r.ok) return setHata(d.error || "Kod gönderilemedi.");
+    setDemoKod(d.demoCode ?? null);
   };
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-5 py-16">
       <div className="rounded-3xl border border-gold/20 bg-night p-7 sm:p-9">
+        {kodAsama ? (
+          <>
+            <h1 className="text-center font-display text-3xl font-semibold text-parchment">E-postanı Doğrula</h1>
+            <p className="mt-2 text-center text-sm leading-relaxed text-parchment/60">
+              <span className="text-gold-bright">{email}</span> adresine 6 haneli bir kod gönderdik. Kaydını tamamlamak için kodu gir.
+            </p>
+            {demoKod && (
+              <p className="mt-3 rounded-lg border border-gold/25 bg-night-deep px-3 py-2 text-center text-sm text-parchment/80">
+                Demo modu (e-posta gönderimi kapalı) · kodun: <b className="tracking-widest text-gold-bright">{demoKod}</b>
+              </p>
+            )}
+            <form onSubmit={kodDogrula} className="mt-7 space-y-4">
+              <input inputMode="numeric" autoComplete="one-time-code" required value={kod} onChange={(e) => setKod(e.target.value)} placeholder="6 haneli kod" className={`${inputCls} text-center tracking-[0.4em]`} />
+              {hata && <p className="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{hata}</p>}
+              <button type="submit" disabled={yuk} className="mt-2 w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+                {yuk ? "Doğrulanıyor…" : "Doğrula ve Tamamla"}
+              </button>
+            </form>
+            <div className="mt-4 flex items-center justify-between text-sm">
+              <button type="button" onClick={() => { setKodAsama(false); setKod(""); setHata(""); }} className="text-parchment/55 hover:text-gold-bright">← Geri</button>
+              <button type="button" onClick={kodTekrar} disabled={yuk} className="font-medium text-gold-bright hover:underline disabled:opacity-60">Kodu tekrar gönder</button>
+            </div>
+          </>
+        ) : (
+        <>
         <h1 className="text-center font-display text-3xl font-semibold text-parchment">{kayit ? "Üye Ol" : "Giriş Yap"}</h1>
         <p className="mt-2 text-center text-sm leading-relaxed text-parchment/60">
           {kayit ? "E-posta ve bir şifre belirle, hesabını oluştur." : "Hesabına giriş yap, analizlerini görüntüle."}
@@ -127,6 +194,8 @@ function GirisForm() {
             {kayit ? "Giriş yap" : "Üye ol"}
           </button>
         </p>
+        </>
+        )}
       </div>
 
       <p className="mt-6 text-center text-xs leading-relaxed text-parchment/40">

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { addMember, createSession, type DogumBilgi } from "@/lib/db";
-import { setSessionCookie } from "@/lib/session";
-import { sendEvent } from "@/lib/mail";
+import { createPendingReg, getSmtp, type DogumBilgi } from "@/lib/db";
+import { sendMail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -15,19 +14,27 @@ function parseDogum(o: Record<string, unknown> | undefined): DogumBilgi | null {
   return { ad, tarih, saat, yer };
 }
 
+// 1. AŞAMA — e-posta doğrulaması: hesabı HEMEN açmaz; 6 haneli kodu e-postaya gönderir ve kayıt
+// "bekleyen" olarak (şifre hash'li) tutulur. Kod /api/auth/register/verify ile doğrulanınca gerçek
+// üye oluşturulur ve oturum açılır.
 export async function POST(req: Request) {
   const { email, sifre, dogum } = await req.json().catch(() => ({}));
   const d = parseDogum(dogum);
   if (!d) return NextResponse.json({ error: "Doğum bilgin (isim, tarih, yer) zorunlu." }, { status: 400 });
-  const { error, member } = addMember(String(email ?? ""), String(sifre ?? ""), d);
-  if (error || !member) return NextResponse.json({ error: error ?? "Kayıt başarısız." }, { status: 400 });
-  await setSessionCookie(createSession("member", member.email));
-  // Hoşgeldin e-postası (uyeKayit bildirimi açıksa)
-  sendEvent(
-    "uyeKayit",
-    member.email,
-    "Aramıza hoş geldin — gokname.com",
-    `Merhaba,\n\ngokname.com'a hoş geldin! Hesabın oluşturuldu.\n\nDilediğin analizi seçip satın aldıktan sonra, hesabındaki "Analizlerim" alanından doğum bilgilerini girerek raporunu oluşturabilirsin. Gerçek gökyüzü hesabıyla, tamamen sana özel hazırlanır.\n\nYıldızlı yolculuğunda yanındayız.`
+  const { error, code } = createPendingReg(String(email ?? ""), String(sifre ?? ""), d);
+  if (error || !code) return NextResponse.json({ error: error ?? "Kayıt başlatılamadı." }, { status: 400 });
+
+  const e = String(email).trim().toLowerCase();
+  // Doğrulama e-postası doğrudan gönderilir (yönetim aç/kapa toggle'ına bağlı değil — doğrulama zorunlu).
+  sendMail(
+    e,
+    "Doğrulama kodun — gokname.com",
+    `gokname.com üyelik doğrulama kodun: ${code}\n\nKodu kayıt ekranındaki alana girerek hesabını oluşturabilirsin. Kod 15 dakika geçerlidir.\n\nBu isteği sen yapmadıysan bu e-postayı yok sayabilirsin.`
   );
-  return NextResponse.json({ ok: true, email: member.email });
+
+  // SMTP gerçekten gönderebiliyorsa kod yalnızca e-postayla gider; aksi halde (SMTP kapalı/
+  // yapılandırılmamış) yerel/demo test için kod yanıtta döner.
+  const c = getSmtp();
+  const gonderebilir = c.aktif && !!c.host && !!(c.fromEmail || c.username);
+  return NextResponse.json({ ok: true, needCode: true, email: e, ...(gonderebilir ? {} : { demoCode: code }) });
 }
