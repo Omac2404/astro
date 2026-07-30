@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
@@ -27,6 +27,10 @@ function GirisForm() {
   const [demoKod, setDemoKod] = useState<string | null>(null); // SMTP kapalıysa test için kod
 
   const kayit = mode === "kayit";
+  // Kod aşamasına geçince sayfayı en üste al (kod alanı görünsün — buton sayfanın altında kalmasın)
+  useEffect(() => {
+    if (kodAsama && typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [kodAsama]);
   const switchMode = (m: Mode) => {
     setMode(m);
     setHata("");
