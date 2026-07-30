@@ -93,8 +93,8 @@ function GirisForm() {
   };
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-5 py-16">
-      <div className="rounded-3xl border border-gold/20 bg-night p-7 sm:p-9">
+    <div className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-10 sm:px-5 sm:py-16">
+      <div className="rounded-3xl border border-gold/20 bg-night p-5 sm:p-9">
         {kodAsama ? (
           <>
             <h1 className="text-center font-display text-3xl font-semibold text-parchment">E-postanı Doğrula</h1>
@@ -140,7 +140,24 @@ function GirisForm() {
           ))}
         </div>
 
-        <form onSubmit={onSubmit} className="mt-7 space-y-4">
+        {/* Google ile giriş — toggle'ın hemen altında (tam sayfa yönlendirme: <a>) */}
+        <a
+          href={`/api/auth/google/start?next=${encodeURIComponent(next)}`}
+          className="mt-6 flex w-full items-center justify-center gap-3 rounded-full border border-gold/25 bg-night/50 py-3 font-medium text-parchment transition-colors hover:border-gold/55 hover:bg-night/70"
+        >
+          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z" />
+            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+            <path fill="#4CAF50" d="M24 44c5.5 0 10.5-2.1 14.3-5.5l-6.6-5.6C29.6 34.5 26.9 35.5 24 35.5c-5.2 0-9.6-3.3-11.2-8l-6.6 5.1C9.6 39.6 16.2 44 24 44z" />
+            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.6 5.6C41.7 36.5 44 30.8 44 24c0-1.3-.1-2.3-.4-3.5z" />
+          </svg>
+          Google ile devam et
+        </a>
+        <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.15em] text-parchment/35">
+          <span className="h-px flex-1 bg-gold/15" />veya<span className="h-px flex-1 bg-gold/15" />
+        </div>
+
+        <form onSubmit={onSubmit} className="space-y-4">
           {kayit && (
             <div className="space-y-3 rounded-xl border border-gold/10 bg-night-deep/40 p-4">
               <PersonFields k={k} set={(patch) => setK((s) => ({ ...s, ...patch }))} />
@@ -168,23 +185,6 @@ function GirisForm() {
             {yuk ? "Lütfen bekle…" : kayit ? "Hesap Oluştur" : "Giriş Yap"}
           </button>
         </form>
-
-        {/* Google ile giriş — tam sayfa yönlendirme gerektiği için <a> (Link/fetch değil) */}
-        <div className="my-5 flex items-center gap-3 text-xs uppercase tracking-[0.15em] text-parchment/35">
-          <span className="h-px flex-1 bg-gold/15" />veya<span className="h-px flex-1 bg-gold/15" />
-        </div>
-        <a
-          href={`/api/auth/google/start?next=${encodeURIComponent(next)}`}
-          className="flex w-full items-center justify-center gap-3 rounded-full border border-gold/25 bg-night/50 py-3 font-medium text-parchment transition-colors hover:border-gold/55 hover:bg-night/70"
-        >
-          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z" />
-            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 19 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
-            <path fill="#4CAF50" d="M24 44c5.5 0 10.5-2.1 14.3-5.5l-6.6-5.6C29.6 34.5 26.9 35.5 24 35.5c-5.2 0-9.6-3.3-11.2-8l-6.6 5.1C9.6 39.6 16.2 44 24 44z" />
-            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.5l6.6 5.6C41.7 36.5 44 30.8 44 24c0-1.3-.1-2.3-.4-3.5z" />
-          </svg>
-          Google ile devam et
-        </a>
 
         {!kayit && (
           <p className="mt-4 text-center text-sm">
