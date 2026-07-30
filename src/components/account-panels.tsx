@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { getProduct } from "@/lib/products";
 import { KartIkon } from "@/components/kart-ikon";
 
-type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; hata?: string; tarih: string; silmeTarih?: string };
+type Report = { id: string; slug: string; urunAd: string; durum: "bekliyor" | "olusturuluyor" | "hazir"; dosya?: string; dogum?: { ad: string }; dogum2?: { ad: string }; adminIletti?: boolean; hata?: string; tarih: string; silmeTarih?: string; sira?: number };
 
 // "01.02.2027" biçimi (silme tarihi)
 const kisaTarih = (iso?: string) => {
@@ -133,7 +133,16 @@ export function Analizlerim() {
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-[14px] font-medium text-parchment/90">{r.urunAd}</div>
                   {animasyon ? (
-                    <Hazirlaniyor />
+                    <>
+                      {r.durum === "olusturuluyor" && r.sira ? (
+                        <div className="mt-1">
+                          <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-2 py-0.5 text-[11px] font-medium text-sky-300">
+                            {r.sira === 1 ? "Sıra 1 · hazırlanıyor" : `Sırada ${r.sira}. · bekliyor`}
+                          </span>
+                        </div>
+                      ) : null}
+                      <Hazirlaniyor />
+                    </>
                   ) : r.durum === "hazir" ? (
                     <>
                       <div className="mt-1 flex flex-wrap items-center gap-1.5">

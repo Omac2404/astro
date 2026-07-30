@@ -962,6 +962,16 @@ export function markReportIndirildi(dosyaId: string, email: string): void {
   }
   if (degisti) write("reports.json", list);
 }
+// Üretim kuyruğundaki sıra: "olusturuluyor" durumundaki TÜM raporlar oluşturulma zamanına göre
+// sıralanır; verilen raporun 1-tabanlı sırası döner (0 = kuyrukta değil). İlk sıradaki(ler) fiilen
+// üretiliyor, sonrakiler bekliyor (eşzamanlılık ayarına göre).
+export function raporSiraNo(reportId: string): number {
+  const kuyruk = getReports()
+    .filter((r) => r.durum === "olusturuluyor")
+    .sort((a, b) => new Date(a.tarih).getTime() - new Date(b.tarih).getTime());
+  const i = kuyruk.findIndex((r) => r.id === reportId);
+  return i < 0 ? 0 : i + 1;
+}
 export function setReportDurum(reportId: string, durum: Report["durum"], hata?: string): Report | null {
   const list = getReports();
   const i = list.findIndex((r) => r.id === reportId);
