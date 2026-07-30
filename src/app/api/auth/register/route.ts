@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createPendingReg, getSmtp, type DogumBilgi } from "@/lib/db";
-import { sendMail } from "@/lib/mail";
+import { sendMail, htmlSar } from "@/lib/mail";
 
 export const runtime = "nodejs";
 
@@ -26,11 +26,10 @@ export async function POST(req: Request) {
 
   const e = String(email).trim().toLowerCase();
   // Doğrulama e-postası doğrudan gönderilir (yönetim aç/kapa toggle'ına bağlı değil — doğrulama zorunlu).
-  sendMail(
-    e,
-    "Doğrulama kodun — gokname.com",
-    `gokname.com üyelik doğrulama kodun: ${code}\n\nKodu kayıt ekranındaki alana girerek hesabını oluşturabilirsin. Kod 15 dakika geçerlidir.\n\nBu isteği sen yapmadıysan bu e-postayı yok sayabilirsin.`
-  );
+  // Markalı HTML + düz metin (multipart) olarak gider: daha kurumsal görünür, spam olasılığı biraz düşer.
+  const konu = "Doğrulama kodun — gokname.com";
+  const govde = `Üyelik doğrulama kodun: ${code}\n\nKodu kayıt ekranındaki alana girerek hesabını oluşturabilirsin. Kod 15 dakika geçerlidir.\n\nBu isteği sen yapmadıysan bu e-postayı yok sayabilirsin.`;
+  sendMail(e, konu, govde, undefined, htmlSar(konu, govde));
 
   // SMTP gerçekten gönderebiliyorsa kod yalnızca e-postayla gider; aksi halde (SMTP kapalı/
   // yapılandırılmamış) yerel/demo test için kod yanıtta döner.

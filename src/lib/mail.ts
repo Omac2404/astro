@@ -25,7 +25,7 @@ function escapeHtml(s: string): string {
 
 // Müşteriye giden mailler için kurumsal, çizgisel, sade HTML şablonu (az renk, açık zemin, okunur).
 // body düz metni paragraflara çevrilir (boş satır = paragraf, tek satır kırılımı = <br>).
-function htmlSar(subject: string, body: string): string {
+export function htmlSar(subject: string, body: string): string {
   const govde = body
     .split(/\n{2,}/)
     .map((b) => b.trim())
