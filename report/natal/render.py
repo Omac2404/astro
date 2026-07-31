@@ -475,6 +475,22 @@ def body_html(body):
     paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]
     return "\n      ".join(f"<p>{paren(p)}</p>" for p in paras) or "<p>…</p>"
 
+def limit_text(text, max_words, max_sents):
+    """Sabit yükseklikli sayfaya sığması için metni CÜMLE sınırında kelime/cümle bütçesine kırp.
+    (Bazı modeller uzunluk talimatını dinlemiyor; element sayfası ve Son Söz taşmasın diye zorunlu.)
+    En az bir cümle her zaman kalır; kırpma yalnızca bütçe aşılırsa devreye girer."""
+    text = re.sub(r"\s+", " ", text or "").strip()
+    if not text:
+        return text
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    out, wc = [], 0
+    for p in parts:
+        n = len(p.split())
+        if out and (wc + n > max_words or len(out) >= max_sents):
+            break
+        out.append(p); wc += n
+    return " ".join(out).strip()
+
 
 ASP_AD_R = {"kavusum": "kavuşum", "altmislik": "altmışlık", "ucgen": "üçgen", "kare": "kare", "karsitlik": "karşıt"}
 UYUM_COLOR = {"uyumlu": "#6fb59f", "zorlu": "#c98a6a", "notr": "#dcc188"}
@@ -561,13 +577,13 @@ def render_sinastri(product):
     _ili = find_body("İlişki İmzanız")
     iliski_imzaniz = paren(re.sub(r"\s+", " ", _ili)) if _ili else ""
     _eyo = find_body("Element Uyumu")
-    element_yorum = paren(re.sub(r"\s+", " ", _eyo)) if _eyo else ""
+    element_yorum = paren(limit_text(_eyo, 60, 3)) if _eyo else ""  # element sayfası sabit yükseklikli → kırp
     element_table = syn_element_table(A, B, adA, adB)
     KNOWN = ["İmza Sentezi", "İlişki İmzanız", "Element Uyumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
     extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
-    kapanis_text = paren(re.sub(r"\s+", " ", kap)) if kap else "…"
+    kapanis_text = paren(limit_text(kap, 95, 6)) if kap else "…"  # Son Söz sayfası sabit yükseklikli → kırp
 
     ctx = {
         "ad_cift": chart["meta"]["ad"], "adA": adA, "adB": adB,
@@ -764,10 +780,11 @@ def main():
         print(f"⛔ BOŞ BÖLÜM(LER): {', '.join(_bos)} — rapor KUSURLU, müşteriye gönderme!")
         print("   (Sentezi yeniden çalıştır: node report/natal/synthesize-real.mjs " + product + ")")
         print("!" * 64 + "\n")
-    # Element-yorum: sentez "Element Yorumu" ürettiyse onu kullan (ürüne özel/aşk odaklı), yoksa deterministik
+    # Element-yorum: sentez "Element Yorumu" ürettiyse onu kullan (ürüne özel/aşk odaklı), yoksa deterministik.
+    # Element sayfası sabit yükseklikli; uzun metin taşar → cümle sınırında kırp (~60 kelime / 3 cümle).
     _eyo = find_body("Element Yorumu")
     if _eyo:
-        element_yorum = paren(re.sub(r"\s+", " ", _eyo))
+        element_yorum = paren(limit_text(_eyo, 60, 3))
     imza = find_body("İmza Sentezi")
     imza_sentezi = paren(re.sub(r"\s+", " ", imza)) if imza else "…"
     # Kapanış: model başlığı "## Kapanış" yerine kişiye özel şiirsel başlıkla yazabiliyor.
@@ -775,7 +792,8 @@ def main():
     extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap_body = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
-    kapanis_text = paren(re.sub(r"\s+", " ", kap_body)) if kap_body else "…"
+    # Son Söz sayfası sabit yükseklikli (altında yasal not var); uzun kapanış taşar → kırp (~95 kelime / 6 cümle).
+    kapanis_text = paren(limit_text(kap_body, 95, 6)) if kap_body else "…"
 
     ctx = {
         "meta": chart["meta"], "asc": asc, "planets": chart["planets"], "P": P,
