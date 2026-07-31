@@ -19,9 +19,9 @@ Sana **iki kişinin doğum haritası** ve aralarındaki **sinastri blokları** (
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Tanışma … Dostluğunuzu Besleyen) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Tanışma … Dostluğunuzu Besleyen) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
-Hedef: **toplam ~1900-2300 kelime.** Premium hissettir ama dolgu yapma. Her cümle bu ikiliye özel olsun; jenerik astro-laf ekleme.
+Hedef: **toplam ~900-1200 kelime.** Premium hissettir ama dolgu yapma. Her cümle bu ikiliye özel olsun; jenerik astro-laf ekleme.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -43,10 +43,10 @@ Hedef: **toplam ~1900-2300 kelime.** Premium hissettir ama dolgu yapma. Her cüm
 7. **Dostluğunuzu Besleyen** — sentez: birbirinize ne katıyorsunuz (uyumlu açılar ve bindirmeler), hangi yanınız diğeriyle büyüyor, bu bağın özü ve neyi beslerseniz en iyi hâlini yaşar.
 
 (— element sayfası için ayrı blok —)
-**## Element Uyumu** — İki kişinin baskın elementlerinin dostluğa etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime)**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, denge için neye dikkat. Öz, dostluk merceğinde.
+**## Element Uyumu** — İki kişinin baskın elementlerinin dostluğa etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, denge için neye dikkat. Öz, dostluk merceğinde.
 
 (— kapanış —)
-9. **Kapanış** — Başlığını "## Kapanış" yazma; başlık olarak bu ikiliye özel **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Aynı Telden Çalan İki Ruh"). Hemen altına sıcak, içten birkaç cümlelik kapanış yaz.
+9. **Kapanış** — Başlığını "## Kapanış" yazma; başlık olarak bu ikiliye özel **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Aynı Telden Çalan İki Ruh"). Hemen altına sıcak, içten kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

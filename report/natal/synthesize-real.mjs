@@ -113,7 +113,7 @@ if (isSinastri) {
   ].join("\n");
 }
 
-const MODEL = "claude-haiku-4-5"; // ücretsiz ürün için en ucuz model; kalite yetmezse claude-sonnet-5
+const MODEL = "claude-sonnet-5"; // kalite için Sonnet 5 (Haiku metinleri anlamsız/uzundu). Ucuz alt: claude-haiku-4-5
 // Haiku (eski nesil) thinking:{disabled}'ı farklı ele alır; Sonnet 5 omit'te adaptive açar.
 // Haiku'da thinking'i hiç göndermeyiz (=düşünmez, en ucuz); Sonnet/Opus'ta açıkça disabled.
 const THINKING = MODEL.startsWith("claude-haiku") ? {} : { thinking: { type: "disabled" } };

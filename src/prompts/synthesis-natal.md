@@ -20,9 +20,9 @@ Sana bir kişinin doğum haritası verileri ve o haritaya uyan **anlam blokları
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Numaralı ana bölümlerin (Sen Kimsin? … Güçlü Yönlerin) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur). Bölüm sayısı çok; her birini öz ve dolu tut, şişirme.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Numaralı ana bölümlerin (Sen Kimsin? … Güçlü Yönlerin) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur). Bölüm sayısı çok; her birini öz ve dolu tut, şişirme.
 
-Hedef: **toplam ~2200-2600 kelime** (8 bölüm × ~230-250 + İmza Sentezi + Element Yorumu). Natal bayrak gemisi üründür; derinlik ve kişiye özgüllükle premium hissettir, uzunlukla değil. Uzunluk **asla** dolgu pahasına olmayacak.
+Hedef: **toplam ~1000-1300 kelime** (8 bölüm × ~90 + İmza Sentezi + Element Yorumu). Natal bayrak gemisi üründür; derinlik ve kişiye özgüllükle premium hissettir, uzunlukla değil. Uzunluk **asla** dolgu pahasına olmayacak.
 
 **Altın kural: her cümle yerini hak etmeli.** Uzunluğu dolguyla değil, derinlik ve kişiye özgüllükle doldur:
 - Tekrar etme, aynı fikri farklı kelimelerle yeniden söyleme.
@@ -56,7 +56,7 @@ Bölümler arası dengeli dağıt; Sağlık bölümü en kısa olsun (~1 paragra
 9. **Güçlü Yönlerin & Gelişim Alanların** — Dengeli, yargısız.
 
 (— kapanış —)
-10. **Kapanış** — Bu bölümün başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Suyun Sessiz Derinliği"). Başlığın hemen altına sıcak, toparlayıcı kapanış paragrafını yaz: **EN FAZLA ~90 kelime (4-5 kısa cümle). Tek bir A4 sayfasına, altındaki yasal not ile birlikte SIĞMAK ZORUNDA — ASLA daha uzun yazma, taşarsa düzen bozulur.**
+10. **Kapanış** — Bu bölümün başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Suyun Sessiz Derinliği"). Başlığın hemen altına sıcak, toparlayıcı kapanış paragrafını yaz: **EN FAZLA ~90 kelime (4-5 kısa cümle). Tek bir A4 sayfasına, altındaki yasal not ile birlikte SIĞMAK ZORUNDA — ASLA daha uzun yazma, taşarsa düzen bozulur.** **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**
 
 (— element sayfası için ayrı blok —)
 11. **## Element Yorumu** *(rapor gövdesinin DIŞINDA, ayrı bir blok olarak en sona yaz — element sayfasına yerleşecek)* — Bu kişinin element YOĞUNLUĞUNA özel, **EN FAZLA 3 KISA cümle (~50-60 kelime). Element sayfasında mizaç metni + barlar + tablo ile birlikte tek A4'e SIĞMAK ZORUNDA — ASLA aşma, taşarsa düzen bozulur.** bir yorum. İçinde olmalı: (a) baskın elementin ne kattığı; (b) zayıf ya da eksik (%0) elementlerin ne anlama geldiği — su düşükse duygu akışının inceliği, hava düşükse mesafe/analizin azlığı, ateş düşükse atılganlık eksikliği, toprak düşükse zeminsizlik vb.; (c) ikinci güçlü elementin dengeleyici rolü; (d) kısa bir denge içgörüsü (neyi bilinçli beslemeli). Burç/açı ile yüzde çelişiyorsa (ör. su düşük ama Ay su burcunda) bunu fark edip yorumla. Mizaç bloğunun statik metnini TEKRARLAMA; kişinin gerçek yüzdelerine dair YENİ, sıcak, "beni anlatmış" dedirten bir okuma olsun.

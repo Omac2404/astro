@@ -26,9 +26,9 @@ Sana bir kişinin **doğum haritası** ve **BU AYIN gökyüzü (transit) verisi*
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Ayın Tonu … Dikkat & Denge) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Ayın Tonu … Dikkat & Denge) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
-Hedef: **toplam ~1800-2200 kelime.** Premium hissettir, dolgu yapma; her cümle bu aya dair somut, kişiye özel bir şey söylesin.
+Hedef: **toplam ~850-1100 kelime.** Premium hissettir, dolgu yapma; her cümle bu aya dair somut, kişiye özel bir şey söylesin.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -47,10 +47,10 @@ Hedef: **toplam ~1800-2200 kelime.** Premium hissettir, dolgu yapma; her cümle 
 7. **## Dikkat & Denge** — Sert transit açıları (kare/karşıt), retro gezegenler, Satürn/Mars: bu ay sabır/özen isteyen alanlar ve bunları büyümeye çevirmenin yolu.
 
 (— element sayfası için ayrı blok —)
-**## Element Yorumu** — Kişinin natal element dağılımının bu ayın enerjisini nasıl karşıladığı; **EN FAZLA 3-4 KISA cümle (~55-65 kelime)**. Baskın elementin bu ayla uyumu/gerilimi, kısa bir denge içgörüsü. Öz, ay merceğinde.
+**## Element Yorumu** — Kişinin natal element dağılımının bu ayın enerjisini nasıl karşıladığı; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Baskın elementin bu ayla uyumu/gerilimi, kısa bir denge içgörüsü. Öz, ay merceğinde.
 
 (— kapanış —)
-8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak aya özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Bu Ayın Daveti"). Hemen altına sıcak, umut veren birkaç cümlelik kapanış yaz.
+8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak aya özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Bu Ayın Daveti"). Hemen altına sıcak, umut veren kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

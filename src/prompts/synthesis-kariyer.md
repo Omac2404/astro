@@ -20,9 +20,9 @@ Sana bir kişinin doğum haritası verileri ve o haritaya uyan **anlam blokları
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 kariyer bölümünün (İş Kimliğin … Sana Yakışan Yol) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 kariyer bölümünün (İş Kimliğin … Sana Yakışan Yol) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
 
-Hedef: **toplam ~1900-2300 kelime.** Premium hissettirmeli ama uzunluk asla dolgu pahasına olmayacak. Her cümle yerini hak etsin; tekrar etme, jenerik astro-laf ekleme, her bloğu somut ve kişiye özel işle ("bu sadece bu kişi için doğru" hissi).
+Hedef: **toplam ~900-1200 kelime.** Premium hissettirmeli ama uzunluk asla dolgu pahasına olmayacak. Her cümle yerini hak etsin; tekrar etme, jenerik astro-laf ekleme, her bloğu somut ve kişiye özel işle ("bu sadece bu kişi için doğru" hissi).
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -41,10 +41,10 @@ Hedef: **toplam ~1900-2300 kelime.** Premium hissettirmeli ama uzunluk asla dolg
 7. **Sana Yakışan Yol** — sentez: hangi tür çalışma dinamiği ve kariyer yönü seni besler; hem güven hem büyüme veren bir iş hayatının resmi (meslek dayatma, dinamik tarif et).
 
 (— element sayfası için ayrı blok —)
-**## Element Yorumu** — Element dağılımının kişinin ÇALIŞMA/üretim tarzına etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime — sayfaya sığmak zorunda, uzatma)**. Baskın element işte neyi getirir, zayıf element neyi zorlaştırır (ateş↓ girişkenlik/risk, toprak↓ istikrar/takip, hava↓ planlama/iletişim, su↓ sezgi/uyum), ikincil elementin dengeleyici rolü. Öz, kariyer merceğinde; mizaç metnini tekrarlama.
+**## Element Yorumu** — Element dağılımının kişinin ÇALIŞMA/üretim tarzına etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter) — sayfaya sığmak zorunda, uzatma)**. Baskın element işte neyi getirir, zayıf element neyi zorlaştırır (ateş↓ girişkenlik/risk, toprak↓ istikrar/takip, hava↓ planlama/iletişim, su↓ sezgi/uyum), ikincil elementin dengeleyici rolü. Öz, kariyer merceğinde; mizaç metnini tekrarlama.
 
 (— kapanış —)
-8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Sabırla Yükselen Yol"). Hemen altına sıcak, toparlayıcı birkaç cümlelik kapanış paragrafı yaz.
+8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Sabırla Yükselen Yol"). Hemen altına sıcak, toparlayıcı kapanış paragrafı yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

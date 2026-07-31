@@ -19,9 +19,9 @@ Sana **iki kişinin doğum haritası** ve aralarındaki **sinastri blokları** (
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Çekim … Birlikte Büyümek) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Çekim … Birlikte Büyümek) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
-Hedef: **toplam ~1900-2300 kelime.** Premium hissettir ama dolgu yapma. Her cümle bu çifte özel olsun; jenerik astro-laf ekleme. "Bu sadece bu ikili için doğru" hissi ver.
+Hedef: **toplam ~900-1200 kelime.** Premium hissettir ama dolgu yapma. Her cümle bu çifte özel olsun; jenerik astro-laf ekleme. "Bu sadece bu ikili için doğru" hissi ver.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -43,10 +43,10 @@ Hedef: **toplam ~1900-2300 kelime.** Premium hissettir ama dolgu yapma. Her cüm
 7. **Birlikte Büyümek** — sentez: birbirinize ne katıyorsunuz (uyumlu açılar ve bindirmeler), hangi yanınız diğeriyle gelişiyor, bu bağın özü ve neyi beslerseniz en iyi hâlini yaşar (kişi değil dinamik tarif et).
 
 (— element sayfası için ayrı blok —)
-**## Element Uyumu** — İki kişinin baskın elementlerinin ilişkiye etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime)**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, denge için neye dikkat. Öz, çift merceğinde.
+**## Element Uyumu** — İki kişinin baskın elementlerinin ilişkiye etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, denge için neye dikkat. Öz, çift merceğinde.
 
 (— kapanış —)
-9. **Kapanış** — Başlığını "## Kapanış" yazma; başlık olarak bu çifte özel **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## İki Ateşin Dansı"). Hemen altına sıcak, umut veren ama gerçekçi birkaç cümlelik kapanış yaz.
+9. **Kapanış** — Başlığını "## Kapanış" yazma; başlık olarak bu çifte özel **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## İki Ateşin Dansı"). Hemen altına sıcak, umut veren ama gerçekçi kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

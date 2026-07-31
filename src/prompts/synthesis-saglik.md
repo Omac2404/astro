@@ -21,9 +21,9 @@ Sana bir kişinin doğum haritası verileri ve o haritaya uyan **anlam blokları
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 enerji bölümünün (Enerji İmzan … Sana Yakışan Yaşam Ritmi) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 enerji bölümünün (Enerji İmzan … Sana Yakışan Yaşam Ritmi) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
 
-Hedef: **toplam ~1900-2300 kelime.** Premium hissettirmeli ama uzunluk asla dolgu pahasına olmayacak. Her cümle yerini hak etsin; tekrar etme, jenerik astro-laf ekleme, her bloğu somut ve kişiye özel işle.
+Hedef: **toplam ~900-1200 kelime.** Premium hissettirmeli ama uzunluk asla dolgu pahasına olmayacak. Her cümle yerini hak etsin; tekrar etme, jenerik astro-laf ekleme, her bloğu somut ve kişiye özel işle.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -42,10 +42,10 @@ Hedef: **toplam ~1900-2300 kelime.** Premium hissettirmeli ama uzunluk asla dolg
 7. **Sana Yakışan Yaşam Ritmi** — sentez: hangi tempo, öz-bakım ve denge biçimi seni canlı tutar; enerjini koruyup besleyen bir yaşam ritminin resmi.
 
 (— element sayfası için ayrı blok —)
-**## Element Yorumu** — Element dağılımının kişinin BEDENSEL/enerjik dengesine etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime — sayfaya sığmak zorunda, uzatma)**. Baskın element bedene/enerjiye neyi getirir, zayıf element neyi zorlaştırır, ikincil elementin dengeleyici rolü, kısa bir denge içgörüsü (neyi bilinçli beslemeli). Öz, enerji ve mizaç merceğinde; mizaç metnini tekrarlama.
+**## Element Yorumu** — Element dağılımının kişinin BEDENSEL/enerjik dengesine etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter) — sayfaya sığmak zorunda, uzatma)**. Baskın element bedene/enerjiye neyi getirir, zayıf element neyi zorlaştırır, ikincil elementin dengeleyici rolü, kısa bir denge içgörüsü (neyi bilinçli beslemeli). Öz, enerji ve mizaç merceğinde; mizaç metnini tekrarlama.
 
 (— kapanış —)
-8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Bedenindeki Sakin Güç"). Hemen altına sıcak, toparlayıcı birkaç cümlelik kapanış paragrafı yaz.
+8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Bedenindeki Sakin Güç"). Hemen altına sıcak, toparlayıcı kapanış paragrafı yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

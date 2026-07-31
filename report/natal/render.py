@@ -469,11 +469,27 @@ def parse_report(txt):
     return secs
 
 def paren(s):
+    s = s.replace("*", "")  # model bazen **kalın**/*italik* markdown koyuyor; bu metinlerde literal * yok, temizle
     return re.sub(r"\(([^()]+)\)", r'<span class="paren">(\1)</span>', s)
 
 def body_html(body):
     paras = [p.strip() for p in re.split(r"\n\s*\n", body) if p.strip()]
     return "\n      ".join(f"<p>{paren(p)}</p>" for p in paras) or "<p>…</p>"
+
+def limit_chars(text, max_chars):
+    """Metni CÜMLE sınırında ~max_chars karaktere kırp (sabit/parşömen sayfa taşmasın; en az 1 cümle kalır).
+    Bazı modeller uzunluk talimatını dinlemiyor; karakter sınırı burada ZORUNLU uygulanır."""
+    text = re.sub(r"\s+", " ", text or "").strip()
+    if len(text) <= max_chars:
+        return text
+    parts = re.split(r"(?<=[.!?])\s+", text)
+    out = ""
+    for p in parts:
+        cand = (out + " " + p).strip() if out else p
+        if out and len(cand) > max_chars:
+            break
+        out = cand
+    return out
 
 def limit_text(text, max_words, max_sents):
     """Sabit yükseklikli sayfaya sığması için metni CÜMLE sınırında kelime/cümle bütçesine kırp.
@@ -568,22 +584,22 @@ def render_sinastri(product):
     if not parsed:
         print(f"[uyarı] rapor-{product}.txt yok — bölümler boş")
     def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
-    sections = [{"eyebrow": eb, "baslik": bs, "govde": body_html(find_body(hd))} for (hd, eb, bs) in cfg["sections"]]
+    sections = [{"eyebrow": eb, "baslik": bs, "govde": body_html(limit_chars(find_body(hd), 600))} for (hd, eb, bs) in cfg["sections"]]
     _bos = [bs for (hd, eb, bs) in cfg["sections"] if not find_body(hd).strip()]
     if _bos:
         print("\n" + "!" * 64 + f"\n⛔ BOŞ BÖLÜM(LER): {', '.join(_bos)} — rapor KUSURLU!\n" + "!" * 64 + "\n")
     imza = find_body("İmza Sentezi")
-    imza_sentezi = paren(re.sub(r"\s+", " ", imza)) if imza else "…"
+    imza_sentezi = paren(limit_chars(imza, 560)) if imza else "…"  # mor sayfa; taşmasın
     _ili = find_body("İlişki İmzanız")
-    iliski_imzaniz = paren(re.sub(r"\s+", " ", _ili)) if _ili else ""
+    iliski_imzaniz = paren(limit_chars(_ili, 560)) if _ili else ""
     _eyo = find_body("Element Uyumu")
-    element_yorum = paren(limit_text(_eyo, 60, 3)) if _eyo else ""  # element sayfası sabit yükseklikli → kırp
+    element_yorum = paren(limit_chars(_eyo, 330)) if _eyo else ""  # element sayfası sabit yükseklikli → kısa
     element_table = syn_element_table(A, B, adA, adB)
     KNOWN = ["İmza Sentezi", "İlişki İmzanız", "Element Uyumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
     extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
-    kapanis_text = paren(limit_text(kap, 95, 6)) if kap else "…"  # Son Söz sayfası sabit yükseklikli → kırp
+    kapanis_text = paren(limit_chars(kap, 600)) if kap else "…"  # Son Söz sayfası sabit yükseklikli → kırp
 
     ctx = {
         "ad_cift": chart["meta"]["ad"], "adA": adA, "adB": adB,
@@ -770,8 +786,9 @@ def main():
     else:
         parsed = {}; print(f"[uyarı] rapor-{product}.txt yok — bölüm prozları boş")
     def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
+    # Her başlık-altı bölüm metni max ~600 karakter (tek paragraf) — sayfa dengeli dolsun, taşmasın.
     sections = [{"eyebrow": eb, "baslik": bs, "glyph": gl,
-                 "govde": body_html(find_body(hd)), "upsell": up}
+                 "govde": body_html(limit_chars(find_body(hd), 600)), "upsell": up}
                 for (hd, eb, bs, gl, up) in cfg["sections"]]
     # GÜVENLİK: boş bölüm = kusurlu rapor (AI bölüm atlamış olabilir). Görünür uyarı bas.
     _bos = [bs for (hd, eb, bs, gl, up) in cfg["sections"] if not find_body(hd).strip()]
@@ -780,20 +797,20 @@ def main():
         print(f"⛔ BOŞ BÖLÜM(LER): {', '.join(_bos)} — rapor KUSURLU, müşteriye gönderme!")
         print("   (Sentezi yeniden çalıştır: node report/natal/synthesize-real.mjs " + product + ")")
         print("!" * 64 + "\n")
-    # Element-yorum: sentez "Element Yorumu" ürettiyse onu kullan (ürüne özel/aşk odaklı), yoksa deterministik.
-    # Element sayfası sabit yükseklikli; uzun metin taşar → cümle sınırında kırp (~60 kelime / 3 cümle).
+    # Element-yorum: sentez "Element Yorumu" ürettiyse onu kullan (ürüne özel), yoksa deterministik.
+    # Element sayfası sabit yükseklikli; kısa tutulur → ~330 karakter (cümle sınırında).
     _eyo = find_body("Element Yorumu")
     if _eyo:
-        element_yorum = paren(limit_text(_eyo, 60, 3))
+        element_yorum = paren(limit_chars(_eyo, 330))
     imza = find_body("İmza Sentezi")
-    imza_sentezi = paren(re.sub(r"\s+", " ", imza)) if imza else "…"
+    imza_sentezi = paren(limit_chars(imza, 560)) if imza else "…"  # mor sayfa; taşmasın
     # Kapanış: model başlığı "## Kapanış" yerine kişiye özel şiirsel başlıkla yazabiliyor.
     KNOWN = ["Ana İmzalar", "İmza Sentezi", "Element Yorumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
     extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap_body = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
-    # Son Söz sayfası sabit yükseklikli (altında yasal not var); uzun kapanış taşar → kırp (~95 kelime / 6 cümle).
-    kapanis_text = paren(limit_text(kap_body, 95, 6)) if kap_body else "…"
+    # Son Söz sayfası sabit yükseklikli (altında yasal not var); uzun kapanış taşar → ~600 karakter.
+    kapanis_text = paren(limit_chars(kap_body, 600)) if kap_body else "…"
 
     ctx = {
         "meta": chart["meta"], "asc": asc, "planets": chart["planets"], "P": P,

@@ -27,9 +27,9 @@ Sana bir kişinin **SOLAR RETURN (yıl dönüşü) haritası** verilecek: doğum
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Yılın Tonu … Yılın Daveti) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Yılın Tonu … Yılın Daveti) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
-Hedef: **toplam ~1900-2300 kelime.** Premium hissettir, dolgu yapma; her cümle bu yıla dair somut, kişiye özel bir şey söylesin.
+Hedef: **toplam ~900-1200 kelime.** Premium hissettir, dolgu yapma; her cümle bu yıla dair somut, kişiye özel bir şey söylesin.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -48,10 +48,10 @@ Hedef: **toplam ~1900-2300 kelime.** Premium hissettir, dolgu yapma; her cümle 
 7. **## Yılın Daveti** — sentez: bu yılın sana ana daveti/mesajı; neyi kucaklarsan yılı en iyi yaşarsın.
 
 (— element sayfası için ayrı blok —)
-**## Element Yorumu** — SR haritasının element dağılımının YILIN enerji/temposuna etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime)**. Bu yıl baskın element neyi getirir, zayıf element neyi zorlaştırır. Öz, yıl merceğinde.
+**## Element Yorumu** — SR haritasının element dağılımının YILIN enerji/temposuna etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Bu yıl baskın element neyi getirir, zayıf element neyi zorlaştırır. Öz, yıl merceğinde.
 
 (— kapanış —)
-8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak yıla özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Açılan Bir Kapı"). Hemen altına sıcak, umut veren birkaç cümlelik kapanış yaz.
+8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak yıla özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Açılan Bir Kapı"). Hemen altına sıcak, umut veren kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 

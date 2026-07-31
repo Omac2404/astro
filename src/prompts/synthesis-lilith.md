@@ -25,9 +25,9 @@ Sana bir kişinin doğum haritası verileri + karmik noktaları (Lilith, Ay Dü�
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 6 karmik bölümün (Gölgen … Ruhsal Bütünleşme) HER BİRİ **tek bir A4 sayfasına** sığacak. Her bölümü **2-3 kısa paragraf, EN FAZLA ~250 kelime** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 6 karmik bölümün (Gölgen … Ruhsal Bütünleşme) HER BİRİ **tek bir A4 sayfasına** sığacak. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
-Hedef: **toplam ~1800-2200 kelime.** Derin ve premium hissettir; her cümle ruhsal olarak anlamlı ve kişiye özel olsun, dolgu yok.
+Hedef: **toplam ~850-1100 kelime.** Derin ve premium hissettir; her cümle ruhsal olarak anlamlı ve kişiye özel olsun, dolgu yok.
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
@@ -45,10 +45,10 @@ Hedef: **toplam ~1800-2200 kelime.** Derin ve premium hissettir; her cümle ruhs
 6. **## Ruhsal Bütünleşme** — sentez: bu karmik parçaları (gölge, geçmiş, yön, yara) tek bir bütünde toplayıp ruhun için bütünleşme/özgürleşme yolunu göster.
 
 (— element sayfası için ayrı blok —)
-**## Element Yorumu** — Element dağılımının kişinin ruhsal/duygusal tonuna etkisi; **EN FAZLA 3-4 KISA cümle (~55-65 kelime)**. Karmik mercekte, öz; mizaç metnini tekrarlama.
+**## Element Yorumu** — Element dağılımının kişinin ruhsal/duygusal tonuna etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Karmik mercekte, öz; mizaç metnini tekrarlama.
 
 (— kapanış —)
-8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Gölgeden Doğan Işık"). Hemen altına sıcak, özgürleştiren birkaç cümlelik kapanış yaz.
+8. **Kapanış** — Başlığını "## Kapanış" diye yazma; başlık olarak kişiye özel, **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## Gölgeden Doğan Işık"). Hemen altına sıcak, özgürleştiren kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.
 
 ---
 
