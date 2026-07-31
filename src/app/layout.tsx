@@ -19,11 +19,23 @@ function metaCiftleri(headKod: string): Record<string, string> {
   return out;
 }
 
+// Google Search Console doğrulama kodunu ayıkla: kullanıcı sadece kodu ya da tam
+// <meta ... content="KOD" ...> etiketini yapıştırmış olabilir.
+function googleVerifyKodu(v: string): string {
+  const s = (v || "").trim();
+  if (!s) return "";
+  const m = s.match(/content=["']([^"']+)["']/i);
+  return (m ? m[1] : s).trim();
+}
+
 export function generateMetadata(): Metadata {
   const seo = getSeoAyar();
   const meta: Metadata = {};
   const fav = seo.favicon.trim();
   if (fav) meta.icons = { icon: fav, shortcut: fav, apple: fav };
+  // Google Search Console — resmi verification alanı (en güvenilir yöntem; her zaman <head>'e basılır)
+  const gv = googleVerifyKodu(seo.googleVerify);
+  if (gv) meta.verification = { google: gv };
   if (seo.headAktif && seo.headKod) {
     const other = metaCiftleri(seo.headKod);
     if (Object.keys(other).length) meta.other = other;

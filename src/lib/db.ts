@@ -514,6 +514,7 @@ export type SeoAyar = {
   sayfalar: SeoSayfa[];
   yasalSitemap: boolean;  // yasal sayfalar sitemap'e dahil
   ekstraUrl: string;      // manuel ekstra URL'ler (satır satır)
+  googleVerify: string;   // Google Search Console doğrulama kodu (sadece kod ya da tam meta etiketi)
   headKod: string;        // <head> içine enjekte
   headAktif: boolean;
   bodyKod: string;        // </body> öncesi enjekte
@@ -547,6 +548,7 @@ const SEO_DEFAULT: SeoAyar = {
   ],
   yasalSitemap: false,
   ekstraUrl: "",
+  googleVerify: "",
   headKod: "", headAktif: true,
   bodyKod: "", bodyAktif: true,
 };

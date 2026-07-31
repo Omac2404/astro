@@ -23,6 +23,7 @@ export async function POST(req: Request) {
   if ("favicon" in b) patch.favicon = String(b.favicon ?? "").trim().slice(0, 300);
   if ("yasalSitemap" in b) patch.yasalSitemap = !!b.yasalSitemap;
   if ("ekstraUrl" in b) patch.ekstraUrl = String(b.ekstraUrl ?? "").slice(0, 4000);
+  if ("googleVerify" in b) patch.googleVerify = String(b.googleVerify ?? "").trim().slice(0, 500);
   if ("headKod" in b) patch.headKod = String(b.headKod ?? "").slice(0, 20000);
   if ("headAktif" in b) patch.headAktif = !!b.headAktif;
   if ("bodyKod" in b) patch.bodyKod = String(b.bodyKod ?? "").slice(0, 20000);

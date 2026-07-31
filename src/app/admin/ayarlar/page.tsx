@@ -37,7 +37,7 @@ export default function AyarlarPage() {
 
 // ---------------- SEO ve Sitemap ----------------
 type SeoSayfa = { yol: string; ad: string; baslik: string; aciklama: string; anahtar: string; og: string; oncelik: number; siklik: string; sitemap: boolean; noindex: boolean };
-type Seo = { siteUrl: string; favicon: string; sayfalar: SeoSayfa[]; yasalSitemap: boolean; ekstraUrl: string; headKod: string; headAktif: boolean; bodyKod: string; bodyAktif: boolean };
+type Seo = { siteUrl: string; favicon: string; sayfalar: SeoSayfa[]; yasalSitemap: boolean; ekstraUrl: string; googleVerify: string; headKod: string; headAktif: boolean; bodyKod: string; bodyAktif: boolean };
 const SIKLIKLAR = ["always", "hourly", "daily", "weekly", "monthly", "yearly", "never"];
 
 function SeoBolum() {
@@ -197,10 +197,26 @@ function SeoBolum() {
         </div>
       </Panel>
 
+      {/* Google Search Console doğrulama — özel, en güvenilir alan */}
+      <Panel className="p-6">
+        <h2 className="font-display text-lg font-semibold text-parchment">Google Search Console Doğrulama</h2>
+        <p className="mb-4 mt-0.5 text-xs text-parchment/45">Search Console → mülk ekle → <b className="text-parchment/70">HTML etiketi</b> yöntemini seç. Sana verilen kodu (ya da tam <code className="text-parchment/70">&lt;meta&gt;</code> etiketini) buraya yapıştır. Kaydedince tüm ziyaretçi sayfalarının <code className="text-parchment/70">&lt;head&gt;</code> bölümüne otomatik eklenir; sonra Search Console'da "Doğrula"ya bas. <b className="text-parchment/70">Deploy sonrası</b> çalışır.</p>
+        <label className={labelCls}>Doğrulama kodu ya da meta etiketi</label>
+        <input
+          value={s.googleVerify}
+          onChange={(e) => set("googleVerify", e.target.value)}
+          placeholder='örn: abc123... veya <meta name="google-site-verification" content="abc123..." />'
+          className={`${inputCls} mt-1.5 w-full font-mono text-[12.5px]`}
+        />
+        {s.googleVerify.trim() && (
+          <p className="mt-2 text-[11px] text-emerald-300/80">Head'e eklenecek: <code>&lt;meta name=&quot;google-site-verification&quot; content=&quot;{(s.googleVerify.match(/content=["']([^"']+)["']/i)?.[1] ?? s.googleVerify).trim()}&quot;&gt;</code></p>
+        )}
+      </Panel>
+
       {/* Kod Ekleme */}
       <Panel className="p-6">
-        <h2 className="font-display text-lg font-semibold text-parchment">Kod Ekleme</h2>
-        <p className="mb-4 mt-0.5 text-xs text-parchment/45">Search Console doğrulaması, Google Analytics/Ads, Meta Pixel gibi üçüncü parti kodlar. Kodu etiketleriyle birlikte yapıştır; tüm ziyaretçi sayfalarında çalışır (admin panelinde çalışmaz).</p>
+        <h2 className="font-display text-lg font-semibold text-parchment">Kod Ekleme (Analytics / Pixel)</h2>
+        <p className="mb-4 mt-0.5 text-xs text-parchment/45">Google Analytics/Ads, Meta Pixel, Tag Manager gibi üçüncü parti scriptler. Kodu etiketleriyle birlikte yapıştır; tüm ziyaretçi sayfalarında çalışır (admin panelinde çalışmaz). Not: Search Console doğrulaması için yukarıdaki özel alanı kullan.</p>
         <div className="space-y-5">
           <div>
             <label className="flex cursor-pointer items-center justify-between">
