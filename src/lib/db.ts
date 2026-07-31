@@ -875,11 +875,12 @@ export function uyeAnalizYapabilirMi(email: string): boolean {
   return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
 }
 // ---- Saklama süreleri (ürüne göre) ----
-// natal: 90 gün · çift (sinastri): 5 gün · aylık: her ayın 1'inde (sonraki ayın 1'i) · diğerleri: 30 gün.
+// Tekil (doğum haritası tabanlı) analizler: 90 gün · çift (sinastri): 5 gün · aylık: her ayın 1'inde (sonraki ayın 1'i).
 export function raporSaklamaGun(slug: string): number {
-  if (slug === "natal") return 90;
+  // Çift (sinastri) analizler 5 gün; diğer tüm tekil (doğum haritası tabanlı) analizler 90 gün.
+  // (aylık özel: raporSilmeTarihi'nde her ayın 1'ine göre hesaplanır, bu sayı kullanılmaz.)
   if (slug.startsWith("sinastri")) return 5;
-  return 30;
+  return 90;
 }
 // Saklama süresinin insan-okur metni (ürün sayfasında gösterilir).
 export function raporSaklamaMetni(slug: string): string {

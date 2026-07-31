@@ -41,10 +41,10 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <span className="text-[12.5px] font-medium leading-snug text-gold-bright">{p.kisa}</span>
-        <h3 className="mt-1.5 font-display text-[1.65rem] leading-tight font-semibold text-parchment">
+        <h3 className="font-display text-[1.65rem] leading-tight font-semibold text-parchment">
           {p.ad}
         </h3>
+        {/* Kart tek cümlelik açıklama (başlık + kartKisa'nın birleşimi tek satır) */}
         <p className="mt-2 text-[15px] leading-relaxed flex-1" style={{ color: p.accent }}>{p.kartKisa}</p>
 
         <div className="mt-4 flex items-end justify-between border-t border-gold/10 pt-3">

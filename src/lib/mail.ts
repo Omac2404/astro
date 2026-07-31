@@ -63,6 +63,53 @@ export function htmlSar(subject: string, body: string): string {
 </body></html>`;
 }
 
+// Doğrulama/şifre KODU e-postası için Gökname temalı (koyu gece moru + altın) şablon.
+// Kod büyük, ortada, tek başına. body düz metni koddan bağımsız alt açıklama olarak geçer.
+export function htmlKodMaili(baslik: string, kod: string, altMetin: string): string {
+  const alt = altMetin
+    .split(/\n{2,}/)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map((p) => `<p style="margin:0 0 14px;font-size:14px;line-height:1.7;color:#b9b6cf;">${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
+    .join("");
+  return `<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0f0f24;font-family:Georgia,'Times New Roman',serif;-webkit-text-size-adjust:100%;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#0f0f24;">
+    <tr><td align="center" style="padding:34px 16px;">
+      <table role="presentation" width="520" cellpadding="0" cellspacing="0" style="width:520px;max-width:100%;background:#1b1b3a;border:1px solid rgba(194,163,107,0.28);border-radius:16px;overflow:hidden;">
+        <!-- Marka -->
+        <tr><td align="center" style="padding:32px 36px 10px;">
+          <div style="font-size:26px;font-weight:bold;color:#dcc188;letter-spacing:0.5px;">gökname.com</div>
+          <div style="margin-top:6px;font-size:11px;letter-spacing:2px;color:#8884ad;text-transform:uppercase;">Kişiye Özel Astroloji Analizleri</div>
+        </td></tr>
+        <!-- Başlık -->
+        <tr><td align="center" style="padding:14px 36px 0;">
+          <div style="font-size:15px;color:#e8e4f2;">${escapeHtml(baslik)}</div>
+        </td></tr>
+        <!-- KOD -->
+        <tr><td align="center" style="padding:22px 36px 6px;">
+          <div style="display:inline-block;background:#12122e;border:1px solid rgba(220,193,136,0.45);border-radius:14px;padding:20px 34px;">
+            <span style="font-family:'Courier New',monospace;font-size:42px;font-weight:bold;letter-spacing:12px;color:#dcc188;">${escapeHtml(kod)}</span>
+          </div>
+        </td></tr>
+        <!-- Alt açıklama -->
+        <tr><td align="center" style="padding:22px 40px 6px;text-align:center;">
+          ${alt}
+        </td></tr>
+        <!-- Footer -->
+        <tr><td style="padding:18px 36px 28px;border-top:1px solid rgba(194,163,107,0.14);margin-top:10px;">
+          <div style="font-size:11px;line-height:1.6;color:#6f6c8a;text-align:center;">
+            Bu e-posta <span style="color:#c2a36b;">gokname.com</span> üzerinden gönderildi.<br>
+            © ${new Date().getFullYear()} gokname.com · Tüm hakları saklıdır.
+          </div>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body></html>`;
+}
+
 function transport(c: ReturnType<typeof getSmtp>) {
   return nodemailer.createTransport({
     host: c.host,
