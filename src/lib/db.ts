@@ -872,8 +872,17 @@ export function uyeBugunAnalizSayisi(email: string): number {
     (r) => (r.durum === "hazir" || r.durum === "olusturuluyor") && trGun(r.tarih) === bugun
   ).length;
 }
+// Sınırsız (test) üyeler: SINIRSIZ_UYELER env'inde virgül/boşlukla ayrılmış e-postalar.
+// Bu üyeler günlük limite ve ürün kilidine takılmaz — test kolaylığı için.
+export function uyeSinirsizMi(email: string): boolean {
+  const raw = process.env.SINIRSIZ_UYELER || "";
+  if (!raw.trim()) return false;
+  const e = email.trim().toLowerCase();
+  return raw.split(/[,\s]+/).map((x) => x.trim().toLowerCase()).filter(Boolean).includes(e);
+}
 // Üye bugün yeni analiz oluşturabilir mi? (admin akışları bu kontrolü çağırmaz)
 export function uyeAnalizYapabilirMi(email: string): boolean {
+  if (uyeSinirsizMi(email)) return true; // sınırsız test üyesi
   return uyeBugunAnalizSayisi(email) < GUNLUK_ANALIZ_LIMITI;
 }
 // ---- Saklama süreleri (ürüne göre) ----
@@ -900,6 +909,7 @@ export function raporSilmeTarihi(slug: string, tarihISO: string): Date {
 // Yalnızca BAŞARILI (hazir, silme tarihi gelmemiş) ya da ÜRETİLMEKTE (olusturuluyor) rapor kilitler.
 // Başarısız/bekleyen ("bekliyor") kayıtlar kilit SAYILMAZ — kullanıcı yeniden deneyebilsin.
 export function uyeUrunKilitli(email: string, slug: string): boolean {
+  if (uyeSinirsizMi(email)) return false; // sınırsız test üyesi → ürün kilidi yok
   // Çift (sinastri) analizler her seferinde FARKLI kişiyle yapılır → ürün kilidi uygulanmaz.
   // (Yine de günlük 1 analiz limiti geçerli; raporlar 5 gün saklanıp silinir.)
   if (slug.startsWith("sinastri")) return false;
