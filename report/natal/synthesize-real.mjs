@@ -20,11 +20,21 @@ if (fs.existsSync(envLocal)) {
     if (k && !process.env[k]) process.env[k] = v; // ortam değişkeni önceliklidir
   }
 }
-if (!process.env.ANTHROPIC_API_KEY) {
-  console.error("HATA: ANTHROPIC_API_KEY tanımlı değil (ne ortam değişkeni ne .env.local).");
-  process.exit(1);
+// --- Sağlayıcı seçimi: LLM_PROVIDER=anthropic (VARSAYILAN) | gemini.
+//     Claude ayarları korunur; LLM_PROVIDER=gemini ile Gemini'ye geçilir, değişkeni kaldırınca Claude'a döner. ---
+const PROVIDER = (process.env.LLM_PROVIDER || "anthropic").toLowerCase();
+const MODEL = PROVIDER === "gemini"
+  ? (process.env.GEMINI_MODEL || "gemini-2.5-flash") // GEMINI_MODEL=gemini-2.5-pro daha kaliteli
+  : "claude-sonnet-5";                               // Claude tarafı: Sonnet 5 (değişmedi)
+// Haiku (eski nesil) thinking:{disabled}'ı farklı ele alır; Sonnet 5'te açıkça disabled (Gemini'de kullanılmaz).
+const THINKING = MODEL.startsWith("claude-haiku") ? {} : { thinking: { type: "disabled" } };
+
+if (PROVIDER === "gemini") {
+  if (!process.env.GEMINI_API_KEY) { console.error("HATA: GEMINI_API_KEY tanımlı değil (ne ortam değişkeni ne .env.local)."); process.exit(1); }
+} else if (!process.env.ANTHROPIC_API_KEY) {
+  console.error("HATA: ANTHROPIC_API_KEY tanımlı değil (ne ortam değişkeni ne .env.local)."); process.exit(1);
 }
-const client = new Anthropic({ maxRetries: 0 }); // retry'ı aşağıda elle yönetiyoruz (streaming için)
+const client = PROVIDER === "gemini" ? null : new Anthropic({ maxRetries: 0 }); // retry'ı aşağıda elle yönetiyoruz
 
 // --- Girdiler ---
 const chart = JSON.parse(fs.readFileSync(path.join(IO, "chart.json"), "utf8"));
@@ -113,10 +123,6 @@ if (isSinastri) {
   ].join("\n");
 }
 
-const MODEL = "claude-sonnet-5"; // kalite için Sonnet 5 (Haiku metinleri anlamsız/uzundu). Ucuz alt: claude-haiku-4-5
-// Haiku (eski nesil) thinking:{disabled}'ı farklı ele alır; Sonnet 5 omit'te adaptive açar.
-// Haiku'da thinking'i hiç göndermeyiz (=düşünmez, en ucuz); Sonnet/Opus'ta açıkça disabled.
-const THINKING = MODEL.startsWith("claude-haiku") ? {} : { thinking: { type: "disabled" } };
 const OUT = path.join(IO, `rapor-${product}.txt`);
 
 // Em-dash (—, U+2014) temizliği: bağlaçtan önceyse boşluk, değilse virgül. Kısa tire (–, U+2013) dokunulmaz.
@@ -153,7 +159,7 @@ function missingSections(text, req) {
   return req.filter((key) => { const h = heads.find((x) => x.includes(key)); return !h || !secs[h]; });
 }
 
-console.log(`\n${"=".repeat(60)}\n  MODEL: ${MODEL} (gerçek chart + otomatik selectBlocks)\n${"=".repeat(60)}`);
+console.log(`\n${"=".repeat(60)}\n  SAĞLAYICI: ${PROVIDER} · MODEL: ${MODEL}\n${"=".repeat(60)}`);
 const req = REQUIRED[product] || [];
 const MAX_ATTEMPTS = 3;
 
@@ -167,17 +173,58 @@ function isTransient(e) {
   if (status === undefined && /overload|timeout|ECONNRESET|ETIMEDOUT|fetch failed/i.test(e?.message || "")) return true;
   return false;
 }
-// Stream'i geçici hatalarda exponential backoff ile yeniden dener.
+// --- Sağlayıcı-bağımsız tek üretim: { text, input, output, stop } döndürür ---
+// Anthropic (Claude): streaming + canlı stdout.
+async function generateAnthropic() {
+  const stream = client.messages.stream({
+    model: MODEL, max_tokens: 14000, ...THINKING,
+    system, messages: [{ role: "user", content: userMessage }],
+  });
+  stream.on("text", (d) => process.stdout.write(d));
+  const fin = await stream.finalMessage();
+  return {
+    text: fin.content.filter((b) => b.type === "text").map((b) => b.text).join(""),
+    input: fin.usage.input_tokens, output: fin.usage.output_tokens, stop: fin.stop_reason,
+  };
+}
+// Gemini (Google): REST generateContent (yeni bağımlılık yok). Astroloji içeriği bloklanmasın diye güvenlik eşikleri gevşek.
+async function generateGemini() {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+  const body = {
+    system_instruction: { parts: [{ text: system }] },
+    contents: [{ role: "user", parts: [{ text: userMessage }] }],
+    generationConfig: { maxOutputTokens: 14000, temperature: 1 },
+    safetySettings: [
+      { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+      { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+    ],
+  };
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    const t = await res.text().catch(() => "");
+    const err = new Error(`Gemini ${res.status}: ${t.slice(0, 300)}`); err.status = res.status; throw err;
+  }
+  const data = await res.json();
+  const cand = data.candidates?.[0];
+  const text = (cand?.content?.parts || []).map((p) => p.text || "").join("");
+  process.stdout.write(text); // operatör görsün (Gemini non-streaming)
+  const um = data.usageMetadata || {};
+  return { text, input: um.promptTokenCount ?? 0, output: um.candidatesTokenCount ?? 0, stop: cand?.finishReason || "STOP" };
+}
+const generateOnce = PROVIDER === "gemini" ? generateGemini : generateAnthropic;
+
+// Geçici hatalarda exponential backoff ile yeniden dener (her iki sağlayıcı için).
 const API_RETRIES = 6; // ~ 2,4,8,16,32,60 sn ⇒ toplam ~2 dk dayanır
-async function streamWithRetry() {
+async function generateWithRetry() {
   for (let r = 0; ; r++) {
     try {
-      const stream = client.messages.stream({
-        model: MODEL, max_tokens: 14000, ...THINKING,
-        system, messages: [{ role: "user", content: userMessage }],
-      });
-      stream.on("text", (d) => process.stdout.write(d));
-      return await stream.finalMessage();
+      return await generateOnce();
     } catch (e) {
       if (r >= API_RETRIES || !isTransient(e)) throw e;
       const wait = Math.min(2 ** (r + 1) * 1000, 60000) + Math.floor(Math.random() * 1000);
@@ -188,12 +235,12 @@ async function streamWithRetry() {
   }
 }
 
-let text = "", fin = null, miss = [];
+let text = "", res = null, miss = [];
 try {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     if (attempt > 1) console.warn(`\n⚠️  Eksik/boş bölüm: [${miss.join(", ")}] → yeniden üretiliyor (deneme ${attempt}/${MAX_ATTEMPTS})...\n`);
-    fin = await streamWithRetry();
-    text = stripEmDash(fin.content.filter((b) => b.type === "text").map((b) => b.text).join(""));
+    res = await generateWithRetry();
+    text = stripEmDash(res.text);
     miss = missingSections(text, req);
     if (!miss.length) break;
   }
@@ -203,7 +250,7 @@ try {
     console.error("   Bu rapor KUSURLU — RENDER ETME / MÜŞTERİYE GÖNDERME. Tekrar çalıştır ya da prompt'u gözden geçir.");
     process.exit(1);
   }
-  console.log(`\n\n[✓ ${OUT} | token: girdi ${fin.usage.input_tokens}, çıktı ${fin.usage.output_tokens} | ${fin.stop_reason} | ${req.length} bölüm tam]`);
+  console.log(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output} | ${res.stop} | ${req.length} bölüm tam]`);
 } catch (e) {
   const t = e?.error?.error?.type || e?.error?.type;
   if (isTransient(e)) {
