@@ -927,6 +927,24 @@ export function pruneOldReports(): number {
   for (const r of eskiler) if (r.dosya && !halaKullanilan.has(r.dosya)) deleteFile(r.dosya);
   return eskiler.length;
 }
+// Öksüz üretim kurtarma: uzun süredir "olusturuluyor"da takılı raporları "başarısız"a çevirir.
+// Sebep: üretim sırasında sunucu yeniden başlarsa (deploy/restart) alt-süreç ölür, rapor sonsuza
+// dek "olusturuluyor" kalır (ne biter ne "Tekrar dene" çıkar). Gerçek üretim ~3 dk; 8 dk'yı aşan
+// takılı sayılır. Okuma uçlarında (Analizlerim) çağrılır; kullanıcı "Tekrar dene" görür.
+export function pruneStaleGenerating(maxMinutes = 8): number {
+  const now = Date.now();
+  const list = getReports();
+  let changed = 0;
+  for (const r of list) {
+    if (r.durum === "olusturuluyor" && now - new Date(r.tarih).getTime() > maxMinutes * 60 * 1000) {
+      r.durum = "bekliyor";
+      r.hata = "Üretim yarıda kaldı (sunucu yeniden başlamış olabilir). Tekrar deneyebilirsin.";
+      changed++;
+    }
+  }
+  if (changed) write("reports.json", list);
+  return changed;
+}
 export function addReport(
   email: string,
   slug: string,
