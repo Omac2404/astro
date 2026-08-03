@@ -193,7 +193,8 @@ async function generateGemini() {
   const body = {
     system_instruction: { parts: [{ text: system }] },
     contents: [{ role: "user", parts: [{ text: userMessage }] }],
-    generationConfig: { maxOutputTokens: 14000, temperature: 1 },
+    // GEMINI_THINKING=0 → düşünmeyi kapat (thinking token'ı harcamaz, maliyet düşer; bu yaratıcı iş için genelde yeterli).
+    generationConfig: { maxOutputTokens: 14000, temperature: 1, ...(process.env.GEMINI_THINKING === "0" ? { thinkingConfig: { thinkingBudget: 0 } } : {}) },
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
       { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
@@ -221,7 +222,10 @@ async function generateGemini() {
   const text = (cand?.content?.parts || []).map((p) => p.text || "").join("");
   process.stdout.write(text); // operatör görsün (Gemini non-streaming)
   const um = data.usageMetadata || {};
-  return { text, input: um.promptTokenCount ?? 0, output: um.candidatesTokenCount ?? 0, stop: cand?.finishReason || "STOP" };
+  const thoughts = um.thoughtsTokenCount || 0; // düşünme token'ı (çıktı fiyatından faturalanır)
+  // Faturalanan çıktı = görünen çıktı + düşünme; toplam faturalanan = girdi + bu.
+  return { text, input: um.promptTokenCount ?? 0, output: (um.candidatesTokenCount ?? 0) + thoughts,
+           stop: cand?.finishReason || "STOP", thoughts, total: um.totalTokenCount ?? 0 };
 }
 const generateOnce = PROVIDER === "gemini" ? generateGemini : generateAnthropic;
 
@@ -256,7 +260,8 @@ try {
     console.error("   Bu rapor KUSURLU — RENDER ETME / MÜŞTERİYE GÖNDERME. Tekrar çalıştır ya da prompt'u gözden geçir.");
     process.exit(1);
   }
-  console.error(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
+  const dus = res.thoughts ? ` (düşünme ${res.thoughts})` : ""; // Gemini düşünme token'ı varsa göster
+  console.error(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output}${dus} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
 } catch (e) {
   const t = e?.error?.error?.type || e?.error?.type;
   if (isTransient(e)) {
