@@ -159,7 +159,7 @@ function missingSections(text, req) {
   return req.filter((key) => { const h = heads.find((x) => x.includes(key)); return !h || !secs[h]; });
 }
 
-console.log(`\n${"=".repeat(60)}\n  SAĞLAYICI: ${PROVIDER} · MODEL: ${MODEL}\n${"=".repeat(60)}`);
+console.error(`\n${"=".repeat(60)}\n  SAĞLAYICI: ${PROVIDER} · MODEL: ${MODEL}\n${"=".repeat(60)}`); // stderr → container logunda görünür
 const req = REQUIRED[product] || [];
 const MAX_ATTEMPTS = 3;
 
@@ -256,7 +256,7 @@ try {
     console.error("   Bu rapor KUSURLU — RENDER ETME / MÜŞTERİYE GÖNDERME. Tekrar çalıştır ya da prompt'u gözden geçir.");
     process.exit(1);
   }
-  console.log(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output} | ${res.stop} | ${req.length} bölüm tam]`);
+  console.error(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
 } catch (e) {
   const t = e?.error?.error?.type || e?.error?.type;
   if (isTransient(e)) {

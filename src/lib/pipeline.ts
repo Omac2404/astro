@@ -29,7 +29,9 @@ function run(cmd: string, args: string[], env?: NodeJS.ProcessEnv): Promise<void
   return new Promise((resolve, reject) => {
     const p = spawn(cmd, args, { cwd: ROOT, env: env ?? process.env });
     let err = "";
-    p.stderr.on("data", (d) => (err += d.toString()));
+    // stderr'i hem biriktir (hata mesajı için) hem canlı loga yansıt (container logunda görünsün:
+    // SAĞLAYICI satırı, retry uyarıları, başarı/token, hatalar). stdout (akan rapor metni) yutulur.
+    p.stderr.on("data", (d) => { err += d.toString(); process.stderr.write(d); });
     p.stdout.on("data", () => {});
     p.on("error", reject);
     p.on("close", (code) => (code === 0 ? resolve() : reject(new Error(`${path.basename(cmd)} ${args.join(" ")} → çıkış ${code}\n${err.slice(-400)}`))));
