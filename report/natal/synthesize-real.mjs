@@ -170,7 +170,7 @@ function isTransient(e) {
   const type = e?.error?.error?.type || e?.error?.type;
   if (type === "overloaded_error" || type === "api_error") return true;
   if (status === 429 || status === 408 || status === 409 || (status >= 500 && status <= 599)) return true;
-  if (status === undefined && /overload|timeout|ECONNRESET|ETIMEDOUT|fetch failed/i.test(e?.message || "")) return true;
+  if (status === undefined && /overload|timeout|abort|ECONNRESET|ETIMEDOUT|fetch failed/i.test(e?.message || "")) return true;
   return false;
 }
 // --- Sağlayıcı-bağımsız tek üretim: { text, input, output, stop } döndürür ---
@@ -201,11 +201,17 @@ async function generateGemini() {
       { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
     ],
   };
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
-    body: JSON.stringify(body),
-  });
+  const ctrl = new AbortController();
+  const to = setTimeout(() => ctrl.abort(), 120000); // 120 sn zaman aşımı — istek asılı kalıp sonsuza dek beklemesin
+  let res;
+  try {
+    res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+      body: JSON.stringify(body),
+      signal: ctrl.signal,
+    });
+  } finally { clearTimeout(to); }
   if (!res.ok) {
     const t = await res.text().catch(() => "");
     const err = new Error(`Gemini ${res.status}: ${t.slice(0, 300)}`); err.status = res.status; throw err;
