@@ -584,7 +584,7 @@ def render_sinastri(product):
     if not parsed:
         print(f"[uyarı] rapor-{product}.txt yok — bölümler boş")
     def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
-    sections = [{"eyebrow": eb, "baslik": bs, "govde": body_html(limit_chars(find_body(hd), 600))} for (hd, eb, bs) in cfg["sections"]]
+    sections = [{"eyebrow": eb, "baslik": bs, "govde": body_html(limit_chars(find_body(hd), 450))} for (hd, eb, bs) in cfg["sections"]]
     _bos = [bs for (hd, eb, bs) in cfg["sections"] if not find_body(hd).strip()]
     if _bos:
         print("\n" + "!" * 64 + f"\n⛔ BOŞ BÖLÜM(LER): {', '.join(_bos)} — rapor KUSURLU!\n" + "!" * 64 + "\n")
@@ -786,9 +786,9 @@ def main():
     else:
         parsed = {}; print(f"[uyarı] rapor-{product}.txt yok — bölüm prozları boş")
     def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
-    # Her başlık-altı bölüm metni max ~600 karakter (tek paragraf) — sayfa dengeli dolsun, taşmasın.
+    # Her başlık-altı bölüm metni max ~450 karakter (tek paragraf) — sayfaya 2-3 bölüm sığsın, her biri bütün kalsın.
     sections = [{"eyebrow": eb, "baslik": bs, "glyph": gl,
-                 "govde": body_html(limit_chars(find_body(hd), 600)), "upsell": up}
+                 "govde": body_html(limit_chars(find_body(hd), 450)), "upsell": up}
                 for (hd, eb, bs, gl, up) in cfg["sections"]]
     # GÜVENLİK: boş bölüm = kusurlu rapor (AI bölüm atlamış olabilir). Görünür uyarı bas.
     _bos = [bs for (hd, eb, bs, gl, up) in cfg["sections"] if not find_body(hd).strip()]

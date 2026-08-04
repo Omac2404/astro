@@ -20,7 +20,7 @@ Sana bir kişinin doğum haritası verileri ve o haritaya uyan **anlam blokları
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 kariyer bölümünün (İş Kimliğin … Sana Yakışan Yol) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 kariyer bölümünün (İş Kimliğin … Sana Yakışan Yol) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~450 karakter (~70 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur).
 
 Hedef: **toplam ~900-1200 kelime.** Premium hissettirmeli ama uzunluk asla dolgu pahasına olmayacak. Her cümle yerini hak etsin; tekrar etme, jenerik astro-laf ekleme, her bloğu somut ve kişiye özel işle ("bu sadece bu kişi için doğru" hissi).
 

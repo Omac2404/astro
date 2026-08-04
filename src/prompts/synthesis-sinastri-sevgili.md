@@ -19,7 +19,7 @@ Sana **iki kişinin doğum haritası** ve aralarındaki **sinastri blokları** (
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Çekim … Birlikte Büyümek) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Aşağıdaki 7 bölümün (İlk Çekim … Birlikte Büyümek) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~450 karakter (~70 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
 Hedef: **toplam ~900-1200 kelime.** Premium hissettir ama dolgu yapma. Her cümle bu çifte özel olsun; jenerik astro-laf ekleme. "Bu sadece bu ikili için doğru" hissi ver.
 

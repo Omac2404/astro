@@ -25,7 +25,7 @@ Sana bir kişinin doğum haritası verileri + karmik noktaları (Lilith, Ay Dü�
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 6 karmik bölümün (Gölgen … Ruhsal Bütünleşme) HER BİRİ **tek bir A4 sayfasına** sığacak. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 6 karmik bölümün (Gölgen … Ruhsal Bütünleşme) HER BİRİ **tek bir A4 sayfasına** sığacak. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~450 karakter (~70 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
 Hedef: **toplam ~850-1100 kelime.** Derin ve premium hissettir; her cümle ruhsal olarak anlamlı ve kişiye özel olsun, dolgu yok.
 

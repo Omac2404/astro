@@ -20,7 +20,7 @@ Sana bir kişinin doğum haritası verileri ve o haritaya uyan **anlam blokları
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Numaralı ana bölümlerin (Sen Kimsin? … Güçlü Yönlerin) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur). Bölüm sayısı çok; her birini öz ve dolu tut, şişirme.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** Numaralı ana bölümlerin (Sen Kimsin? … Güçlü Yönlerin) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Bu yüzden her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~450 karakter (~70 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın (aşarsa sayfa taşar, bölünür, düzen bozulur). Bölüm sayısı çok; her birini öz ve dolu tut, şişirme.
 
 Hedef: **toplam ~1000-1300 kelime** (8 bölüm × ~90 + İmza Sentezi + Element Yorumu). Natal bayrak gemisi üründür; derinlik ve kişiye özgüllükle premium hissettir, uzunlukla değil. Uzunluk **asla** dolgu pahasına olmayacak.
 

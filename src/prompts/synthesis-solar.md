@@ -27,7 +27,7 @@ Sana bir kişinin **SOLAR RETURN (yıl dönüşü) haritası** verilecek: doğum
 
 ## UZUNLUK & KALİTE
 
-**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Yılın Tonu … Yılın Daveti) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~600 karakter (~90 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
+**SAYFA KURALI (ÇOK ÖNEMLİ — bozma):** 7 bölümün (Yılın Tonu … Yılın Daveti) HER BİRİ **tek bir A4 sayfasına** sığacak biçimde basılıyor. Her bölümü **tek bir akıcı, dolu paragraf; EN FAZLA ~450 karakter (~70 kelime)** tut. Hiçbir bölüm bu sınırı aşmasın.
 
 Hedef: **toplam ~900-1200 kelime.** Premium hissettir, dolgu yapma; her cümle bu yıla dair somut, kişiye özel bir şey söylesin.
 

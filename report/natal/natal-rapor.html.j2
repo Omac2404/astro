@@ -27,6 +27,9 @@ html,body{
 .sheet{ width:210mm; min-height:297mm; position:relative; overflow:hidden; page-break-after:always; }
 .sheet:last-child{ page-break-after:auto; }
 .flow{ padding:20mm 27.5mm; }
+/* Düz-yazı bölüm sayfası çok-sayfaya akar; overflow:hidden Chrome'da sayfalamayı bozup içeriği erken
+   kırabiliyor (sayfa dolmadan sonrakine atma). Bu sheet'te görünür bırak → bölümler doğal akar. */
+.sections-sheet{ overflow:visible; min-height:0; }
 .sections-sheet .flow{ padding:0 27.5mm; }
 
 .astro{ font-family:'Noto Sans Symbols 2','DejaVu Sans',sans-serif; font-variant-emoji:text; }
@@ -179,13 +182,12 @@ p:last-child{ margin-bottom:0; }
 /* ============ SECTIONS ============ */
 .section{ padding-top:13mm; }
 .section p{ font-size:14.5pt; line-height:1.78; }  /* bölüm yorum metni — ~600 karakter/paragraf, bir tık büyük (parşömen sayfalar) */
-/* Her bölüm (başlık + yorum) KENDİ sayfasında başlar → sayfa-ortası kesilme yok, orphan yok */
-/* Gap @page yerine bölüm padding'inde → her bölüm (ilk dahil) birebir aynı üst boşluğu alır */
-.sections-sheet .section{ padding-top:18mm; page-break-before:always; break-before:page; break-inside:avoid; }
-/* İlk bölüm dış sayfa-kırılmasıyla başladığından üst padding'i Chrome'da düşer; gap'i gerçek-yükseklikli spacer verir */
-.sections-sheet .sec-spacer{ height:18mm; }
-.sections-sheet .sec-spacer + .section{ padding-top:0; page-break-before:avoid; break-before:auto; }
-.section:first-of-type{ padding-top:0; }
+/* Bölümler ARDIŞIK akar (bir sayfaya 2-3 bölüm sığar). break-inside:avoid ile her bölüm BÜTÜN kalır:
+   sığmıyorsa komple sonraki sayfaya iner, asla ortasından bölünmez (bir sayfada başlayıp biter).
+   Üst padding sayfa-kırılmasında da korunur (margin gibi düşmez) → her sayfada üst boşluk. */
+.sections-sheet .section{ padding-top:8mm; break-inside:avoid; }
+.sections-sheet .section:first-of-type{ padding-top:10mm; }
+.sections-sheet .sec-spacer{ height:0; }
 .section-head{ margin-bottom:6mm; break-inside:avoid; break-after:avoid; }
 .section-head .eyebrow{ display:block; margin-bottom:3mm; }
 .section-head .row{ display:flex; align-items:center; gap:5mm; }
