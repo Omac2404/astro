@@ -826,6 +826,9 @@ def main():
         "urun_etiket": cfg.get("urun_etiket", ""), "pos_love": focus_planets,
         "love_note": love_note, "chart_love_note": chart_love_note,
         "upsell_list": cfg.get("upsell_list", []),
+        # LEAN: doğum-haritası tabanlı türev ürünler (Aşk, Kariyer, Enerji/Sağlık, Lilith) için
+        # PDF'ten pozisyon tablosu + nitelik diyagramı + element barları/mizaç çıkar. Natal/solar/aylık/çift'te kalır.
+        "lean": product in ("ask", "kariyer", "saglik", "lilith"),
         "cover_bg": ("data:image/jpeg;base64," + base64.b64encode(open(COVER_IMG, "rb").read()).decode()) if os.path.exists(COVER_IMG) else "",
         "logo": _data_uri(LOGO_DIKEY, "image/png"), "disclaimer": DISCLAIMER_NATAL,
     }
@@ -863,8 +866,8 @@ def main():
     # element-yorum paragrafı
     html = re.sub(r'(<div class="el-comment">[\s\S]*?)<p>[\s\S]*?</p>',
                   lambda mm: mm.group(1) + f"<p>{element_yorum}</p>", html, count=1)
-    # İmza Sentezi paragrafı (nitelik sayfası)
-    html = re.sub(r'(<div class="sig-synth">[\s\S]*?)<p>[\s\S]*?</p>',
+    # İmza Sentezi paragrafı (natal: nitelik sayfası · lean: chart sayfası "sig-synth chart-synth")
+    html = re.sub(r'(<div class="sig-synth[^"]*">[\s\S]*?)<p>[\s\S]*?</p>',
                   lambda mm: mm.group(1) + f"<p>{imza_sentezi}</p>", html, count=1)
 
     out_html = os.path.join(IO, "natal-rapor.out.html")

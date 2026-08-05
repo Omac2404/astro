@@ -150,6 +150,8 @@ p:last-child{ margin-bottom:0; }
 .sig-synth em{ color:#ece8f7; font-style:italic; }
 .paren{ color:#a8722b; }
 .sig-synth .paren, .element-page .el-comment .paren{ color:var(--gold-bright); }
+/* LEAN: türev ürünlerde İmza Sentezi çarkın altına gelir (pozisyon tablosunun boşalttığı yer) */
+.chart-page .chart-synth{ width:152mm; margin-top:8mm; border-top-color:rgba(194,163,107,.22); }
 /* 12 Ev listesi */
 .house-legend{ margin:0 0 4mm; }
 .house-legend .lbl{ display:block; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:15pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:5mm; }
@@ -499,7 +501,7 @@ p:last-child{ margin-bottom:0; }
     <div class="chart-name">{{ meta.ad }}</div>
     <div class="chart-sub">{{ meta.dogum }}</div>
 
-    <div class="pos-table">
+    {% if not lean %}<div class="pos-table">
       <div class="pos-row{{ ' loverow' if 'gunes' in pos_love else '' }}"><span class="pos-sym astro">&#9737;</span><span class="pos-name">Güneş</span><span class="pos-loc">{{ P.gunes.sign }} {{ P.gunes.deg }} · {{ P.gunes.house }}. ev</span><span class="pos-mean">Kimliğin, özün, parlayan yanın</span></div>
       <div class="pos-row{{ ' loverow' if 'ay' in pos_love else '' }}"><span class="pos-sym astro">&#9789;</span><span class="pos-name">Ay</span><span class="pos-loc">{{ P.ay.sign }} {{ P.ay.deg }} · {{ P.ay.house }}. ev</span><span class="pos-mean">Duyguların, ihtiyaçların</span></div>
       <div class="pos-row"><span class="pos-sym"><svg class="asc-svg-sm" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" transform="translate(12 12) scale(0.0147 -0.0147) translate(-918.0 -722.0)"/></g></svg></span><span class="pos-name">Yükselen</span><span class="pos-loc">{{ asc.sign }} {{ asc.deg }}</span><span class="pos-mean">Dışa yansıman, ilk izlenim</span></div>
@@ -508,8 +510,9 @@ p:last-child{ margin-bottom:0; }
       <div class="pos-row{{ ' loverow' if 'mars' in pos_love else '' }}"><span class="pos-sym astro">&#9794;</span><span class="pos-name">Mars</span><span class="pos-loc">{{ P.mars.sign }} {{ P.mars.deg }} · {{ P.mars.house }}. ev</span><span class="pos-mean">Arzu, eylem, irade</span></div>
       <div class="pos-row{{ ' loverow' if 'jupiter' in pos_love else '' }}"><span class="pos-sym astro">&#9795;</span><span class="pos-name">Jüpiter</span><span class="pos-loc">{{ P.jupiter.sign }} {{ P.jupiter.deg }} · {{ P.jupiter.house }}. ev</span><span class="pos-mean">Şans, genişleme, vizyon</span></div>
       <div class="pos-row{{ ' loverow' if 'saturn' in pos_love else '' }}"><span class="pos-sym astro">&#9796;</span><span class="pos-name">Satürn</span><span class="pos-loc">{{ P.saturn.sign }} {{ P.saturn.deg }} · {{ P.saturn.house }}. ev</span><span class="pos-mean">Disiplin, sorumluluk, sınır</span></div>
-    </div>
+    </div>{% endif %}
     {% if chart_love_note %}<p class="chart-love-note">{{ chart_love_note|safe }}</p>{% endif %}
+    {% if lean %}<div class="sig-synth chart-synth"><span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span><p>…</p></div>{% endif %}
   </div>
 </section>
 
@@ -539,7 +542,7 @@ p:last-child{ margin-bottom:0; }
 </section>
 
 <!-- ====================== ELEMENT × NİTELİK DİYAGRAMI ====================== -->
-<section class="sheet sig-page">
+{% if not lean %}<section class="sheet sig-page">
   <div class="diag-inner">
     <div class="sig-head">
       <span class="eyebrow page-title" lang="tr">Nitelik Dengesi</span>
@@ -586,13 +589,13 @@ p:last-child{ margin-bottom:0; }
       <p>Bu sekiz imza tek bir insanı anlatıyor: dışa zarif ve uzlaşmacı <span class="paren">(Terazi Yükselen)</span>, içeride ise parlamak isteyen bir ateş <span class="paren">(Aslan Güneş)</span> ile korunmak isteyen derin bir su <span class="paren">(Yengeç Ay)</span> aynı anda taşıyan biri. Senin temel ritmin bu ikisi arasında salınır, görülme arzusu ile yuvana çekilme ihtiyacı. İlişkilerinde bu içsel ısı doğrudan tutkuya dönüşür <span class="paren">(Venüs–Mars kavuşumu)</span>; kariyer ve duygu alanında ise Satürn sana sabır ve sağlamlık katar, Ay–Satürn karşıtlığının öğrettiği duygusal dayanıklılık, başta mesafe gibi görünse de zamanla en güçlü zırhın olur. Güneş–Jüpiter üçgenin tüm bu yapıya bir <em>şans ve genişleme</em> duygusu serpiştirir: kapılar sana nispeten kolay açılır. Genel tonun öncü ve ateşli, başlatan, harekete geçen biri, ama altındaki toprak <span class="paren">(Oğlak Satürn)</span> bu hevesi kalıcı işlere çevirmeni sağlar. Kısaca sen; zarafetle tutkuyu, coşkuyla disiplini, görünürlükle derinliği aynı bedende taşıyan, karşıtlıklarından güç devşiren bir haritasın.</p>
     </div>
   </div>
-</section>
+</section>{% endif %}
 
 <!-- ====================== ELEMENT & MİZAÇ ====================== -->
 <section class="sheet element-page">
   <div class="inner">
-    <span class="eyebrow page-title" lang="tr">Element Dengesi &amp; Mizacın</span>
-    <div class="mizac-big">
+    <span class="eyebrow page-title" lang="tr">{{ 'Element Dengen' if lean else 'Element Dengesi &amp; Mizacın' }}</span>
+    {% if not lean %}<div class="mizac-big">
       <span class="name">{{ mizac.ad }}</span>
     </div>
     <p class="m-desc">{{ mizac_desc|safe }}</p>
@@ -603,9 +606,9 @@ p:last-child{ margin-bottom:0; }
     <div class="el-legend">
       {% for e in el_legend %}<div class="leg{{ ' dom' if e.dom else '' }}"><span class="k">{{ e.name }}</span><span class="v">{{ e.mean }}</span></div>
       {% endfor %}
-    </div>
+    </div>{% endif %}
     <div class="el-comment">
-      <span class="lbl">Element Dengen{{ urun_etiket|safe }}</span>
+      {% if not lean %}<span class="lbl">Element Dengen{{ urun_etiket|safe }}</span>{% endif %}
       <p>Sende ateş açık ara baskın <span class="paren">(%50)</span>: hayata iradeyle, coşkuyla ve eylemle yaklaşan, hareketten beslenen bir doğa. Toprak <span class="paren">(%25)</span> bu ateşe sağlam bir zemin veriyor, Satürn ve Başak'ın disipliniyle, çoğu ateşli insandan daha fazla "başladığını bitirme" gücün var. Buna karşılık hava ve su sende görece zayıf kalıyor <span class="paren">(ikisi de %12,5)</span>. Su'nun düşüklüğü ilginç, çünkü Ay'ın derin bir su burcunda <span class="paren">(Yengeç)</span>: duygusal derinliğin güçlü, ama dengede "akışkan" tarafın ince, duyguların yoğun yaşanır, kolay akıp dışa vurulmaz; onlara bilinçli alan açman iyi gelir. Hava'nın düşüklüğü ise dünyayı soyut analizden çok eylem ve sezgiyle kavradığını gösterir; ara ara bir adım geri çekilip meseleyi konuşarak "havalandırmak" dengeni tamamlar. Kısaca sen bir "yapan-kuran" karışımısın; ateşinle toprağın seni üretken kılar, su ile havayı bilinçli beslemen ise seni bütünler.</p>
     </div>
   </div>
