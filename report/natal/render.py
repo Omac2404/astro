@@ -860,8 +860,10 @@ def main():
     html = re.sub(r'(<div class="diagram">)<svg[\s\S]*?</svg>(</div>)',
                   lambda mm: mm.group(1) + diagram_svg + mm.group(2), html, count=1)
     html = re.sub(r'<svg class="asc-svg-sm"[\s\S]*?</svg>', lambda mm: asc_glyph_svg, html, count=1)
-    # imza kartları (8 .sig) -> üretilen kartlar
-    html = re.sub(r'<div class="sig"><div class="badge">[\s\S]*</div></div>(?=\s*</div>\s*</section>)',
+    # imza kartları (placeholder .sig bloğu) -> üretilen 8 kart.
+    # Ardışık .sig div'lerini eşleştir (natal: Ana İmzalar'da 8 div · lean: çark sayfasında 1 placeholder).
+    # Not sayfa sonunda olmayabildiği için lookahead yerine ardışık-blok eşleşmesi kullanılır.
+    html = re.sub(r'<div class="sig"><div class="badge">[\s\S]*?</div></div>(?:\s*<div class="sig"><div class="badge">[\s\S]*?</div></div>)*',
                   lambda mm: sig_cards, html, count=1)
     # element-yorum paragrafı
     html = re.sub(r'(<div class="el-comment">[\s\S]*?)<p>[\s\S]*?</p>',

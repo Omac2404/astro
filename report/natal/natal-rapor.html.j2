@@ -150,8 +150,16 @@ p:last-child{ margin-bottom:0; }
 .sig-synth em{ color:#ece8f7; font-style:italic; }
 .paren{ color:#a8722b; }
 .sig-synth .paren, .element-page .el-comment .paren{ color:var(--gold-bright); }
-/* LEAN: türev ürünlerde İmza Sentezi çarkın altına gelir (pozisyon tablosunun boşalttığı yer) */
-.chart-page .chart-synth{ width:152mm; margin-top:8mm; border-top-color:rgba(194,163,107,.22); }
+/* LEAN: türev ürünlerde imza kartları çarkın altına gelir (pozisyon tablosunun yerine) */
+.chart-page .chart-sigs{ width:152mm; margin-top:1mm; }
+.chart-page .sig{ border-bottom:1px solid rgba(194,163,107,.16); padding:1.5mm 0; }
+.chart-page .sig .t strong{ color:#fbf6ec; }
+.chart-page .sig .t span{ color:#bdb8d6; }
+.chart-page .badge{ width:11mm; flex:0 0 11mm; height:auto; border:none; background:none; border-radius:0; }
+.chart-page .badge .sig-glyph{ width:5.2mm; height:5.2mm; display:block; }
+.chart-page .badge .flame-svg{ width:6.8mm; height:6.8mm; display:block; }
+/* lean çark sayfasında imzalara yer açmak için çarkı biraz küçült */
+.chart-page.lean .chart-wheel{ width:100mm; height:100mm; }
 /* 12 Ev listesi */
 .house-legend{ margin:0 0 4mm; }
 .house-legend .lbl{ display:block; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:15pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:5mm; }
@@ -342,7 +350,7 @@ p:last-child{ margin-bottom:0; }
 </section>
 
 <!-- ====================== CHART + POSITIONS ====================== -->
-<section class="sheet chart-page">
+<section class="sheet chart-page{{ ' lean' if lean else '' }}">
   <div class="inner">
     <div class="eyebrow page-title" lang="tr">{{ gokyuzu_baslik|default('Doğum Anının Gökyüzü') }}</div>
     <svg class="chart-wheel" viewBox="-44 -44 488 488" xmlns="http://www.w3.org/2000/svg" font-family="Spectral, serif">
@@ -511,8 +519,8 @@ p:last-child{ margin-bottom:0; }
       <div class="pos-row{{ ' loverow' if 'jupiter' in pos_love else '' }}"><span class="pos-sym astro">&#9795;</span><span class="pos-name">Jüpiter</span><span class="pos-loc">{{ P.jupiter.sign }} {{ P.jupiter.deg }} · {{ P.jupiter.house }}. ev</span><span class="pos-mean">Şans, genişleme, vizyon</span></div>
       <div class="pos-row{{ ' loverow' if 'saturn' in pos_love else '' }}"><span class="pos-sym astro">&#9796;</span><span class="pos-name">Satürn</span><span class="pos-loc">{{ P.saturn.sign }} {{ P.saturn.deg }} · {{ P.saturn.house }}. ev</span><span class="pos-mean">Disiplin, sorumluluk, sınır</span></div>
     </div>{% endif %}
+    {% if lean %}<div class="chart-sigs"><div class="sig"><div class="badge"></div><div class="t"><strong>·</strong><span>·</span></div></div></div>{% endif %}
     {% if chart_love_note %}<p class="chart-love-note">{{ chart_love_note|safe }}</p>{% endif %}
-    {% if lean %}<div class="sig-synth chart-synth"><span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span><p>…</p></div>{% endif %}
   </div>
 </section>
 
@@ -530,21 +538,21 @@ p:last-child{ margin-bottom:0; }
       {% endfor %}
       </div>
     </div>
-    <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" transform="translate(12 12) scale(0.0260 -0.0260) translate(-435.0 -353.0)"/></g></svg></div><div class="t"><strong>Aslan Güneş · 11. Ev</strong><span>Görülmek ve takdir edilmek isteyen, sosyal çevresinde ısı yayan parlak bir çekirdek.</span></div></div>
+    {% if not lean %}<div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" transform="translate(12 12) scale(0.0260 -0.0260) translate(-435.0 -353.0)"/></g></svg></div><div class="t"><strong>Aslan Güneş · 11. Ev</strong><span>Görülmek ve takdir edilmek isteyen, sosyal çevresinde ısı yayan parlak bir çekirdek.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-1200.0 -747.5)"/></g></svg></div><div class="t"><strong>Yengeç Ay · 10. Ev</strong><span>Derin, korumacı bir duygusal dünya, ama bu yumuşaklık toplum önünde duruyor.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-918.0 -722.0)"/></g></svg></div><div class="t"><strong>Terazi Yükselen</strong><span>Dışa zarif, kibar, uzlaşmacı bir ilk izlenim.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M51 -4V728H783V-4ZM88 33H746V691H88Z" transform="translate(12 12) scale(0.0273 -0.0273) translate(-417.0 -362.0)"/></g></svg></div><div class="t"><strong>Ay–Yükselen Karesi</strong><span>İçeride hissettiğin ile dışarıya yansıttığın arasındaki ince ayar.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M646 863Q503 863 402.5 763.0Q302 663 302 519Q302 377 402.5 276.5Q503 176 646 176Q788 176 888.5 276.5Q989 377 989 519Q989 663 889.5 763.0Q790 863 646 863ZM980 922Q999 906 1017 887Q1169 734 1169.0 518.0Q1169 302 1016.0 149.5Q863 -3 646 -3Q431 -3 278.0 149.5Q125 302 125.0 518.0Q125 734 276.5 887.0Q428 1040 646 1040Q742 1040 826 1011L1096 1478L1250 1389Z" transform="translate(12 12) scale(0.0135 -0.0135) translate(-687.5 -737.5)"/></g></svg></div><div class="t"><strong>Venüs–Mars Kavuşumu · 7. Ev</strong><span>İlişkilerde güçlü çekim, tutku ve doğrudanlık.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M563 730Q443 730 358.5 645.5Q274 561 274.0 441.0Q274 321 358.5 236.5Q443 152 563.0 152.0Q683 152 767.5 236.5Q852 321 852.0 441.0Q852 561 768.0 645.5Q684 730 563 730ZM1510 754Q1630 754 1714.5 838.5Q1799 923 1799.0 1043.0Q1799 1163 1715.0 1247.5Q1631 1332 1510.0 1332.0Q1389 1332 1305.0 1247.5Q1221 1163 1221.0 1043.0Q1221 923 1305.0 838.5Q1389 754 1510 754ZM965 623Q1003 539 1003 439Q1003 258 874.5 129.5Q746 1 563 1Q382 1 253.5 129.5Q125 258 125 439Q125 622 252.5 750.5Q380 879 563 879Q748 879 876 751Q878 748 880 746L1100 883Q1072 956 1072 1041Q1072 1224 1199.5 1352.5Q1327 1481 1510 1481Q1694 1481 1822.0 1352.5Q1950 1224 1950 1041Q1950 860 1821.5 731.5Q1693 603 1510 603Q1329 603 1200 732Q1189 743 1178 755Z" transform="translate(12 12) scale(0.0110 -0.0110) translate(-1037.5 -741.0)"/></g></svg></div><div class="t"><strong>Ay–Satürn Karşıtlığı</strong><span>Duygu ile sorumluluk arasında zaman zaman bir mesafe.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M51 0 454 697 856 0ZM120 40H787L454 618Z" transform="translate(12 12) scale(0.0248 -0.0248) translate(-453.5 -348.5)"/></g></svg></div><div class="t"><strong>Güneş–Jüpiter Üçgeni</strong><span>Doğuştan bir şans, iyimserlik ve genişleme yeteneği.</span></div></div>
-    <div class="sig"><div class="badge"><svg class="flame-svg" viewBox="0 0 24 24"><path d="M12 3 C13.6 7 17 9 15.4 14 C14.7 17 12.8 18.2 12 18.2 C9.9 18.2 8.4 16 9 13.4 C9.4 11.4 11 11 10.2 8.4 C12 9 11.5 5.6 12 3 Z" fill="none" stroke="#dcc188" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="t"><strong>Öncü–Ateş Baskınlığı</strong><span>Başlatan, harekete geçen, hevesli bir genel ton.</span></div></div>
+    <div class="sig"><div class="badge"><svg class="flame-svg" viewBox="0 0 24 24"><path d="M12 3 C13.6 7 17 9 15.4 14 C14.7 17 12.8 18.2 12 18.2 C9.9 18.2 8.4 16 9 13.4 C9.4 11.4 11 11 10.2 8.4 C12 9 11.5 5.6 12 3 Z" fill="none" stroke="#dcc188" stroke-width="1.4" stroke-linejoin="round"/></svg></div><div class="t"><strong>Öncü–Ateş Baskınlığı</strong><span>Başlatan, harekete geçen, hevesli bir genel ton.</span></div></div>{% endif %}
   </div>
 </section>
 
 <!-- ====================== ELEMENT × NİTELİK DİYAGRAMI ====================== -->
-{% if not lean %}<section class="sheet sig-page">
+<section class="sheet sig-page{{ ' lean' if lean else '' }}">
   <div class="diag-inner">
-    <div class="sig-head">
+    {% if not lean %}<div class="sig-head">
       <span class="eyebrow page-title" lang="tr">Nitelik Dengesi</span>
     </div>
     <p class="diag-intro">Element neyden yapıldığını söyler; nitelik ise o enerjiyi nasıl harekete geçirdiğini. <span class="diag-emph">Senin gezegenlerinin çoğu {{ dom_modality }} nitelikte: {{ nitelik_phrase }} bir tabiat.</span></p>
@@ -583,32 +591,32 @@ p:last-child{ margin-bottom:0; }
 <path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" fill="#ffffff" transform="translate(180.00 322.00) scale(0.0114 -0.0114) translate(-1200.0 -747.5)"/>
 <rect x="267" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
 <rect x="432" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
-</svg></div>
+</svg></div>{% endif %}
     <div class="sig-synth">
       <span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span>
       <p>Bu sekiz imza tek bir insanı anlatıyor: dışa zarif ve uzlaşmacı <span class="paren">(Terazi Yükselen)</span>, içeride ise parlamak isteyen bir ateş <span class="paren">(Aslan Güneş)</span> ile korunmak isteyen derin bir su <span class="paren">(Yengeç Ay)</span> aynı anda taşıyan biri. Senin temel ritmin bu ikisi arasında salınır, görülme arzusu ile yuvana çekilme ihtiyacı. İlişkilerinde bu içsel ısı doğrudan tutkuya dönüşür <span class="paren">(Venüs–Mars kavuşumu)</span>; kariyer ve duygu alanında ise Satürn sana sabır ve sağlamlık katar, Ay–Satürn karşıtlığının öğrettiği duygusal dayanıklılık, başta mesafe gibi görünse de zamanla en güçlü zırhın olur. Güneş–Jüpiter üçgenin tüm bu yapıya bir <em>şans ve genişleme</em> duygusu serpiştirir: kapılar sana nispeten kolay açılır. Genel tonun öncü ve ateşli, başlatan, harekete geçen biri, ama altındaki toprak <span class="paren">(Oğlak Satürn)</span> bu hevesi kalıcı işlere çevirmeni sağlar. Kısaca sen; zarafetle tutkuyu, coşkuyla disiplini, görünürlükle derinliği aynı bedende taşıyan, karşıtlıklarından güç devşiren bir haritasın.</p>
     </div>
   </div>
-</section>{% endif %}
+</section>
 
 <!-- ====================== ELEMENT & MİZAÇ ====================== -->
 <section class="sheet element-page">
   <div class="inner">
-    <span class="eyebrow page-title" lang="tr">{{ 'Element Dengen' if lean else 'Element Dengesi &amp; Mizacın' }}</span>
+    <span class="eyebrow page-title" lang="tr">{{ 'Element Dengesi' if lean else 'Element Dengesi &amp; Mizacın' }}</span>
     {% if not lean %}<div class="mizac-big">
       <span class="name">{{ mizac.ad }}</span>
     </div>
-    <p class="m-desc">{{ mizac_desc|safe }}</p>
+    <p class="m-desc">{{ mizac_desc|safe }}</p>{% endif %}
     <div class="bars">
       {% for b in bars %}<div class="ebar{{ ' dom' if b.dom else '' }}"><span class="en">{{ b.name }}</span><span class="track"><span class="fill" style="width:{{ b.width }}%;background:{{ b.bg }};"></span></span><span class="pct">{{ b.pct }}</span></div>
       {% endfor %}
     </div>
-    <div class="el-legend">
+    {% if not lean %}<div class="el-legend">
       {% for e in el_legend %}<div class="leg{{ ' dom' if e.dom else '' }}"><span class="k">{{ e.name }}</span><span class="v">{{ e.mean }}</span></div>
       {% endfor %}
     </div>{% endif %}
     <div class="el-comment">
-      {% if not lean %}<span class="lbl">Element Dengen{{ urun_etiket|safe }}</span>{% endif %}
+      <span class="lbl">Element Dengen{{ urun_etiket|safe }}</span>
       <p>Sende ateş açık ara baskın <span class="paren">(%50)</span>: hayata iradeyle, coşkuyla ve eylemle yaklaşan, hareketten beslenen bir doğa. Toprak <span class="paren">(%25)</span> bu ateşe sağlam bir zemin veriyor, Satürn ve Başak'ın disipliniyle, çoğu ateşli insandan daha fazla "başladığını bitirme" gücün var. Buna karşılık hava ve su sende görece zayıf kalıyor <span class="paren">(ikisi de %12,5)</span>. Su'nun düşüklüğü ilginç, çünkü Ay'ın derin bir su burcunda <span class="paren">(Yengeç)</span>: duygusal derinliğin güçlü, ama dengede "akışkan" tarafın ince, duyguların yoğun yaşanır, kolay akıp dışa vurulmaz; onlara bilinçli alan açman iyi gelir. Hava'nın düşüklüğü ise dünyayı soyut analizden çok eylem ve sezgiyle kavradığını gösterir; ara ara bir adım geri çekilip meseleyi konuşarak "havalandırmak" dengeni tamamlar. Kısaca sen bir "yapan-kuran" karışımısın; ateşinle toprağın seni üretken kılar, su ile havayı bilinçli beslemen ise seni bütünler.</p>
     </div>
   </div>
