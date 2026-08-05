@@ -160,8 +160,8 @@ p:last-child{ margin-bottom:0; }
 .chart-page .badge .flame-svg{ width:6.8mm; height:6.8mm; display:block; }
 /* lean çark sayfasında imzalara yer açmak için çarkı biraz küçült */
 .chart-page.lean .chart-wheel{ width:100mm; height:100mm; }
-/* LEAN: İmza Sentezi + Element Dengesi tek sayfada birleşir (sayfa azaltma) */
-.element-page .el-synth{ width:150mm; text-align:left; border-top:none; padding-top:0; margin-top:0; margin-bottom:11mm; }
+/* LEAN: İmza Sentezi evler (Ana İmzalar) sayfasında, Element Dengesi kendi sayfasında */
+.sig-page .flow .sig-synth{ margin-top:7mm; }
 /* 12 Ev listesi */
 .house-legend{ margin:0 0 4mm; }
 .house-legend .lbl{ display:block; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:15pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:5mm; }
@@ -540,6 +540,7 @@ p:last-child{ margin-bottom:0; }
       {% endfor %}
       </div>
     </div>
+    {% if lean %}<div class="sig-synth"><span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span><p>…</p></div>{% endif %}
     {% if not lean %}<div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M435 -31Q356 -31 286.0 -1.0Q216 29 163.5 81.5Q111 134 81.0 204.0Q51 274 51 353Q51 433 81.0 502.5Q111 572 163.5 624.5Q216 677 286.0 707.0Q356 737 435 737Q515 737 584.5 707.0Q654 677 706.5 624.5Q759 572 789.0 502.5Q819 433 819 353Q819 274 789.0 204.0Q759 134 706.5 81.5Q654 29 584.5 -1.0Q515 -31 435 -31ZM435 18Q504 18 565.0 44.0Q626 70 672.0 116.0Q718 162 744.0 223.0Q770 284 770 353Q770 422 744.0 483.0Q718 544 672.0 590.0Q626 636 565.0 662.0Q504 688 435 688Q366 688 305.0 662.0Q244 636 198.0 590.0Q152 544 126.0 483.0Q100 422 100 353Q100 284 126.0 223.0Q152 162 198.0 116.0Q244 70 305.0 44.0Q366 18 435 18ZM435 276Q403 276 380.5 299.0Q358 322 358 353Q358 385 380.5 407.5Q403 430 435 430Q467 430 489.5 407.5Q512 385 512 353Q512 322 489.5 299.0Q467 276 435 276Z" transform="translate(12 12) scale(0.0260 -0.0260) translate(-435.0 -353.0)"/></g></svg></div><div class="t"><strong>Aslan Güneş · 11. Ev</strong><span>Görülmek ve takdir edilmek isteyen, sosyal çevresinde ısı yayan parlak bir çekirdek.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-1200.0 -747.5)"/></g></svg></div><div class="t"><strong>Yengeç Ay · 10. Ev</strong><span>Derin, korumacı bir duygusal dünya, ama bu yumuşaklık toplum önünde duruyor.</span></div></div>
     <div class="sig"><div class="badge"><svg class="sig-glyph" viewBox="0 0 24 24"><g fill="#dcc188"><path d="M171 259H1665V107H171ZM728 506H171V658H525Q458 762 458 893Q458 1078 586.5 1207.5Q715 1337 900 1337Q1086 1337 1215.5 1207.5Q1345 1078 1345 893Q1345 762 1277 658H1665V506H1072V658H1071Q1089 671 1106 688Q1192 773 1192 894Q1192 1016 1107.0 1101.0Q1022 1186 900.0 1186.0Q778 1186 693.0 1101.0Q608 1016 608 894Q608 773 693 688Q709 671 728 658Z" transform="translate(12 12) scale(0.0134 -0.0134) translate(-918.0 -722.0)"/></g></svg></div><div class="t"><strong>Terazi Yükselen</strong><span>Dışa zarif, kibar, uzlaşmacı bir ilk izlenim.</span></div></div>
@@ -604,7 +605,6 @@ p:last-child{ margin-bottom:0; }
 <!-- ====================== ELEMENT & MİZAÇ (lean'de İmza Sentezi de burada) ====================== -->
 <section class="sheet element-page">
   <div class="inner">
-    {% if lean %}<div class="sig-synth el-synth"><span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span><p>…</p></div>{% endif %}
     <span class="eyebrow page-title" lang="tr">{{ 'Element Dengesi' if lean else 'Element Dengesi &amp; Mizacın' }}</span>
     {% if not lean %}<div class="mizac-big">
       <span class="name">{{ mizac.ad }}</span>
