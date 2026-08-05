@@ -160,6 +160,8 @@ p:last-child{ margin-bottom:0; }
 .chart-page .badge .flame-svg{ width:6.8mm; height:6.8mm; display:block; }
 /* lean çark sayfasında imzalara yer açmak için çarkı biraz küçült */
 .chart-page.lean .chart-wheel{ width:100mm; height:100mm; }
+/* LEAN: İmza Sentezi + Element Dengesi tek sayfada birleşir (sayfa azaltma) */
+.element-page .el-synth{ width:150mm; text-align:left; border-top:none; padding-top:0; margin-top:0; margin-bottom:11mm; }
 /* 12 Ev listesi */
 .house-legend{ margin:0 0 4mm; }
 .house-legend .lbl{ display:block; text-align:center; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:15pt; letter-spacing:.01em; text-transform:none; color:var(--gold-bright); margin-bottom:5mm; }
@@ -549,10 +551,10 @@ p:last-child{ margin-bottom:0; }
   </div>
 </section>
 
-<!-- ====================== ELEMENT × NİTELİK DİYAGRAMI ====================== -->
-<section class="sheet sig-page{{ ' lean' if lean else '' }}">
+<!-- ====================== ELEMENT × NİTELİK DİYAGRAMI (lean'de kaldırılır; İmza Sentezi element sayfasına taşınır) ====================== -->
+{% if not lean %}<section class="sheet sig-page">
   <div class="diag-inner">
-    {% if not lean %}<div class="sig-head">
+    <div class="sig-head">
       <span class="eyebrow page-title" lang="tr">Nitelik Dengesi</span>
     </div>
     <p class="diag-intro">Element neyden yapıldığını söyler; nitelik ise o enerjiyi nasıl harekete geçirdiğini. <span class="diag-emph">Senin gezegenlerinin çoğu {{ dom_modality }} nitelikte: {{ nitelik_phrase }} bir tabiat.</span></p>
@@ -591,17 +593,18 @@ p:last-child{ margin-bottom:0; }
 <path d="M894 1495Q1289 1495 1561 1118Q1667 945 1667 747Q1667 355 1271 98Q1092 0 916 0H867Q820 0 739 15V21Q1016 100 1141 277Q1296 479 1296 747Q1296 1147 962 1371Q826 1451 733 1467V1470Q733 1481 882 1495ZM922 1433V1430Q1379 1233 1379 741Q1379 339 1042 107L999 83V79H1005Q1091 79 1249 162Q1482 314 1564 558Q1593 651 1593 744V753Q1593 1070 1246 1331Q1083 1433 925 1433Z" fill="#ffffff" transform="translate(180.00 322.00) scale(0.0114 -0.0114) translate(-1200.0 -747.5)"/>
 <rect x="267" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
 <rect x="432" y="289" width="156" height="66" rx="6" fill="none" stroke="#3a3a63" stroke-width=".7" stroke-dasharray="3 4"/>
-</svg></div>{% endif %}
+</svg></div>
     <div class="sig-synth">
       <span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span>
       <p>Bu sekiz imza tek bir insanı anlatıyor: dışa zarif ve uzlaşmacı <span class="paren">(Terazi Yükselen)</span>, içeride ise parlamak isteyen bir ateş <span class="paren">(Aslan Güneş)</span> ile korunmak isteyen derin bir su <span class="paren">(Yengeç Ay)</span> aynı anda taşıyan biri. Senin temel ritmin bu ikisi arasında salınır, görülme arzusu ile yuvana çekilme ihtiyacı. İlişkilerinde bu içsel ısı doğrudan tutkuya dönüşür <span class="paren">(Venüs–Mars kavuşumu)</span>; kariyer ve duygu alanında ise Satürn sana sabır ve sağlamlık katar, Ay–Satürn karşıtlığının öğrettiği duygusal dayanıklılık, başta mesafe gibi görünse de zamanla en güçlü zırhın olur. Güneş–Jüpiter üçgenin tüm bu yapıya bir <em>şans ve genişleme</em> duygusu serpiştirir: kapılar sana nispeten kolay açılır. Genel tonun öncü ve ateşli, başlatan, harekete geçen biri, ama altındaki toprak <span class="paren">(Oğlak Satürn)</span> bu hevesi kalıcı işlere çevirmeni sağlar. Kısaca sen; zarafetle tutkuyu, coşkuyla disiplini, görünürlükle derinliği aynı bedende taşıyan, karşıtlıklarından güç devşiren bir haritasın.</p>
     </div>
   </div>
-</section>
+</section>{% endif %}
 
-<!-- ====================== ELEMENT & MİZAÇ ====================== -->
+<!-- ====================== ELEMENT & MİZAÇ (lean'de İmza Sentezi de burada) ====================== -->
 <section class="sheet element-page">
   <div class="inner">
+    {% if lean %}<div class="sig-synth el-synth"><span class="lbl">İmza Sentezi{{ urun_etiket|safe }}</span><p>…</p></div>{% endif %}
     <span class="eyebrow page-title" lang="tr">{{ 'Element Dengesi' if lean else 'Element Dengesi &amp; Mizacın' }}</span>
     {% if not lean %}<div class="mizac-big">
       <span class="name">{{ mizac.ad }}</span>
