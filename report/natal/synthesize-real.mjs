@@ -131,6 +131,20 @@ function stripEmDash(s) {
     .replace(/\s*—\s*(ve|ya da|ki|ama|ancak|fakat|çünkü)\b/g, " $1")
     .replace(/\s*—\s*/g, ", ");
 }
+// Model başlık formatı kaydırırsa tolere et: "1. **Başlık**" ve "**Başlık**" (zorunlu başlıksa)
+// satırları kanonik "## Başlık"a çevrilir. Aksi halde parser bölümleri boş sanıp TÜM raporu
+// yeniden ürettiriyordu (rapor başına ~2x token maliyeti). Çıktı dosyasına da normalize hali yazılır
+// ki render.py aynı formatı görsün.
+function normalizeHeadings(text, req) {
+  return text.split("\n").map((line) => {
+    if (/^\s{0,3}##\s+/.test(line)) return line;
+    let m = line.match(/^\s{0,3}\d+[.)]\s*\*\*(.+?)\*\*[:\s]*$/); // 1. **Başlık**
+    if (m) return "## " + m[1].trim();
+    m = line.match(/^\s{0,3}\*\*(.+?)\*\*[:\s]*$/);               // **Başlık** — yalnız zorunlu başlık listesindeyse
+    if (m && req.some((k) => m[1].includes(k))) return "## " + m[1].trim();
+    return line;
+  }).join("\n");
+}
 // Ürün başına ZORUNLU başlıklar — biri eksik/boşsa rapor kusurlu (müşteriye gitmemeli).
 const REQUIRED = {
   natal: ["İmza Sentezi", "Sen Kimsin", "Dışarıya Yansıman", "Duygusal Dünyan", "Zihnin", "Aşk", "Kariyer", "Sağlık", "Güçlü", "Element Yorumu"],
@@ -175,10 +189,10 @@ function isTransient(e) {
 }
 // --- Sağlayıcı-bağımsız tek üretim: { text, input, output, stop } döndürür ---
 // Anthropic (Claude): streaming + canlı stdout.
-async function generateAnthropic() {
+async function generateAnthropic(msg) {
   const stream = client.messages.stream({
     model: MODEL, max_tokens: 14000, ...THINKING,
-    system, messages: [{ role: "user", content: userMessage }],
+    system, messages: [{ role: "user", content: msg }],
   });
   stream.on("text", (d) => process.stdout.write(d));
   const fin = await stream.finalMessage();
@@ -188,13 +202,17 @@ async function generateAnthropic() {
   };
 }
 // Gemini (Google): REST generateContent (yeni bağımlılık yok). Astroloji içeriği bloklanmasın diye güvenlik eşikleri gevşek.
-async function generateGemini() {
+async function generateGemini(msg) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const body = {
     system_instruction: { parts: [{ text: system }] },
-    contents: [{ role: "user", parts: [{ text: userMessage }] }],
+    contents: [{ role: "user", parts: [{ text: msg }] }],
     // GEMINI_THINKING=0 → düşünmeyi kapat (thinking token'ı harcamaz, maliyet düşer; bu yaratıcı iş için genelde yeterli).
-    generationConfig: { maxOutputTokens: 14000, temperature: 1, ...(process.env.GEMINI_THINKING === "0" ? { thinkingConfig: { thinkingBudget: 0 } } : {}) },
+    // Parametre nesle göre değişir: 2.5 ailesi thinkingBudget:0, 3.x ailesi thinkingLevel:"MINIMAL" (budget 400 veriyor).
+    generationConfig: { maxOutputTokens: 14000, temperature: 1,
+      ...(process.env.GEMINI_THINKING === "0"
+        ? { thinkingConfig: MODEL.startsWith("gemini-2") ? { thinkingBudget: 0 } : { thinkingLevel: "MINIMAL" } }
+        : {}) },
     safetySettings: [
       { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
       { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
@@ -231,10 +249,10 @@ const generateOnce = PROVIDER === "gemini" ? generateGemini : generateAnthropic;
 
 // Geçici hatalarda exponential backoff ile yeniden dener (her iki sağlayıcı için).
 const API_RETRIES = 6; // ~ 2,4,8,16,32,60 sn ⇒ toplam ~2 dk dayanır
-async function generateWithRetry() {
+async function generateWithRetry(msg) {
   for (let r = 0; ; r++) {
     try {
-      return await generateOnce();
+      return await generateOnce(msg);
     } catch (e) {
       if (r >= API_RETRIES || !isTransient(e)) throw e;
       const wait = Math.min(2 ** (r + 1) * 1000, 60000) + Math.floor(Math.random() * 1000);
@@ -245,12 +263,30 @@ async function generateWithRetry() {
   }
 }
 
+// Eksik bölümleri ikinci metinden alıp mevcut rapora ekler (parse_report dict-lookup yaptığı için sıra önemsiz;
+// aynı başlık iki kez geçerse dolu olan sonraki kazanır).
+function mergeMissing(base, add, keys) {
+  const secs = sectionsOf(add);
+  let out = base;
+  for (const key of keys) {
+    const h = Object.keys(secs).find((x) => x.includes(key));
+    if (h && secs[h]) out += `\n\n## ${h}\n\n${secs[h]}`;
+  }
+  return out;
+}
+
 let text = "", res = null, miss = [];
+let topIn = 0, topOut = 0, topDus = 0; // tüm denemelerin toplamı — gerçek fatura bu
 try {
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    if (attempt > 1) console.warn(`\n⚠️  Eksik/boş bölüm: [${miss.join(", ")}] → yeniden üretiliyor (deneme ${attempt}/${MAX_ATTEMPTS})...\n`);
-    res = await generateWithRetry();
-    text = stripEmDash(res.text);
+    // 2.+ denemede TÜM raporu değil, YALNIZCA eksik bölümleri ürettir (maliyet: tam retry ~2x'ti).
+    const msg = attempt === 1 ? userMessage
+      : userMessage + `\n\nNOT: Önceki üretimde şu bölümler eksik ya da boş kaldı: [${miss.join(", ")}]. ŞİMDİ YALNIZCA bu eksik bölümleri yaz. Her bölüm "## Başlık" satırıyla başlasın ve dolu bir gövde içersin. Diğer bölümleri TEKRAR YAZMA.`;
+    if (attempt > 1) console.warn(`\n⚠️  Eksik/boş bölüm: [${miss.join(", ")}] → yalnız bu bölümler yeniden üretiliyor (deneme ${attempt}/${MAX_ATTEMPTS})...\n`);
+    res = await generateWithRetry(msg);
+    topIn += res.input || 0; topOut += res.output || 0; topDus += res.thoughts || 0;
+    const t = normalizeHeadings(stripEmDash(res.text), req);
+    text = attempt === 1 ? t : mergeMissing(text, t, miss);
     miss = missingSections(text, req);
     if (!miss.length) break;
   }
@@ -260,8 +296,8 @@ try {
     console.error("   Bu rapor KUSURLU — RENDER ETME / MÜŞTERİYE GÖNDERME. Tekrar çalıştır ya da prompt'u gözden geçir.");
     process.exit(1);
   }
-  const dus = res.thoughts ? ` (düşünme ${res.thoughts})` : ""; // Gemini düşünme token'ı varsa göster
-  console.error(`\n\n[✓ ${OUT} | token: girdi ${res.input}, çıktı ${res.output}${dus} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
+  const dus = topDus ? ` (düşünme ${topDus})` : ""; // Gemini düşünme token'ı varsa göster
+  console.error(`\n\n[✓ ${OUT} | token TOPLAM: girdi ${topIn}, çıktı ${topOut}${dus} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
 } catch (e) {
   const t = e?.error?.error?.type || e?.error?.type;
   if (isTransient(e)) {
