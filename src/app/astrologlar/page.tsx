@@ -16,6 +16,9 @@ export default function AstrologlarSayfasi() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
       <header className="mx-auto max-w-2xl text-center">
+        <span className="mb-4 inline-block rounded-full bg-[#4e9e7d] px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+          ✦ gökname.com tavsiyesi
+        </span>
         <h1 className="font-display text-5xl font-semibold">{ayar.baslik}</h1>
         {ayar.altBaslik && <p className="mt-4 text-lg leading-relaxed text-parchment/70">{ayar.altBaslik}</p>}
       </header>
