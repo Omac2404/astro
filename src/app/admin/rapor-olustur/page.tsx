@@ -6,7 +6,8 @@ import { PRODUCTS } from "@/lib/products";
 import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
 import { MemberSelect } from "@/components/member-select";
 
-const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
+// Asıl liste src/lib/pipeline.ts:URETILEBILIR (server modülü, client'a import edilemez) — İKİSİNİ SENKRON TUT.
+const URETILEBILIR = ["natal", "ask", "kariyer", "saglik", "solar", "aylik", "lilith", "sinastri-sevgili", "sinastri-arkadas"];
 
 type Dogum = { ad: string; tarih: string; saat: string; yer: string };
 type Gen = { id: string; slug: string; urunAd: string; dogum: Dogum; dogum2?: Dogum; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; hata?: string; atandi?: string; tarih: string };

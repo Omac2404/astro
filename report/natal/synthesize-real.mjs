@@ -173,6 +173,25 @@ function missingSections(text, req) {
   return req.filter((key) => { const h = heads.find((x) => x.includes(key)); return !h || !secs[h]; });
 }
 
+// --- DRY-RUN: `--dry-run` bayrağıyla üretim YAPMADAN prompt boyutunu ölç (countTokens ücretsizdir).
+//     Maliyet mühendisliği için: ürün başına girdi tokenını API faturası ödemeden raporlar. ---
+if (process.argv.includes("--dry-run")) {
+  let girdiTok = "?";
+  if (PROVIDER === "gemini") {
+    const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:countTokens`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": process.env.GEMINI_API_KEY },
+      body: JSON.stringify({ generateContentRequest: { model: `models/${MODEL}`,
+        system_instruction: { parts: [{ text: system }] },
+        contents: [{ role: "user", parts: [{ text: userMessage }] }] } }),
+    });
+    const d = await r.json();
+    girdiTok = d.totalTokens ?? `HATA: ${JSON.stringify(d).slice(0, 160)}`;
+  }
+  console.log(`[dry-run ${product}] girdi: ${girdiTok} token (sistem ${system.length} + kullanıcı ${userMessage.length} karakter) | zorunlu bölüm: ${(REQUIRED[product] || []).length}`);
+  process.exit(0);
+}
+
 console.error(`\n${"=".repeat(60)}\n  SAĞLAYICI: ${PROVIDER} · MODEL: ${MODEL}\n${"=".repeat(60)}`); // stderr → container logunda görünür
 const req = REQUIRED[product] || [];
 const MAX_ATTEMPTS = 3;

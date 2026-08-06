@@ -48,9 +48,17 @@ def _ensure_spice():
         return
     import spiceypy as spice
     # Statik kernel'ler kernels/ altında (commit'li); de421.bsp skyfield ile _ephem'e iner.
-    spice.furnsh(os.path.join(KERN, "naif0012.tls"))
-    spice.furnsh(os.path.join(EPH, "de421.bsp"))
-    spice.furnsh(os.path.join(KERN, "chiron.bsp"))
+    # CSPICE (C kütüphanesi) mutlak yoldaki ASCII-dışı karakteri işleyemiyor (ör. "gökname" klasörü,
+    # Windows'ta FURNSH "could not be located" verir) → geçici chdir ile GÖRELİ (salt-ASCII) yoldan yükle.
+    cwd = os.getcwd()
+    try:
+        os.chdir(KERN)
+        spice.furnsh("naif0012.tls")
+        spice.furnsh("chiron.bsp")
+        os.chdir(EPH)
+        spice.furnsh("de421.bsp")
+    finally:
+        os.chdir(cwd)
     _SPICE_READY = True
 
 
