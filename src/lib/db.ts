@@ -87,6 +87,16 @@ export function setMemberDogum(email: string, dogum: DogumBilgi): { ok: boolean;
 export function getMemberDogum(email: string): DogumBilgi | undefined {
   return findMember(email)?.dogum;
 }
+// Admin: üyenin doğum bilgisini KİLİDE TAKILMADAN günceller/tanımlar (üye yanlış girdiyse düzeltme yolu).
+// Üye tarafı setMemberDogum kilitli kalır; bu yol yalnız admin API'sinden çağrılır.
+export function setMemberDogumAdmin(email: string, dogum: DogumBilgi): boolean {
+  const list = getMembers();
+  const i = list.findIndex((m) => m.email.toLowerCase() === email.trim().toLowerCase());
+  if (i < 0) return false;
+  list[i] = { ...list[i], dogum };
+  write("members.json", list);
+  return true;
+}
 // Google ile giriş: e-posta varsa o üyeyle eşle (hesap bağlama), yoksa şifresiz üye oluştur.
 // sifre="" -> verifyPw her zaman false döner; Google üyesi şifre girişi yapamaz (isterse "şifremi unuttum" ile belirler).
 export function upsertGoogleMember(email: string): { member: Member; created: boolean } {

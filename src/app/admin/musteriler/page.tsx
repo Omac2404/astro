@@ -6,8 +6,9 @@ import { Panel, PageHead } from "@/components/admin-ui";
 import { SearchBox } from "@/components/admin-search";
 
 type Fatura = { ad?: string; email?: string; tel?: string; adres?: string } | null;
+type Dogum = { ad: string; tarih: string; saat: string; yer: string } | null;
 type Oge = { urunAd: string; durum?: string; kod?: string };
-type Member = { id: string; email: string; kayit: string; fatura: Fatura; analizler: Oge[]; hediyeKodlari: Oge[]; hediyeEdilen: Oge[] };
+type Member = { id: string; email: string; kayit: string; dogum: Dogum; fatura: Fatura; analizler: Oge[]; hediyeKodlari: Oge[]; hediyeEdilen: Oge[] };
 
 const DURUM_KISA: Record<string, string> = { bekliyor: "bilgi bekleniyor", olusturuluyor: "oluşturuluyor", hazir: "hazır", aktif: "kullanılmadı", kullanildi: "kullanıldı" };
 const selCls = "rounded-lg border border-gold/20 bg-night px-3 py-2 text-sm text-parchment outline-none focus:border-gold/55";
@@ -52,6 +53,10 @@ export default function MusterilerPage() {
   const [q, setQ] = useState("");
   const [sira, setSira] = useState<Sira>("");
   const [busy, setBusy] = useState<string | null>(null);
+  // Doğum bilgisi düzenleme modalı
+  const [dogumForm, setDogumForm] = useState<{ email: string; ad: string; tarih: string; saat: string; yer: string } | null>(null);
+  const [dogumMsg, setDogumMsg] = useState("");
+  const [dogumBusy, setDogumBusy] = useState(false);
 
   const load = () => fetch("/api/admin/members").then((r) => r.json()).then((d) => setMembers(d.members ?? [])).catch(() => {});
   useEffect(() => { load(); }, []);
@@ -71,6 +76,24 @@ export default function MusterilerPage() {
     analiz: filtered.reduce((t, m) => t + m.analizler.length, 0),
     hediye: filtered.reduce((t, m) => t + m.hediyeKodlari.length, 0),
   }), [filtered]);
+
+  const dogumAc = (m: Member) => {
+    setDogumMsg("");
+    setDogumForm({ email: m.email, ad: m.dogum?.ad ?? "", tarih: m.dogum?.tarih ?? "", saat: m.dogum?.saat ?? "", yer: m.dogum?.yer ?? "" });
+  };
+  const dogumKaydet = async () => {
+    if (!dogumForm) return;
+    setDogumBusy(true);
+    const r = await fetch("/api/admin/members", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: dogumForm.email, dogum: { ad: dogumForm.ad, tarih: dogumForm.tarih, saat: dogumForm.saat, yer: dogumForm.yer } }),
+    });
+    const d = await r.json().catch(() => ({}));
+    setDogumBusy(false);
+    if (!r.ok) { setDogumMsg(d.error || "Hata."); return; }
+    setDogumForm(null);
+    load();
+  };
 
   const sil = async (email: string) => {
     if (!confirm(`${email} hesabını ve tüm verilerini (analizler, siparişler) kalıcı olarak silmek istediğine emin misin?`)) return;
@@ -155,9 +178,15 @@ export default function MusterilerPage() {
                       <td className="px-4 py-3 text-center"><SayiPopup items={m.hediyeEdilen} baslik="Hediye edilenler" renk="violet" /></td>
                       <td className="px-4 py-3 text-parchment/55">{m.kayit.slice(0, 10)}</td>
                       <td className="px-4 py-3 text-right">
-                        <button onClick={() => sil(m.email)} disabled={busy === m.email} className="rounded-lg border border-rose-400/30 px-3 py-1.5 text-xs text-rose-300 transition-colors hover:bg-rose-500/10 disabled:opacity-50">
-                          {busy === m.email ? "Siliniyor…" : "Hesabı Sil"}
-                        </button>
+                        <div className="flex justify-end gap-2">
+                          <button onClick={() => dogumAc(m)} title={m.dogum ? `${m.dogum.ad} · ${m.dogum.tarih}${m.dogum.saat ? " " + m.dogum.saat : ""} · ${m.dogum.yer}` : "Doğum bilgisi girilmemiş"}
+                            className="rounded-lg border border-gold/25 px-3 py-1.5 text-xs text-gold-bright transition-colors hover:bg-gold/10">
+                            Doğum {m.dogum ? "✓" : "—"}
+                          </button>
+                          <button onClick={() => sil(m.email)} disabled={busy === m.email} className="rounded-lg border border-rose-400/30 px-3 py-1.5 text-xs text-rose-300 transition-colors hover:bg-rose-500/10 disabled:opacity-50">
+                            {busy === m.email ? "Siliniyor…" : "Hesabı Sil"}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -167,6 +196,43 @@ export default function MusterilerPage() {
           </div>
         )}
       </Panel>
+
+      {/* Doğum bilgisi düzenleme modalı — üye tarafındaki "değiştirilemez" kilidine takılmaz */}
+      {dogumForm && createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-night-deep/80 backdrop-blur-sm" onClick={() => setDogumForm(null)} />
+          <div className="relative w-full max-w-md rounded-2xl border border-gold/20 bg-night p-6 shadow-2xl shadow-black/60">
+            <h3 className="font-display text-xl font-semibold text-parchment">Doğum Bilgisi Düzenle</h3>
+            <p className="mt-1 text-xs text-parchment/50">{dogumForm.email} — buradaki değişiklik üyenin SONRAKİ analizlerine yansır; hazır raporlar yeniden üretilmez.</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <label className="block sm:col-span-2">
+                <span className="mb-1 block text-[11px] uppercase tracking-wider text-parchment/45">İsim</span>
+                <input value={dogumForm.ad} onChange={(e) => setDogumForm({ ...dogumForm, ad: e.target.value })} maxLength={25} className={`${selCls} w-full`} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-[11px] uppercase tracking-wider text-parchment/45">Doğum Tarihi</span>
+                <input type="date" value={dogumForm.tarih} onChange={(e) => setDogumForm({ ...dogumForm, tarih: e.target.value })} className={`${selCls} w-full`} style={{ colorScheme: "dark" }} />
+              </label>
+              <label className="block">
+                <span className="mb-1 block text-[11px] uppercase tracking-wider text-parchment/45">Saat (opsiyonel)</span>
+                <input type="time" value={dogumForm.saat} onChange={(e) => setDogumForm({ ...dogumForm, saat: e.target.value })} className={`${selCls} w-full`} style={{ colorScheme: "dark" }} />
+              </label>
+              <label className="block sm:col-span-2">
+                <span className="mb-1 block text-[11px] uppercase tracking-wider text-parchment/45">Yer (örn. İzmir / Konak)</span>
+                <input value={dogumForm.yer} onChange={(e) => setDogumForm({ ...dogumForm, yer: e.target.value })} className={`${selCls} w-full`} />
+              </label>
+            </div>
+            {dogumMsg && <p className="mt-3 rounded-lg border border-rose-400/25 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{dogumMsg}</p>}
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={() => setDogumForm(null)} className="rounded-full border border-gold/25 px-4 py-2 text-sm text-parchment/70 hover:bg-gold/10">Vazgeç</button>
+              <button onClick={dogumKaydet} disabled={dogumBusy} className="rounded-full bg-gold px-5 py-2 text-sm font-medium text-night-deep hover:bg-gold-bright disabled:opacity-60">
+                {dogumBusy ? "Kaydediliyor…" : "Kaydet"}
+              </button>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 }
