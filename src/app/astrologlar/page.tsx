@@ -11,7 +11,10 @@ export default function AstrologlarSayfasi() {
   const ayar = getAstrologAyar();
   if (!ayar.acik) notFound();
   const astrologlar = getAstrologlar();
-  const gridCls = ayar.grid === 4 ? "grid gap-6 sm:grid-cols-2 lg:grid-cols-4" : "grid gap-6 sm:grid-cols-2 lg:grid-cols-3";
+  // flex-wrap + sabit kart genişliği: satır tam dolmadığında kalan kartlar ortalı dizilir
+  const kartCls = ayar.grid === 4
+    ? "w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]"
+    : "w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]";
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
@@ -22,8 +25,8 @@ export default function AstrologlarSayfasi() {
         <h1 className="font-display text-5xl font-semibold">{ayar.baslik}</h1>
         {ayar.altBaslik && <p className="mt-4 text-lg leading-relaxed text-parchment/70">{ayar.altBaslik}</p>}
       </header>
-      <div className={`mt-12 ${gridCls}`}>
-        {astrologlar.map((a) => <AstrologKart key={a.id} a={a} />)}
+      <div className="mt-12 flex flex-wrap justify-center gap-6">
+        {astrologlar.map((a) => <div key={a.id} className={kartCls}><AstrologKart a={a} /></div>)}
       </div>
       {astrologlar.length === 0 && (
         <p className="py-16 text-center text-parchment/45">Henüz astrolog eklenmemiş.</p>
