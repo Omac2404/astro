@@ -21,7 +21,7 @@ export function AstrologlarBolum() {
     <section className="relative z-10 mx-auto max-w-6xl px-5 pb-8 pt-10">
       <div className="mb-10 flex items-end justify-between gap-4">
         <div className="max-w-2xl">
-          <span className="mb-3 inline-block rounded-full bg-[#4e9e7d] px-3.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+          <span className="mb-3 inline-block rounded-full bg-[#4e9e7d] px-3.5 py-1 text-[12.5px] font-semibold tracking-[0.06em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
             ✦ gökname.com tavsiyesi
           </span>
           <h2 className="font-display text-4xl font-semibold">{ayar.baslik}</h2>
