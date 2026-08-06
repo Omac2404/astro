@@ -73,7 +73,9 @@ if (isSinastri) {
     `- Element: Ateş %${c.elements["Ateş"]}, Toprak %${c.elements["Toprak"]}, Hava %${c.elements["Hava"]}, Su %${c.elements["Su"]} · Mizaç: ${c.mizac.ad}`,
   ];
   const A = chart.person_a, B = chart.person_b;
-  const acilar = chart.synastry_aspects.map(
+  // En güçlü 12 açı: PDF tablosu da ilk 12'yi basıyor (render_sinastri) — prompt'a fazlasını göndermek
+  // hem girdi tokenı israfı hem de modelin müşterinin GÖRMEDİĞİ açılara atıf yapma riski.
+  const acilar = chart.synastry_aspects.slice(0, 12).map(
     (a) => `- ${a.a_ad} (${A.meta.ad}) ${ASP_AD[a.type]} ${a.b_ad} (${B.meta.ad})  [${a.uyum}, ${a.orb}°]`);
   const bindir = [
     ...chart.overlays_ab.map((o) => `- ${A.meta.ad}'nin ${o.ad}'i, ${B.meta.ad}'nin ${o.house}. evinde`),
@@ -316,7 +318,10 @@ try {
     process.exit(1);
   }
   const dus = topDus ? ` (düşünme ${topDus})` : ""; // Gemini düşünme token'ı varsa göster
-  console.error(`\n\n[✓ ${OUT} | token TOPLAM: girdi ${topIn}, çıktı ${topOut}${dus} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
+  // Rapor başına tahmini maliyet: LLM_FIYAT_GIRDI_1M / LLM_FIYAT_CIKTI_1M (1M token başına TL) env'de tanımlıysa.
+  const fin = parseFloat(process.env.LLM_FIYAT_GIRDI_1M || ""), fout = parseFloat(process.env.LLM_FIYAT_CIKTI_1M || "");
+  const maliyet = fin && fout ? ` | maliyet ~₺${(topIn / 1e6 * fin + topOut / 1e6 * fout).toFixed(2)}` : "";
+  console.error(`\n\n[✓ ${OUT} | token TOPLAM: girdi ${topIn}, çıktı ${topOut}${dus}${maliyet} | ${res.stop} | ${req.length} bölüm tam]`); // stderr → log'da görünür
 } catch (e) {
   const t = e?.error?.error?.type || e?.error?.type;
   if (isTransient(e)) {

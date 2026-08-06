@@ -25,7 +25,7 @@ Hedef: **toplam ~900-1200 kelime.** Premium hissettir ama dolgu yapma. Her cüml
 
 ## ÇIKTI FORMATI (sıra sabit, başlıklar ## ile)
 
-**ÖNEMLİ: Aşağıdaki başlıkların HEPSİNİ eksiksiz, sırayla ve ## ile üret — İmza Sentezi + İlişki İmzanız + 7 dostluk bölümü (İlk Tanışma … Dostluğunuzu Besleyen) + Element Uyumu + Kapanış. Hiçbir başlığı atlama, birleştirme veya boş bırakma.**
+**ÖNEMLİ: Aşağıdaki başlıkların HEPSİNİ eksiksiz, sırayla ve ## ile üret — İmza Sentezi + İlişki İmzanız + 7 dostluk bölümü (İlk Tanışma … Dostluğunuzu Besleyen) + Element Uyumu + Kapanış. Hiçbir başlığı atlama, birleştirme veya boş bırakma. TOPLAM TAM 10 adet "##" başlık üretmiş olacaksın; raporu bitirmeden say ve eksikse tamamla. İLK başlık her zaman "## İmza Sentezi"dir — en sık atlanan başlık budur, ASLA atlama (atlanırsa rapor geçersiz sayılır ve yeniden üretilir).**
 
 (— imza paneli sayfası için ayrı blok —)
 **## İmza Sentezi** — Bu dostluğun ana imzasını (en güçlü çapraz açılar + baskın uyum/gerilim tonu + element uyumu) TEK bir portrede eriten, akıcı tek paragraf (4-6 cümle). "İkinizin arasındaki dostluk şöyle bir bağ: ..." tonunda.
