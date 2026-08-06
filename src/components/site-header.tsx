@@ -45,11 +45,21 @@ export function SiteHeader() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [me, setMe] = useState<{ type: string } | null>(null);
+  const [astrologAcik, setAstrologAcik] = useState(false);
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
     fetch("/api/auth/me").then((r) => r.json()).then((d) => setMe(d.user)).catch(() => {});
   }, [pathname]);
+
+  useEffect(() => {
+    fetch("/api/astrologlar").then((r) => r.json()).then((d) => setAstrologAcik(!!d.acik)).catch(() => {});
+  }, []);
+
+  // Astrologlar switch'i açıkken nav'a link eklenir (S.S.S.'ten önce)
+  const nav = astrologAcik
+    ? [...NAV.slice(0, 4), { href: "/astrologlar", label: "Astrologlar" }, ...NAV.slice(4)]
+    : NAV;
 
   useEffect(() => {
     setOpen(false);
@@ -76,7 +86,7 @@ export function SiteHeader() {
 
           {/* Masaüstü nav */}
           <nav className="hidden lg:flex items-center gap-6">
-            {NAV.map((n) => (
+            {nav.map((n) => (
               <Link
                 key={n.href}
                 href={n.href}
@@ -156,7 +166,7 @@ export function SiteHeader() {
             </button>
           </div>
           <div className="flex-1 overflow-y-auto px-3 py-4">
-            {NAV.map((n) => (
+            {nav.map((n) => (
               <Link
                 key={n.href}
                 href={n.href}

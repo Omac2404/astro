@@ -1,5 +1,5 @@
 // Admin menü ikonları (çizgisel, stroke-based).
-export type AdminIkonAd = "overview" | "orders" | "customers" | "reports" | "create" | "gift" | "products" | "settings";
+export type AdminIkonAd = "overview" | "orders" | "customers" | "reports" | "create" | "gift" | "products" | "astrologlar" | "settings";
 
 const PATHS: Record<AdminIkonAd, React.ReactNode> = {
   // genel bakış — grid
@@ -55,6 +55,14 @@ const PATHS: Record<AdminIkonAd, React.ReactNode> = {
     <>
       <path d="M4 4.5h6.5l9 9a1.5 1.5 0 0 1 0 2.1l-4.9 4.9a1.5 1.5 0 0 1-2.1 0l-9-9z" />
       <circle cx="8" cy="8" r="1.4" />
+    </>
+  ),
+  // astrologlar — kullanıcı + yıldız
+  astrologlar: (
+    <>
+      <circle cx="10" cy="8" r="3" />
+      <path d="M4.5 19.5a5.5 5.5 0 0 1 11 0" />
+      <path d="M17.5 4.5l.9 1.9 2.1.3-1.5 1.5.4 2.1-1.9-1-1.9 1 .4-2.1-1.5-1.5 2.1-.3z" />
     </>
   ),
   // yönetim & ayarlar — dişli

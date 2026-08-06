@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { bireysel, cift } from "@/lib/catalog";
-import { getGenelAyar } from "@/lib/db";
+import { getGenelAyar, getAstrologAyar } from "@/lib/db";
 import { seoMetadata } from "@/lib/seo";
 import { ProductCard } from "@/components/product-card";
 import { Faq } from "@/components/faq";
+import { AstrologlarBolum } from "@/components/astrologlar-bolum";
 
 export const dynamic = "force-dynamic";
 export const generateMetadata = () => seoMetadata("/");
@@ -24,6 +25,7 @@ export default function Home() {
   const ayar = getGenelAyar();
   const hero = ayar.hero;
   const SSS_HOME = ayar.sss.slice(0, 6);
+  const astrologKonum = getAstrologAyar().konum; // blok yalnız switch açıkken render olur (bileşen içinde kontrol)
   return (
     <div className="relative">
       {/* HERO */}
@@ -71,6 +73,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ASTROLOGLAR — hero altı konumu (admin: Astrologlar switch + konum) */}
+      {astrologKonum === "hero" && <AstrologlarBolum />}
+
       {/* ANALİZLER */}
       <section className="relative z-10 mx-auto max-w-6xl px-5 pb-8 pt-4 sm:pt-6">
         <div className="flex items-end justify-between gap-4 mb-10">
@@ -102,6 +107,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ASTROLOGLAR — SSS üstü konumu */}
+      {astrologKonum === "sss" && <AstrologlarBolum />}
 
       {/* SIKÇA SORULAN SORULAR */}
       <section className="mx-auto max-w-3xl px-5 pb-20 pt-8">

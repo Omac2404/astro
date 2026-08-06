@@ -13,6 +13,7 @@ const BASE_NAV: { href: string; label: string; ikon: AdminIkonAd }[] = [
   { href: "/admin/rapor-olustur", label: "Rapor Oluştur", ikon: "create" },
   { href: "/admin/hediye-kodlari", label: "Hediye Kodları", ikon: "gift" },
   { href: "/admin/urunler", label: "Ürünler & Fiyat", ikon: "products" },
+  { href: "/admin/astrologlar", label: "Astrologlar", ikon: "astrologlar" },
 ];
 const AUTH_ROUTES = ["/admin/giris", "/admin/sifremi-unuttum"];
 

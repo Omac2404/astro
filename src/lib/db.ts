@@ -532,6 +532,7 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
     SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorularınız ve destek için bize ulaşın."),
+    SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({
       yol: `/analizler/${p.slug}`,
@@ -1101,4 +1102,105 @@ export function setReportBirthInfo(reportId: string, email: string, dogum: Dogum
   list[i] = { ...list[i], dogum, dogum2, durum: "olusturuluyor", hata: undefined };
   write("reports.json", list);
   return list[i];
+}
+
+// ---- Astrologlar (uzman dizini — admin switch'iyle sitede gösterilir, kart yerleri satılır) ----
+export type Astrolog = {
+  id: string;
+  ad: string;         // isim soyisim
+  hakkinda: string;   // 1-2 cümle
+  fotoId?: string;    // .data/files içindeki görsel (yoksa baş harf avatarı gösterilir)
+  instagram?: string;
+  x?: string;         // X / Twitter
+  youtube?: string;
+  tiktok?: string;
+  website?: string;
+  email?: string;
+  tarih: string;
+};
+export type AstrologAyar = {
+  acik: boolean;            // switch: sitede göster/gizle (anasayfa bloğu + header linki + /astrologlar)
+  konum: "hero" | "sss";    // anasayfa bloğunun yeri: hero altı | SSS'in hemen üstü
+  grid: 3 | 4;              // sütun sayısı (anasayfa + /astrologlar sayfası)
+  anasayfa: string[];       // anasayfada gösterilecek astrolog id'leri, SIRALI (en fazla 2 sıra = 2*grid)
+  baslik: string;
+  altBaslik: string;
+};
+const ASTROLOG_AYAR_DEFAULT: AstrologAyar = {
+  acik: false, konum: "hero", grid: 4, anasayfa: [],
+  baslik: "Bir Uzmandan Faydalanın",
+  altBaslik: "Raporlarında daha da derine inmek istersen alanında uzman astrologlarla birebir çalışabilirsin.",
+};
+// İlk kurulumda 8 demo kart (admin kendi astrologlarını ekleyene kadar örnek dizilim için).
+const ASTROLOG_DEMO: Astrolog[] = [
+  { id: "AST-demo1", ad: "Selin Aydoğan", hakkinda: "15 yıllık natal harita deneyimi; kariyer ve yaşam yönü danışmanlığında uzman.", instagram: "https://instagram.com/demo", website: "https://example.com", email: "selin@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo2", ad: "Kerem Yıldırım", hakkinda: "Sinastri ve ilişki astrolojisi odaklı çalışır; çift danışmanlığı seansları verir.", x: "https://x.com/demo", website: "https://example.com", email: "kerem@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo3", ad: "Elif Karahan", hakkinda: "Karmik astroloji ve ay düğümleri üzerine yazıyor; gölge çalışması atölyeleri düzenliyor.", instagram: "https://instagram.com/demo", youtube: "https://youtube.com/@demo", email: "elif@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo4", ad: "Mert Özdemir", hakkinda: "Saat astrolojisi ve seçim astrolojisi uzmanı; doğru zamanlama danışmanlığı verir.", website: "https://example.com", email: "mert@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo5", ad: "Zeynep Tuna", hakkinda: "Solar return ve öngörüm teknikleri üzerine 10 yıllık deneyim; yıllık planlama seansları.", instagram: "https://instagram.com/demo", tiktok: "https://tiktok.com/@demo", email: "zeynep@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo6", ad: "Baran Koç", hakkinda: "Klasik astroloji ve mizaç analizi çalışır; geleneksel tekniklerle modern yorum harmanlar.", x: "https://x.com/demo", website: "https://example.com", email: "baran@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo7", ad: "İpek Demirci", hakkinda: "Astro-psikoloji yaklaşımıyla duygusal örüntüler ve aile dizilimi üzerine danışmanlık verir.", instagram: "https://instagram.com/demo", email: "ipek@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo8", ad: "Onur Şahin", hakkinda: "Transit takibi ve dönem analizleri uzmanı; aylık gökyüzü bültenleri hazırlar.", youtube: "https://youtube.com/@demo", website: "https://example.com", email: "onur@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+];
+export function getAstrologlar(): Astrolog[] {
+  const list = read<Astrolog[] | null>("astrologlar.json", null);
+  if (list === null) { write("astrologlar.json", ASTROLOG_DEMO); return ASTROLOG_DEMO; }
+  return list;
+}
+export function addAstrolog(a: Omit<Astrolog, "id" | "tarih">): Astrolog {
+  const yeni: Astrolog = { ...a, id: "AST-" + crypto.randomBytes(4).toString("hex"), tarih: new Date().toISOString() };
+  write("astrologlar.json", [yeni, ...getAstrologlar()]);
+  return yeni;
+}
+export function updateAstrolog(id: string, patch: Partial<Omit<Astrolog, "id" | "tarih">>): Astrolog | null {
+  const list = getAstrologlar();
+  const i = list.findIndex((a) => a.id === id);
+  if (i < 0) return null;
+  list[i] = { ...list[i], ...patch };
+  write("astrologlar.json", list);
+  return list[i];
+}
+export function removeAstrolog(id: string) {
+  const a = getAstrologlar().find((x) => x.id === id);
+  if (a?.fotoId) deleteFile(a.fotoId);
+  write("astrologlar.json", getAstrologlar().filter((x) => x.id !== id));
+  // ayar listesinden ve tık kayıtlarından da düş
+  const ayar = getAstrologAyar();
+  if (ayar.anasayfa.includes(id)) setAstrologAyar({ anasayfa: ayar.anasayfa.filter((x) => x !== id) });
+  const tik = read<Record<string, Record<string, number>>>("astrolog-tik.json", {});
+  if (tik[id]) { delete tik[id]; write("astrolog-tik.json", tik); }
+}
+export function getAstrologAyar(): AstrologAyar {
+  return { ...ASTROLOG_AYAR_DEFAULT, ...read<Partial<AstrologAyar>>("astrolog-ayar.json", {}) };
+}
+export function setAstrologAyar(patch: Partial<AstrologAyar>): AstrologAyar {
+  const next = { ...getAstrologAyar(), ...patch };
+  write("astrolog-ayar.json", next);
+  return next;
+}
+// Tık sayacı: { astrologId: { "YYYY-MM-DD": adet } }. Cihaz tekilleştirmesi istemcide
+// (localStorage, gün+cihaz başına 1) yapılır; sunucu yalnız sayar.
+export function incAstrologTik(id: string) {
+  if (!getAstrologlar().some((a) => a.id === id)) return;
+  const tik = read<Record<string, Record<string, number>>>("astrolog-tik.json", {});
+  const gun = new Date().toISOString().slice(0, 10);
+  tik[id] = tik[id] || {};
+  tik[id][gun] = (tik[id][gun] || 0) + 1;
+  write("astrolog-tik.json", tik);
+}
+export function getAstrologTik(): Record<string, { toplam: number; bugun: number; son30: number }> {
+  const tik = read<Record<string, Record<string, number>>>("astrolog-tik.json", {});
+  const bugun = new Date().toISOString().slice(0, 10);
+  const sinir30 = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
+  const out: Record<string, { toplam: number; bugun: number; son30: number }> = {};
+  for (const [id, gunler] of Object.entries(tik)) {
+    let t = 0, b = 0, s30 = 0;
+    for (const [g, n] of Object.entries(gunler)) {
+      t += n;
+      if (g === bugun) b += n;
+      if (g >= sinir30) s30 += n;
+    }
+    out[id] = { toplam: t, bugun: b, son30: s30 };
+  }
+  return out;
 }
