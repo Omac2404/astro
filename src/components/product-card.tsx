@@ -57,8 +57,8 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
             </span>
           </div>
           <div className="flex flex-col items-end gap-1.5">
-            {/* Ücretsiz etiketi — İncele'nin hemen üstünde (tüm rapor kartları) */}
-            <span className="inline-flex items-center rounded-full bg-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+            {/* Ücretsiz etiketi — İncele'nin hemen üstünde, outline stil (yeşil çerçeve, dolgusuz) */}
+            <span className="inline-flex items-center rounded-full border border-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#86cfac]">
               Ücretsiz
             </span>
             <span className="inline-flex items-center gap-1 font-body text-base font-semibold text-gold-bright transition-transform group-hover:translate-x-0.5">İncele <span aria-hidden>→</span></span>

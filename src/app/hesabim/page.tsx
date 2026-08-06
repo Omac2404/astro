@@ -1,9 +1,10 @@
 import { redirect } from "next/navigation";
 import { currentUser } from "@/lib/session";
-import { getMemberDogum, findMember } from "@/lib/db";
+import { getMemberDogum, findMember, uyeBugunAnalizSayisi, uyeSinirsizMi, GUNLUK_ANALIZ_LIMITI } from "@/lib/db";
 import { LogoutButton } from "@/components/account-actions";
 import { Analizlerim } from "@/components/account-panels";
 import { KartIkon } from "@/components/kart-ikon";
+import { AnalizHakkiKarti } from "@/components/analiz-hakki-karti";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +13,9 @@ export default async function HesabimPage() {
   if (!u || u.type !== "member") redirect("/giris?next=/hesabim");
   const dogum = getMemberDogum(u.email);
   const googleUye = !!findMember(u.email)?.google; // Google ile kayıt: şifresi yok, değiştirme satırı gösterilmez
+  // Günlük analiz hakkı kartı için durum (sayaç istemcide TR gece yarısını hedefler)
+  const hakKullanilan = uyeBugunAnalizSayisi(u.email);
+  const sinirsiz = uyeSinirsizMi(u.email);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-14">
@@ -27,6 +31,8 @@ export default async function HesabimPage() {
 
       {/* Hesap + Analizlerim */}
       <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:items-start">
+        <div className="space-y-5">
+        <AnalizHakkiKarti kullanilan={hakKullanilan} limit={GUNLUK_ANALIZ_LIMITI} sinirsiz={sinirsiz} />
         <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
           <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
             <KartIkon d="account" />
@@ -62,6 +68,7 @@ export default async function HesabimPage() {
             </div>
           </dl>
         </section>
+        </div>
 
         <div className="lg:col-span-2">
           <Analizlerim />
