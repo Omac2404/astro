@@ -250,19 +250,18 @@ export type SssItem = { q: string; a: string; btnText?: string; btnHref?: string
 const SSS_DEFAULT: SssItem[] = [
   { q: "Analizler gerçekten kişiye özel mi?", a: "Evet. **Şablon metin kullanmıyoruz.** Doğduğun anın gökyüzü gerçek astronomik veriyle hesaplanır ve tam senin haritana özel, akıcı bir okuma sentezlenir." },
   { q: "Hangi astroloji sistemini kullanıyorsunuz?", a: "Tropikal zodyak ve **gerçek astronomik hesap** kullanıyoruz; gezegen konumların doğduğun anın gökyüzünden tam isabetle çıkarılır. Ev sisteminde Tüm Burç (Whole Sign) yöntemini esas alırız." },
-  { q: "Doğum saatimi tam bilmiyorum, yine de yapabilir miyim?", a: "Yapabilirsin. Ancak yükselen burç ve ev yerleşimleri doğum saatine bağlıdır; saat ne kadar net olursa rapor o kadar isabetli olur. Saatini bilmiyorsan da gezegen burçları ve genel okuma anlamlıdır." },
-  { q: "Yurt dışında doğdum, yine de yapabilir miyim?", a: "Tabii. **Dünyanın her yerindeki doğum yerleri** desteklenir; şehir ile ülkeyi girmen yeterli, saat dilimi ve koordinatlar otomatik hesaplanır." },
-  { q: "Raporum ne zaman hazır olur?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca hesabındaki \"Analizlerim\" alanında görünür ve PDF olarak indirebilirsin." },
-  { q: "Raporu nasıl ve nereden görüntülerim?", a: "Tüm analizlerin hesabındaki “Hesabım” sayfasında listelenir. Hazır olan raporu oradan istediğin zaman okuyabilir ve PDF olarak indirebilirsin." },
-  { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
-  { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir. Hazırlanan raporlar bir süre hesabında kalır (analize göre değişir), sonra otomatik silinir; her raporun silinme tarihi Analizlerim'de yazılıdır." },
-  { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
   { q: "Üyelik nasıl çalışıyor, ücretli mi?", a: "Üyelik tamamen **ücretsiz**. E-posta ya da Google hesabınla saniyeler içinde üye olursun; analizlerin hesabına tanımlanır ve hepsini tek yerden, Hesabım sayfasından yönetirsin." },
   { q: "Günde kaç analiz oluşturabilirim?", a: "Her hesabın **günde 1 analiz hakkı** vardır ve bu hak her gece 00.00'da (Türkiye saati) yenilenir. Hakkını kullandıysan Hesabım sayfasındaki geri sayım sana yeni hakkına ne kadar kaldığını gösterir." },
   { q: "Raporlarım ne kadar süre saklanıyor, silinme mantığı nedir?", a: "Doğum haritası tabanlı tekil analizler **90 gün**, çift (sinastri) analizleri **5 gün** hesabında kalır; aylık yorum ise her ayın 1'inde yenilendiği için bir sonraki ayın 1'ine kadar durur. Her raporun silinme tarihi Analizlerim'de yazar; süresi dolmadan **PDF olarak indirirsen** sonsuza dek sende kalır." },
   { q: "Doğum bilgimi sonradan değiştirebilir miyim?", a: "Hesabına tanımlı doğum bilgisi, tüm analizlerin aynı haritadan üretilmesi için **değiştirilemez**. Bilgini yanlış girdiysen bizimle iletişime geç, birlikte düzeltelim." },
   { q: "Çift (sinastri) analizini farklı kişilerle tekrar yapabilir miyim?", a: "Evet. Sevgili/eş ve arkadaşlık uyum analizlerini **her gün farklı bir kişiyle** yeniden yapabilirsin; ikinci kişinin doğum bilgilerini girmen yeterli, onun üye olması gerekmez." },
   { q: "Raporu telefonumdan rahat okuyabilir miyim?", a: "Evet. Raporlar **mobilde rahat okunacak** punto ve düzenle tasarlandı; PDF'i telefonundan açabilir, dilersen paylaşabilir ya da yazdırabilirsin." },
+  { q: "Doğum saatimi tam bilmiyorum, yine de yapabilir miyim?", a: "Yapabilirsin. Ancak yükselen burç ve ev yerleşimleri doğum saatine bağlıdır; saat ne kadar net olursa rapor o kadar isabetli olur. Saatini bilmiyorsan da gezegen burçları ve genel okuma anlamlıdır." },
+  { q: "Yurt dışında doğdum, yine de yapabilir miyim?", a: "Tabii. **Dünyanın her yerindeki doğum yerleri** desteklenir; şehir ile ülkeyi girmen yeterli, saat dilimi ve koordinatlar otomatik hesaplanır." },
+  { q: "Raporum ne zaman hazır olur?", a: "Doğum bilgilerini girdikten sonra raporun kısa bir sürede hazırlanır. Hazır olunca hesabındaki \"Analizlerim\" alanında görünür ve PDF olarak indirebilirsin." },
+  { q: "Raporu nasıl ve nereden görüntülerim?", a: "Tüm analizlerin hesabındaki “Hesabım” sayfasında listelenir. Hazır olan raporu oradan istediğin zaman okuyabilir ve PDF olarak indirebilirsin." },
+  { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
+  { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
 ];
 
 // Anasayfa hero (başlıkta **...** = altın vurgu)
