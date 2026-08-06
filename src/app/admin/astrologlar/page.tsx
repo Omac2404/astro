@@ -144,13 +144,19 @@ export default function AstrologlarPage() {
           <label className="block lg:col-span-2">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55">Bölüm Başlığı</span>
             <input value={ayar.baslik} onChange={(e) => setAyar({ ...ayar, baslik: e.target.value })}
-              onBlur={() => ayarKaydet({ baslik: ayar.baslik })} className={`w-full ${inputCls}`} />
+              className={`w-full ${inputCls}`} />
           </label>
           <label className="block sm:col-span-2 lg:col-span-4">
             <span className="mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55">Alt Başlık</span>
             <input value={ayar.altBaslik} onChange={(e) => setAyar({ ...ayar, altBaslik: e.target.value })}
-              onBlur={() => ayarKaydet({ altBaslik: ayar.altBaslik })} className={`w-full ${inputCls}`} />
+              className={`w-full ${inputCls}`} />
           </label>
+          <div className="sm:col-span-2 lg:col-span-4">
+            <button onClick={() => ayarKaydet({ baslik: ayar.baslik, altBaslik: ayar.altBaslik })} disabled={busy}
+              className="rounded-full bg-gold px-5 py-2 text-sm font-medium text-night-deep hover:bg-gold-bright disabled:opacity-60">
+              Başlıkları Kaydet
+            </button>
+          </div>
         </div>
         <p className="mt-3 text-xs text-parchment/45">
           Anasayfada {asMax} karta kadar gösterilir ({ayar.grid}&apos;lü × 2 sıra) — seçim ve sıralama aşağıdaki listeden. Seçili: {ayar.anasayfa.length}/{asMax}. /astrologlar sayfasında ise tüm kartlar listelenir.
