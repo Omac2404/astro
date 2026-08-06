@@ -1,19 +1,22 @@
-import { getGenelAyar } from "@/lib/db";
+import { getGenelAyar, iletisimEtiket } from "@/lib/db";
 import { ContactForm } from "@/components/contact-form";
 import { seoMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
-export const generateMetadata = () => seoMetadata("/iletisim");
+// Sekme/SEO başlığı moda göre (İletişim | Reklam ve İşbirliği)
+export const generateMetadata = () => ({ ...seoMetadata("/iletisim"), title: `${iletisimEtiket()} — Gökname` });
 
 export default function IletisimPage() {
-  const il = getGenelAyar().iletisim;
+  const ayar = getGenelAyar();
+  const il = ayar.iletisim;
+  const s = ayar.iletisimSayfa;
+  const baslik = s.mod === "reklam" ? s.reklamBaslik : s.iletisimBaslik;
+  const alt = s.mod === "reklam" ? s.reklamAlt : s.iletisimAlt;
   return (
     <div className="mx-auto max-w-xl px-5 py-16">
       <header className="text-center">
-        <h1 className="font-display text-5xl font-semibold">Reklam ve İşbirliği</h1>
-        <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-parchment/70">
-          Yüksek trafikli, hedefi net bir kitleye ulaşmak ister misin? <span className="text-parchment/85">Reklam, sponsorluk ve astrolog kartı</span> iş birlikleri için bize yaz; sana özel yerleşim ve fiyat seçenekleriyle dönelim.
-        </p>
+        <h1 className="font-display text-5xl font-semibold">{baslik}</h1>
+        <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-parchment/70">{alt}</p>
         {il.eposta && (
           <a
             href={`mailto:${il.eposta}`}

@@ -60,6 +60,16 @@ export async function POST(req: Request) {
       tiktokAktif: !!it.tiktokAktif,
     };
   }
+  if ("iletisimSayfa" in b && b.iletisimSayfa && typeof b.iletisimSayfa === "object") {
+    const s = b.iletisimSayfa as Record<string, unknown>;
+    patch.iletisimSayfa = {
+      mod: s.mod === "reklam" ? "reklam" : "iletisim",
+      iletisimBaslik: String(s.iletisimBaslik ?? "").trim().slice(0, 120),
+      iletisimAlt: String(s.iletisimAlt ?? "").trim().slice(0, 500),
+      reklamBaslik: String(s.reklamBaslik ?? "").trim().slice(0, 120),
+      reklamAlt: String(s.reklamAlt ?? "").trim().slice(0, 500),
+    };
+  }
   if ("yasal" in b && Array.isArray(b.yasal)) {
     patch.yasal = (b.yasal as unknown[])
       .map((x): YasalSayfa | null => {

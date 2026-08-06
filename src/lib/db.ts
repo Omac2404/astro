@@ -459,6 +459,27 @@ Her analiz, doğum tarihin, saatin ve yerinden yola çıkılarak gerçek gök ko
   },
 ];
 
+// İletişim sayfası modu: takipçi/kullanıcı azken "iletisim", büyüyünce "reklam" (admin tek tıkla değiştirir).
+// Her iki modun başlık + alt metni ayrı saklanır; mod değişince metinler kaybolmaz.
+export type IletisimSayfaAyar = {
+  mod: "iletisim" | "reklam";
+  iletisimBaslik: string;
+  iletisimAlt: string;
+  reklamBaslik: string;
+  reklamAlt: string;
+};
+const ILETISIM_SAYFA_DEFAULT: IletisimSayfaAyar = {
+  mod: "iletisim",
+  iletisimBaslik: "Bize ulaş",
+  iletisimAlt: "Analizlerin hakkında her sorunda buradayız. Öneri, sorun ya da iş birliği; ne olursa bu formdan yazabilirsin.",
+  reklamBaslik: "Reklam ve İşbirliği",
+  reklamAlt: "Yüksek trafikli, hedefi net bir kitleye ulaşmak ister misin? Reklam, sponsorluk ve astrolog kartı iş birlikleri için bize yaz; sana özel yerleşim ve fiyat seçenekleriyle dönelim.",
+};
+// Menü/SEO etiketi mod'a göre (sayfa içi başlık serbestçe düzenlenir, sekme adı sabit kalır)
+export function iletisimEtiket(a?: IletisimSayfaAyar): string {
+  return (a ?? getGenelAyar().iletisimSayfa).mod === "reklam" ? "Reklam ve İşbirliği" : "İletişim";
+}
+
 export type GenelAyar = {
   apiMaliyetUSD: number;  // üretim başına yaklaşık API maliyeti ($)
   posOrani: number;       // sanal pos komisyon oranı (%)
@@ -468,10 +489,11 @@ export type GenelAyar = {
   sss: SssItem[];         // sıkça sorulan sorular (site /sss sayfası)
   hero: HeroAyar;         // anasayfa hero metin/butonları
   iletisim: IletisimAyar; // iletişim sayfası bilgileri
+  iletisimSayfa: IletisimSayfaAyar; // iletişim sayfası modu + başlık/alt metinleri
   yasal: YasalSayfa[];    // yasal sayfalar (footer + /yasal/[slug])
   esRaporSayisi: number;  // aynı anda üretilecek rapor sayısı (eşzamanlılık). 1 = seri (varsayılan/güvenli)
 };
-const GENEL_DEFAULT: GenelAyar = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, yasal: YASAL_DEFAULT, esRaporSayisi: 1 };
+const GENEL_DEFAULT: GenelAyar = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, iletisimSayfa: ILETISIM_SAYFA_DEFAULT, yasal: YASAL_DEFAULT, esRaporSayisi: 1 };
 export function getGenelAyar(): GenelAyar {
   const stored = read<Partial<GenelAyar>>("genel.json", {});
   return {
@@ -479,6 +501,7 @@ export function getGenelAyar(): GenelAyar {
     sss: Array.isArray(stored.sss) ? stored.sss : SSS_DEFAULT,
     hero: { ...HERO_DEFAULT, ...(stored.hero ?? {}) },
     iletisim: { ...ILETISIM_DEFAULT, ...(stored.iletisim ?? {}) },
+    iletisimSayfa: { ...ILETISIM_SAYFA_DEFAULT, ...(stored.iletisimSayfa ?? {}) },
     // Kayıtlı yasal sayfalar kullanılır; ancak içeriği BOŞ bırakılmış bir sayfa varsa
     // (ör. Hakkımızda) aynı slug'lı varsayılan içerikle doldurulur — boş "yakında eklenecek" kalmasın.
     yasal: (Array.isArray(stored.yasal) ? stored.yasal : YASAL_DEFAULT).map((y) => {
@@ -495,6 +518,7 @@ export function setGenelAyar(patch: Partial<GenelAyar>): GenelAyar {
   const next = { ...cur, ...patch };
   if (patch.hero) next.hero = { ...cur.hero, ...patch.hero };
   if (patch.iletisim) next.iletisim = { ...cur.iletisim, ...patch.iletisim };
+  if (patch.iletisimSayfa) next.iletisimSayfa = { ...cur.iletisimSayfa, ...patch.iletisimSayfa };
   write("genel.json", next);
   return next;
 }
@@ -536,7 +560,7 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/ornekler", "Örnek Analizler", "Örnek Analizler — Gökname", "Satın almadan önce her analizin gerçek bir örneğini incele."),
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
-    SEO_SAYFA("/iletisim", "Reklam ve İşbirliği", "Reklam ve İşbirliği — Gökname", "Reklam, sponsorluk ve astrolog kartı iş birlikleri için bize ulaşın."),
+    SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorular, destek, reklam ve iş birliği için bize ulaşın."),
     SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({

@@ -1,15 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getGenelAyar } from "@/lib/db";
+import { getGenelAyar, iletisimEtiket } from "@/lib/db";
 
-// Header ile aynı sıra (hesabım/giriş yok)
+// Header ile aynı sıra (hesabım/giriş yok). İletişim etiketi moda göre render sırasında belirlenir.
 const LINKS = [
   { href: "/", label: "Anasayfa" },
   { href: "/analizler", label: "Analizler" },
   { href: "/ornekler", label: "Örnek Analizler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
-  { href: "/iletisim", label: "Reklam ve İşbirliği" },
+  { href: "/iletisim", label: "" }, // iletisimEtiket() ile doldurulur
 ];
 
 function Social({ href, label, external, children }: { href: string; label: string; external?: boolean; children: React.ReactNode }) {
@@ -61,7 +61,7 @@ export function SiteFooter() {
         <nav className="mt-8 flex max-w-2xl flex-wrap items-center justify-center gap-x-7 gap-y-3.5 text-sm text-parchment/70">
           {LINKS.map((l) => (
             <Link key={l.href} href={l.href} className="transition-colors hover:text-gold-bright">
-              {l.label}
+              {l.href === "/iletisim" ? iletisimEtiket() : l.label}
             </Link>
           ))}
         </nav>

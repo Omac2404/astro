@@ -507,6 +507,8 @@ type Hero = { baslik: string; altMetin: string; rozet: string; fiyatMetin: strin
 const HERO_BOS: Hero = { baslik: "", altMetin: "", rozet: "", fiyatMetin: "", eskiFiyat: "", yeniFiyat: "", btn1Metin: "", btn1Link: "", btn2Metin: "", btn2Link: "" };
 type Iletisim = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string; instagramAktif: boolean; xAktif: boolean; tiktokAktif: boolean };
 const ILETISIM_BOS: Iletisim = { eposta: "", telefon: "", adres: "", instagram: "", x: "", tiktok: "", instagramAktif: false, xAktif: false, tiktokAktif: false };
+type IletisimSayfa = { mod: "iletisim" | "reklam"; iletisimBaslik: string; iletisimAlt: string; reklamBaslik: string; reklamAlt: string };
+const ILETISIM_SAYFA_BOS: IletisimSayfa = { mod: "iletisim", iletisimBaslik: "", iletisimAlt: "", reklamBaslik: "", reklamAlt: "" };
 
 // Küçük aç/kapa switch'i (bakım modu switch'iyle aynı stil) — sosyal medya görünürlüğü için
 function MiniSwitch({ on, onToggle, label }: { on: boolean; onToggle: () => void; label: string }) {
@@ -524,8 +526,8 @@ function MiniSwitch({ on, onToggle, label }: { on: boolean; onToggle: () => void
     </button>
   );
 }
-type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim; esRaporSayisi: number };
-const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS, esRaporSayisi: 1 };
+type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim; iletisimSayfa: IletisimSayfa; esRaporSayisi: number };
+const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS, iletisimSayfa: ILETISIM_SAYFA_BOS, esRaporSayisi: 1 };
 
 // ISO ↔ datetime-local (input value) dönüşümü, yerel saatle
 function isoToLocal(iso: string): string {
@@ -549,12 +551,13 @@ function GenelBolum() {
   const set = <K extends keyof Genel>(k: K, v: Genel[K]) => setG((s) => ({ ...s, [k]: v }));
   const heroSet = (k: keyof Hero, v: string) => setG((s) => ({ ...s, hero: { ...s.hero, [k]: v } }));
   const ilSet = (k: keyof Iletisim, v: string) => setG((s) => ({ ...s, iletisim: { ...s.iletisim, [k]: v } }));
+  const isSet = (k: keyof IletisimSayfa, v: string) => setG((s) => ({ ...s, iletisimSayfa: { ...s.iletisimSayfa, [k]: v } }));
   const ilToggle = (k: "instagramAktif" | "xAktif" | "tiktokAktif") => setG((s) => ({ ...s, iletisim: { ...s.iletisim, [k]: !s.iletisim[k] } }));
 
   useEffect(() => {
     fetch("/api/admin/settings").then((r) => r.json().then((d) => ({ ok: r.ok, d }))).then(({ ok, d }) => {
       if (!ok) { setYetki(false); return; }
-      if (d.ayar) setG({ ...GENEL_BOS, ...d.ayar, hero: { ...HERO_BOS, ...(d.ayar.hero ?? {}) }, iletisim: { ...ILETISIM_BOS, ...(d.ayar.iletisim ?? {}) } });
+      if (d.ayar) setG({ ...GENEL_BOS, ...d.ayar, hero: { ...HERO_BOS, ...(d.ayar.hero ?? {}) }, iletisim: { ...ILETISIM_BOS, ...(d.ayar.iletisim ?? {}) }, iletisimSayfa: { ...ILETISIM_SAYFA_BOS, ...(d.ayar.iletisimSayfa ?? {}) } });
     }).catch(() => {});
   }, []);
 
@@ -647,6 +650,34 @@ function GenelBolum() {
               <label className={labelCls}>2. Buton linki</label>
               <input value={g.hero.btn2Link} onChange={(e) => heroSet("btn2Link", e.target.value)} placeholder="/ornekler" className={`${inputCls} mt-1.5 w-full`} />
             </div>
+          </div>
+        </div>
+      </Panel>
+
+      {/* İletişim sayfası modu: İletişim | Reklam ve İşbirliği (tek tıkla geçiş, metinler ayrı saklanır) */}
+      <Panel className="p-6">
+        <h2 className="font-display text-lg font-semibold text-parchment">İletişim Sayfası Modu</h2>
+        <p className="mb-4 mt-0.5 text-xs text-parchment/45">Sayfa başlığı, alt metin, menü sekmesi ve SEO başlığı seçili moda göre değişir. İki modun metinleri ayrı saklanır; geçiş yapınca kaybolmaz.</p>
+        <div className="flex gap-2">
+          {([["iletisim", "İletişim"], ["reklam", "Reklam ve İşbirliği"]] as const).map(([m, ad]) => (
+            <button key={m} type="button" onClick={() => isSet("mod", m)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${g.iletisimSayfa.mod === m ? "bg-gold text-night-deep" : "border border-gold/25 text-parchment/70 hover:bg-gold/10"}`}>
+              {ad}
+            </button>
+          ))}
+        </div>
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <div className={g.iletisimSayfa.mod === "iletisim" ? "" : "opacity-50"}>
+            <label className={labelCls}>İletişim modu — Başlık</label>
+            <input value={g.iletisimSayfa.iletisimBaslik} onChange={(e) => isSet("iletisimBaslik", e.target.value)} className={`${inputCls} mt-1.5 w-full`} />
+            <label className={`${labelCls} mt-3 block`}>İletişim modu — Alt Metin</label>
+            <textarea value={g.iletisimSayfa.iletisimAlt} onChange={(e) => isSet("iletisimAlt", e.target.value)} rows={3} className={`${inputCls} mt-1.5 w-full resize-none`} />
+          </div>
+          <div className={g.iletisimSayfa.mod === "reklam" ? "" : "opacity-50"}>
+            <label className={labelCls}>Reklam modu — Başlık</label>
+            <input value={g.iletisimSayfa.reklamBaslik} onChange={(e) => isSet("reklamBaslik", e.target.value)} className={`${inputCls} mt-1.5 w-full`} />
+            <label className={`${labelCls} mt-3 block`}>Reklam modu — Alt Metin</label>
+            <textarea value={g.iletisimSayfa.reklamAlt} onChange={(e) => isSet("reklamAlt", e.target.value)} rows={3} className={`${inputCls} mt-1.5 w-full resize-none`} />
           </div>
         </div>
       </Panel>

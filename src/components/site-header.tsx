@@ -12,7 +12,7 @@ const NAV = [
   { href: "/ornekler", label: "Örnekler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
-  { href: "/iletisim", label: "Reklam ve İşbirliği" },
+  { href: "/iletisim", label: "İletişim" }, // etiket moda göre çalışma anında değişir (iletisimEtiket)
 ];
 
 // Hesap (güneş) ikonu — giriş / hesabım butonlarında
@@ -46,6 +46,7 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [me, setMe] = useState<{ type: string } | null>(null);
   const [astrologAcik, setAstrologAcik] = useState(false);
+  const [iletisimEtiket, setIletisimEtiket] = useState("İletişim");
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
@@ -53,14 +54,17 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
-    // pathname bağımlılığı: switch admin panelden değiştirilince sayfa geçişinde link güncellensin
+    // pathname bağımlılığı: ayarlar admin panelden değiştirilince sayfa geçişinde nav güncellensin
     fetch("/api/astrologlar").then((r) => r.json()).then((d) => setAstrologAcik(!!d.acik)).catch(() => {});
+    fetch("/api/maintenance").then((r) => r.json()).then((d) => { if (d.iletisimEtiket) setIletisimEtiket(d.iletisimEtiket); }).catch(() => {});
   }, [pathname]);
 
-  // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...)
+  // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...);
+  // iletişim sekmesinin etiketi moda göre değişir.
+  const NAV_ETIKETLI = NAV.map((n) => (n.href === "/iletisim" ? { ...n, label: iletisimEtiket } : n));
   const nav = astrologAcik
-    ? [...NAV.slice(0, 2), { href: "/astrologlar", label: "Astrologlar" }, ...NAV.slice(2)]
-    : NAV;
+    ? [...NAV_ETIKETLI.slice(0, 2), { href: "/astrologlar", label: "Astrologlar" }, ...NAV_ETIKETLI.slice(2)]
+    : NAV_ETIKETLI;
 
   useEffect(() => {
     setOpen(false);
