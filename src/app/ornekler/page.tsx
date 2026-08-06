@@ -17,7 +17,11 @@ export default function OrneklerPage() {
       </header>
 
       <div className="mt-14 space-y-16">
-        {PRODUCTS.filter((p) => !p.gizli).map((p) => (
+        {/* Sıra: aylık, doğum haritasının hemen altında (Deniz talebi) — diğerleri katalog sırasında */}
+        {[...PRODUCTS.filter((p) => !p.gizli)].sort((a, b) => {
+          const oncelik = (p: { slug: string }) => (p.slug === "natal" ? 0 : p.slug === "aylik" ? 1 : 2);
+          return oncelik(a) - oncelik(b);
+        }).map((p) => (
           <section key={p.slug} id={p.slug} className="scroll-mt-24">
             <div className="flex items-center gap-3">
               <span className="text-3xl" style={{ color: p.accent }}>{p.glyph}</span>
