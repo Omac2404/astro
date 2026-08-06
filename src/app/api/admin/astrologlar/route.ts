@@ -19,7 +19,8 @@ function temizle(b: Record<string, unknown>) {
   return {
     ad: String(b.ad ?? "").trim().slice(0, 80),
     hakkinda: String(b.hakkinda ?? "").trim().slice(0, 300),
-    instagram: url(b.instagram), x: url(b.x), youtube: url(b.youtube), tiktok: url(b.tiktok),
+    profilLink: url(b.profilLink),
+    instagram: url(b.instagram), facebook: url(b.facebook), x: url(b.x), youtube: url(b.youtube), tiktok: url(b.tiktok),
     website: url(b.website),
     email: String(b.email ?? "").trim().toLowerCase().slice(0, 120),
   };

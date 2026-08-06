@@ -1110,7 +1110,9 @@ export type Astrolog = {
   ad: string;         // isim soyisim
   hakkinda: string;   // 1-2 cümle
   fotoId?: string;    // .data/files içindeki görsel (yoksa baş harf avatarı gösterilir)
+  profilLink?: string; // ön tanımlı kart linki: foto/isme tıklayınca gidilecek adres (astroloğun tercihi)
   instagram?: string;
+  facebook?: string;
   x?: string;         // X / Twitter
   youtube?: string;
   tiktok?: string;
@@ -1133,8 +1135,8 @@ const ASTROLOG_AYAR_DEFAULT: AstrologAyar = {
 };
 // İlk kurulumda 8 demo kart (admin kendi astrologlarını ekleyene kadar örnek dizilim için).
 const ASTROLOG_DEMO: Astrolog[] = [
-  { id: "AST-demo1", ad: "Selin Aydoğan", hakkinda: "15 yıllık natal harita deneyimi; kariyer ve yaşam yönü danışmanlığında uzman.", instagram: "https://instagram.com/demo", website: "https://example.com", email: "selin@example.com", tarih: "2026-08-06T00:00:00.000Z" },
-  { id: "AST-demo2", ad: "Kerem Yıldırım", hakkinda: "Sinastri ve ilişki astrolojisi odaklı çalışır; çift danışmanlığı seansları verir.", x: "https://x.com/demo", website: "https://example.com", email: "kerem@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo1", ad: "Selin Aydoğan", hakkinda: "15 yıllık natal harita deneyimi; kariyer ve yaşam yönü danışmanlığında uzman.", profilLink: "https://example.com", instagram: "https://instagram.com/demo", website: "https://example.com", email: "selin@example.com", tarih: "2026-08-06T00:00:00.000Z" },
+  { id: "AST-demo2", ad: "Kerem Yıldırım", hakkinda: "Sinastri ve ilişki astrolojisi odaklı çalışır; çift danışmanlığı seansları verir.", profilLink: "https://instagram.com/demo", facebook: "https://facebook.com/demo", x: "https://x.com/demo", website: "https://example.com", email: "kerem@example.com", tarih: "2026-08-06T00:00:00.000Z" },
   { id: "AST-demo3", ad: "Elif Karahan", hakkinda: "Karmik astroloji ve ay düğümleri üzerine yazıyor; gölge çalışması atölyeleri düzenliyor.", instagram: "https://instagram.com/demo", youtube: "https://youtube.com/@demo", email: "elif@example.com", tarih: "2026-08-06T00:00:00.000Z" },
   { id: "AST-demo4", ad: "Mert Özdemir", hakkinda: "Saat astrolojisi ve seçim astrolojisi uzmanı; doğru zamanlama danışmanlığı verir.", website: "https://example.com", email: "mert@example.com", tarih: "2026-08-06T00:00:00.000Z" },
   { id: "AST-demo5", ad: "Zeynep Tuna", hakkinda: "Solar return ve öngörüm teknikleri üzerine 10 yıllık deneyim; yıllık planlama seansları.", instagram: "https://instagram.com/demo", tiktok: "https://tiktok.com/@demo", email: "zeynep@example.com", tarih: "2026-08-06T00:00:00.000Z" },

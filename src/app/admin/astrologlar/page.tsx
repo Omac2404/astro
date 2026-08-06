@@ -6,13 +6,13 @@ import { Panel, PageHead, Badge } from "@/components/admin-ui";
 const inputCls = "rounded-lg border border-gold/20 bg-night px-3 py-2 text-sm text-parchment outline-none focus:border-gold/55";
 
 type Astrolog = {
-  id: string; ad: string; hakkinda: string; fotoId?: string | null;
-  instagram?: string; x?: string; youtube?: string; tiktok?: string; website?: string; email?: string;
+  id: string; ad: string; hakkinda: string; fotoId?: string | null; profilLink?: string;
+  instagram?: string; facebook?: string; x?: string; youtube?: string; tiktok?: string; website?: string; email?: string;
 };
 type Ayar = { acik: boolean; konum: "hero" | "sss"; grid: 3 | 4; anasayfa: string[]; baslik: string; altBaslik: string };
 type Tik = Record<string, { toplam: number; bugun: number; son30: number }>;
 
-const BOS_FORM = { ad: "", hakkinda: "", instagram: "", x: "", youtube: "", tiktok: "", website: "", email: "" };
+const BOS_FORM = { ad: "", hakkinda: "", profilLink: "", instagram: "", facebook: "", x: "", youtube: "", tiktok: "", website: "", email: "" };
 
 function Switch({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
@@ -71,7 +71,7 @@ export default function AstrologlarPage() {
 
   const duzenle = (a: Astrolog) => {
     setDuzenlenen(a.id);
-    setForm({ ad: a.ad, hakkinda: a.hakkinda, instagram: a.instagram ?? "", x: a.x ?? "", youtube: a.youtube ?? "", tiktok: a.tiktok ?? "", website: a.website ?? "", email: a.email ?? "" });
+    setForm({ ad: a.ad, hakkinda: a.hakkinda, profilLink: a.profilLink ?? "", instagram: a.instagram ?? "", facebook: a.facebook ?? "", x: a.x ?? "", youtube: a.youtube ?? "", tiktok: a.tiktok ?? "", website: a.website ?? "", email: a.email ?? "" });
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -175,7 +175,10 @@ export default function AstrologlarPage() {
           <input placeholder="Web sitesi" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} className={`${inputCls} lg:col-span-2`} />
           <textarea placeholder="Hakkında (1-2 cümle)" value={form.hakkinda} onChange={(e) => setForm({ ...form, hakkinda: e.target.value })}
             rows={2} maxLength={300} className={`${inputCls} sm:col-span-2 lg:col-span-4 resize-none`} />
+          <input placeholder="Kart linki — fotoğrafa/isme tıklayınca gidilecek adres (site, Instagram vs.)" value={form.profilLink}
+            onChange={(e) => setForm({ ...form, profilLink: e.target.value })} className={`${inputCls} sm:col-span-2 lg:col-span-4`} />
           <input placeholder="Instagram" value={form.instagram} onChange={(e) => setForm({ ...form, instagram: e.target.value })} className={inputCls} />
+          <input placeholder="Facebook" value={form.facebook} onChange={(e) => setForm({ ...form, facebook: e.target.value })} className={inputCls} />
           <input placeholder="X (Twitter)" value={form.x} onChange={(e) => setForm({ ...form, x: e.target.value })} className={inputCls} />
           <input placeholder="YouTube" value={form.youtube} onChange={(e) => setForm({ ...form, youtube: e.target.value })} className={inputCls} />
           <input placeholder="TikTok" value={form.tiktok} onChange={(e) => setForm({ ...form, tiktok: e.target.value })} className={inputCls} />
@@ -222,7 +225,7 @@ export default function AstrologlarPage() {
                     </div>
                   </td>
                   <td className="px-3 py-3 text-xs text-parchment/60">
-                    {[a.instagram && "IG", a.x && "X", a.youtube && "YT", a.tiktok && "TT", a.website && "Web", a.email && "@"].filter(Boolean).join(" · ") || "—"}
+                    {[a.profilLink && "Kart→", a.instagram && "IG", a.facebook && "FB", a.x && "X", a.youtube && "YT", a.tiktok && "TT", a.website && "Web", a.email && "@"].filter(Boolean).join(" · ") || "—"}
                   </td>
                   <td className="px-3 py-3 tabular-nums text-parchment/75">
                     {t ? `${t.bugun} / ${t.son30} / ${t.toplam}` : "0 / 0 / 0"}

@@ -9,7 +9,7 @@ import { useCart } from "@/lib/cart";
 const NAV = [
   { href: "/", label: "Anasayfa" },
   { href: "/analizler", label: "Analizler" },
-  { href: "/ornekler", label: "Örnek Analizler" },
+  { href: "/ornekler", label: "Örnekler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
   { href: "/iletisim", label: "İletişim" },
@@ -53,8 +53,9 @@ export function SiteHeader() {
   }, [pathname]);
 
   useEffect(() => {
+    // pathname bağımlılığı: switch admin panelden değiştirilince sayfa geçişinde link güncellensin
     fetch("/api/astrologlar").then((r) => r.json()).then((d) => setAstrologAcik(!!d.acik)).catch(() => {});
-  }, []);
+  }, [pathname]);
 
   // Astrologlar switch'i açıkken nav'a link eklenir (S.S.S.'ten önce)
   const nav = astrologAcik

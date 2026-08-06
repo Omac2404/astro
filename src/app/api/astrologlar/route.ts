@@ -9,8 +9,8 @@ export async function GET() {
   const ayar = getAstrologAyar();
   if (!ayar.acik) return NextResponse.json({ acik: false });
   const astrologlar = getAstrologlar().map((a) => ({
-    id: a.id, ad: a.ad, hakkinda: a.hakkinda, fotoId: a.fotoId ?? null,
-    instagram: a.instagram ?? "", x: a.x ?? "", youtube: a.youtube ?? "", tiktok: a.tiktok ?? "",
+    id: a.id, ad: a.ad, hakkinda: a.hakkinda, fotoId: a.fotoId ?? null, profilLink: a.profilLink ?? "",
+    instagram: a.instagram ?? "", facebook: a.facebook ?? "", x: a.x ?? "", youtube: a.youtube ?? "", tiktok: a.tiktok ?? "",
     website: a.website ?? "", email: a.email ?? "",
   }));
   return NextResponse.json({

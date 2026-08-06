@@ -15,7 +15,7 @@ export default function AstrologlarSayfasi() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-16">
-      <header className="max-w-2xl">
+      <header className="mx-auto max-w-2xl text-center">
         <h1 className="font-display text-5xl font-semibold">{ayar.baslik}</h1>
         {ayar.altBaslik && <p className="mt-4 text-lg leading-relaxed text-parchment/70">{ayar.altBaslik}</p>}
       </header>
