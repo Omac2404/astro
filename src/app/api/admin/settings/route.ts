@@ -44,6 +44,7 @@ export async function POST(req: Request) {
       baslik: str("baslik", 160), altMetin: str("altMetin", 600),
       rozet: str("rozet", 80), fiyatMetin: str("fiyatMetin", 120), eskiFiyat: str("eskiFiyat", 40), yeniFiyat: str("yeniFiyat", 40),
       btn1Metin: str("btn1Metin", 60), btn1Link: str("btn1Link", 200), btn2Metin: str("btn2Metin", 60), btn2Link: str("btn2Link", 200),
+      igMetin: str("igMetin", 300), igButonMetin: str("igButonMetin", 60), igLink: str("igLink", 200),
     } as HeroAyar;
   }
   if ("iletisim" in b && b.iletisim && typeof b.iletisim === "object") {

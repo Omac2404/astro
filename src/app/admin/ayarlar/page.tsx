@@ -503,8 +503,8 @@ function SanalPosBolum() {
 
 // ---------------- Genel Ayarlar (maliyet/oran + bakım modu) ----------------
 type Sss = { q: string; a: string; btnText?: string; btnHref?: string };
-type Hero = { baslik: string; altMetin: string; rozet: string; fiyatMetin: string; eskiFiyat: string; yeniFiyat: string; btn1Metin: string; btn1Link: string; btn2Metin: string; btn2Link: string };
-const HERO_BOS: Hero = { baslik: "", altMetin: "", rozet: "", fiyatMetin: "", eskiFiyat: "", yeniFiyat: "", btn1Metin: "", btn1Link: "", btn2Metin: "", btn2Link: "" };
+type Hero = { baslik: string; altMetin: string; rozet: string; fiyatMetin: string; eskiFiyat: string; yeniFiyat: string; btn1Metin: string; btn1Link: string; btn2Metin: string; btn2Link: string; igMetin: string; igButonMetin: string; igLink: string };
+const HERO_BOS: Hero = { baslik: "", altMetin: "", rozet: "", fiyatMetin: "", eskiFiyat: "", yeniFiyat: "", btn1Metin: "", btn1Link: "", btn2Metin: "", btn2Link: "", igMetin: "", igButonMetin: "", igLink: "" };
 type Iletisim = { eposta: string; telefon: string; adres: string; instagram: string; x: string; tiktok: string; instagramAktif: boolean; xAktif: boolean; tiktokAktif: boolean };
 const ILETISIM_BOS: Iletisim = { eposta: "", telefon: "", adres: "", instagram: "", x: "", tiktok: "", instagramAktif: false, xAktif: false, tiktokAktif: false };
 type IletisimSayfa = { mod: "iletisim" | "reklam"; iletisimBaslik: string; iletisimAlt: string; reklamBaslik: string; reklamAlt: string };
@@ -649,6 +649,24 @@ function GenelBolum() {
             <div>
               <label className={labelCls}>2. Buton linki</label>
               <input value={g.hero.btn2Link} onChange={(e) => heroSet("btn2Link", e.target.value)} placeholder="/ornekler" className={`${inputCls} mt-1.5 w-full`} />
+            </div>
+          </div>
+          {/* Instagram tanıtımı (hero) — gradyan cümle + IG renklerinde buton */}
+          <div className="mt-2 rounded-xl border border-[#ee2a7b]/25 bg-night/50 p-4">
+            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.12em]" style={{ background: "linear-gradient(60deg,#f9ce34,#ee2a7b,#6228d7)", WebkitBackgroundClip: "text", color: "transparent" }}>Instagram Tanıtımı</div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2">
+                <label className={labelCls}>Gradyan cümle <span className="font-normal text-parchment/40">— boş bırakılırsa görünmez</span></label>
+                <textarea value={g.hero.igMetin} onChange={(e) => heroSet("igMetin", e.target.value)} rows={2} className={`${inputCls} mt-1.5 w-full resize-none`} />
+              </div>
+              <div>
+                <label className={labelCls}>Instagram butonu metni <span className="font-normal text-parchment/40">— boşsa buton görünmez</span></label>
+                <input value={g.hero.igButonMetin} onChange={(e) => heroSet("igButonMetin", e.target.value)} placeholder="Bizi Takip Et" className={`${inputCls} mt-1.5 w-full`} />
+              </div>
+              <div>
+                <label className={labelCls}>Instagram linki</label>
+                <input value={g.hero.igLink} onChange={(e) => heroSet("igLink", e.target.value)} placeholder="https://instagram.com/gokname" className={`${inputCls} mt-1.5 w-full`} />
+              </div>
             </div>
           </div>
         </div>

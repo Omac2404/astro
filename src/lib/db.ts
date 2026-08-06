@@ -279,6 +279,8 @@ export type HeroAyar = {
   baslik: string; altMetin: string;
   rozet: string; fiyatMetin: string; eskiFiyat: string; yeniFiyat: string;
   btn1Metin: string; btn1Link: string; btn2Metin: string; btn2Link: string;
+  // Instagram tanıtımı (ss9): gradyan cümle + IG renklerinde buton. igMetin/igButonMetin boşsa o öğe gizlenir.
+  igMetin: string; igButonMetin: string; igLink: string;
 };
 const HERO_DEFAULT: HeroAyar = {
   baslik: "Sana, **seni anlatalım.**",
@@ -288,7 +290,10 @@ const HERO_DEFAULT: HeroAyar = {
   eskiFiyat: "249 ₺",
   yeniFiyat: "99 ₺",
   btn1Metin: "Analizleri Keşfet", btn1Link: "/analizler",
-  btn2Metin: "Örnekler", btn2Link: "/ornekler",
+  btn2Metin: "", btn2Link: "/ornekler", // Örnekler butonu ss9 ile kalktı; admin isterse doldurup 3. buton yapabilir
+  igMetin: "Instagram'da bizi takip et; yeni çıkacak ücretsiz analizlerden ve aylık analiz hatırlatmalarından anında haberdar ol.",
+  igButonMetin: "Bizi Takip Et",
+  igLink: "https://instagram.com/gokname",
 };
 
 // İletişim sayfasında gösterilen bilgiler

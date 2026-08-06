@@ -42,11 +42,31 @@ export default function Home() {
             {hero.altMetin && (
               <p className="mt-5 max-w-md text-lg leading-relaxed text-parchment/70">{hero.altMetin}</p>
             )}
+            {/* Instagram tanıtım cümlesi — IG gradyanı (ss9); metin adminden (hero.igMetin) */}
+            {hero.igMetin && (
+              <a href={hero.igLink || "https://instagram.com"} target="_blank" rel="noopener noreferrer"
+                className="mt-4 block max-w-md text-[15px] font-semibold leading-relaxed"
+                style={{ background: "linear-gradient(60deg,#f9ce34,#ee2a7b,#6228d7)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>
+                {hero.igMetin}
+              </a>
+            )}
             {/* Fiyat/lansman promosu kaldırıldı (ücretsiz modele geçildi) */}
             <div className="mt-8 flex flex-wrap gap-4">
+              {/* 1. buton: Instagram (IG renklerinde, ikonlu) — metin/link adminden */}
+              {hero.igButonMetin && (
+                <a href={hero.igLink || "https://instagram.com"} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 rounded-full px-7 py-3 font-medium text-white shadow-lg shadow-[#ee2a7b]/25 transition-opacity hover:opacity-90"
+                  style={{ background: "linear-gradient(60deg,#f9ce34 0%,#ee2a7b 45%,#6228d7 100%)" }}>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
+                  </svg>
+                  {hero.igButonMetin}
+                </a>
+              )}
               {hero.btn1Metin && (
-                <Link href={hero.btn1Link || "/analizler"} className="rounded-full bg-gold px-7 py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright">
+                <Link href={hero.btn1Link || "/analizler"} className="group inline-flex items-center gap-2 rounded-full border border-gold/40 px-7 py-3 font-medium text-gold-bright transition-colors hover:bg-gold/10">
                   {hero.btn1Metin}
+                  <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
                 </Link>
               )}
               {hero.btn2Metin && (
