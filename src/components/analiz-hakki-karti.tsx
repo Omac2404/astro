@@ -57,8 +57,9 @@ export function AnalizHakkiKarti({ kullanilan, limit, sinirsiz }: { kullanilan: 
       ) : (
         <div className="mt-4">
           <p className="text-xs uppercase tracking-[0.15em] text-parchment/50">Yeni analiz hakkına kalan</p>
-          <div className="mt-2 font-display text-4xl font-semibold tabular-nums text-gold-bright" suppressHydrationWarning>
-            {kalan === null ? "—:—:—" : fmt(kalan)}
+          {/* Rakamlar için mono font: Cormorant (font-display) sayaçta okunaksızdı */}
+          <div className="mt-2 font-mono text-3xl font-semibold tracking-[0.08em] tabular-nums text-gold-bright" suppressHydrationWarning>
+            {kalan === null ? "--:--:--" : fmt(kalan)}
           </div>
           <p className="mt-2 text-xs leading-relaxed text-parchment/45">
             Bugünkü hakkını kullandın ({kullanilan}/{limit}). Hak her gece 00.00&apos;da (Türkiye saati) yenilenir.
