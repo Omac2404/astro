@@ -57,9 +57,9 @@ export function SiteHeader() {
     fetch("/api/astrologlar").then((r) => r.json()).then((d) => setAstrologAcik(!!d.acik)).catch(() => {});
   }, [pathname]);
 
-  // Astrologlar switch'i açıkken nav'a link eklenir (S.S.S.'ten önce)
+  // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...)
   const nav = astrologAcik
-    ? [...NAV.slice(0, 4), { href: "/astrologlar", label: "Astrologlar" }, ...NAV.slice(4)]
+    ? [...NAV.slice(0, 2), { href: "/astrologlar", label: "Astrologlar" }, ...NAV.slice(2)]
     : NAV;
 
   useEffect(() => {
