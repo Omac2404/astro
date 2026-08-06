@@ -468,6 +468,28 @@ def parse_report(txt):
     if cur is not None: secs[cur] = "\n".join(buf).strip()
     return secs
 
+def _words(s):
+    return re.sub(r"[^0-9a-zçğıöşüâîû]+", " ", s.lower()).split()
+
+def _loose_match(h, pref):
+    """Kelime bazlı gevşek başlık eşleşmesi: ilk kelime aynı + (varsa) son kelime başlıkta geçiyor.
+    Model başlığı hafifçe bozabiliyor: ör. Gemini "Yaran ve Şifan"ı "Yaran me Şifan" yazdı."""
+    hw, pw = _words(h), _words(pref)
+    return bool(hw and pw) and hw[0] == pw[0] and (len(pw) < 2 or pw[-1] in hw)
+
+def find_body_in(parsed, pref):
+    """Bölüm gövdesini TOLERANSLI bul: önce birebir önek; tutmazsa gevşek eşleşme (tek adaysa kabul)."""
+    for h, b in parsed.items():
+        if h.startswith(pref):
+            return b
+    cands = [b for h, b in parsed.items() if _loose_match(h, pref)]
+    return cands[0] if len(cands) == 1 else ""
+
+def matches_known(h, prefs):
+    """Başlık bilinen bölüm adlarından birine (birebir ya da gevşek) karşılık geliyor mu?
+    Kapanış tespiti bunun DIŞINDA kalan başlığı kapanış sayar; bozuk başlık kapanış sanılmasın."""
+    return any(h.startswith(p) or _loose_match(h, p) for p in prefs)
+
 def paren(s):
     s = s.replace("*", "")  # model bazen **kalın**/*italik* markdown koyuyor; bu metinlerde literal * yok, temizle
     return re.sub(r"\(([^()]+)\)", r'<span class="paren">(\1)</span>', s)
@@ -583,7 +605,7 @@ def render_sinastri(product):
     parsed = parse_report(open(rpath, encoding="utf-8").read()) if os.path.exists(rpath) else {}
     if not parsed:
         print(f"[uyarı] rapor-{product}.txt yok — bölümler boş")
-    def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
+    def find_body(pref): return find_body_in(parsed, pref)
     sections = [{"eyebrow": eb, "baslik": bs, "govde": body_html(limit_chars(find_body(hd), 450))} for (hd, eb, bs) in cfg["sections"]]
     _bos = [bs for (hd, eb, bs) in cfg["sections"] if not find_body(hd).strip()]
     if _bos:
@@ -596,7 +618,7 @@ def render_sinastri(product):
     element_yorum = paren(limit_chars(_eyo, 330)) if _eyo else ""  # element sayfası sabit yükseklikli → kısa
     element_table = syn_element_table(A, B, adA, adB)
     KNOWN = ["İmza Sentezi", "İlişki İmzanız", "Element Uyumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
-    extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
+    extra = [h for h in parsed if not matches_known(h, KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
     kapanis_text = paren(limit_chars(kap, 600)) if kap else "…"  # Son Söz sayfası sabit yükseklikli → kırp
@@ -785,7 +807,7 @@ def main():
         parsed = parse_report(open(rpath, encoding="utf-8").read())
     else:
         parsed = {}; print(f"[uyarı] rapor-{product}.txt yok — bölüm prozları boş")
-    def find_body(pref): return next((b for h, b in parsed.items() if h.startswith(pref)), "")
+    def find_body(pref): return find_body_in(parsed, pref)
     # Her başlık-altı bölüm metni max ~450 karakter (tek paragraf) — sayfaya 2-3 bölüm sığsın, her biri bütün kalsın.
     sections = [{"eyebrow": eb, "baslik": bs, "glyph": gl,
                  "govde": body_html(limit_chars(find_body(hd), 450)), "upsell": up}
@@ -806,7 +828,7 @@ def main():
     imza_sentezi = paren(limit_chars(imza, 560)) if imza else "…"  # mor sayfa; taşmasın
     # Kapanış: model başlığı "## Kapanış" yerine kişiye özel şiirsel başlıkla yazabiliyor.
     KNOWN = ["Ana İmzalar", "İmza Sentezi", "Element Yorumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
-    extra = [h for h in parsed if not any(h.startswith(p) for p in KNOWN)]
+    extra = [h for h in parsed if not matches_known(h, KNOWN)]
     kapanis_baslik = re.sub(r"[*#]", "", extra[0]).strip() if extra else "Son Söz"
     kap_body = find_body("Kapanış") or (parsed.get(extra[0], "") if extra else "")
     # Son Söz sayfası sabit yükseklikli (altında yasal not var); uzun kapanış taşar → ~600 karakter.
