@@ -27,10 +27,11 @@ html,body{
 .sheet{ width:210mm; min-height:297mm; position:relative; overflow:hidden; page-break-after:always; }
 .sheet:last-child{ page-break-after:auto; }
 .flow{ padding:20mm 27.5mm; }
-/* Düz-yazı bölüm sayfası çok-sayfaya akar; overflow:hidden Chrome'da sayfalamayı bozup içeriği erken
-   kırabiliyor (sayfa dolmadan sonrakine atma). Bu sheet'te görünür bırak → bölümler doğal akar. */
-.sections-sheet{ overflow:visible; min-height:0; }
-.sections-sheet .flow{ padding:0 27.5mm; }
+/* Düz-yazı bölümler DETERMİNİSTİK sayfalanır: şablonda batch(3) ile sayfa başına 3 bölüm (8→3-3-2, 7→3-3-1).
+   Her chunk kendi tam A4 .sheet'i; içerik 450 kr/bölüm sınırıyla sayfaya garantili sığar, doğal akış yok.
+   (Eski tek-sheet+overflow:visible düzeni 3-2-2 gibi düzensiz kırılmalara yol açıyordu.) */
+.sections-sheet .flow{ padding:0 27.5mm 22mm; }
+.sections-sheet .foot-rule{ position:absolute; left:27.5mm; right:27.5mm; bottom:10mm; margin-top:0; }
 
 .astro{ font-family:'Noto Sans Symbols 2','DejaVu Sans',sans-serif; font-variant-emoji:text; }
 .eyebrow{ font-size:8.5pt; letter-spacing:.34em; text-transform:uppercase; color:var(--gold); font-weight:500; }
@@ -641,22 +642,23 @@ p:last-child{ margin-bottom:0; }
 </section>
 
 
-<!-- ====================== SECTIONS ====================== -->
+<!-- ====================== SECTIONS (sayfa başına 3 bölüm — 3-3-2 / 3-3-1; eyebrow etiketi kaldırıldı) ====================== -->
+{% for grp in sections|batch(3) %}
 <section class="sheet sections-sheet">
   <div class="flow">
     <div class="sec-spacer"></div>
-    {% for s in sections %}
+    {% for s in grp %}
     <div class="section">
-      <div class="section-head"><span class="eyebrow">{{ s.eyebrow }}</span>
+      <div class="section-head">
         <div class="row"><span class="sym"><span class="astro">&#{{ s.glyph }};</span></span><h2>{{ s.baslik }}</h2><span class="hr"></span></div></div>
       {{ s.govde|safe }}
       {% if s.upsell %}{{ s.upsell|safe }}{% endif %}
     </div>
     {% endfor %}
-
     <div class="foot-rule"><span>Yıldızname · {{ meta.ad }}</span><span>{{ urun_baslik }}</span></div>
   </div>
 </section>
+{% endfor %}
 
 <!-- ====================== CLOSING ====================== -->
 <section class="sheet closing">

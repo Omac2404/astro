@@ -826,9 +826,9 @@ def main():
         "urun_etiket": cfg.get("urun_etiket", ""), "pos_love": focus_planets,
         "love_note": love_note, "chart_love_note": chart_love_note,
         "upsell_list": cfg.get("upsell_list", []),
-        # LEAN: doğum-haritası tabanlı türev ürünler (Aşk, Kariyer, Enerji/Sağlık, Lilith) için
-        # PDF'ten pozisyon tablosu + nitelik diyagramı + element barları/mizaç çıkar. Natal/solar/aylık/çift'te kalır.
-        "lean": product in ("ask", "kariyer", "saglik", "lilith"),
+        # LEAN: doğum-haritası tabanlı türev ürünler (Aşk, Kariyer, Enerji/Sağlık, Lilith, Aylık) için
+        # PDF'ten pozisyon tablosu + nitelik diyagramı + element barları/mizaç çıkar. Natal/solar/çift'te kalır.
+        "lean": product in ("ask", "kariyer", "saglik", "lilith", "aylik"),
         "cover_bg": ("data:image/jpeg;base64," + base64.b64encode(open(COVER_IMG, "rb").read()).decode()) if os.path.exists(COVER_IMG) else "",
         "logo": _data_uri(LOGO_DIKEY, "image/png"), "disclaimer": DISCLAIMER_NATAL,
     }
