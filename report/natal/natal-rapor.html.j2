@@ -30,7 +30,7 @@ html,body{
 /* Düz-yazı bölümler DETERMİNİSTİK sayfalanır: şablonda batch(3) ile sayfa başına 3 bölüm (8→3-3-2, 7→3-3-1).
    Her chunk kendi tam A4 .sheet'i; içerik 450 kr/bölüm sınırıyla sayfaya garantili sığar, doğal akış yok.
    (Eski tek-sheet+overflow:visible düzeni 3-2-2 gibi düzensiz kırılmalara yol açıyordu.) */
-.sections-sheet .flow{ padding:0 27.5mm 22mm; }
+.sections-sheet .flow{ padding:0 27.5mm; } /* footer kalktı → alt boşluk rezervi yok; 3 bölüm rahat sığar */
 
 .astro{ font-family:'Noto Sans Symbols 2','DejaVu Sans',sans-serif; font-variant-emoji:text; }
 .eyebrow{ font-size:8.5pt; letter-spacing:.34em; text-transform:uppercase; color:var(--gold); font-weight:500; }
