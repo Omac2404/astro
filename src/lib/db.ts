@@ -257,6 +257,12 @@ const SSS_DEFAULT: SssItem[] = [
   { q: "Örnek görebilir miyim?", a: "Evet. Her analizin “Örnek Analizler” sayfasında gerçek örnekleri var.", btnText: "Örnekleri İncele", btnHref: "/ornekler" },
   { q: "Analizler ücretsiz mi?", a: "Evet, tüm analizler ücretsiz. Her hesap **günde 1 analiz** yapabilir. Hazırlanan raporlar bir süre hesabında kalır (analize göre değişir), sonra otomatik silinir; her raporun silinme tarihi Analizlerim'de yazılıdır." },
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
+  { q: "Üyelik nasıl çalışıyor, ücretli mi?", a: "Üyelik tamamen **ücretsiz**. E-posta ya da Google hesabınla saniyeler içinde üye olursun; analizlerin hesabına tanımlanır ve hepsini tek yerden, Hesabım sayfasından yönetirsin." },
+  { q: "Günde kaç analiz oluşturabilirim?", a: "Her hesabın **günde 1 analiz hakkı** vardır ve bu hak her gece 00.00'da (Türkiye saati) yenilenir. Hakkını kullandıysan Hesabım sayfasındaki geri sayım sana yeni hakkına ne kadar kaldığını gösterir." },
+  { q: "Raporlarım ne kadar süre saklanıyor, silinme mantığı nedir?", a: "Doğum haritası tabanlı tekil analizler **90 gün**, çift (sinastri) analizleri **5 gün** hesabında kalır; aylık yorum ise her ayın 1'inde yenilendiği için bir sonraki ayın 1'ine kadar durur. Her raporun silinme tarihi Analizlerim'de yazar; süresi dolmadan **PDF olarak indirirsen** sonsuza dek sende kalır." },
+  { q: "Doğum bilgimi sonradan değiştirebilir miyim?", a: "Hesabına tanımlı doğum bilgisi, tüm analizlerin aynı haritadan üretilmesi için **değiştirilemez**. Bilgini yanlış girdiysen bizimle iletişime geç, birlikte düzeltelim." },
+  { q: "Çift (sinastri) analizini farklı kişilerle tekrar yapabilir miyim?", a: "Evet. Sevgili/eş ve arkadaşlık uyum analizlerini **her gün farklı bir kişiyle** yeniden yapabilirsin; ikinci kişinin doğum bilgilerini girmen yeterli, onun üye olması gerekmez." },
+  { q: "Raporu telefonumdan rahat okuyabilir miyim?", a: "Evet. Raporlar **mobilde rahat okunacak** punto ve düzenle tasarlandı; PDF'i telefonundan açabilir, dilersen paylaşabilir ya da yazdırabilirsin." },
 ];
 
 // Anasayfa hero (başlıkta **...** = altın vurgu)
@@ -531,7 +537,7 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/ornekler", "Örnek Analizler", "Örnek Analizler — Gökname", "Satın almadan önce her analizin gerçek bir örneğini incele."),
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
-    SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorularınız ve destek için bize ulaşın."),
+    SEO_SAYFA("/iletisim", "Reklam ve İşbirliği", "Reklam ve İşbirliği — Gökname", "Reklam, sponsorluk ve astrolog kartı iş birlikleri için bize ulaşın."),
     SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({

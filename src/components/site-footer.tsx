@@ -9,7 +9,7 @@ const LINKS = [
   { href: "/ornekler", label: "Örnek Analizler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
-  { href: "/iletisim", label: "İletişim" },
+  { href: "/iletisim", label: "Reklam ve İşbirliği" },
 ];
 
 function Social({ href, label, external, children }: { href: string; label: string; external?: boolean; children: React.ReactNode }) {

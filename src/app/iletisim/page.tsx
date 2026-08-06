@@ -10,9 +10,9 @@ export default function IletisimPage() {
   return (
     <div className="mx-auto max-w-xl px-5 py-16">
       <header className="text-center">
-        <h1 className="font-display text-5xl font-semibold">Bize ulaş</h1>
+        <h1 className="font-display text-5xl font-semibold">Reklam ve İşbirliği</h1>
         <p className="mx-auto mt-4 max-w-lg text-lg leading-relaxed text-parchment/70">
-          Analizlerin hakkında her sorunda buradayız. <span className="text-parchment/85">Reklam ve iş birliği</span> teklifleri için de bu sayfadan yazabilirsin.
+          Yüksek trafikli, hedefi net bir kitleye ulaşmak ister misin? <span className="text-parchment/85">Reklam, sponsorluk ve astrolog kartı</span> iş birlikleri için bize yaz; sana özel yerleşim ve fiyat seçenekleriyle dönelim.
         </p>
         {il.eposta && (
           <a
