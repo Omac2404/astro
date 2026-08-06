@@ -116,29 +116,6 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
             </ul>
           </div>
 
-          {/* Analizi nasıl yapacağım? */}
-          <div className="mt-10 max-w-2xl rounded-2xl border border-gold/15 bg-night p-6">
-            <h2 className="font-display text-3xl text-gold-bright">Analizi nasıl yapacağım?</h2>
-            <ol className="mt-5 space-y-4">
-              {[
-                { t: "Analizi başlat", d: `Ücretsiz. “Analizi Yap”a bas, ${p.ad} hesabına tanımlansın.` },
-                { t: "Doğum bilgilerini gir", d: "Hesabındaki “Analizlerim” alanından doğum tarihi, saati ve yerini gir." },
-                { t: "Raporun hazırlansın", d: "Birkaç dakika içinde gerçek gökyüzü hesaplanır, sana özel sentezlenir ve yorumlanır." },
-                { t: "İndir", d: "Hesabından dilediğin zaman raporunu PDF olarak indirebilirsin." },
-              ].map((s, i) => (
-                <li key={s.t} className="flex items-start gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm font-semibold" style={{ borderColor: `${p.accent}66`, color: p.accent }}>
-                    {i + 1}
-                  </span>
-                  <div className="min-w-0">
-                    <div className="text-lg text-parchment/90">{s.t}</div>
-                    <div className="mt-0.5 text-[15px] leading-relaxed text-parchment/60">{s.d}</div>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-
         </div>
 
         {/* SAĞ — satın alma kartı (sticky) */}
