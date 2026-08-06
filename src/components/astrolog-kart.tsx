@@ -63,7 +63,11 @@ export function AstrologKart({ a }: { a: Astrolog }) {
   const baslik = <h3 className="mt-4 font-display text-xl font-semibold text-parchment transition-colors group-hover:text-gold-bright">{a.ad}</h3>;
 
   return (
-    <div className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-gold/15 bg-night p-6 text-center transition-all hover:border-gold/40 hover:-translate-y-1">
+    <div className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-gold/15 bg-night p-6 pt-10 text-center transition-all hover:border-gold/40 hover:-translate-y-1">
+      {/* Tavsiye rozeti — ürün kartı rozet kalıbı, ayırt edici yeşil (acc-kariyer) */}
+      <span className="absolute left-1/2 top-3 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+        ✦ gökname.com tavsiyesi
+      </span>
       {a.profilLink ? (
         <a href={a.profilLink} target="_blank" rel="noopener noreferrer" onClick={() => izle(a.id)}
           className="flex flex-col items-center" aria-label={`${a.ad} — profil`}>
