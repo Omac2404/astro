@@ -16,6 +16,10 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
           {badge}
         </span>
       )}
+      {/* Ücretsiz etiketi — tüm rapor kartlarında (sol üst; sağ üstte tür rozeti var) */}
+      <span className="absolute left-3.5 top-3.5 z-10 inline-flex items-center rounded-full bg-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+        Ücretsiz
+      </span>
       {/* Görsel alanı (Udemy tarzı kapak) */}
       <div className="relative h-64 w-full overflow-hidden">
         {p.gorsel ? (
