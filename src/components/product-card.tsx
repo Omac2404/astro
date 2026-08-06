@@ -16,10 +16,6 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
           {badge}
         </span>
       )}
-      {/* Ücretsiz etiketi — tüm rapor kartlarında (sol üst; sağ üstte tür rozeti var) */}
-      <span className="absolute left-3.5 top-3.5 z-10 inline-flex items-center rounded-full bg-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
-        Ücretsiz
-      </span>
       {/* Görsel alanı (Udemy tarzı kapak) */}
       <div className="relative h-64 w-full overflow-hidden">
         {p.gorsel ? (
@@ -60,7 +56,11 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
               PDF raporu
             </span>
           </div>
-          <div className="flex flex-col items-end gap-0.5">
+          <div className="flex flex-col items-end gap-1.5">
+            {/* Ücretsiz etiketi — İncele'nin hemen üstünde (tüm rapor kartları) */}
+            <span className="inline-flex items-center rounded-full bg-[#4e9e7d] px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15">
+              Ücretsiz
+            </span>
             <span className="inline-flex items-center gap-1 font-body text-base font-semibold text-gold-bright transition-transform group-hover:translate-x-0.5">İncele <span aria-hidden>→</span></span>
           </div>
         </div>
