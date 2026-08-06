@@ -43,7 +43,7 @@ Hedef: **toplam ~900-1200 kelime.** Premium hissettir ama dolgu yapma. Her cüml
 7. **Birlikte Büyümek** — sentez: birbirinize ne katıyorsunuz (uyumlu açılar ve bindirmeler), hangi yanınız diğeriyle gelişiyor, bu bağın özü ve neyi beslerseniz en iyi hâlini yaşar (kişi değil dinamik tarif et).
 
 (— element sayfası için ayrı blok —)
-**## Element Uyumu** — İki kişinin baskın elementlerinin ilişkiye etkisi; **EN FAZLA 3-4 KISA cümle (~45-50 kelime (~330 karakter))**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, denge için neye dikkat. Öz, çift merceğinde.
+**## Element Uyumu** — İki kişinin baskın elementlerinin ilişkiye etkisi; **5-7 cümle (~80-90 kelime, EN FAZLA ~550 karakter)**. Elementleriniz birbirini nasıl besliyor ya da zorluyor, ortak ve eksik elementlerin ilişkiye yansıması, denge için neye dikkat. Dolu ama dolgu yapmadan, çift merceğinde.
 
 (— kapanış —)
 9. **Kapanış** — Başlığını "## Kapanış" yazma; başlık olarak bu çifte özel **2-4 kelimelik şiirsel bir ibare** kullan (ör. "## İki Ateşin Dansı"). Hemen altına sıcak, umut veren ama gerçekçi kapanış yaz (**EN FAZLA ~600 karakter / ~90 kelime, tek paragraf — sayfaya sığmalı, uzatma**) **Kapanışta ayrıca yasal uyarı / sorumluluk reddi (disclaimer) YAZMA; o metin rapora ayrı basılıyor.**.

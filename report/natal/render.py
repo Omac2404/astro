@@ -615,7 +615,7 @@ def render_sinastri(product):
     _ili = find_body("İlişki İmzanız")
     iliski_imzaniz = paren(limit_chars(_ili, 560)) if _ili else ""
     _eyo = find_body("Element Uyumu")
-    element_yorum = paren(limit_chars(_eyo, 330)) if _eyo else ""  # element sayfası sabit yükseklikli → kısa
+    element_yorum = paren(limit_chars(_eyo, 560)) if _eyo else ""  # Deniz: biraz daha uzun olsun (ss6); sayfa dikeyde ortalı, 560 sığar
     element_table = syn_element_table(A, B, adA, adB)
     KNOWN = ["İmza Sentezi", "İlişki İmzanız", "Element Uyumu", "Kapanış"] + [s[0] for s in cfg["sections"]]
     extra = [h for h in parsed if not matches_known(h, KNOWN)]

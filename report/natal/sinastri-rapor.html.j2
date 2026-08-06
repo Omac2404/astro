@@ -29,6 +29,7 @@
 .txt-page .eyebrow{ color:{{ accent_soft }}; margin-bottom:5mm; }
 .txt-page h2{ font-family:'Cinzel',serif; font-size:20pt; font-weight:600; letter-spacing:.1em; color:var(--gold-bright); line-height:1.32; margin-bottom:9mm; }
 .txt-page p{ font-size:13.5pt; line-height:1.82; color:#dde0ef; max-width:150mm; text-align:center; }
+.txt-page h2.txt-second{ margin-top:14mm; } /* aynı sayfada ikinci yorum bloğu (ss5) */
 .txt-page .paren{ color:var(--gold-bright); }
 
 /* Aranızdaki Denge — iki kişilik element×nitelik tablosu (Nitelik Dengesi tarzı) */
@@ -81,13 +82,15 @@
   </div>
 </section>
 
-<!-- ====================== ARANIZDAKI GÖKYÜZÜ YORUMU ====================== -->
-{% if iliski_imzaniz %}
+<!-- ====================== EV BİNDİRMELERİ YORUMU + ARANIZDAKİ GÖKYÜZÜ UYUMU (tek sayfa — ss5) ====================== -->
+{% if iliski_imzaniz or imza_sentezi %}
 <section class="sheet txt-page">
   <div class="inner">
     <span class="eyebrow">İlişki İmzanız</span>
-    <h2>Aranızdaki Gökyüzü Yorumu</h2>
+    <h2>Ev Bindirmeleri Yorumu</h2>
     <p>{{ iliski_imzaniz|safe }}</p>
+    <h2 class="txt-second">Aranızdaki Gökyüzü Uyumu</h2>
+    <p>{{ imza_sentezi|safe }}</p>
   </div>
 </section>
 {% endif %}
@@ -106,29 +109,21 @@
   </div>
 </section>
 
-<!-- ====================== ELEMENTLERİNİZİN İMZA SENTEZİ ====================== -->
-<section class="sheet txt-page">
-  <div class="inner">
-    <span class="eyebrow">İmza Sentezi</span>
-    <h2>Elementlerinizin İmza Sentezi</h2>
-    <p>{{ imza_sentezi|safe }}</p>
-  </div>
-</section>
-
-<!-- ====================== BÖLÜMLER ====================== -->
+<!-- ====================== BÖLÜMLER (sayfa başına 3 — 3-3-1; eyebrow/footer yok — ss6/7/8) ====================== -->
+{% for grp in sections|batch(3) %}
 <section class="sheet sections-sheet">
   <div class="flow">
     <div class="sec-spacer"></div>
-    {% for s in sections %}
+    {% for s in grp %}
     <div class="section">
-      <div class="section-head"><span class="eyebrow">{{ s.eyebrow }}</span>
+      <div class="section-head">
         <div class="row"><h2>{{ s.baslik }}</h2><span class="hr"></span></div></div>
       {{ s.govde|safe }}
     </div>
     {% endfor %}
-    <div class="foot-rule"><span>Yıldızname · {{ adA }} &amp; {{ adB }}</span><span>{{ urun_baslik }}</span></div>
   </div>
 </section>
+{% endfor %}
 
 <!-- ====================== KAPANIŞ ====================== -->
 <section class="sheet closing">
