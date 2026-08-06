@@ -758,6 +758,21 @@ def main():
         focus_houses = sorted({k["house"] for k in karmik_pts})
     if product == "solar":
         focus_houses = [P["gunes"]["house"]]  # SR Güneş'inin evi = yılın ana odağı
+    # Aylık: ayın öne çıkanları (GENEL — burç/retro herkes için aynı): Güneş (ayın burcu) + retrolar,
+    # 4'e Venüs/Mars/Merkür/Jüpiter ile tamamlanır. Odak evler = bu gezegenlerin KİŞİDE düştüğü evler.
+    aylik_feat = []
+    if product == "aylik" and chart.get("aylik"):
+        _tr = {t["ad"]: t for t in chart["aylik"]["transitler"]}
+        if "Güneş" in _tr:
+            aylik_feat.append(_tr["Güneş"])
+        aylik_feat += [t for t in chart["aylik"]["transitler"] if t["retro"] and t["ad"] != "Güneş"]
+        for _ad in ("Venüs", "Mars", "Merkür", "Jüpiter"):
+            if len(aylik_feat) >= 4:
+                break
+            if _ad in _tr and _tr[_ad] not in aylik_feat:
+                aylik_feat.append(_tr[_ad])
+        aylik_feat = aylik_feat[:4]
+        focus_houses = sorted({t["house"] for t in aylik_feat})
     houses = [{"n": n, "desc": HOUSE_DESC[n-1], "on": n in occ, "love": n in focus_houses} for n in range(1, 13)]
     # Ürünün odak evlerinin doluluk durumuna göre KALIP yorum (her ihtimale karşı) — ürün-bağımsız
     love_note = ""
@@ -799,6 +814,13 @@ def main():
                      % focus_houses[0])
         chart_love_note = ("Soldaki doğum haritan değişmeyen sensin, sağdaki bu yılın göğü (Solar Return); "
                            "yıl haritası doğduğun haritanın üzerine biner ve onu bu yıl için harekete geçirir.")
+    # Aylık: alt not — ayın genel öne çıkanlarının KİŞİNİN doğum haritası evlerine düştüğü alanların harmanı
+    if product == "aylik" and aylik_feat:
+        _evler = ", ".join('%d. ev (<span class="paren">%s</span>)' % (h, HOUSE_DESC[h-1].lower())
+                           for h in focus_houses)
+        chart_love_note = ("Bu ayın öne çıkan gökyüzü başlıkları senin haritanda şu alanlara düşüyor: %s. "
+                           "Aydaki genel hava herkes için aynı olsa da, senin gündeminde en çok bu evlerin konuları hareketlenir."
+                           % _evler)
     asc_glyph_svg = f'<svg class="asc-svg-sm" viewBox="0 0 24 24">{glyph_path(SIGN_CODES[asc_si], 12, 12, 17, "#dcc188")}</svg>'
 
     # --- Sentez prozları (ürünün bölümleri + İmza Sentezi + kapanış) ---
@@ -875,6 +897,24 @@ def main():
             f'<div class="kc-txt"><strong>{k["ad"]}</strong><span>{k["sign"]} {k["deg"]} · {k["house"]}. ev</span>'
             f'<em>{k["anlam"]}</em></div></div>'
             for k in chart["karmik"])
+        kc = f'<div class="karmik-chart">{gen_wheel}<div class="kc-list">{items}</div></div>'
+        html = re.sub(r'<svg class="chart-wheel"[\s\S]*?</svg>', lambda mm: kc, html, count=1)
+    elif product == "aylik" and aylik_feat:
+        # Aylık: çark solda + ayın 3-4 GENEL öne çıkanı sağda (lilith'in karmik-chart düzeniyle).
+        AYLIK_GLYPH = {"Güneş": 9737, "Ay": 9789, "Merkür": 9791, "Venüs": 9792, "Mars": 9794, "Jüpiter": 9795, "Satürn": 9796}
+        AYLIK_MEAN = {"Güneş": "ayın ana sahnesi; genel enerjinin rengi",
+                      "Ay": "ayın duygusal havası",
+                      "Merkür": "iletişim, anlaşmalar ve zihinsel gündem",
+                      "Venüs": "aşk, ilişkiler, keyif ve değerler",
+                      "Mars": "enerji, girişim ve mücadele tonu",
+                      "Jüpiter": "büyüme, şans ve fırsat rüzgârı",
+                      "Satürn": "sorumluluk, sınav ve olgunlaşma alanı"}
+        items = "".join(
+            f'<div class="kc-item"><span class="kc-glyph astro">&#{AYLIK_GLYPH.get(t["ad"], 10038)};</span>'
+            f'<div class="kc-txt"><strong>{t["ad"]} {t["sign"]} burcunda</strong>'
+            f'<span>{chart["aylik"]["ay"]}{" · geri harekette" if t["retro"] else ""}</span>'
+            f'<em>{AYLIK_MEAN.get(t["ad"], "")}{"; geri hareket: gözden geçirme ve tamamlama zamanı" if t["retro"] else ""}</em></div></div>'
+            for t in aylik_feat)
         kc = f'<div class="karmik-chart">{gen_wheel}<div class="kc-list">{items}</div></div>'
         html = re.sub(r'<svg class="chart-wheel"[\s\S]*?</svg>', lambda mm: kc, html, count=1)
     else:
