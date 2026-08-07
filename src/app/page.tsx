@@ -45,7 +45,7 @@ export default function Home() {
             {/* Instagram tanıtım cümlesi — tek renk IG turuncusu (ss10: gradyandan vazgeçildi); metin adminden */}
             {hero.igMetin && (
               <a href={hero.igLink || "https://instagram.com"} target="_blank" rel="noopener noreferrer"
-                className="mt-4 block max-w-md text-[14px] font-semibold leading-relaxed text-[#FBCE5A] transition-opacity hover:opacity-85 sm:text-[15px]">
+                className="mt-4 block max-w-md text-[15px] font-semibold leading-relaxed text-[#FBCE5A] transition-opacity hover:opacity-85">
                 {hero.igMetin}
               </a>
             )}
