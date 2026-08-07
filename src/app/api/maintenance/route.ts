@@ -11,5 +11,7 @@ export async function GET() {
     bakimModu: a.bakimModu, bakimMesaj: a.bakimMesaj, bakimBitis: a.bakimBitis,
     // Header'ın iletişim sekmesi etiketi (mod'a göre "İletişim" | "Reklam ve İşbirliği")
     iletisimEtiket: a.iletisimSayfa.mod === "reklam" ? "Reklam ve İşbirliği" : "İletişim",
+    // Mobil menüdeki IG takip butonu için (Genel Ayarlar → Instagram Tanıtımı linki)
+    igLink: a.hero.igLink || a.iletisim.instagram || "https://instagram.com",
   });
 }

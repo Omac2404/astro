@@ -47,6 +47,7 @@ export function SiteHeader() {
   const [me, setMe] = useState<{ type: string } | null>(null);
   const [astrologAcik, setAstrologAcik] = useState(false);
   const [iletisimEtiket, setIletisimEtiket] = useState("İletişim");
+  const [igLink, setIgLink] = useState("https://instagram.com");
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
@@ -56,7 +57,10 @@ export function SiteHeader() {
   useEffect(() => {
     // pathname bağımlılığı: ayarlar admin panelden değiştirilince sayfa geçişinde nav güncellensin
     fetch("/api/astrologlar").then((r) => r.json()).then((d) => setAstrologAcik(!!d.acik)).catch(() => {});
-    fetch("/api/maintenance").then((r) => r.json()).then((d) => { if (d.iletisimEtiket) setIletisimEtiket(d.iletisimEtiket); }).catch(() => {});
+    fetch("/api/maintenance").then((r) => r.json()).then((d) => {
+      if (d.iletisimEtiket) setIletisimEtiket(d.iletisimEtiket);
+      if (d.igLink) setIgLink(d.igLink);
+    }).catch(() => {});
   }, [pathname]);
 
   // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...);
@@ -171,6 +175,34 @@ export function SiteHeader() {
             </button>
           </div>
           <div className="flex-1 overflow-y-auto px-3 py-4">
+            {/* Hesap — en üstte (Anasayfa'nın üstünde), hemen altında minimal IG takip butonu */}
+            <div className="mb-3 space-y-2.5 px-1">
+              {uye ? (
+                <div className="flex items-center gap-3">
+                  <Link href="/hesabim" className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gold/40 py-2 text-center text-sm text-gold-bright">
+                    <SunIcon />
+                    Hesabım
+                  </Link>
+                  <button onClick={cikis} className="rounded-full border border-gold/25 px-4 py-2 text-sm text-parchment/70">
+                    Çıkış
+                  </button>
+                </div>
+              ) : (
+                <Link href="/giris" className="flex items-center justify-center gap-2 rounded-full bg-gold py-2.5 text-center text-sm font-medium text-night-deep">
+                  <SunIcon />
+                  Giriş Yap / Üye Ol
+                </Link>
+              )}
+              <a href={igLink} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-full py-2 text-[13.5px] font-medium text-white transition-opacity hover:opacity-90"
+                style={{ background: "linear-gradient(60deg,#f9ce34 0%,#ee2a7b 45%,#6228d7 100%)" }}>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
+                </svg>
+                Bizi Instagram&apos;da Takip Et
+              </a>
+            </div>
+            <div className="mb-3 h-px bg-gold/15" />
             {nav.map((n) => (
               <Link
                 key={n.href}
@@ -182,24 +214,6 @@ export function SiteHeader() {
                 {n.label}
               </Link>
             ))}
-          </div>
-          <div className="border-t border-gold/15 px-4 pt-4 pb-8">
-            {uye ? (
-              <div className="flex items-center gap-3">
-                <Link href="/hesabim" className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gold/40 py-2 text-center text-sm text-gold-bright">
-                  <SunIcon />
-                  Hesabım
-                </Link>
-                <button onClick={cikis} className="rounded-full border border-gold/25 px-4 py-2 text-sm text-parchment/70">
-                  Çıkış
-                </button>
-              </div>
-            ) : (
-              <Link href="/giris" className="flex items-center justify-center gap-2 rounded-full bg-gold py-2.5 text-center text-sm font-medium text-night-deep">
-                <SunIcon />
-                Giriş Yap / Üye Ol
-              </Link>
-            )}
           </div>
         </nav>
       </div>

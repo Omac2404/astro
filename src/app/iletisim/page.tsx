@@ -1,5 +1,6 @@
 import { getGenelAyar, iletisimEtiket } from "@/lib/db";
 import { ContactForm } from "@/components/contact-form";
+import { InstagramRenkli } from "@/components/instagram-renkli";
 import { seoMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +27,10 @@ export default function IletisimPage() {
             {il.eposta}
           </a>
         )}
+        {/* Renkli Instagram — e-postanın hemen altında (link: Genel Ayarlar → Instagram Tanıtımı) */}
+        <div className="mt-4">
+          <InstagramRenkli href={ayar.hero.igLink || il.instagram || "https://instagram.com"} boyut={40} />
+        </div>
       </header>
 
       <div className="mt-10">

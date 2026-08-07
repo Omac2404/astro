@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { getGenelAyar, iletisimEtiket } from "@/lib/db";
+import { InstagramRenkli } from "@/components/instagram-renkli";
 
 // Header ile aynı sıra (hesabım/giriş yok). İletişim etiketi moda göre render sırasında belirlenir.
 const LINKS = [
   { href: "/", label: "Anasayfa" },
   { href: "/analizler", label: "Analizler" },
-  { href: "/ornekler", label: "Örnek Analizler" },
+  { href: "/ornekler", label: "Örnekler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
   { href: "/iletisim", label: "" }, // iletisimEtiket() ile doldurulur
@@ -26,7 +27,8 @@ function Social({ href, label, external, children }: { href: string; label: stri
 }
 
 export function SiteFooter() {
-  const { yasal, iletisim: il } = getGenelAyar();
+  const { yasal, iletisim: il, hero } = getGenelAyar();
+  const igLink = hero.igLink || il.instagram || "https://instagram.com"; // Genel Ayarlar → Instagram Tanıtımı linki
   return (
     <footer className="relative overflow-hidden border-t border-gold/15 bg-night-deep">
       {/* ince üst ışıltı + hafif yıldız dokusu + üstte ortalı hâle */}
@@ -106,14 +108,8 @@ export function SiteFooter() {
               </svg>
             </Social>
           )}
-          {il.eposta && (
-            <Social href={`mailto:${il.eposta}`} label="E-posta">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="5" width="18" height="14" rx="2.5" />
-                <path d="m3.5 7 8.5 5.5L20.5 7" />
-              </svg>
-            </Social>
-          )}
+          {/* Mail ikonu yerine renkli Instagram (link: Genel Ayarlar → Instagram Tanıtımı) */}
+          <InstagramRenkli href={igLink} boyut={36} />
         </div>
 
       </div>
