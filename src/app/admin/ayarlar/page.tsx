@@ -642,14 +642,7 @@ function GenelBolum() {
               <label className={labelCls}>1. Buton linki</label>
               <input value={g.hero.btn1Link} onChange={(e) => heroSet("btn1Link", e.target.value)} placeholder="/analizler" className={`${inputCls} mt-1.5 w-full`} />
             </div>
-            <div>
-              <label className={labelCls}>2. Buton metni</label>
-              <input value={g.hero.btn2Metin} onChange={(e) => heroSet("btn2Metin", e.target.value)} placeholder="Örnekler" className={`${inputCls} mt-1.5 w-full`} />
-            </div>
-            <div>
-              <label className={labelCls}>2. Buton linki</label>
-              <input value={g.hero.btn2Link} onChange={(e) => heroSet("btn2Link", e.target.value)} placeholder="/ornekler" className={`${inputCls} mt-1.5 w-full`} />
-            </div>
+            {/* 2. Buton (Örnekler) kaldırıldı — hero'da tek keşfet butonu + IG butonu var */}
           </div>
           {/* Instagram tanıtımı (hero) — gradyan cümle + IG renklerinde buton */}
           <div className="mt-2 rounded-xl border border-[#ee2a7b]/25 bg-night/50 p-4">
@@ -783,7 +776,19 @@ function GenelBolum() {
             ))}
           </div>
 
-          <button type="button" onClick={sssEkle} className="mt-3 rounded-full border border-gold/30 px-4 py-2 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10">+ Soru Ekle</button>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <button type="button" onClick={sssEkle} className="rounded-full border border-gold/30 px-4 py-2 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10">+ Soru Ekle</button>
+            {/* Kayıtlı eski liste koddaki güncel varsayılanları eziyor; tek tıkla senkron */}
+            <button type="button" onClick={async () => {
+              if (!confirm("SSS listesi koddaki güncel varsayılan sorularla DEĞİŞTİRİLECEK. Panelden yazdığın özel sorular silinir. Devam edilsin mi?")) return;
+              const r = await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sssSifirla: true }) });
+              const d = await r.json().catch(() => ({}));
+              if (r.ok && d.ayar?.sss) { setG((s) => ({ ...s, sss: d.ayar.sss })); setMsg("SSS varsayılan sorulara döndürüldü."); }
+              else setMsg(d.error || "Hata.");
+            }} className="rounded-full border border-emerald-400/30 px-4 py-2 text-sm font-medium text-emerald-300 transition-colors hover:bg-emerald-500/10">
+              Varsayılan Sorulara Dön
+            </button>
+          </div>
         </Panel>
 
         {/* Sağ: Maliyet & Komisyon + Bakım Modu */}

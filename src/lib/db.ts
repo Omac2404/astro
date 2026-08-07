@@ -274,6 +274,11 @@ const SSS_DEFAULT: SssItem[] = [
   { q: "Bu bir kehanet mi?", a: "Hayır. **Kesin gelecek iddiası kurmuyoruz.** Analizler eğilim, potansiyel ve farkındalık dilinde; seni tanımana ve yolunu daha bilinçli kurmana yardımcı olacak içgörüler sunar." },
 ];
 
+// Admin "Varsayılan Sorulara Dön" için (prod'da kayıtlı eski sss, koddaki güncel varsayılanları eziyor)
+export function getSssVarsayilan(): SssItem[] {
+  return SSS_DEFAULT;
+}
+
 // Anasayfa hero (başlıkta **...** = altın vurgu)
 export type HeroAyar = {
   baslik: string; altMetin: string;

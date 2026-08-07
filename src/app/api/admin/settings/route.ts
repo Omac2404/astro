@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getGenelAyar, setGenelAyar, type GenelAyar, type SssItem, type HeroAyar, type YasalSayfa } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
+import { getSssVarsayilan } from "@/lib/db";
 
 export const runtime = "nodejs";
 
@@ -23,6 +24,10 @@ export async function POST(req: Request) {
   if ("bakimModu" in b) patch.bakimModu = !!b.bakimModu;
   if ("bakimMesaj" in b) patch.bakimMesaj = String(b.bakimMesaj ?? "").slice(0, 500);
   if ("bakimBitis" in b) patch.bakimBitis = String(b.bakimBitis ?? "").trim();
+  // SSS'i koddaki güncel varsayılanlara döndür (kayıtlı eski liste varsayılanı eziyordu)
+  if (b.sssSifirla === true) {
+    return NextResponse.json({ ayar: setGenelAyar({ sss: getSssVarsayilan() }) });
+  }
   if ("sss" in b && Array.isArray(b.sss)) {
     patch.sss = (b.sss as unknown[])
       .map((x): SssItem | null => {
