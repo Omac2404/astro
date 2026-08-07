@@ -69,12 +69,6 @@ export default function Home() {
                   <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
                 </Link>
               )}
-              {hero.btn2Metin && (
-                <Link href={hero.btn2Link || "/ornekler"} className="group inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-2.5 text-[13.5px] font-medium text-gold-bright sm:py-3 transition-colors hover:bg-gold/10 sm:flex-initial sm:px-7 sm:text-base">
-                  {hero.btn2Metin}
-                  <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-                </Link>
-              )}
             </div>
           </div>
 
