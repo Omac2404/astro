@@ -55,22 +55,22 @@ export default function Home() {
               {/* 1. buton: Instagram (IG renklerinde, ikonlu) — metin/link adminden */}
               {hero.igButonMetin && (
                 <a href={hero.igLink || "https://instagram.com"} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full px-3 py-3 text-[15px] font-medium text-white shadow-lg shadow-[#ee2a7b]/25 transition-opacity hover:opacity-90 sm:flex-initial sm:gap-2.5 sm:px-7 sm:text-base"
+                  className="inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full px-2.5 py-2.5 text-[13.5px] font-medium text-white sm:py-3 shadow-lg shadow-[#ee2a7b]/25 transition-opacity hover:opacity-90 sm:flex-initial sm:gap-2.5 sm:px-7 sm:text-base"
                   style={{ background: "linear-gradient(60deg,#f9ce34 0%,#ee2a7b 45%,#6228d7 100%)" }}>
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="shrink-0">
                     <rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
                   </svg>
                   {hero.igButonMetin}
                 </a>
               )}
               {hero.btn1Metin && (
-                <Link href={hero.btn1Link || "/analizler"} className="group inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-3 py-3 text-[15px] font-medium text-gold-bright transition-colors hover:bg-gold/10 sm:flex-initial sm:px-7 sm:text-base">
+                <Link href={hero.btn1Link || "/analizler"} className="group inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-2.5 text-[13.5px] font-medium text-gold-bright sm:py-3 transition-colors hover:bg-gold/10 sm:flex-initial sm:px-7 sm:text-base">
                   {hero.btn1Metin}
                   <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
                 </Link>
               )}
               {hero.btn2Metin && (
-                <Link href={hero.btn2Link || "/ornekler"} className="group inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-3 py-3 text-[15px] font-medium text-gold-bright transition-colors hover:bg-gold/10 sm:flex-initial sm:px-7 sm:text-base">
+                <Link href={hero.btn2Link || "/ornekler"} className="group inline-flex flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-gold/40 px-2.5 py-2.5 text-[13.5px] font-medium text-gold-bright sm:py-3 transition-colors hover:bg-gold/10 sm:flex-initial sm:px-7 sm:text-base">
                   {hero.btn2Metin}
                   <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
                 </Link>
