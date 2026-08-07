@@ -304,57 +304,6 @@ const ILETISIM_DEFAULT: IletisimAyar = { eposta: "destek@gokname.com", telefon: 
 export type YasalSayfa = { slug: string; baslik: string; icerik: string };
 const YASAL_DEFAULT: YasalSayfa[] = [
   {
-    slug: "mesafeli-satis",
-    baslik: "Mesafeli Satış Sözleşmesi",
-    icerik: `## 1. Taraflar
-İşbu Mesafeli Satış Sözleşmesi, bir tarafta [Şirket Unvanı] ("Satıcı") ile diğer tarafta gokname.com üzerinden sipariş veren müşteri ("Alıcı") arasında, 6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği hükümleri çerçevesinde, aşağıdaki koşullarla elektronik ortamda kurulmuştur.
-
-## 2. Konu
-İşbu sözleşmenin konusu, Alıcı'nın Satıcı'ya ait gokname.com sitesinden elektronik ortamda siparişini verdiği, aşağıda nitelikleri ve satış fiyatı belirtilen dijital astroloji analiz raporunun (PDF) satışı ve teslimine ilişkin olarak tarafların hak ve yükümlülüklerinin belirlenmesidir. Alıcı, satışa konu ürünün temel nitelikleri, satış fiyatı, ödeme şekli ve teslimata ilişkin ön bilgileri okuyup bilgi sahibi olduğunu ve elektronik ortamda gerekli teyidi verdiğini kabul eder.
-
-## 3. Ürünün Niteliği ve Teslimi
-Sunulan hizmet, Alıcı'nın sağladığı doğum bilgileri (tarih, saat, yer) esas alınarak gerçek astronomik hesaplarla üretilen, kişiye özel hazırlanmış dijital bir PDF rapordur. Ürün fiziksel olarak teslim edilmez; Alıcı doğum bilgilerini girdikten sonra rapor hazırlanır ve Alıcı'nın hesabındaki "Analizlerim" alanına tanımlanır. Rapor hazır olduğunda Alıcı'ya e-posta ile bilgi verilir. Analiz, e-posta ekinde gönderilmez; yalnızca hesap üzerinden görüntülenir ve indirilir.
-
-## 4. Bedel ve Ödeme
-Ürün bedeli, sipariş anında sitede gösterilen ve Alıcı tarafından onaylanan, KDV dahil tutardır. Ödemeler güvenli sanal pos altyapısı üzerinden tek seferde tahsil edilir; kart bilgileri Satıcı sunucularında saklanmaz, doğrudan banka/ödeme kuruluşu altyapısında işlenir. Ödeme onaylanmadan sipariş tamamlanmış sayılmaz.
-
-## 5. Cayma Hakkı
-Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesi uyarınca, elektronik ortamda anında ifa edilen hizmetler ile Alıcı'ya anında teslim edilen ve kişiye özel olarak hazırlanan gayrimaddi (dijital) içeriklere ilişkin sözleşmelerde cayma hakkı kullanılamaz. Gökname analizleri Alıcı'nın doğum bilgilerine göre özel olarak üretildiğinden ve üretimine Alıcı'nın onayıyla başlandığından, bu kapsamda cayma hakkı bulunmamaktadır. Ayrıntılar İptal, İade ve Cayma Hakkı sayfasında yer alır.
-
-## 6. Tarafların Yükümlülükleri
-Alıcı, doğum bilgilerini doğru ve eksiksiz girmekle yükümlüdür; yanlış bilgi nedeniyle oluşan isabetsizlikten Satıcı sorumlu tutulamaz. Satıcı, siparişi konusu hizmeti zamanında ve niteliğine uygun olarak sunmakla yükümlüdür.
-
-## 7. Mücbir Sebep
-Tarafların kontrolü dışında gelişen, makul önlemlerle önlenemeyen olaylar (doğal afet, altyapı/iletişim kesintileri, hizmet sağlayıcı arızaları vb.) nedeniyle yükümlülüklerin yerine getirilememesi mücbir sebep sayılır ve bu süre boyunca taraflar sorumlu tutulamaz.
-
-## 8. Uyuşmazlıkların Çözümü
-İşbu sözleşmeden doğabilecek uyuşmazlıklarda, Ticaret Bakanlığı'nca ilan edilen parasal sınırlar dahilinde Alıcı'nın yerleşim yerindeki Tüketici Hakem Heyetleri ile Tüketici Mahkemeleri yetkilidir. Alıcı, şikâyet ve taleplerini destek@gokname.com adresine iletebilir.`,
-  },
-  {
-    slug: "on-bilgilendirme",
-    baslik: "Ön Bilgilendirme Formu",
-    icerik: `## Satıcı Bilgileri
-Unvan: [Şirket Unvanı]
-Adres: [Adres]
-E-posta: destek@gokname.com
-Telefon: [Telefon]
-
-## Sözleşme Konusu Ürün/Hizmet
-gokname.com üzerinden sunulan ürünler, kişinin doğum bilgilerine (tarih, saat, yer) göre gerçek astronomik hesaplarla üretilen, kişiye özel dijital astroloji analiz raporlarıdır (PDF). Her ürünün adı, kapsamı ve güncel satış fiyatı ilgili ürün sayfasında belirtilir. Ürün dijitaldir; fiziksel kargo/teslimat yapılmaz.
-
-## Fiyat ve Ödeme
-Sitede belirtilen tüm fiyatlara KDV dahildir. Ödeme, sipariş sırasında güvenli sanal pos altyapısıyla tek seferde tahsil edilir. Kart bilgileri Satıcı tarafından saklanmaz.
-
-## Teslimat Şekli ve Süresi
-Alıcı, satın alma sonrası hesabındaki "Analizlerim" alanından doğum bilgilerini girer; rapor kısa süre içinde otomatik olarak hazırlanır ve hesabına tanımlanır. Hazır olduğunda Alıcı'ya e-posta ile bilgi verilir.
-
-## Cayma Hakkı
-Kişiye özel olarak hazırlanan ve ifasına Alıcı'nın onayıyla başlanan dijital içeriklerde, Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesi gereği cayma hakkı bulunmamaktadır. Alıcı, siparişi onaylayarak bu durumu kabul etmiş sayılır.
-
-## Şikâyet ve İtiraz Başvuruları
-Talep ve şikâyetlerinizi destek@gokname.com adresine iletebilirsiniz. Çözümlenemeyen uyuşmazlıklarda, ilgili parasal sınırlar dahilinde Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri yetkilidir.`,
-  },
-  {
     slug: "gizlilik",
     baslik: "Gizlilik ve KVKK Aydınlatma Metni",
     icerik: `## Veri Sorumlusu
@@ -362,18 +311,17 @@ Kişisel verileriniz, veri sorumlusu sıfatıyla [Şirket Unvanı] ("Gökname") 
 
 ## İşlenen Kişisel Veriler
 - Hesap bilgileri: e-posta adresiniz ve şifreniz (şifreler geri döndürülemez biçimde, özetlenerek/şifrelenerek saklanır).
-- Sipariş ve fatura bilgileri: ad-soyad, e-posta, telefon ve fatura adresi.
 - Analiz girdileri: rapor üretimi için sağladığınız doğum tarihi, saati ve yeri.
 - Teknik veriler: oturum bilgileri ve site kullanımı sırasında oluşan zorunlu kayıtlar.
 
 ## İşleme Amaçları
-Verileriniz; üyelik işlemlerinin yürütülmesi, siparişlerin ve ödemelerin alınması, kişiye özel raporun hazırlanması ve teslimi, müşteri desteği sağlanması, hizmet kalitesinin iyileştirilmesi ve ilgili mevzuattan doğan yasal yükümlülüklerin yerine getirilmesi amaçlarıyla işlenir.
+Verileriniz; üyelik işlemlerinin yürütülmesi, kişiye özel raporun hazırlanması ve hesabınıza tanımlanması, kullanıcı desteği sağlanması, hizmet kalitesinin iyileştirilmesi ve ilgili mevzuattan doğan yasal yükümlülüklerin yerine getirilmesi amaçlarıyla işlenir.
 
 ## Hukuki Sebep
-Verileriniz; sözleşmenin kurulması ve ifası, hukuki yükümlülüklerin yerine getirilmesi ve Gökname'nin meşru menfaatleri hukuki sebeplerine dayanılarak işlenir.
+Verileriniz; üyelik ilişkisinin kurulması ve hizmetin sunulması, hukuki yükümlülüklerin yerine getirilmesi ve Gökname'nin meşru menfaatleri hukuki sebeplerine dayanılarak işlenir.
 
 ## Aktarım
-Verileriniz; ödeme altyapısı, e-posta gönderimi ve sunucu/barındırma gibi hizmetlerin yürütülmesi amacıyla, yalnızca gerekli olduğu ölçüde ve gizlilik yükümlülüğü altında yetkili hizmet sağlayıcılarla paylaşılabilir. Verileriniz pazarlama amacıyla üçüncü kişilere satılmaz veya kiralanmaz.
+Verileriniz; e-posta gönderimi ve sunucu/barındırma gibi hizmetlerin yürütülmesi amacıyla, yalnızca gerekli olduğu ölçüde ve gizlilik yükümlülüğü altında yetkili hizmet sağlayıcılarla paylaşılabilir. Verileriniz pazarlama amacıyla üçüncü kişilere satılmaz veya kiralanmaz.
 
 ## Saklama Süresi
 Kişisel verileriniz, işleme amacının gerektirdiği ve ilgili mevzuatın öngördüğü süreler boyunca saklanır; bu sürelerin sonunda silinir, yok edilir veya anonim hale getirilir.
@@ -388,31 +336,13 @@ Site, deneyimi iyileştirmek için çerezlerden yararlanır. Ayrıntılar Çerez
 KVKK'nın 11. maddesi uyarınca; verilerinizin işlenip işlenmediğini öğrenme, erişme, düzeltilmesini, silinmesini veya yok edilmesini isteme ve işlemeye itiraz etme haklarına sahipsiniz. Taleplerinizi destek@gokname.com adresine iletebilirsiniz.`,
   },
   {
-    slug: "iade",
-    baslik: "İptal, İade ve Cayma Hakkı",
-    icerik: `## Dijital ve Kişiye Özel Ürün
-gokname.com'da sunulan analizler, sizin doğum bilgilerinize göre üretilen, tamamen kişiye özel dijital raporlardır. Mesafeli Sözleşmeler Yönetmeliği'nin 15. maddesi gereği, ifasına onayınızla başlanan kişiye özel dijital içeriklerde cayma hakkı kullanılamaz. Siparişi onaylayarak bu durumu kabul etmiş olursunuz.
-
-## Üretim Öncesi İptal ve İade
-Sipariş verdikten sonra henüz doğum bilgilerinizi girmediyseniz ve rapor üretimi başlamadıysa, destek@gokname.com üzerinden bize ulaşarak siparişinizi iptal edebilir ve ücret iadesi talep edebilirsiniz. Bu aşamada henüz kişiye özel bir üretim yapılmadığından iadeniz gerçekleştirilir.
-
-## Sorun Durumunda Çözüm
-Raporunuzda teknik bir hata, eksik teslim, yanlış üretim ya da erişim sorunu gibi bir durum yaşarsanız bizimle iletişime geçin. Durumu inceleyip raporu ücretsiz yeniden üretir veya size uygun bir çözüm sunarız. Memnuniyetiniz bizim için önemlidir.
-
-## İade Süreci ve Süresi
-İadeye uygun durumlarda ödemeniz, kullandığınız ödeme yöntemine iade edilir. Bankanıza/ödeme kuruluşuna bağlı olarak tutarın hesabınıza yansıması genellikle birkaç iş günü sürer.
-
-## İletişim
-Tüm iptal, iade ve sorun bildirimleriniz için: destek@gokname.com`,
-  },
-  {
     slug: "cerez",
     baslik: "Çerez Politikası",
     icerik: `## Çerez Nedir?
 Çerezler, bir siteyi ziyaret ettiğinizde tarayıcınıza kaydedilen küçük metin dosyalarıdır. gokname.com, hizmetin düzgün çalışması, tercihlerinizin hatırlanması ve deneyimin iyileştirilmesi için çerezlerden yararlanır.
 
 ## Kullandığımız Çerez Türleri
-- Zorunlu çerezler: Oturum açma, sepet ve güvenlik gibi temel işlevler için gereklidir; bunlar olmadan site düzgün çalışmaz.
+- Zorunlu çerezler: Oturum açma ve güvenlik gibi temel işlevler için gereklidir; bunlar olmadan site düzgün çalışmaz.
 - Tercih çerezleri: Seçimlerinizi hatırlayarak kullanımı kolaylaştırır.
 - Analitik/performans çerezleri: Sitenin nasıl kullanıldığını anlamamıza ve geliştirmemize yardımcı olur.
 - Üçüncü taraf çerezleri: Analitik veya reklam ölçümü gibi amaçlarla, ilgili hizmet sağlayıcılar tarafından (ör. ölçümleme araçları) yerleştirilebilir.
@@ -441,8 +371,8 @@ Analizler; astrolojik geleneğe ve gerçek astronomik hesaplara dayalı olarak, 
 ## 5. Doğum Bilgilerinin Doğruluğu
 Raporun isabeti, sağladığınız doğum tarihi, saati ve yerinin doğruluğuna bağlıdır. Eksik veya hatalı bilgi nedeniyle oluşan isabetsizliklerden Gökname sorumlu değildir. Bilgilerinizi doğru ve eksiksiz girmek sizin sorumluluğunuzdadır.
 
-## 6. Satın Alma ve Ödeme
-Ürün fiyatları ve kapsamı ilgili ürün sayfalarında belirtilir; tüm fiyatlara KDV dahildir. Ödemeler güvenli sanal pos altyapısı üzerinden alınır. Satın alma, ödeme ve iade koşulları için Mesafeli Satış Sözleşmesi ile İptal, İade ve Cayma Hakkı sayfaları geçerlidir.
+## 6. Ücretsiz Kullanım ve Günlük Hak
+Hizmet ücretsizdir; Site'de satış, ödeme veya abonelik yoktur. Her hesabın günde 1 analiz oluşturma hakkı vardır ve bu hak her gece 00.00'da (Türkiye saati) yenilenir. Raporlar, analiz türüne göre belirli bir süre hesabınızda saklanır ve süre sonunda otomatik silinir; silinme tarihi Analizlerim alanında gösterilir. Gökname, kötüye kullanım hâlinde günlük hakları ve saklama sürelerini değiştirme hakkını saklı tutar.
 
 ## 7. Fikri Mülkiyet
 Site'nin tasarımı, metinleri, görselleri, yazılımı, marka ve logoları ile üretilen raporların biçim ve sunum özellikleri Gökname'ye veya lisans verenlerine aittir ve fikri mülkiyet mevzuatıyla korunur. Size sunulan rapor, yalnızca kişisel ve ticari olmayan kullanımınız içindir; izinsiz çoğaltılamaz, dağıtılamaz, satılamaz veya ticari amaçla kullanılamaz.
@@ -451,16 +381,16 @@ Site'nin tasarımı, metinleri, görselleri, yazılımı, marka ve logoları ile
 Site'yi yürürlükteki mevzuata ve bu koşullara uygun şekilde kullanmayı kabul edersiniz. Aşağıdakiler yasaktır: Site'nin güvenliğini tehdit etmek veya açıklarını sömürmek; otomatik araçlarla izinsiz veri toplamak (scraping); Hizmet'i veya altyapıyı aşırı yük bindirecek ya da işleyişini bozacak şekilde kullanmak; başkasının hesabını veya kimliğini izinsiz kullanmak; içerikleri izinsiz kopyalayıp yeniden yayımlamak veya satmak; hukuka aykırı, yanıltıcı ya da üçüncü kişilerin haklarını ihlal eden faaliyetlerde bulunmak.
 
 ## 9. Hizmette Değişiklik ve Askıya Alma
-Gökname, Hizmet'in içeriğini, kapsamını ve fiyatlarını güncelleme; teknik bakım, geliştirme veya zorunlu nedenlerle Hizmet'i geçici olarak askıya alma hakkını saklı tutar. Bu koşulları ihlal eden hesapları uyarısız askıya alabilir veya kapatabilir.
+Gökname, Hizmet'in içeriğini ve kapsamını güncelleme; teknik bakım, geliştirme veya zorunlu nedenlerle Hizmet'i geçici olarak askıya alma hakkını saklı tutar. Bu koşulları ihlal eden hesapları uyarısız askıya alabilir veya kapatabilir.
 
 ## 10. Sorumluluğun Sınırlandırılması
-Hizmet "olduğu gibi" sunulur. Gökname, yürürlükteki mevzuatın izin verdiği azami ölçüde, Hizmet'in kullanımından doğan dolaylı, arızi veya sonuç niteliğindeki zararlardan sorumlu değildir. Her hâlükârda Gökname'nin toplam sorumluluğu, ilgili siparişe ilişkin ödediğiniz tutarla sınırlıdır.
+Hizmet "olduğu gibi" sunulur. Gökname, yürürlükteki mevzuatın izin verdiği azami ölçüde, Hizmet'in kullanımından doğan dolaylı, arızi veya sonuç niteliğindeki zararlardan sorumlu değildir. Hizmet ücretsiz sunulduğundan, Gökname'nin sorumluluğu yürürlükteki mevzuatın izin verdiği azami ölçüde sınırlandırılmıştır.
 
 ## 11. Üçüncü Taraf Bağlantıları
 Site, üçüncü taraf sitelere bağlantılar içerebilir. Bu sitelerin içeriğinden ve gizlilik uygulamalarından Gökname sorumlu değildir.
 
 ## 12. Uygulanacak Hukuk ve Yetki
-Bu koşullara Türkiye Cumhuriyeti hukuku uygulanır. Uyuşmazlıklarda, tüketici mevzuatındaki parasal sınırlar dahilinde Tüketici Hakem Heyetleri ve Tüketici Mahkemeleri yetkilidir.
+Bu koşullara Türkiye Cumhuriyeti hukuku uygulanır. Uyuşmazlıklarda Türkiye Cumhuriyeti mahkemeleri ve icra daireleri yetkilidir.
 
 ## 13. Değişiklikler ve İletişim
 Bu koşullar zaman zaman güncellenebilir; güncel sürüm her zaman bu sayfada yayımlanır. Site'yi kullanmaya devam etmeniz, güncel koşulları kabul ettiğiniz anlamına gelir. Sorularınız için: destek@gokname.com`,
