@@ -12,6 +12,7 @@ const NAV = [
   { href: "/ornekler", label: "Örnekler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
+  { href: "/astrolog-musunuz", label: "Astrolog musunuz?" },
   { href: "/iletisim", label: "İletişim" }, // etiket moda göre çalışma anında değişir (iletisimEtiket)
 ];
 

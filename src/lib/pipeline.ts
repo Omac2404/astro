@@ -61,10 +61,10 @@ function siraya<T>(fn: () => Promise<T>): Promise<T> {
   })();
 }
 
-type Birth = { ad: string; tarih: [number, number, number]; saat: [number, number]; il: string; ilce: string; lat: number; lon: number };
+export type Birth = { ad: string; tarih: [number, number, number]; saat: [number, number]; il: string; ilce: string; lat: number; lon: number };
 
 // DogumBilgi: TR ise yer = "İl / İlçe" (tablodan); yurtdışı ise serbest metin (geocode)
-async function birthFromDogum(d: DogumBilgi): Promise<Birth> {
+export async function birthFromDogum(d: DogumBilgi): Promise<Birth> {
   const [y, m, dd] = d.tarih.split("-").map(Number);
   const [hh, mm] = (d.saat || "12:00").split(":").map(Number);
   const parts = d.yer.split("/");

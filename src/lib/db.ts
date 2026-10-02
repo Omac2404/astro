@@ -57,7 +57,9 @@ export function faturaAdres(f?: Partial<FaturaBilgi> | null): string {
   const s = parts.map((x) => String(x ?? "").trim()).filter(Boolean).join(", ");
   return s || String(f.adres ?? "").trim();
 }
-export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi; google?: boolean; dogum?: DogumBilgi };
+// rol: "astrolog" → Astrolog Pro hesabı (admin açar; jetonla Pro rapor üretir, /hesabim'de astrolog paneli görür)
+export type AstrologProfil = { ad: string; tel?: string; marka?: string; not?: string };
+export type Member = { id: string; email: string; sifre: string; kayit: string; fatura?: FaturaBilgi; google?: boolean; dogum?: DogumBilgi; rol?: "astrolog"; astrolog?: AstrologProfil };
 
 export function getMembers(): Member[] {
   return read<Member[]>("members.json", []);
@@ -132,10 +134,11 @@ export function deleteMember(email: string): boolean {
   const members = getMembers();
   if (!members.some((m) => m.email.toLowerCase() === e)) return false;
 
-  // Bu üyenin dosyaları (rapor PDF + fatura PDF) — silinebilir adaylar
+  // Bu üyenin dosyaları (rapor PDF + fatura PDF + Pro rapor PDF) — silinebilir adaylar
   const adayDosyalar = [
     ...getReports().filter((r) => r.email.toLowerCase() === e).map((r) => r.dosya),
     ...getOrders().filter((o) => o.email.toLowerCase() === e).map((o) => o.faturaDosya),
+    ...getProReports().filter((r) => r.email.toLowerCase() === e).map((r) => r.dosya),
   ].filter(Boolean) as string[];
 
   // Kayıtları sil (üye + raporları + siparişleri + sahip olduğu hediye kodları + oturumlar)
@@ -145,6 +148,9 @@ export function deleteMember(email: string): boolean {
   write("reports.json", kalanRapor);
   write("orders.json", kalanSiparis);
   write("giftcodes.json", getGiftCodes().filter((g) => g.sahip.toLowerCase() !== e));
+  const kalanPro = getProReports().filter((r) => r.email.toLowerCase() !== e);
+  write("pro-reports.json", kalanPro);
+  write("jeton.json", getJetonHareketleri().filter((h) => h.email.toLowerCase() !== e));
   const sess = read<Record<string, { email: string }>>("sessions.json", {});
   for (const k of Object.keys(sess)) if ((sess[k].email || "").toLowerCase() === e) delete sess[k];
   write("sessions.json", sess);
@@ -154,6 +160,7 @@ export function deleteMember(email: string): boolean {
     ...kalanRapor.map((r) => r.dosya),
     ...kalanSiparis.map((o) => o.faturaDosya),
     ...getGenReports().map((g) => g.dosya),
+    ...kalanPro.map((r) => r.dosya),
   ].filter(Boolean) as string[]);
   for (const f of adayDosyalar) if (!halaKullanilan.has(f)) deleteFile(f);
 
@@ -511,6 +518,7 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
     SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorular, destek, reklam ve iş birliği için bize ulaşın."),
+    SEO_SAYFA("/astrolog-musunuz", "Astrolog musunuz?", "Astrolog musunuz? Gökname Pro Raporları", "Astrologlar için 20+ sayfalık profesyonel natal harita dosyası: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi. Jetonla, dakikalar içinde."),
     SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({
@@ -750,6 +758,8 @@ export function dosyaIndirmeAdi(id: string): string {
   if (r) return raporAdi(r.urunAd, r.dogum?.ad, r.dogum2?.ad);
   const g = getGenReports().find((x) => x.dosya === id);
   if (g) return raporAdi(g.urunAd, g.dogum?.ad, g.dogum2?.ad);
+  const pr = getProReports().find((x) => x.dosya === id);
+  if (pr) return raporAdi(pr.urunAd, pr.danisan?.ad);
   const o = getOrders().find((x) => x.faturaDosya === id);
   if (o) return `fatura-${_slugAd(o.id) || "siparis"}.pdf`;
   return id.endsWith(".pdf") ? id : `${id}.pdf`;
@@ -913,6 +923,7 @@ export function pruneOldReports(): number {
     ...kalan.map((r) => r.dosya),
     ...getGenReports().map((g) => g.dosya),
     ...getOrders().map((o) => o.faturaDosya),
+    ...getProReports().map((p) => p.dosya),
   ].filter(Boolean) as string[]);
   for (const r of eskiler) if (r.dosya && !halaKullanilan.has(r.dosya)) deleteFile(r.dosya);
   return eskiler.length;
@@ -1184,4 +1195,235 @@ export function getAstrologTik(): Record<string, { toplam: number; bugun: number
     out[id] = { toplam: t, bugun: b, son30: s30 };
   }
   return out;
+}
+
+// =====================================================================================
+// ---- Astrolog Pro (B2B): astrolog hesapları + jeton defteri + Pro raporlar ----
+// Astrolog = rol:"astrolog" olan üye. Admin hesabı açar ve jeton yükler (satış manuel: astrolog bize ulaşır).
+// 1 Pro rapor = ürünün jeton bedeli (şimdilik 1). Jeton, üretim BAŞLARKEN düşer; üretim başarısız olursa
+// otomatik iade edilir. Bakiye = defterdeki hareketlerin toplamı (denetlenebilir; bakiye alanı tutulmaz).
+// Tüm yazma işlemleri senkron → tek Node sürecinde aynı anda iki istek bakiyeyi yarıştıramaz.
+// =====================================================================================
+export type ProUrun = { slug: string; ad: string; jeton: number; aktif: boolean; aciklama: string };
+export const PRO_URUNLER: ProUrun[] = [
+  { slug: "natal", ad: "Natal Pro Rapor", jeton: 1, aktif: true, aciklama: "Doğum haritasının 20+ sayfalık profesyonel analizi: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi." },
+  { slug: "ask", ad: "Aşk & İlişki Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
+  { slug: "kariyer", ad: "Kariyer & Para Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
+  { slug: "solar", ad: "Solar Return Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
+  { slug: "sinastri", ad: "Sinastri Pro", jeton: 2, aktif: false, aciklama: "Yakında" },
+];
+export function getProUrun(slug: string): ProUrun | undefined {
+  return PRO_URUNLER.find((u) => u.slug === slug);
+}
+
+export type ProOlay = { tarih: string; aciklama: string };
+export type ProDanisan = DogumBilgi & {
+  saatKesin: "kesin" | "yaklasik" | "bilinmiyor";
+  cinsiyet?: string;
+  meslek?: string;
+  iliski?: string;
+  sorular?: string;
+  olaylar?: ProOlay[];
+  astrologNot?: string;
+};
+export type ProMaliyet = { usd: number; girdi: number; cikti: number; dusunme?: number; model: string; sure?: number };
+export type ProReport = {
+  id: string;
+  email: string;        // astroloğun e-postası
+  slug: string;
+  urunAd: string;
+  danisan: ProDanisan;
+  durum: "olusturuluyor" | "hazir" | "hata";
+  jeton: number;        // bu rapor için düşülen jeton
+  iade?: boolean;       // başarısız olup jeton iade edildiyse
+  dosya?: string;
+  hata?: string;
+  maliyet?: ProMaliyet; // API maliyeti (admin görür)
+  tarih: string;
+  hazirTarih?: string;
+};
+export type JetonHareket = {
+  id: string;
+  email: string;
+  tip: "yukleme" | "kullanim" | "iade" | "duzeltme";
+  miktar: number;       // + yükleme/iade, − kullanım
+  aciklama: string;
+  raporId?: string;
+  admin?: string;       // yükleyen/düzelten admin
+  tarih: string;
+};
+export type ProPaket = { jeton: number; fiyat: number; etiket?: string };
+export type ProAyar = {
+  model: "claude-opus-5-5" | "claude-fable-5-1"; // sentez modeli (test için admin değiştirir)
+  effort: "low" | "medium" | "high";
+  eszaman: number;      // aynı anda üretilecek Pro rapor sayısı
+  saklamaGun: number;   // Pro raporların saklama süresi
+  paketler: ProPaket[]; // "Astrolog musunuz?" sayfasında gösterilen jeton paketleri
+  whatsapp: string;     // satış iletişimi (boşsa PayTR ayarındaki WhatsApp numarası)
+  eposta: string;       // satış iletişimi (boşsa iletişim e-postası)
+  ornekPdf: string;     // örnek Pro rapor yolu (ör. /ornekler/natal-pro.pdf); boşsa buton gizli
+};
+const PRO_AYAR_DEFAULT: ProAyar = {
+  model: "claude-opus-5-5", effort: "medium", eszaman: 2, saklamaGun: 365,
+  paketler: [
+    { jeton: 10, fiyat: 1500, etiket: "Başlangıç" },
+    { jeton: 25, fiyat: 3250, etiket: "Profesyonel" },
+    { jeton: 50, fiyat: 5000, etiket: "Ofis" },
+  ],
+  whatsapp: "", eposta: "", ornekPdf: "",
+};
+export function getProAyar(): ProAyar {
+  const s = read<Partial<ProAyar>>("pro-ayar.json", {});
+  return { ...PRO_AYAR_DEFAULT, ...s, paketler: Array.isArray(s.paketler) ? s.paketler : PRO_AYAR_DEFAULT.paketler };
+}
+export function setProAyar(patch: Partial<ProAyar>): ProAyar {
+  const next = { ...getProAyar(), ...patch };
+  write("pro-ayar.json", next);
+  return next;
+}
+
+// ---- Astrolog hesapları ----
+export function isAstrolog(email: string): boolean {
+  return findMember(email)?.rol === "astrolog";
+}
+export function getAstrologHesaplari(): Member[] {
+  return getMembers().filter((m) => m.rol === "astrolog");
+}
+// Yeni astrolog hesabı açar; e-posta zaten üyeyse o üyeyi astroloğa yükseltir (şifre verildiyse günceller).
+export function astrologHesapKur(email: string, sifre: string, profil: AstrologProfil): { error?: string; member?: Member; yukseltildi?: boolean } {
+  const e = email.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return { error: "Geçerli bir e-posta gir." };
+  if (!profil.ad?.trim()) return { error: "Astroloğun adı gerekli." };
+  const list = getMembers();
+  const i = list.findIndex((m) => m.email.toLowerCase() === e);
+  if (i >= 0) {
+    if (sifre && sifre.length < 6) return { error: "Şifre en az 6 karakter olmalı." };
+    list[i] = { ...list[i], rol: "astrolog", astrolog: { ...list[i].astrolog, ...profil }, ...(sifre ? { sifre: hashPw(sifre) } : {}) };
+    write("members.json", list);
+    return { member: list[i], yukseltildi: true };
+  }
+  if (sifre.length < 6) return { error: "Şifre en az 6 karakter olmalı." };
+  const member: Member = { id: "U-" + crypto.randomBytes(3).toString("hex"), email: e, sifre: hashPw(sifre), kayit: new Date().toISOString(), rol: "astrolog", astrolog: profil };
+  write("members.json", [...list, member]);
+  return { member };
+}
+export function astrologProfilGuncelle(email: string, profil: Partial<AstrologProfil>): boolean {
+  const list = getMembers();
+  const i = list.findIndex((m) => m.email.toLowerCase() === email.trim().toLowerCase() && m.rol === "astrolog");
+  if (i < 0) return false;
+  list[i] = { ...list[i], astrolog: { ad: list[i].astrolog?.ad ?? "", ...list[i].astrolog, ...profil } };
+  write("members.json", list);
+  return true;
+}
+// Rolü kaldırır (hesap normal üyeye döner; jeton defteri ve Pro raporlar korunur).
+export function astrologRolKaldir(email: string): boolean {
+  const list = getMembers();
+  const i = list.findIndex((m) => m.email.toLowerCase() === email.trim().toLowerCase());
+  if (i < 0 || list[i].rol !== "astrolog") return false;
+  const { rol: _r, ...rest } = list[i];
+  void _r;
+  list[i] = rest;
+  write("members.json", list);
+  return true;
+}
+
+// ---- Jeton defteri ----
+export function getJetonHareketleri(email?: string): JetonHareket[] {
+  const all = read<JetonHareket[]>("jeton.json", []);
+  return email ? all.filter((h) => h.email.toLowerCase() === email.trim().toLowerCase()) : all;
+}
+export function jetonBakiye(email: string): number {
+  return getJetonHareketleri(email).reduce((t, h) => t + h.miktar, 0);
+}
+function jetonYaz(h: Omit<JetonHareket, "id" | "tarih">): JetonHareket {
+  const rec: JetonHareket = { ...h, email: h.email.trim().toLowerCase(), id: "J-" + crypto.randomBytes(4).toString("hex"), tarih: new Date().toISOString() };
+  write("jeton.json", [rec, ...read<JetonHareket[]>("jeton.json", [])]);
+  return rec;
+}
+// Admin: jeton yükle (+) ya da düzelt (− olabilir; bakiye eksiye düşürülemez)
+export function jetonYukle(email: string, miktar: number, aciklama: string, admin: string): { error?: string; hareket?: JetonHareket } {
+  const n = Math.trunc(Number(miktar));
+  if (!n) return { error: "Geçerli bir jeton miktarı gir." };
+  if (!isAstrolog(email)) return { error: "Bu e-posta bir astrolog hesabı değil." };
+  if (n < 0 && jetonBakiye(email) + n < 0) return { error: "Bakiye eksiye düşürülemez." };
+  return { hareket: jetonYaz({ email, tip: n > 0 ? "yukleme" : "duzeltme", miktar: n, aciklama: aciklama.trim() || (n > 0 ? "Jeton yüklemesi" : "Düzeltme"), admin }) };
+}
+
+// ---- Pro raporlar ----
+export function getProReports(): ProReport[] {
+  return read<ProReport[]>("pro-reports.json", []);
+}
+export function getProReportsByEmail(email: string): ProReport[] {
+  return getProReports().filter((r) => r.email.toLowerCase() === email.trim().toLowerCase());
+}
+export function findProReport(id: string): ProReport | undefined {
+  return getProReports().find((r) => r.id === id);
+}
+export function updateProReport(id: string, patch: Partial<ProReport>): ProReport | null {
+  const list = getProReports();
+  const i = list.findIndex((r) => r.id === id);
+  if (i < 0) return null;
+  list[i] = { ...list[i], ...patch };
+  write("pro-reports.json", list);
+  return list[i];
+}
+// Jeton düş + rapor kaydı oluştur — TEK senkron adımda (yarış yok). Bakiye yetmezse hata.
+export function proRaporBaslat(email: string, urun: ProUrun, danisan: ProDanisan): { error?: string; rapor?: ProReport } {
+  if (!isAstrolog(email)) return { error: "Bu işlem yalnızca astrolog hesaplarına açık." };
+  if (!urun.aktif) return { error: "Bu rapor türü henüz aktif değil." };
+  const bakiye = jetonBakiye(email);
+  if (bakiye < urun.jeton) return { error: `Yetersiz jeton. Bu rapor ${urun.jeton} jeton, bakiyen ${bakiye}.` };
+  const rapor: ProReport = {
+    id: "P-" + crypto.randomBytes(4).toString("hex"),
+    email: email.trim().toLowerCase(), slug: urun.slug, urunAd: urun.ad, danisan,
+    durum: "olusturuluyor", jeton: urun.jeton, tarih: new Date().toISOString(),
+  };
+  write("pro-reports.json", [rapor, ...getProReports()]);
+  jetonYaz({ email, tip: "kullanim", miktar: -urun.jeton, aciklama: `${urun.ad} · ${danisan.ad}`, raporId: rapor.id });
+  return { rapor };
+}
+// Üretim başarısız: rapor "hata" + jeton iadesi (bir kez).
+export function proRaporBasarisiz(id: string, hata: string): ProReport | null {
+  const r = findProReport(id);
+  if (!r) return null;
+  if (!r.iade && r.jeton > 0) {
+    jetonYaz({ email: r.email, tip: "iade", miktar: r.jeton, aciklama: `İade: ${r.urunAd} · ${r.danisan.ad} (üretilemedi)`, raporId: r.id });
+  }
+  return updateProReport(id, { durum: "hata", hata: hata.slice(0, 600), iade: true });
+}
+export function proSilmeTarihi(r: Pick<ProReport, "tarih">): Date {
+  return new Date(new Date(r.tarih).getTime() + getProAyar().saklamaGun * 86400000);
+}
+// Astrolog kendi raporunu siler (danışan verisiyle birlikte). Üretimdeki rapor silinemez.
+export function deleteProReport(id: string, email?: string): { error?: string } {
+  const r = findProReport(id);
+  if (!r || (email && r.email.toLowerCase() !== email.trim().toLowerCase())) return { error: "Rapor bulunamadı." };
+  if (r.durum === "olusturuluyor") return { error: "Üretimdeki rapor silinemez." };
+  write("pro-reports.json", getProReports().filter((x) => x.id !== id));
+  if (r.dosya) deleteFile(r.dosya);
+  return {};
+}
+// Saklama süresi dolan Pro raporları (kayıt + PDF) siler. Okuma uçlarında çağrılır (tembel temizlik).
+export function pruneOldProReports(): number {
+  const now = Date.now();
+  const list = getProReports();
+  const eski = list.filter((r) => r.durum !== "olusturuluyor" && proSilmeTarihi(r).getTime() <= now);
+  if (!eski.length) return 0;
+  write("pro-reports.json", list.filter((r) => !eski.includes(r)));
+  for (const r of eski) if (r.dosya) deleteFile(r.dosya);
+  return eski.length;
+}
+// Sunucu yeniden başlarsa yarıda kalan üretimler: süreçte AKTİF olmayan (aktifIdler'de yok) ve
+// 3 dk'dan eski "olusturuluyor" kayıtlar başarısız sayılır + jeton iade edilir. Süreç içi aktif
+// kümeyi pipeline-pro tutar; böylece uzun süren (10+ dk) gerçek üretimler yanlışlıkla iptal edilmez.
+export function recoverStaleProReports(aktifIdler: Set<string>): number {
+  const now = Date.now();
+  let n = 0;
+  for (const r of getProReports()) {
+    if (r.durum === "olusturuluyor" && !aktifIdler.has(r.id) && now - new Date(r.tarih).getTime() > 3 * 60 * 1000) {
+      proRaporBasarisiz(r.id, "Üretim yarıda kaldı (sunucu yeniden başlamış olabilir). Jetonun iade edildi; tekrar oluşturabilirsin.");
+      n++;
+    }
+  }
+  return n;
 }

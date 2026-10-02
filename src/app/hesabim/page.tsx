@@ -5,12 +5,15 @@ import { LogoutButton } from "@/components/account-actions";
 import { Analizlerim } from "@/components/account-panels";
 import { KartIkon } from "@/components/kart-ikon";
 import { AnalizHakkiKarti } from "@/components/analiz-hakki-karti";
+import { AstrologPanel } from "@/components/astrolog-panel";
 
 export const dynamic = "force-dynamic";
 
 export default async function HesabimPage() {
   const u = await currentUser();
   if (!u || u.type !== "member") redirect("/giris?next=/hesabim");
+  // Astrolog Pro hesabı: jeton + Pro rapor paneli (normal üye paneli yerine)
+  if (findMember(u.email)?.rol === "astrolog") return <AstrologPanel email={u.email} />;
   const dogum = getMemberDogum(u.email);
   const googleUye = !!findMember(u.email)?.google; // Google ile kayıt: şifresi yok, değiştirme satırı gösterilmez
   // Günlük analiz hakkı kartı için durum (sayaç istemcide TR gece yarısını hedefler)

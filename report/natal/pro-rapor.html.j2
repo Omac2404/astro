@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Natal Pro Rapor · {{ m.ad }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2b2a3d; --muted:#7d7996; --gold:#a8803e; --gold-l:#c2a36b; --gold-b:#dcc188;
+    --night:#1b1b3a; --night-d:#0f0f24; --plum:#3b2f63; --paper:#ffffff; --cream:#f7f2e9; --line:#e4dccb;
+    --pos:#3f7fa6; --neg:#b8573a; --adj:#5b8f4e;
+  }
+  @page{ size:A4; margin:17mm 16mm 17mm 16mm; }
+  @page cover{ margin:0; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:var(--paper); }
+  body{ font-family:Spectral, Georgia, serif; color:var(--ink); font-size:10.4pt; line-height:1.58;
+        -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  /* ---------- KAPAK ---------- */
+  .cover{ page:cover; width:210mm; height:297mm; background:radial-gradient(120% 80% at 50% 0%, #2a2a5a 0%, var(--night) 45%, var(--night-d) 100%);
+          color:#efe8da; position:relative; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; break-after:page; }
+  .cover::before{ content:""; position:absolute; inset:14mm; border:1px solid rgba(220,193,136,.45); border-radius:6px; }
+  .cover::after{ content:""; position:absolute; inset:16.5mm; border:1px solid rgba(220,193,136,.18); border-radius:4px; }
+  .cover .in{ position:relative; z-index:1; width:150mm; }
+  .cover img.logo{ width:46mm; margin-bottom:12mm; }
+  .cover .eyebrow{ font-size:9pt; letter-spacing:.32em; text-transform:uppercase; color:var(--gold-b); }
+  .cover h1{ font-family:"Cormorant Garamond", serif; font-weight:600; font-size:40pt; line-height:1.05; margin:6mm 0 3mm; color:#fff; }
+  .cover .sub{ font-style:italic; color:rgba(239,232,218,.75); font-size:11.5pt; }
+  .cover .rule{ width:60mm; height:1px; margin:10mm auto; background:linear-gradient(90deg,transparent,var(--gold-b),transparent); }
+  .cover .who{ font-family:"Cormorant Garamond", serif; font-size:27pt; color:var(--gold-b); font-weight:600; }
+  .cover .birth{ margin-top:2mm; font-size:10.5pt; color:rgba(239,232,218,.82); }
+  .cover .meta{ margin-top:14mm; font-size:8.6pt; color:rgba(239,232,218,.55); line-height:1.7; }
+  .cover .meta b{ color:rgba(239,232,218,.85); font-weight:500; }
+
+  /* ---------- GENEL ---------- */
+  .chapter{ break-before:page; }
+  .chap-eyebrow{ font-size:8.4pt; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5mm; }
+  h1.ch{ font-family:"Cormorant Garamond", serif; font-weight:600; font-size:25pt; line-height:1.1; color:var(--plum); margin:0 0 2mm; }
+  .ch-rule{ height:1px; background:linear-gradient(90deg,var(--gold-l),transparent); margin:0 0 6mm; }
+  h2.sub{ font-family:"Cormorant Garamond", serif; font-weight:600; font-size:16.5pt; color:var(--plum); margin:7mm 0 2.5mm; break-after:avoid; }
+  h3{ font-family:"Cormorant Garamond", serif; font-weight:700; font-size:14pt; color:#4a3b78; margin:5.5mm 0 1.5mm; break-after:avoid; }
+  p{ margin:0 0 2.6mm; text-align:justify; hyphens:auto; orphans:3; widows:3; }
+  ul{ margin:1mm 0 3mm; padding-left:5.5mm; }
+  li{ margin-bottom:1.4mm; }
+  li::marker{ color:var(--gold); }
+  strong{ font-weight:600; color:#3a2f5e; }
+  .paren{ color:#8a6a2f; font-size:.94em; }
+  blockquote.vurucu{ margin:3.5mm 0 4mm; padding:3mm 5mm 3mm 6mm; background:var(--cream); border-left:3px solid var(--gold);
+     font-family:"Cormorant Garamond", serif; font-style:italic; font-size:13.5pt; line-height:1.35; color:#3a2f5e; break-inside:avoid; border-radius:0 4px 4px 0; }
+  blockquote.vurucu .paren{ font-size:.8em; }
+  .muted{ color:var(--muted); }
+  .small{ font-size:8.4pt; color:var(--muted); }
+  .note{ font-size:8.8pt; color:var(--muted); margin:2mm 0 4mm; }
+  .box{ border:1px solid var(--line); border-radius:6px; padding:4mm 5mm; margin:3mm 0 5mm; background:#fcfaf6; break-inside:avoid; }
+  .warn{ border:1px solid #e3b9a6; background:#fbf1ec; color:#7a3b26; border-radius:6px; padding:3mm 4.5mm; margin:3mm 0 5mm; font-size:9.4pt; break-inside:avoid; }
+  .kv{ display:grid; grid-template-columns:38mm 1fr; gap:1.2mm 4mm; font-size:9.6pt; }
+  .kv dt{ color:var(--muted); }
+  .kv dd{ margin:0; }
+  .toc{ columns:2; column-gap:10mm; font-size:10pt; margin-top:3mm; }
+  .toc div{ break-inside:avoid; padding:1.2mm 0; border-bottom:1px dotted var(--line); }
+  .toc b{ color:var(--gold); font-weight:600; margin-right:2mm; }
+
+  /* ---------- TABLOLAR ---------- */
+  table.tbl{ width:100%; border-collapse:collapse; font-size:9pt; margin:2mm 0 4mm; }
+  table.tbl th{ text-align:left; font-weight:600; font-size:8pt; letter-spacing:.04em; text-transform:uppercase; color:#5b5577;
+                background:#f2ecdf; padding:1.8mm 2mm; border-bottom:1px solid var(--gold-l); }
+  table.tbl td{ padding:1.5mm 2mm; border-bottom:1px solid #eee7d8; vertical-align:middle; }
+  table.tbl tr{ break-inside:avoid; }
+  table.tbl.compact td{ padding:1.1mm 2mm; }
+  table.tbl tr.pt-row td{ background:#faf7ff; }
+  table.tbl tr.minor td{ color:#77738f; }
+  td.num{ font-variant-numeric:tabular-nums; white-space:nowrap; }
+  td.c{ text-align:center; }
+  .pl,.sg{ display:inline-flex; align-items:center; gap:1.6mm; white-space:nowrap; }
+  b.ang{ font-size:8.5pt; color:var(--gold); letter-spacing:.03em; }
+  .dg-pos{ color:#2f6f50; font-weight:600; } .dg-neg{ color:var(--neg); font-weight:600; }
+  .u-pos{ color:var(--pos); } .u-neg{ color:var(--neg); } .u-neu{ color:var(--gold); } .u-adj{ color:var(--adj); }
+
+  table.grid{ border-collapse:collapse; margin:2mm 0 4mm; }
+  table.grid td{ width:9.4mm; height:8.6mm; border:1px solid #e4dccb; text-align:center; vertical-align:middle; padding:0; }
+  table.grid td.gh{ background:#f2ecdf; }
+  table.grid td.gc .orb{ display:block; font-size:5.6pt; color:var(--muted); line-height:1; margin-top:.3mm; }
+
+  .figure{ break-inside:avoid; text-align:center; margin:2mm 0 4mm; }
+  .wheel svg{ width:160mm; height:160mm; }
+  .legend{ font-size:8.4pt; color:var(--muted); display:flex; flex-wrap:wrap; justify-content:center; gap:2mm 6mm; margin-top:1mm; }
+  .legend i{ display:inline-block; width:7mm; height:2px; vertical-align:middle; margin-right:1.5mm; }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:7mm; align-items:start; }
+  .two > div{ break-inside:avoid; }
+
+  .bar{ display:grid; grid-template-columns:34mm 1fr 8mm; align-items:center; gap:2.5mm; margin:1.4mm 0; font-size:9.2pt; }
+  .bt{ height:3.4mm; background:#f0ebe0; border-radius:2mm; overflow:hidden; }
+  .bf{ display:block; height:100%; border-radius:2mm; }
+  .bv{ text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+  .gbar{ display:grid; grid-template-columns:22mm 1fr 9mm 34mm; align-items:center; gap:2.5mm; margin:.7mm 0; font-size:9pt; }
+  .gt{ position:relative; height:3.4mm; background:#f5f1e8; border-radius:2mm; }
+  .gt .gpos,.gt .gneg{ position:absolute; top:0; bottom:0; border-radius:2mm; }
+  .gt .gpos{ background:#8fb3c9; } .gt .gneg{ background:#d9a08c; }
+  .gt .gmid{ position:absolute; left:50%; top:-1mm; bottom:-1mm; width:1px; background:#b9b2a0; }
+  .hemi svg{ width:62mm; height:62mm; }
+  .tl svg{ width:100%; height:auto; }
+  .chains{ columns:2; column-gap:8mm; }
+  .yapi h2.sub{ margin:4.5mm 0 1.8mm; }
+  .yapi .bar{ margin:.9mm 0; }
+  .yapi .note{ margin:1.2mm 0 2mm; }
+  .yapi .hemi svg{ width:54mm; height:54mm; }
+  .chain{ font-size:9.2pt; margin:.5mm 0; break-inside:avoid; }
+
+  .ai h3:first-child{ margin-top:0; }
+  /* Yorum bölümleri art arda akar (sayfa boşluğu yok); yalnız ana kısımlar yeni sayfada başlar */
+  .ai-cont{ margin-top:11mm; padding-top:6mm; border-top:1px solid var(--line); }
+  .ai-cont .chap-eyebrow, .ai-cont h1.ch{ break-after:avoid; }
+  .legal{ font-size:8.6pt; color:var(--muted); line-height:1.55; }
+</style>
+</head>
+<body>
+
+<!-- ============ KAPAK ============ -->
+<section class="cover">
+  <div class="in">
+    {% if logo %}<img class="logo" src="{{ logo }}" alt="gökname">{% endif %}
+    <div class="eyebrow">Profesyonel Astrolog Çalışma Dosyası</div>
+    <h1>Natal Pro Rapor</h1>
+    <div class="sub">derinlemesine doğum haritası analizi · zamanlama · seans rehberi</div>
+    <div class="rule"></div>
+    <div class="who">{{ esc(m.ad) }}</div>
+    <div class="birth">{{ esc(m.tarih) }} · {{ esc(m.saat) }} · {{ esc(m.yer) }}</div>
+    <div class="meta">
+      {% if hazirlayan %}Hazırlayan: <b>{{ esc(hazirlayan) }}</b><br>{% endif %}
+      Rapor tarihi: <b>{{ esc(m.uretim) }}</b>{% if rapor_id %} · Rapor no: <b>{{ esc(rapor_id) }}</b>{% endif %}<br>
+      Tropikal zodyak · Tüm Burç ev sistemi · JPL DE421 efemerisi
+    </div>
+  </div>
+</section>
+
+<!-- ============ GİRİŞ ============ -->
+<section>
+  <div class="chap-eyebrow">Giriş</div>
+  <h1 class="ch">Rapor Hakkında</h1>
+  <div class="ch-rule"></div>
+  <p>Bu dosya, {{ esc(m.ad) }} için hesaplanmış doğum haritasının profesyonel kullanıma yönelik kapsamlı bir dökümüdür. İlk bölümde haritanın tüm teknik verisi (konumlar, evler, açılar, yapı ve dengeler), ikinci bölümde derinlemesine yorum, üçüncü bölümde önümüzdeki on iki ayın zamanlaması yer alır. Son bölüm, seansınızı kurmanız için hazırlanmış pratik bir rehberdir. Yorumlarda teknik dayanak parantez içinde verilmiştir; böylece her çıkarımın haritanın hangi noktasından geldiğini görebilirsiniz.</p>
+
+  <div class="box">
+    <dl class="kv">
+      <dt>Danışan</dt><dd>{{ esc(m.ad) }}{% if dn.cinsiyet %} · {{ esc(dn.cinsiyet) }}{% endif %}</dd>
+      <dt>Doğum</dt><dd>{{ esc(m.tarih) }}, {{ esc(m.saat) }} (yerel saat, {{ esc(m.tz) }})</dd>
+      <dt>Yer</dt><dd>{{ esc(m.yer) }} · {{ m.lat }}, {{ m.lon }}</dd>
+      <dt>Evrensel zaman</dt><dd>{{ esc(m.utc) }}</dd>
+      <dt>Doğum saati</dt><dd>{% if m.saat_kesin == 'kesin' %}Kesin{% elif m.saat_kesin == 'yaklasik' %}Yaklaşık{% else %}Bilinmiyor (12:00 kullanıldı){% endif %} · {{ "Gündüz" if m.gunduz_dogum else "Gece" }} doğumu</dd>
+      <dt>Yaş</dt><dd>{{ m.yas }}</dd>
+      {% if dn.meslek %}<dt>Meslek / uğraş</dt><dd>{{ esc(dn.meslek) }}</dd>{% endif %}
+      {% if dn.iliski %}<dt>İlişki durumu</dt><dd>{{ esc(dn.iliski) }}</dd>{% endif %}
+    </dl>
+  </div>
+  {% if m.zaman_guven == 'dusuk' %}
+  <div class="warn"><b>Doğum saati bilinmiyor.</b> Harita 12:00 ile kuruldu. Yükselen, MC, ev yerleşimleri ve Şans Noktası güvenilir değildir; Ay'ın derecesi de gün içinde ~13° değişebilir. Yorumlarda ağırlık burçlara ve gezegen açılarına verilmiştir. Yaşam olaylarıyla saat düzeltmesi (rektifikasyon) önerilir.</div>
+  {% elif m.zaman_guven == 'orta' %}
+  <div class="warn"><b>Doğum saati yaklaşık.</b> Burç sınırına yakın Yükselen ve MC ile ev yerleşimleri birkaç dakikalık farkla değişebilir; bu noktalar dikkatle değerlendirilmelidir.</div>
+  {% endif %}
+  {% if dn.sorular %}<h2 class="sub">Danışanın Odak Soruları</h2><p>{{ esc(dn.sorular)|replace('\n', '<br>') }}</p>{% endif %}
+  {% if dn.not %}<h2 class="sub">Astroloğun Notu</h2><p>{{ esc(dn.not)|replace('\n', '<br>') }}</p>{% endif %}
+
+  <h2 class="sub">İçindekiler</h2>
+  <div class="toc">
+    <div><b>1</b>Harita Verisi: çark, konumlar, evler, açılar</div>
+    <div><b>1.5</b>Yapı ve Dengeler</div>
+    {% set n = namespace(i=2) %}
+    {% for k in ['ozet','cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}{% if sec[k] %}<div><b>{{ n.i }}</b>{{ esc(sec[k].baslik) }}</div>{% set n.i = n.i + 1 %}{% endif %}{% endfor %}
+    <div><b>{{ n.i }}</b>Zamanlama: transitler, progresyonlar, yıl haritası</div>{% set n.i = n.i + 1 %}
+    {% if sec['olaylar'] %}<div><b>{{ n.i }}</b>Yaşam Olayları</div>{% set n.i = n.i + 1 %}{% endif %}
+    {% if sec['sorular'] %}<div><b>{{ n.i }}</b>Danışanın Soruları</div>{% set n.i = n.i + 1 %}{% endif %}
+    <div><b>{{ n.i }}</b>Astrolog İçin Seans Rehberi</div>
+  </div>
+</section>
+
+<!-- ============ 1 · HARİTA VERİSİ ============ -->
+<section class="chapter">
+  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <h1 class="ch">Natal Çark</h1>
+  <div class="ch-rule"></div>
+  <div class="figure wheel">{{ wheel }}
+    <div class="legend">
+      <span><i style="background:#3f7fa6"></i>üçgen / altmışlık</span>
+      <span><i style="background:#b8573a"></i>kare / karşıt</span>
+      <span><i style="background:#5b8f4e"></i>quincunx</span>
+      <span>Halka içi sayılar: ev (Tüm Burç)</span>
+      <span>R: retro</span>
+    </div>
+  </div>
+  <div class="two">
+    <div><b>Harita yöneticisi:</b> {{ esc(ch.harita_yoneticisi.ad) }} ({{ esc(ch.harita_yoneticisi.sign) }}, {{ ch.harita_yoneticisi.house }}. ev, {{ esc(ch.harita_yoneticisi.dignity) }}){% if ch.harita_yoneticisi.modern %} · modern: {{ esc(ch.harita_yoneticisi.modern) }}{% endif %}</div>
+    <div><b>MC:</b> {{ esc(ch.mc.sign) }} {{ esc(ch.mc.deg) }} ({{ ch.mc.house }}. ev) · yöneticisi {{ esc(ch.mc.yonetici) }} → {{ ch.mc.yonetici_ev }}. ev</div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <h1 class="ch">Konumlar ve Evler</h1>
+  <div class="ch-rule"></div>
+  <h2 class="sub" style="margin-top:0">Gezegenler ve Noktalar</h2>
+  {{ pos_table }}
+  <p class="note">Öz-onur: yönetim, yücelim (güçlü) · zarar, düşüş (zorlanan) · nötr. Hız günlük boylam değişimidir; eksi değer geri harekettir. Düğümler ve Lilith ortalama (mean) değerlerdir.</p>
+  <h2 class="sub">Ev Tablosu</h2>
+  {{ house_table }}
+</section>
+
+<section class="chapter">
+  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <h1 class="ch">Açılar</h1>
+  <div class="ch-rule"></div>
+  <div class="two">
+    <div>
+      <h2 class="sub" style="margin-top:0">Açı Izgarası</h2>
+      {{ asp_grid }}
+      <p class="note">Hücredeki sayı orb derecesidir; a = yaklaşan, s = ayrılan.</p>
+    </div>
+    <div>
+      <h2 class="sub" style="margin-top:0">Harita Kalıpları</h2>
+      {% if ch.patterns %}<ul>{% for k in ch.patterns %}<li><b>{{ esc(k.tip) }}:</b> {{ esc(k.detay) }}</li>{% endfor %}</ul>{% else %}<p class="muted">Belirgin büyük açı kalıbı yok.</p>{% endif %}
+      <h2 class="sub">Ay Fazı</h2>
+      <p><b>{{ esc(ch.ay_fazi.ad) }}</b> (Güneş–Ay açısı {{ ch.ay_fazi.aci }}°). {{ esc(ch.ay_fazi.anlam) }}</p>
+    </div>
+  </div>
+  <h2 class="sub">Tüm Açılar</h2>
+  {{ asp_table }}
+  <p class="note">Orb sınırları: kavuşum/karşıt 8°, üçgen/kare 7°, altmışlık 5° (Güneş ve Ay için +2°), minör açılar 2-3°. Köşe ve noktalarla majör açılarda en çok 5°.</p>
+</section>
+
+<section class="chapter yapi">
+  <div class="chap-eyebrow">Bölüm 1.5</div>
+  <h1 class="ch">Yapı ve Dengeler</h1>
+  <div class="ch-rule"></div>
+  <div class="two">
+    <div>
+      <h2 class="sub" style="margin-top:0">Element</h2>{{ el_bars }}
+      <h2 class="sub">Nitelik</h2>{{ md_bars }}
+      <h2 class="sub">Kutup</h2>{{ kutup_bars }}
+      <p class="note">12 nokta: 10 gezegen + Yükselen + MC.</p>
+    </div>
+    <div class="figure hemi" style="margin-top:0">
+      <h2 class="sub" style="margin-top:0;text-align:left">Yarıküre Dağılımı</h2>
+      {{ hemi }}
+      <p class="note">Ufkun üstü {{ ch.denge.ust_yari }} · altı {{ ch.denge.alt_yari }} · doğu (benlik) {{ ch.denge.dogu }} · batı (ilişki) {{ ch.denge.bati }}</p>
+    </div>
+  </div>
+  <h2 class="sub">Gezegen Güç Dengesi</h2>
+  {{ guc }}
+  <p class="note">Basitleştirilmiş skor: öz-onur (+5 … −5), açısal ev (+3), ardıl ev (+1), köşeye 5° içinde kavuşum (+2), retro (−1), majör açı yoğunluğu (en çok +3).</p>
+  <h2 class="sub">Dispozitör Zinciri</h2>
+  <div class="chains">{% for k, v in ch.dispozitor.zincir.items() %}<div class="chain">{{ esc(v) }}</div>{% endfor %}</div>
+  <p class="note">Kendi burcundaki gezegen(ler): {{ esc(ch.dispozitor.kendi_burcunda|join(', ')) or 'yok' }} · Son dispozitör: {{ esc(ch.dispozitor.son) if ch.dispozitor.son else 'tek bir son dispozitör yok' }}{% if ch.dispozitor.karsilikli_agirlama %} · Karşılıklı ağırlama: {{ esc(ch.dispozitor.karsilikli_agirlama|join('; ')) }}{% endif %}</p>
+</section>
+
+<!-- ============ 2 · YORUM ============ -->
+{% set n = namespace(i=2) %}
+{% for k in ['ozet','cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}{% if sec[k] %}
+<section class="{{ 'chapter' if n.i == 2 else 'ai-cont' }} ai">
+  <div class="chap-eyebrow">Bölüm {{ n.i }} · Yorum</div>
+  <h1 class="ch">{{ esc(sec[k].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ sec[k].html }}
+</section>{% set n.i = n.i + 1 %}
+{% endif %}{% endfor %}
+
+<!-- ============ ZAMANLAMA ============ -->
+<section class="chapter">
+  <div class="chap-eyebrow">Bölüm {{ n.i }} · Zamanlama</div>
+  <h1 class="ch">Önümüzdeki 12 Ay: Veri</h1>
+  <div class="ch-rule"></div>
+  <p class="note">{{ esc(tr.baslangic) }} – {{ esc(tr.bitis) }} · yavaş gezegenlerin (Jüpiter, Satürn, Uranüs, Neptün, Plüton) ve Kuzey Düğüm'ün natal kişisel gezegenlere, Yükselen'e ve MC'ye majör açıları. Çubuk: etki penceresi, elmas: tam isabet. Mavi uyumlu, kızıl gergin, altın kavuşum.</p>
+  {% if timeline %}<div class="figure tl">{{ timeline }}</div>{% else %}<p class="muted">Bu dönemde belirgin yavaş gezegen transiti yok.</p>{% endif %}
+  <h2 class="sub">Şu Anki Gökyüzü (natal evlere göre)</h2>
+  <p>{% for k, v in tr.simdi.items() %}<b>{{ esc(k) }}</b> {{ esc(v.burc) }} {{ esc(v.deg) }} ({{ v.ev }}. ev){% if not loop.last %} · {% endif %}{% endfor %}</p>
+  {% if tr.ingresler %}<p><b>Burç geçişleri:</b> {% for g in tr.ingresler %}{{ esc(g.gezegen) }} → {{ esc(g.burc) }} ({{ esc(g.tarih) }}, {{ g.ev }}. ev){% if not loop.last %}; {% endif %}{% endfor %}</p>{% endif %}
+  <h2 class="sub">Transit Listesi</h2>
+  {{ transit_table }}
+  <div class="two">
+    <div>
+      <h2 class="sub">İkincil Progresyonlar</h2>
+      <table class="tbl compact"><thead><tr><th>Nokta</th><th>Konum</th><th>Natal ev</th></tr></thead><tbody>{{ prog_rows }}</tbody></table>
+      <p class="note">Güneş yayı {{ pr.yay }}° · progresif Ay fazı: {{ esc(pr.ay_fazi.ad) }}{% if pr.aktif_acilar %}<br>Etkin progresif açılar: {% for a in pr.aktif_acilar %}{{ esc(a.prog) }} {{ esc(a.ad) }} natal {{ esc(a.natal) }} ({{ a.orb }}°){% if not loop.last %}; {% endif %}{% endfor %}{% endif %}</p>
+      <p class="note"><b>Progresif Ay yolculuğu:</b> {% for y in pr.ay_yolculugu %}{{ esc(y.tarih) }}: {{ esc(y.burc) }} ({{ y.ev }}. ev){% if not loop.last %} → {% endif %}{% endfor %}</p>
+    </div>
+    <div>
+      {% if sr %}
+      <h2 class="sub">Solar Return {{ esc(sr.yil) }}</h2>
+      <p class="note">An: {{ esc(sr.an) }} · SR Yükselen {{ esc(sr.asc.sign) }} {{ esc(sr.asc.deg) }} · SR MC {{ esc(sr.mc.sign) }} {{ esc(sr.mc.deg) }}{% if sr.acisal_gezegenler %} · açısal: {{ esc(sr.acisal_gezegenler|join(', ')) }}{% endif %}</p>
+      <table class="tbl compact"><thead><tr><th>Gezegen</th><th>Konum</th><th>SR evi</th></tr></thead><tbody>{{ sr_rows }}</tbody></table>
+      <p class="note">{{ esc(sr.not) }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% if sec['zaman'] %}
+<section class="ai-cont ai">
+  <div class="chap-eyebrow">Bölüm {{ n.i }} · Zamanlama</div>
+  <h1 class="ch">{{ esc(sec['zaman'].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ sec['zaman'].html }}
+</section>{% endif %}{% set n.i = n.i + 1 %}
+
+{% if sec['olaylar'] %}
+<section class="chapter ai">
+  <div class="chap-eyebrow">Bölüm {{ n.i }}</div>
+  <h1 class="ch">{{ esc(sec['olaylar'].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  <table class="tbl compact"><thead><tr><th>Tarih</th><th>Olay</th><th>Yaş</th><th>Öne çıkan tetikleyiciler</th></tr></thead><tbody>
+  {% for o in olaylar %}<tr><td class="num">{{ esc(o.tarih_tr or o.tarih) }}</td><td>{{ esc(o.aciklama) }}</td><td class="num">{{ o.yas }}</td>
+    <td class="small">{% if o.tetikleyiciler %}{% for h in o.tetikleyiciler[:4] %}{{ esc(h.transit) }} {{ esc(h.ad) }} {{ esc(h.natal) }} ({{ h.orb }}°){% if not loop.last %}; {% endif %}{% endfor %}{% else %}belirgin yavaş transit yok{% endif %}{% if o.progresif_ay_acilari %}; {{ esc(o.progresif_ay_acilari|join('; ')) }}{% endif %}</td></tr>{% endfor %}
+  </tbody></table>
+  {{ sec['olaylar'].html }}
+</section>{% set n.i = n.i + 1 %}
+{% endif %}
+
+{% if sec['sorular'] %}
+<section class="{{ 'ai-cont' if sec['olaylar'] else 'chapter' }} ai">
+  <div class="chap-eyebrow">Bölüm {{ n.i }}</div>
+  <h1 class="ch">{{ esc(sec['sorular'].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ sec['sorular'].html }}
+</section>{% set n.i = n.i + 1 %}
+{% endif %}
+
+{% if sec['seans'] %}
+<section class="chapter ai">
+  <div class="chap-eyebrow">Bölüm {{ n.i }} · Pratik</div>
+  <h1 class="ch">{{ esc(sec['seans'].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ sec['seans'].html }}
+</section>
+{% endif %}
+
+<section class="ai-cont">
+  <div class="chap-eyebrow">Ek</div>
+  <h1 class="ch">Yöntem ve Yasal Not</h1>
+  <div class="ch-rule"></div>
+  <div class="legal">
+    <p><b>Hesap yöntemi.</b> Gezegen konumları NASA JPL DE421 efemerisinden, görünür (apparent) tropikal ekliptik boylam olarak hesaplanmıştır. Yükselen ve MC yerel yıldız zamanı ve ortalama eğiklikten türetilmiştir. Ay Düğümleri ve Lilith ortalama değerlerdir; Kiron JPL küçük gezegen efemerisinden alınmıştır. Ev sistemi Tüm Burç'tur (Yükselen burcunun tamamı 1. ev). Transitler günlük adımla taranmış, etki penceresi 1,2–1,5° orb ile belirlenmiştir. Progresyonlar ikincil (gün = yıl) yöntemle, Güneş yayı direksiyonları Güneş'in progresif ilerlemesiyle hesaplanmıştır. Solar Return doğum yeri koordinatlarıyla kurulmuştur.</p>
+    <p><b>Kullanım.</b> Bu doküman astroloğun profesyonel çalışmasına destek olmak amacıyla hazırlanmış bir analiz altlığıdır; yorum metinleri yapay zekâ destekli sentezle üretilmiş ve hesaplanmış harita verisine dayandırılmıştır. Nihai yorum ve danışana aktarım astroloğun mesleki değerlendirmesine aittir. İçerik kesin gelecek iddiası taşımaz; tıbbi, psikolojik, hukuki ya da finansal danışmanlığın yerine geçmez. Danışana ait kişisel veriler yalnızca bu raporun üretimi için işlenmiştir.</p>
+  </div>
+</section>
+
+</body>
+</html>

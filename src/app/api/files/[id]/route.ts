@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readFile, getReportsByEmail, getOrdersByEmail, markReportIndirildi, dosyaIndirmeAdi } from "@/lib/db";
+import { readFile, getReportsByEmail, getOrdersByEmail, getProReportsByEmail, markReportIndirildi, dosyaIndirmeAdi } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 
 export const runtime = "nodejs";
@@ -12,7 +12,8 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   // Admin her dosyaya erişebilir; üye yalnızca kendi rapor/fatura dosyasına
   if (u.type === "member") {
     const raporSahip = getReportsByEmail(u.email).some((r) => r.dosya === id);
-    const sahip = raporSahip || getOrdersByEmail(u.email).some((o) => o.faturaDosya === id);
+    const sahip = raporSahip || getOrdersByEmail(u.email).some((o) => o.faturaDosya === id)
+      || getProReportsByEmail(u.email).some((r) => r.dosya === id); // astroloğun Pro raporu
     if (!sahip) return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
     // Müşteri kendi raporunu indirdi → işaretle
     if (raporSahip) markReportIndirildi(id, u.email);
