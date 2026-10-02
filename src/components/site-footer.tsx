@@ -10,7 +10,6 @@ const LINKS = [
   { href: "/ornekler", label: "Örnekler" },
   { href: "/nasil-calisir", label: "Nasıl Hazırlanır?" },
   { href: "/sss", label: "S.S.S." },
-  { href: "/astrolog-musunuz", label: "Astrolog musunuz?" },
   { href: "/iletisim", label: "" }, // iletisimEtiket() ile doldurulur
 ];
 

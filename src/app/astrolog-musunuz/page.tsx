@@ -1,12 +1,15 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Faq } from "@/components/faq";
-import { getProAyar, getPaytr, getGenelAyar } from "@/lib/db";
+import { getProAyar, getPaytr, getGenelAyar, isAstrolog } from "@/lib/db";
+import { currentUser } from "@/lib/session";
 import { seoMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 export const generateMetadata = () => seoMetadata("/astrolog-musunuz");
 
 // Astrologlara B2B satış sayfası: jetonla Pro rapor. Satış manuel (WhatsApp/e-posta); paketler admin'den.
+// ŞU AN GİZLİ: header/footer linki kaldırıldı, sitemap dışı + noindex; yalnız admin ve astrologlara açık.
 const ICERIK: { t: string; d: string }[] = [
   { t: "Tam teknik veri", d: "10 gezegen, Ay Düğümleri, Kiron, Lilith, Şans Noktası, MC/IC; derece-dakika, ev, öz-onur durumu, retro ve günlük hız." },
   { t: "Açı ızgarası", d: "Majör ve minör açılar; orb, yaklaşan/ayrılan fazı ve uyum niteliğiyle tablo halinde." },
@@ -42,7 +45,10 @@ function waLink(numara: string, mesaj: string) {
   return n ? `https://wa.me/${n}?text=${encodeURIComponent(mesaj)}` : "";
 }
 
-export default function AstrologMusunuzPage() {
+export default async function AstrologMusunuzPage() {
+  // Şimdilik GİZLİ: menü/footer'da yok; yalnız admin ve astrolog hesapları açabilir, diğerleri 404.
+  const u = await currentUser();
+  if (!u || (u.type === "member" && !isAstrolog(u.email))) notFound();
   const ayar = getProAyar();
   const whatsapp = ayar.whatsapp || getPaytr().whatsappNumara;
   const eposta = ayar.eposta || getGenelAyar().iletisim.eposta;

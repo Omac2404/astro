@@ -518,7 +518,8 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
     SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorular, destek, reklam ve iş birliği için bize ulaşın."),
-    SEO_SAYFA("/astrolog-musunuz", "Astrolog musunuz?", "Astrolog musunuz? Gökname Pro Raporları", "Astrologlar için 20+ sayfalık profesyonel natal harita dosyası: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi. Jetonla, dakikalar içinde."),
+    // Gizli sayfa (yalnız admin + astrolog hesapları görür): sitemap dışı + noindex
+    { ...SEO_SAYFA("/astrolog-musunuz", "Astrolog musunuz? (gizli)", "Astrolog musunuz? Gökname Pro Raporları", "Astrologlar için 20+ sayfalık profesyonel natal harita dosyası: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi. Jetonla, dakikalar içinde."), sitemap: false, noindex: true },
     SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({
@@ -540,6 +541,8 @@ const SEO_DEFAULT: SeoAyar = {
   headKod: "", headAktif: true,
   bodyKod: "", bodyAktif: true,
 };
+// Herkese kapalı sayfalar: admin SEO ayarı ne derse desin sitemap'e girmez, indekslenmez.
+const GIZLI_SAYFALAR = ["/astrolog-musunuz"];
 export function getSeoAyar(): SeoAyar {
   const stored = read<Partial<SeoAyar>>("seo.json", {});
   const kayitli = Array.isArray(stored.sayfalar) ? stored.sayfalar : [];
@@ -547,7 +550,8 @@ export function getSeoAyar(): SeoAyar {
   // kaldırılan ürünler düşer — admin SEO listesi PRODUCTS ile her zaman senkron).
   const sayfalar = SEO_DEFAULT.sayfalar.map((def) => {
     const v = kayitli.find((s) => s.yol === def.yol);
-    return v ? { ...def, ...v, ad: def.ad } : def;
+    const m = v ? { ...def, ...v, ad: def.ad } : def;
+    return GIZLI_SAYFALAR.includes(def.yol) ? { ...m, sitemap: false, noindex: true } : m;
   });
   return { ...SEO_DEFAULT, ...stored, sayfalar };
 }
