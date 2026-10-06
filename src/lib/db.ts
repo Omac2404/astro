@@ -518,8 +518,8 @@ const SEO_DEFAULT: SeoAyar = {
     SEO_SAYFA("/nasil-calisir", "Nasıl Hazırlanır?", "Nasıl Hazırlanır? — Gökname", "Raporun, doğum anından elindeki PDF'e sekiz titiz aşamadan geçer. Gerçek astronomi + yapay zekâ sentezi."),
     SEO_SAYFA("/sss", "S.S.S.", "Sıkça Sorulan Sorular — Gökname", "Gökname analizleri hakkında merak edilenler."),
     SEO_SAYFA("/iletisim", "İletişim", "İletişim — Gökname", "Sorular, destek, reklam ve iş birliği için bize ulaşın."),
-    // Gizli sayfa (yalnız admin + astrolog hesapları görür): sitemap dışı + noindex
-    { ...SEO_SAYFA("/astrolog-musunuz", "Astrolog musunuz? (gizli)", "Astrolog musunuz? Gökname Pro Raporları", "Astrologlar için 20+ sayfalık profesyonel natal harita dosyası: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi. Jetonla, dakikalar içinde."), sitemap: false, noindex: true },
+    // Pro ayarı kapalıyken gizli (getSeoAyar sitemap dışı + noindex zorlar)
+    { ...SEO_SAYFA("/astrolog-musunuz", "Astrolog musunuz?", "Astrolog musunuz? Gökname Pro Raporları", "Astrologlar için 20+ sayfalık profesyonel natal harita dosyası: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi. Jetonla, dakikalar içinde.") },
     SEO_SAYFA("/astrologlar", "Astrologlar", "Astrologlar — Gökname", "Alanında uzman astrologlarla tanış; raporlarında daha da derine inmek için birebir danışmanlık alabileceğin isimler."),
     // Ürün detay sayfaları — gizli ürün sitemap dışı + noindex
     ...PRODUCTS.map((p) => ({
@@ -542,12 +542,14 @@ const SEO_DEFAULT: SeoAyar = {
   bodyKod: "", bodyAktif: true,
 };
 // Herkese kapalı sayfalar: admin SEO ayarı ne derse desin sitemap'e girmez, indekslenmez.
-const GIZLI_SAYFALAR = ["/astrolog-musunuz"];
+// "/astrolog-musunuz" yalnız Pro ayarlarındaki "sayfayı sitede göster" kapalıyken gizlidir.
+const gizliSayfalar = () => (getProAyar().sayfaAcik ? [] : ["/astrolog-musunuz"]);
 export function getSeoAyar(): SeoAyar {
   const stored = read<Partial<SeoAyar>>("seo.json", {});
   const kayitli = Array.isArray(stored.sayfalar) ? stored.sayfalar : [];
   // Default sayfa listesini esas al; kayıtlı değer varsa onu kullan (yeni eklenen ürün sayfaları otomatik gelir,
   // kaldırılan ürünler düşer — admin SEO listesi PRODUCTS ile her zaman senkron).
+  const GIZLI_SAYFALAR = gizliSayfalar();
   const sayfalar = SEO_DEFAULT.sayfalar.map((def) => {
     const v = kayitli.find((s) => s.yol === def.yol);
     const m = v ? { ...def, ...v, ad: def.ad } : def;
@@ -1256,7 +1258,7 @@ export type JetonHareket = {
   admin?: string;       // yükleyen/düzelten admin
   tarih: string;
 };
-export type ProPaket = { jeton: number; fiyat: number; etiket?: string };
+export type ProPaket = { jeton: number; hediye?: number; fiyat: number; etiket?: string }; // hediye: pakete eklenen bedava jeton
 export type ProAyar = {
   model: "claude-opus-5-5" | "claude-fable-5-1"; // sentez modeli (test için admin değiştirir)
   effort: "low" | "medium" | "high";
@@ -1266,15 +1268,16 @@ export type ProAyar = {
   whatsapp: string;     // satış iletişimi (boşsa PayTR ayarındaki WhatsApp numarası)
   eposta: string;       // satış iletişimi (boşsa iletişim e-postası)
   ornekPdf: string;     // örnek Pro rapor yolu (ör. /ornekler/natal-pro.pdf); boşsa buton gizli
+  sayfaAcik: boolean;   // "Astrolog musunuz?" sayfası sitede açık mı (header/footer linki + herkese erişim + sitemap)
 };
 const PRO_AYAR_DEFAULT: ProAyar = {
   model: "claude-opus-5-5", effort: "medium", eszaman: 2, saklamaGun: 365,
   paketler: [
-    { jeton: 10, fiyat: 1500, etiket: "Başlangıç" },
-    { jeton: 25, fiyat: 3250, etiket: "Profesyonel" },
-    { jeton: 50, fiyat: 5000, etiket: "Ofis" },
+    { jeton: 5, fiyat: 2500, etiket: "Başlangıç" },
+    { jeton: 10, hediye: 1, fiyat: 5000, etiket: "Profesyonel" },
+    { jeton: 20, hediye: 3, fiyat: 10000, etiket: "Ofis" },
   ],
-  whatsapp: "", eposta: "", ornekPdf: "",
+  whatsapp: "", eposta: "", ornekPdf: "", sayfaAcik: false,
 };
 export function getProAyar(): ProAyar {
   const s = read<Partial<ProAyar>>("pro-ayar.json", {});

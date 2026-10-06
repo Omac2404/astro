@@ -17,6 +17,8 @@ type Hareket = { id: string; tip: "yukleme" | "kullanim" | "iade" | "duzeltme"; 
 type Urun = { slug: string; ad: string; jeton: number; aktif: boolean; aciklama: string };
 type Veri = { bakiye: number; hareketler: Hareket[]; raporlar: Rapor[]; urunler: Urun[]; profil: { ad: string; marka?: string } | null; saklamaGun: number };
 
+// Form sınırları (sunucu da aynı sınırları uygular: api/pro/raporlar)
+const SORU_MAX = 5, SORU_KARAKTER = 150, OLAY_KARAKTER = 100, NOT_KARAKTER = 500;
 const inputCls = "w-full rounded-xl border border-gold/20 bg-night-deep px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
 const labelCls = "mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55";
 const tarihTR = (iso?: string) => {
@@ -232,7 +234,11 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
   const [cinsiyet, setCinsiyet] = useState(onDolu?.cinsiyet ?? "");
   const [meslek, setMeslek] = useState(onDolu?.meslek ?? "");
   const [iliski, setIliski] = useState(onDolu?.iliski ?? "");
-  const [sorular, setSorular] = useState(onDolu?.sorular ?? "");
+  // Sorular: en çok 5 ayrı alan × 150 karakter (kayıtta satır satır tek metin)
+  const [sorular, setSorular] = useState<string[]>(() => {
+    const l = (onDolu?.sorular ?? "").split("\n").map((x) => x.trim()).filter(Boolean).slice(0, SORU_MAX);
+    return l.length ? l : [""];
+  });
   const [not, setNot] = useState(onDolu?.astrologNot ?? "");
   const [olaylar, setOlaylar] = useState<Olay[]>(onDolu?.olaylar ?? []);
   const [msg, setMsg] = useState("");
@@ -247,7 +253,8 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
     if (!confirm(`${k.ad} için ${urun.ad} oluşturulacak ve ${urun.jeton} jeton düşülecek. Onaylıyor musun?`)) return;
     setBusy(true);
     const danisan = {
-      ...toDogum(k), saatKesin, cinsiyet, meslek, iliski, sorular, astrologNot: not,
+      ...toDogum(k), saatKesin, cinsiyet, meslek, iliski, astrologNot: not,
+      sorular: sorular.map((x) => x.trim()).filter(Boolean),
       olaylar: olaylar.filter((o) => o.tarih && o.aciklama.trim()),
     };
     const r = await fetch("/api/pro/raporlar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, danisan }) });
@@ -319,12 +326,26 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
               <input value={meslek} maxLength={80} onChange={(e) => setMeslek(e.target.value)} placeholder="örn. Mimar, kendi ofisi var" className={inputCls} />
             </div>
             <div>
-              <label className={labelCls}>Danışanın odak soruları</label>
-              <textarea value={sorular} maxLength={2000} onChange={(e) => setSorular(e.target.value)} rows={4} placeholder={"Her soruyu ayrı satıra yaz.\nörn. Kariyerimde değişim için doğru zaman ne?"} className={inputCls} />
+              <label className={labelCls}>Danışanın odak soruları <span className="normal-case tracking-normal text-parchment/35">(en çok {SORU_MAX}, her biri {SORU_KARAKTER} karakter)</span></label>
+              <div className="space-y-2">
+                {sorular.map((q, i) => (
+                  <div key={i} className="relative">
+                    <input value={q} maxLength={SORU_KARAKTER} onChange={(e) => setSorular((l) => l.map((x, j) => (j === i ? e.target.value : x)))}
+                      placeholder={i === 0 ? "örn. Kendi işimi kurmak için doğru zaman ne?" : `${i + 1}. soru`} className={inputCls + " pr-24"} />
+                    <span className="pointer-events-none absolute right-10 top-1/2 -translate-y-1/2 text-[10px] text-parchment/35">{q.length}/{SORU_KARAKTER}</span>
+                    {sorular.length > 1 && (
+                      <button type="button" onClick={() => setSorular((l) => l.filter((_, j) => j !== i))} className="absolute right-3 top-1/2 -translate-y-1/2 text-parchment/40 hover:text-rose-300">✕</button>
+                    )}
+                  </div>
+                ))}
+                {sorular.length < SORU_MAX && (
+                  <button type="button" onClick={() => setSorular((l) => [...l, ""])} className="text-xs text-gold-bright hover:underline">+ Soru ekle</button>
+                )}
+              </div>
             </div>
             <div>
-              <label className={labelCls}>Astroloğun notu</label>
-              <textarea value={not} maxLength={2000} onChange={(e) => setNot(e.target.value)} rows={3} placeholder="Seansta bilmen gereken bağlam, gözlemlerin…" className={inputCls} />
+              <label className={labelCls}>Astroloğun notu <span className="normal-case tracking-normal text-parchment/35">({not.length}/{NOT_KARAKTER})</span></label>
+              <textarea value={not} maxLength={NOT_KARAKTER} onChange={(e) => setNot(e.target.value)} rows={3} placeholder="Seansta bilmen gereken bağlam, gözlemlerin…" className={inputCls} />
             </div>
           </div>
         </div>
@@ -341,7 +362,7 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
             {olaylar.map((o, i) => (
               <div key={i} className="grid grid-cols-[150px_1fr_auto] gap-2">
                 <input type="date" value={o.tarih} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, tarih: e.target.value } : x)))} className={inputCls + " date-white"} style={{ colorScheme: "dark" }} />
-                <input value={o.aciklama} maxLength={200} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, aciklama: e.target.value } : x)))} placeholder="örn. Evlendi" className={inputCls} />
+                <input value={o.aciklama} maxLength={OLAY_KARAKTER} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, aciklama: e.target.value } : x)))} placeholder="örn. Evlendi" className={inputCls} />
                 <button type="button" onClick={() => setOlaylar((l) => l.filter((_, j) => j !== i))} className="rounded-lg px-3 text-parchment/45 hover:text-rose-300">✕</button>
               </div>
             ))}

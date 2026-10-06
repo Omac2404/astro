@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const generateMetadata = () => seoMetadata("/astrolog-musunuz");
 
 // Astrologlara B2B satış sayfası: jetonla Pro rapor. Satış manuel (WhatsApp/e-posta); paketler admin'den.
-// ŞU AN GİZLİ: header/footer linki kaldırıldı, sitemap dışı + noindex; yalnız admin ve astrologlara açık.
+// Görünürlük admin anahtarına bağlı (ProAyar.sayfaAcik): kapalıyken menüde yok, sitemap dışı + noindex, yalnız admin/astrolog açar.
 const ICERIK: { t: string; d: string }[] = [
   { t: "Tam teknik veri", d: "10 gezegen, Ay Düğümleri, Kiron, Lilith, Şans Noktası, MC/IC; derece-dakika, ev, öz-onur durumu, retro ve günlük hız." },
   { t: "Açı ızgarası", d: "Majör ve minör açılar; orb, yaklaşan/ayrılan fazı ve uyum niteliğiyle tablo halinde." },
@@ -46,10 +46,12 @@ function waLink(numara: string, mesaj: string) {
 }
 
 export default async function AstrologMusunuzPage() {
-  // Şimdilik GİZLİ: menü/footer'da yok; yalnız admin ve astrolog hesapları açabilir, diğerleri 404.
-  const u = await currentUser();
-  if (!u || (u.type === "member" && !isAstrolog(u.email))) notFound();
   const ayar = getProAyar();
+  // Admin → Astrolog Pro → "sayfayı sitede göster" kapalıyken yalnız admin ve astrolog hesapları açabilir, diğerleri 404.
+  if (!ayar.sayfaAcik) {
+    const u = await currentUser();
+    if (!u || (u.type === "member" && !isAstrolog(u.email))) notFound();
+  }
   const whatsapp = ayar.whatsapp || getPaytr().whatsappNumara;
   const eposta = ayar.eposta || getGenelAyar().iletisim.eposta;
   const genelWa = waLink(whatsapp, "Merhaba, astroloğum. Gökname Pro raporları ve jeton paketleri hakkında bilgi almak istiyorum.");
@@ -146,15 +148,19 @@ export default async function AstrologMusunuzPage() {
         <p className="mt-3 text-center text-parchment/65">Paketini seç, bize yaz; hesabını tanımlayıp jetonlarını yükleyelim.</p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ayar.paketler.map((p, i) => {
-            const wa = waLink(whatsapp, `Merhaba, astroloğum. ${p.jeton} jetonluk Gökname Pro paketini almak istiyorum.`);
+            const hediye = p.hediye ?? 0;
+            const toplam = p.jeton + hediye;
+            const wa = waLink(whatsapp, `Merhaba, astroloğum. ${p.jeton}${hediye ? ` + ${hediye} hediye` : ""} jetonluk Gökname Pro paketini almak istiyorum.`);
             const vurgu = i === Math.floor(ayar.paketler.length / 2) && ayar.paketler.length > 1;
             return (
               <div key={i} className={`flex flex-col rounded-2xl border p-6 text-center ${vurgu ? "border-gold/55 bg-gold/[0.07]" : "border-gold/15 bg-night"}`}>
                 {p.etiket && <span className="text-xs uppercase tracking-[0.2em] text-gold-bright/80">{p.etiket}</span>}
-                <div className="mt-3 font-body text-5xl font-semibold text-parchment">{p.jeton}</div>
-                <div className="text-parchment/55">jeton · {p.jeton} Pro rapor</div>
+                <div className="mt-3 font-body text-5xl font-semibold text-parchment">
+                  {p.jeton}{hediye > 0 && <span className="text-3xl text-gold-bright"> +{hediye}</span>}
+                </div>
+                <div className="text-parchment/55">jeton{hediye > 0 ? ` + ${hediye} hediye` : ""} · {toplam} Pro rapor</div>
                 <div className="mt-5 font-display text-3xl text-gold-bright">{p.fiyat > 0 ? `${p.fiyat.toLocaleString("tr-TR")} ₺` : "Fiyat için yaz"}</div>
-                {p.fiyat > 0 && <div className="mt-1 text-sm text-parchment/50">rapor başı {Math.round(p.fiyat / p.jeton).toLocaleString("tr-TR")} ₺</div>}
+                {p.fiyat > 0 && <div className="mt-1 text-sm text-parchment/50">rapor başı {Math.round(p.fiyat / toplam).toLocaleString("tr-TR")} ₺</div>}
                 <div className="mt-6 flex-1" />
                 {wa ? (
                   <a href={wa} target="_blank" rel="noopener" className="rounded-full bg-gold px-6 py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright">WhatsApp ile al</a>
@@ -165,11 +171,11 @@ export default async function AstrologMusunuzPage() {
             );
           })}
         </div>
-        <p className="mt-6 text-center text-sm text-parchment/55">
-          Daha büyük ihtiyaçlar ya da ofis kullanımı için{" "}
+        <p className="mt-6 text-center text-sm text-parchment/60">
+          Daha fazla jeton talebiniz varsa lütfen belirtin; ihtiyacınıza göre size özel düzenleme yapalım.{" "}
           {genelWa ? <a href={genelWa} target="_blank" rel="noopener" className="text-gold-bright hover:underline">WhatsApp</a> : null}
           {genelWa && eposta ? " ya da " : ""}
-          {eposta ? <a href={`mailto:${eposta}`} className="text-gold-bright hover:underline">{eposta}</a> : null} üzerinden yaz.
+          {eposta ? <a href={`mailto:${eposta}`} className="text-gold-bright hover:underline">{eposta}</a> : null}
         </p>
       </section>
 

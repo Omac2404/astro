@@ -52,17 +52,20 @@ function danisanOku(o: Record<string, unknown>): { error?: string; d?: ProDanisa
   if (saatKesin !== "bilinmiyor" && !/^\d{2}:\d{2}$/.test(saat)) return { error: "Doğum saatini gir ya da “Saat bilinmiyor” seç." };
   if (!yer) return { error: "Doğum yeri gerekli." };
   const olaylar: ProOlay[] = (Array.isArray(o.olaylar) ? o.olaylar : [])
-    .map((x) => ({ tarih: s((x as ProOlay)?.tarih, 10), aciklama: s((x as ProOlay)?.aciklama, 200) }))
+    .map((x) => ({ tarih: s((x as ProOlay)?.tarih, 10), aciklama: s((x as ProOlay)?.aciklama, 100) }))
     .filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x.tarih) && x.aciklama)
     .slice(0, 12);
+  // Sorular: dizi (en çok 5 × 150 karakter); eski istemciden metin gelirse satırlara bölünür
+  const soruListe = (Array.isArray(o.sorular) ? o.sorular : String(o.sorular ?? "").split("\n"))
+    .map((x) => s(x, 150)).filter(Boolean).slice(0, 5);
   return {
     d: {
       ad, tarih, saat: saatKesin === "bilinmiyor" ? "" : saat, yer, saatKesin,
       cinsiyet: s(o.cinsiyet, 20) || undefined,
       meslek: s(o.meslek, 80) || undefined,
       iliski: s(o.iliski, 60) || undefined,
-      sorular: s(o.sorular, 2000) || undefined,
-      astrologNot: s(o.astrologNot, 2000) || undefined,
+      sorular: soruListe.length ? soruListe.join("\n") : undefined,
+      astrologNot: s(o.astrologNot, 500) || undefined,
       olaylar: olaylar.length ? olaylar : undefined,
     },
   };

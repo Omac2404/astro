@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getGenelAyar } from "@/lib/db";
+import { getGenelAyar, getProAyar } from "@/lib/db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,5 +13,7 @@ export async function GET() {
     iletisimEtiket: a.iletisimSayfa.mod === "reklam" ? "Reklam ve İşbirliği" : "İletişim",
     // Mobil menüdeki IG takip butonu için (Genel Ayarlar → Instagram Tanıtımı linki)
     igLink: a.hero.igLink || a.iletisim.instagram || "https://instagram.com",
+    // "Astrolog musunuz?" header linki (Admin → Astrolog Pro → sayfayı sitede göster)
+    proSayfa: getProAyar().sayfaAcik,
   });
 }

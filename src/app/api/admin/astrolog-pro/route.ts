@@ -73,13 +73,14 @@ export async function POST(req: Request) {
     if (a.saklamaGun !== undefined) patch.saklamaGun = Math.max(30, Math.min(1095, Math.trunc(Number(a.saklamaGun)) || 365));
     if (Array.isArray(a.paketler)) {
       patch.paketler = a.paketler
-        .map((p) => ({ jeton: Math.trunc(Number(p.jeton)) || 0, fiyat: Math.round(Number(p.fiyat)) || 0, etiket: s(p.etiket, 40) || undefined }))
+        .map((p) => ({ jeton: Math.trunc(Number(p.jeton)) || 0, hediye: Math.max(0, Math.trunc(Number(p.hediye)) || 0) || undefined, fiyat: Math.round(Number(p.fiyat)) || 0, etiket: s(p.etiket, 40) || undefined }))
         .filter((p) => p.jeton > 0)
         .slice(0, 6);
     }
     if (a.whatsapp !== undefined) patch.whatsapp = s(a.whatsapp, 40);
     if (a.eposta !== undefined) patch.eposta = s(a.eposta, 120);
     if (a.ornekPdf !== undefined) patch.ornekPdf = s(a.ornekPdf, 300);
+    if (a.sayfaAcik !== undefined) patch.sayfaAcik = !!a.sayfaAcik;
     return NextResponse.json({ ok: true, ayar: setProAyar(patch) });
   }
   return NextResponse.json({ error: "Geçersiz işlem." }, { status: 400 });

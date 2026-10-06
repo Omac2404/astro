@@ -36,6 +36,27 @@ def inline(s):
     return paren(s)
 
 
+def oneri_html(ic):
+    """'Astrolog Önerisi' etiketli kutu: astroloğun danışana doğrudan söyleyebileceği cümle(ler)."""
+    return f'<div class="oneri"><span class="oneri-lab">Astrolog Önerisi</span><p>{ic}</p></div>'
+
+
+def veri_yorumlari(metin):
+    """'veri' bölümünü '### anahtar' başlıklarına göre ayırır -> {anahtar: kutu html}."""
+    out, cur, buf = {}, None, []
+    for line in (metin or "").split("\n"):
+        m = re.match(r"^#{2,4}\s*([a-zçğıöşü]+)\s*$", line.strip().lower())
+        if m:
+            if cur and " ".join(buf).strip():
+                out[cur] = oneri_html(inline(" ".join(buf).strip().lstrip("> ")))
+            cur, buf = m.group(1), []
+        elif cur is not None and line.strip():
+            buf.append(line.strip())
+    if cur and " ".join(buf).strip():
+        out[cur] = oneri_html(inline(" ".join(buf).strip().lstrip("> ")))
+    return out
+
+
 def md_html(t):
     """Sentez metninin kısıtlı markdown'unu (###, -, >, **) güvenli HTML'e çevirir."""
     out, para, ul = [], [], []
@@ -63,7 +84,7 @@ def md_html(t):
             out.append("<h3>" + inline(re.sub(r"^#{1,2}\s+", "", s)) + "</h3>"); continue
         if s.startswith(">"):
             flush_p(); flush_ul()
-            out.append('<blockquote class="vurucu">' + inline(s.lstrip("> ").strip()) + "</blockquote>"); continue
+            out.append(oneri_html(inline(s.lstrip("> ").strip()))); continue
         m = re.match(r"^(?:[-*•]|\d+[.)])\s+(.*)$", s)
         if m:
             flush_p(); ul.append(m.group(1)); continue
@@ -190,7 +211,8 @@ def main():
         pass
     ch = json.load(open(os.path.join(IO, "chart-pro.json"), encoding="utf-8"))
     rp = json.load(open(os.path.join(IO, "rapor-pro.json"), encoding="utf-8"))
-    sec = {s["key"]: {"baslik": s["baslik"], "html": md_html(s["metin"])} for s in rp["sections"]}
+    sec = {s["key"]: {"baslik": s["baslik"], "html": md_html(s["metin"])} for s in rp["sections"] if s["key"] != "veri"}
+    vy = veri_yorumlari(next((s["metin"] for s in rp["sections"] if s["key"] == "veri"), ""))
 
     pos, evler, grid, acilar = build_tables(ch)
     D = ch["denge"]
@@ -224,6 +246,7 @@ def main():
         "esc": esc, "sign_cell": sign_cell, "SIGNS": SIGNS, "asp_svg": G.asp_svg,
         "rapor_id": os.environ.get("PRO_RAPOR_ID", ""), "hazirlayan": os.environ.get("PRO_HAZIRLAYAN", ""),
         "model": rp.get("model", ""),
+        "vy": vy,
     }
     env = Environment(loader=FileSystemLoader(HERE), autoescape=False)
     out_html = os.path.join(IO, "pro-rapor.out.html")

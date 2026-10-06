@@ -112,7 +112,21 @@
   /* Yorum bölümleri art arda akar (sayfa boşluğu yok); yalnız ana kısımlar yeni sayfada başlar */
   .ai-cont{ margin-top:11mm; padding-top:6mm; border-top:1px solid var(--line); }
   .ai-cont .chap-eyebrow, .ai-cont h1.ch{ break-after:avoid; }
+  /* Yetim başlık önleme: başlığın altında ~55mm yer yoksa başlık da sonraki sayfaya geçer
+     (görünmez yer tutucu; Chrome break-after:avoid'u her zaman uygulamıyor) */
+  .ai-cont .chap-eyebrow{ break-inside:avoid; }
+  .ai-cont .chap-eyebrow::after{ content:""; display:block; height:55mm; margin-bottom:-55mm; }
+  h3::after, h2.sub::after{ content:""; display:block; height:22mm; margin-bottom:-22mm; }
+  h3, h2.sub{ break-inside:avoid; }
   .legal{ font-size:8.6pt; color:var(--muted); line-height:1.55; }
+  /* Astrolog Önerisi: seansta danışana doğrudan söylenebilecek cümleler */
+  .oneri{ margin:3.5mm 0 4.5mm; padding:2.8mm 5mm 3.2mm; background:#f5f0fb; border:1px solid #ddd0ee; border-left:3px solid #6b4f9e; border-radius:0 5px 5px 0; break-inside:avoid; }
+  .oneri-lab{ display:block; font-size:7.4pt; letter-spacing:.2em; text-transform:uppercase; color:#6b4f9e; font-weight:600; margin-bottom:1.2mm; }
+  .oneri-lab::before{ content:"✦ "; color:var(--gold); }
+  .oneri p{ margin:0; font-family:"Cormorant Garamond", serif; font-style:italic; font-size:13.2pt; line-height:1.36; color:#3a2f5e; text-align:left; }
+  .oneri .paren{ font-size:.8em; }
+  .toc .t2{ padding-left:7mm; color:#5b5577; font-size:9.4pt; }
+  .wheel svg{ width:148mm; height:148mm; }
 </style>
 </head>
 <body>
@@ -136,11 +150,12 @@
 </section>
 
 <!-- ============ GİRİŞ ============ -->
+{% set YORUM = ['cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}
 <section>
   <div class="chap-eyebrow">Giriş</div>
   <h1 class="ch">Rapor Hakkında</h1>
   <div class="ch-rule"></div>
-  <p>Bu dosya, {{ esc(m.ad) }} için hesaplanmış doğum haritasının profesyonel kullanıma yönelik kapsamlı bir dökümüdür. İlk bölümde haritanın tüm teknik verisi (konumlar, evler, açılar, yapı ve dengeler), ikinci bölümde derinlemesine yorum, üçüncü bölümde önümüzdeki on iki ayın zamanlaması yer alır. Son bölüm, seansınızı kurmanız için hazırlanmış pratik bir rehberdir. Yorumlarda teknik dayanak parantez içinde verilmiştir; böylece her çıkarımın haritanın hangi noktasından geldiğini görebilirsiniz.</p>
+  <p>Bu dosya, {{ esc(m.ad) }} için hesaplanmış doğum haritasının astroloğa özel hazırlanmış kapsamlı bir çalışma dökümüdür. Önce seansınızı kurmanız için hazırlanan rehber, haritanın özeti ve danışanın sorularına cevaplar gelir; ardından haritanın tüm teknik verisi, derinlemesine yorum ve önümüzdeki on iki ayın zamanlaması yer alır. Yorumlarda teknik dayanak parantez içinde verilmiştir. <b>Astrolog Önerisi</b> etiketli kutular, seansta danışanınıza doğrudan söyleyebileceğiniz hazır cümlelerdir.</p>
 
   <div class="box">
     <dl class="kv">
@@ -159,25 +174,38 @@
   {% elif m.zaman_guven == 'orta' %}
   <div class="warn"><b>Doğum saati yaklaşık.</b> Burç sınırına yakın Yükselen ve MC ile ev yerleşimleri birkaç dakikalık farkla değişebilir; bu noktalar dikkatle değerlendirilmelidir.</div>
   {% endif %}
-  {% if dn.sorular %}<h2 class="sub">Danışanın Odak Soruları</h2><p>{{ esc(dn.sorular)|replace('\n', '<br>') }}</p>{% endif %}
+  {% if dn.sorular %}<h2 class="sub">Danışanın Odak Soruları</h2><ul>{% for q in dn.sorular.split('\n') if q.strip() %}<li>{{ esc(q) }}</li>{% endfor %}</ul>{% endif %}
   {% if dn.not %}<h2 class="sub">Astroloğun Notu</h2><p>{{ esc(dn.not)|replace('\n', '<br>') }}</p>{% endif %}
 
   <h2 class="sub">İçindekiler</h2>
   <div class="toc">
-    <div><b>1</b>Harita Verisi: çark, konumlar, evler, açılar</div>
-    <div><b>1.5</b>Yapı ve Dengeler</div>
-    {% set n = namespace(i=2) %}
-    {% for k in ['ozet','cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}{% if sec[k] %}<div><b>{{ n.i }}</b>{{ esc(sec[k].baslik) }}</div>{% set n.i = n.i + 1 %}{% endif %}{% endfor %}
-    <div><b>{{ n.i }}</b>Zamanlama: transitler, progresyonlar, yıl haritası</div>{% set n.i = n.i + 1 %}
-    {% if sec['olaylar'] %}<div><b>{{ n.i }}</b>Yaşam Olayları</div>{% set n.i = n.i + 1 %}{% endif %}
-    {% if sec['sorular'] %}<div><b>{{ n.i }}</b>Danışanın Soruları</div>{% set n.i = n.i + 1 %}{% endif %}
-    <div><b>{{ n.i }}</b>Astrolog İçin Seans Rehberi</div>
+    <div><b>1</b>Seans Hazırlığı</div>
+    {% if sec['seans'] %}<div class="t2">Astrolog İçin Seans Rehberi</div>{% endif %}
+    {% if sec['ozet'] %}<div class="t2">Yönetici Özeti</div>{% endif %}
+    {% if sec['sorular'] %}<div class="t2">Danışanın Soruları</div>{% endif %}
+    <div><b>2</b>Harita Verisi</div>
+    <div class="t2">Çark, konumlar, evler, açılar, yapı ve dengeler</div>
+    <div><b>3</b>Derin Yorum</div>
+    {% for k in YORUM %}{% if sec[k] %}<div class="t2">{{ esc(sec[k].baslik) }}</div>{% endif %}{% endfor %}
+    <div><b>4</b>Zamanlama: transitler, progresyonlar, yıl haritası</div>
+    {% if sec['olaylar'] %}<div><b>5</b>Yaşam Olayları</div>{% endif %}
   </div>
 </section>
 
-<!-- ============ 1 · HARİTA VERİSİ ============ -->
+<!-- ============ 1 · SEANS HAZIRLIĞI ============ -->
+{% set ilk = namespace(v=True) %}
+{% for k in ['seans','ozet','sorular'] %}{% if sec[k] %}
+<section class="{{ 'chapter' if ilk.v else 'ai-cont' }} ai">
+  <div class="chap-eyebrow">Kısım 1 · Seans Hazırlığı</div>
+  <h1 class="ch">{{ esc(sec[k].baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ sec[k].html }}
+</section>{% set ilk.v = False %}
+{% endif %}{% endfor %}
+
+<!-- ============ 2 · HARİTA VERİSİ ============ -->
 <section class="chapter">
-  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Natal Çark</h1>
   <div class="ch-rule"></div>
   <div class="figure wheel">{{ wheel }}
@@ -193,21 +221,24 @@
     <div><b>Harita yöneticisi:</b> {{ esc(ch.harita_yoneticisi.ad) }} ({{ esc(ch.harita_yoneticisi.sign) }}, {{ ch.harita_yoneticisi.house }}. ev, {{ esc(ch.harita_yoneticisi.dignity) }}){% if ch.harita_yoneticisi.modern %} · modern: {{ esc(ch.harita_yoneticisi.modern) }}{% endif %}</div>
     <div><b>MC:</b> {{ esc(ch.mc.sign) }} {{ esc(ch.mc.deg) }} ({{ ch.mc.house }}. ev) · yöneticisi {{ esc(ch.mc.yonetici) }} → {{ ch.mc.yonetici_ev }}. ev</div>
   </div>
+  {{ vy.get('cark', '') }}
 </section>
 
 <section class="chapter">
-  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Konumlar ve Evler</h1>
   <div class="ch-rule"></div>
   <h2 class="sub" style="margin-top:0">Gezegenler ve Noktalar</h2>
   {{ pos_table }}
   <p class="note">Öz-onur: yönetim, yücelim (güçlü) · zarar, düşüş (zorlanan) · nötr. Hız günlük boylam değişimidir; eksi değer geri harekettir. Düğümler ve Lilith ortalama (mean) değerlerdir.</p>
+  {{ vy.get('konumlar', '') }}
   <h2 class="sub">Ev Tablosu</h2>
   {{ house_table }}
+  {{ vy.get('evler', '') }}
 </section>
 
 <section class="chapter">
-  <div class="chap-eyebrow">Bölüm 1 · Harita Verisi</div>
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Açılar</h1>
   <div class="ch-rule"></div>
   <div class="two">
@@ -223,13 +254,14 @@
       <p><b>{{ esc(ch.ay_fazi.ad) }}</b> (Güneş–Ay açısı {{ ch.ay_fazi.aci }}°). {{ esc(ch.ay_fazi.anlam) }}</p>
     </div>
   </div>
+  {{ vy.get('acilar', '') }}
   <h2 class="sub">Tüm Açılar</h2>
   {{ asp_table }}
   <p class="note">Orb sınırları: kavuşum/karşıt 8°, üçgen/kare 7°, altmışlık 5° (Güneş ve Ay için +2°), minör açılar 2-3°. Köşe ve noktalarla majör açılarda en çok 5°.</p>
 </section>
 
 <section class="chapter yapi">
-  <div class="chap-eyebrow">Bölüm 1.5</div>
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Yapı ve Dengeler</h1>
   <div class="ch-rule"></div>
   <div class="two">
@@ -245,32 +277,37 @@
       <p class="note">Ufkun üstü {{ ch.denge.ust_yari }} · altı {{ ch.denge.alt_yari }} · doğu (benlik) {{ ch.denge.dogu }} · batı (ilişki) {{ ch.denge.bati }}</p>
     </div>
   </div>
+  {{ vy.get('denge', '') }}
+  {{ vy.get('yarikure', '') }}
   <h2 class="sub">Gezegen Güç Dengesi</h2>
   {{ guc }}
   <p class="note">Basitleştirilmiş skor: öz-onur (+5 … −5), açısal ev (+3), ardıl ev (+1), köşeye 5° içinde kavuşum (+2), retro (−1), majör açı yoğunluğu (en çok +3).</p>
+  {{ vy.get('guc', '') }}
   <h2 class="sub">Dispozitör Zinciri</h2>
   <div class="chains">{% for k, v in ch.dispozitor.zincir.items() %}<div class="chain">{{ esc(v) }}</div>{% endfor %}</div>
   <p class="note">Kendi burcundaki gezegen(ler): {{ esc(ch.dispozitor.kendi_burcunda|join(', ')) or 'yok' }} · Son dispozitör: {{ esc(ch.dispozitor.son) if ch.dispozitor.son else 'tek bir son dispozitör yok' }}{% if ch.dispozitor.karsilikli_agirlama %} · Karşılıklı ağırlama: {{ esc(ch.dispozitor.karsilikli_agirlama|join('; ')) }}{% endif %}</p>
+  {{ vy.get('dispozitor', '') }}
 </section>
 
-<!-- ============ 2 · YORUM ============ -->
-{% set n = namespace(i=2) %}
-{% for k in ['ozet','cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}{% if sec[k] %}
-<section class="{{ 'chapter' if n.i == 2 else 'ai-cont' }} ai">
-  <div class="chap-eyebrow">Bölüm {{ n.i }} · Yorum</div>
+<!-- ============ 3 · DERİN YORUM ============ -->
+{% set ilk = namespace(v=True) %}
+{% for k in YORUM %}{% if sec[k] %}
+<section class="{{ 'chapter' if ilk.v else 'ai-cont' }} ai">
+  <div class="chap-eyebrow">Kısım 3 · Derin Yorum</div>
   <h1 class="ch">{{ esc(sec[k].baslik) }}</h1>
   <div class="ch-rule"></div>
   {{ sec[k].html }}
-</section>{% set n.i = n.i + 1 %}
+</section>{% set ilk.v = False %}
 {% endif %}{% endfor %}
 
-<!-- ============ ZAMANLAMA ============ -->
+<!-- ============ 4 · ZAMANLAMA ============ -->
 <section class="chapter">
-  <div class="chap-eyebrow">Bölüm {{ n.i }} · Zamanlama</div>
+  <div class="chap-eyebrow">Kısım 4 · Zamanlama</div>
   <h1 class="ch">Önümüzdeki 12 Ay: Veri</h1>
   <div class="ch-rule"></div>
   <p class="note">{{ esc(tr.baslangic) }} – {{ esc(tr.bitis) }} · yavaş gezegenlerin (Jüpiter, Satürn, Uranüs, Neptün, Plüton) ve Kuzey Düğüm'ün natal kişisel gezegenlere, Yükselen'e ve MC'ye majör açıları. Çubuk: etki penceresi, elmas: tam isabet. Mavi uyumlu, kızıl gergin, altın kavuşum.</p>
   {% if timeline %}<div class="figure tl">{{ timeline }}</div>{% else %}<p class="muted">Bu dönemde belirgin yavaş gezegen transiti yok.</p>{% endif %}
+  {{ vy.get('transit', '') }}
   <h2 class="sub">Şu Anki Gökyüzü (natal evlere göre)</h2>
   <p>{% for k, v in tr.simdi.items() %}<b>{{ esc(k) }}</b> {{ esc(v.burc) }} {{ esc(v.deg) }} ({{ v.ev }}. ev){% if not loop.last %} · {% endif %}{% endfor %}</p>
   {% if tr.ingresler %}<p><b>Burç geçişleri:</b> {% for g in tr.ingresler %}{{ esc(g.gezegen) }} → {{ esc(g.burc) }} ({{ esc(g.tarih) }}, {{ g.ev }}. ev){% if not loop.last %}; {% endif %}{% endfor %}</p>{% endif %}
@@ -295,15 +332,16 @@
 </section>
 {% if sec['zaman'] %}
 <section class="ai-cont ai">
-  <div class="chap-eyebrow">Bölüm {{ n.i }} · Zamanlama</div>
+  <div class="chap-eyebrow">Kısım 4 · Zamanlama</div>
   <h1 class="ch">{{ esc(sec['zaman'].baslik) }}</h1>
   <div class="ch-rule"></div>
   {{ sec['zaman'].html }}
-</section>{% endif %}{% set n.i = n.i + 1 %}
+</section>{% endif %}
 
+<!-- ============ 5 · YAŞAM OLAYLARI ============ -->
 {% if sec['olaylar'] %}
 <section class="chapter ai">
-  <div class="chap-eyebrow">Bölüm {{ n.i }}</div>
+  <div class="chap-eyebrow">Kısım 5</div>
   <h1 class="ch">{{ esc(sec['olaylar'].baslik) }}</h1>
   <div class="ch-rule"></div>
   <table class="tbl compact"><thead><tr><th>Tarih</th><th>Olay</th><th>Yaş</th><th>Öne çıkan tetikleyiciler</th></tr></thead><tbody>
@@ -311,24 +349,6 @@
     <td class="small">{% if o.tetikleyiciler %}{% for h in o.tetikleyiciler[:4] %}{{ esc(h.transit) }} {{ esc(h.ad) }} {{ esc(h.natal) }} ({{ h.orb }}°){% if not loop.last %}; {% endif %}{% endfor %}{% else %}belirgin yavaş transit yok{% endif %}{% if o.progresif_ay_acilari %}; {{ esc(o.progresif_ay_acilari|join('; ')) }}{% endif %}</td></tr>{% endfor %}
   </tbody></table>
   {{ sec['olaylar'].html }}
-</section>{% set n.i = n.i + 1 %}
-{% endif %}
-
-{% if sec['sorular'] %}
-<section class="{{ 'ai-cont' if sec['olaylar'] else 'chapter' }} ai">
-  <div class="chap-eyebrow">Bölüm {{ n.i }}</div>
-  <h1 class="ch">{{ esc(sec['sorular'].baslik) }}</h1>
-  <div class="ch-rule"></div>
-  {{ sec['sorular'].html }}
-</section>{% set n.i = n.i + 1 %}
-{% endif %}
-
-{% if sec['seans'] %}
-<section class="chapter ai">
-  <div class="chap-eyebrow">Bölüm {{ n.i }} · Pratik</div>
-  <h1 class="ch">{{ esc(sec['seans'].baslik) }}</h1>
-  <div class="ch-rule"></div>
-  {{ sec['seans'].html }}
 </section>
 {% endif %}
 

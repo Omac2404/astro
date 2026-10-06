@@ -11,8 +11,8 @@ type Rapor = {
   maliyet?: { usd: number; girdi: number; cikti: number; dusunme?: number; model: string; sure?: number };
 };
 type Hareket = { id: string; email: string; tip: string; miktar: number; aciklama: string; admin?: string; tarih: string };
-type Paket = { jeton: number; fiyat: number; etiket?: string };
-type Ayar = { model: string; effort: string; eszaman: number; saklamaGun: number; paketler: Paket[]; whatsapp: string; eposta: string; ornekPdf: string };
+type Paket = { jeton: number; hediye?: number; fiyat: number; etiket?: string };
+type Ayar = { model: string; effort: string; eszaman: number; saklamaGun: number; paketler: Paket[]; whatsapp: string; eposta: string; ornekPdf: string; sayfaAcik: boolean };
 
 const inp = "w-full rounded-lg border border-gold/20 bg-night px-3 py-2 text-sm text-parchment outline-none placeholder:text-parchment/30 focus:border-gold/55";
 const lbl = "mb-1 block text-[11px] uppercase tracking-[0.14em] text-parchment/50";
@@ -272,11 +272,12 @@ function AyarPanel({ ayar, kaydedildi }: { ayar: Ayar; kaydedildi: (a: Ayar) => 
           <div><label className={lbl}>Saklama (gün)</label><input type="number" min={30} max={1095} value={a.saklamaGun} onChange={(e) => setA({ ...a, saklamaGun: Number(e.target.value) })} className={inp} /></div>
         </div>
         <div>
-          <label className={lbl}>Jeton paketleri (satış sayfası)</label>
+          <label className={lbl}>Jeton paketleri (satış sayfası) · jeton / hediye / ₺ / etiket</label>
           <div className="space-y-2">
             {a.paketler.map((p, i) => (
-              <div key={i} className="grid grid-cols-[1fr_1fr_1.3fr_auto] gap-2">
+              <div key={i} className="grid grid-cols-[1fr_0.8fr_1.2fr_1.3fr_auto] gap-2">
                 <input type="number" value={p.jeton} onChange={(e) => paket(i, "jeton", e.target.value)} placeholder="jeton" className={inp} />
+                <input type="number" min={0} value={p.hediye ?? 0} onChange={(e) => paket(i, "hediye", e.target.value)} placeholder="+hediye" title="Hediye jeton" className={inp} />
                 <input type="number" value={p.fiyat} onChange={(e) => paket(i, "fiyat", e.target.value)} placeholder="₺" className={inp} />
                 <input value={p.etiket ?? ""} onChange={(e) => paket(i, "etiket", e.target.value)} placeholder="etiket" className={inp} />
                 <button onClick={() => setA((s) => ({ ...s, paketler: s.paketler.filter((_, j) => j !== i) }))} className="px-2 text-parchment/45 hover:text-rose-300">✕</button>
@@ -289,6 +290,13 @@ function AyarPanel({ ayar, kaydedildi }: { ayar: Ayar; kaydedildi: (a: Ayar) => 
           <div><label className={lbl}>WhatsApp</label><input value={a.whatsapp} onChange={(e) => setA({ ...a, whatsapp: e.target.value })} placeholder="boşsa genel numara" className={inp} /></div>
           <div><label className={lbl}>E-posta</label><input value={a.eposta} onChange={(e) => setA({ ...a, eposta: e.target.value })} placeholder="boşsa iletişim e-postası" className={inp} /></div>
         </div>
+        <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-gold/20 bg-night px-3 py-2.5">
+          <span>
+            <span className="block text-sm text-parchment/85">&quot;Astrolog musunuz?&quot; sayfasını sitede göster</span>
+            <span className="block text-[11px] text-parchment/45">Açık: header + footer linki, herkese açık, sitemap. Kapalı: yalnız admin ve astrologlar görür.</span>
+          </span>
+          <input type="checkbox" checked={!!a.sayfaAcik} onChange={(e) => setA({ ...a, sayfaAcik: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
+        </label>
         <div><label className={lbl}>Örnek Pro rapor PDF yolu</label><input value={a.ornekPdf} onChange={(e) => setA({ ...a, ornekPdf: e.target.value })} placeholder="/ornekler/natal-pro.pdf" className={inp} /></div>
         {msg && <p className="text-sm text-parchment/75">{msg}</p>}
         <button onClick={kaydet} className="w-full rounded-full bg-gold py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Kaydet</button>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getGenelAyar, iletisimEtiket } from "@/lib/db";
+import { getGenelAyar, getProAyar, iletisimEtiket } from "@/lib/db";
 import { InstagramRenkli } from "@/components/instagram-renkli";
 
 // Header ile aynı sıra (hesabım/giriş yok). İletişim etiketi moda göre render sırasında belirlenir.
@@ -61,7 +61,7 @@ export function SiteFooter() {
 
         {/* Linkler — header sırası, tek blok ortalı */}
         <nav className="mt-8 flex max-w-2xl flex-wrap items-center justify-center gap-x-7 gap-y-3.5 text-sm text-parchment/70">
-          {LINKS.map((l) => (
+          {(getProAyar().sayfaAcik ? [...LINKS.slice(0, -1), { href: "/astrolog-musunuz", label: "Astrolog musunuz?" }, ...LINKS.slice(-1)] : LINKS).map((l) => (
             <Link key={l.href} href={l.href} className="transition-colors hover:text-gold-bright">
               {l.href === "/iletisim" ? iletisimEtiket() : l.label}
             </Link>
