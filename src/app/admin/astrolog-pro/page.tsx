@@ -12,7 +12,15 @@ type Rapor = {
 };
 type Hareket = { id: string; email: string; tip: string; miktar: number; aciklama: string; admin?: string; tarih: string };
 type Paket = { jeton: number; hediye?: number; fiyat: number; etiket?: string };
-type Ayar = { model: string; effort: string; eszaman: number; saklamaGun: number; paketler: Paket[]; whatsapp: string; eposta: string; ornekPdf: string; sayfaAcik: boolean };
+type Ayar = { model: string; effort: string; eszaman: number; saklamaGun: number; paketler: Paket[]; whatsapp: string; eposta: string; ornekPdf: string; sayfaAcik: boolean; sinir: Sinir };
+type Sinir = { soruAdet: number; soruKarakter: number; notKarakter: number; olayAdet: number; olayKarakter: number };
+const SINIR_ALAN: { k: keyof Sinir; ad: string; ipucu: string }[] = [
+  { k: "soruAdet", ad: "Soru sayısı", ipucu: "0-10 · 0 = alan gizli" },
+  { k: "soruKarakter", ad: "Soru karakteri", ipucu: "50-400" },
+  { k: "notKarakter", ad: "Astrolog notu karakteri", ipucu: "0-2000 · 0 = alan gizli" },
+  { k: "olayAdet", ad: "Yaşam olayı sayısı", ipucu: "0-20 · 0 = alan gizli" },
+  { k: "olayKarakter", ad: "Olay açıklaması karakteri", ipucu: "30-300" },
+];
 
 const inp = "w-full rounded-lg border border-gold/20 bg-night px-3 py-2 text-sm text-parchment outline-none placeholder:text-parchment/30 focus:border-gold/55";
 const lbl = "mb-1 block text-[11px] uppercase tracking-[0.14em] text-parchment/50";
@@ -297,6 +305,18 @@ function AyarPanel({ ayar, kaydedildi }: { ayar: Ayar; kaydedildi: (a: Ayar) => 
           </span>
           <input type="checkbox" checked={!!a.sayfaAcik} onChange={(e) => setA({ ...a, sayfaAcik: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
         </label>
+        <div>
+          <label className={lbl}>Astrolog formu sınırları</label>
+          <div className="grid grid-cols-2 gap-2">
+            {SINIR_ALAN.map((f) => (
+              <div key={f.k}>
+                <span className="mb-0.5 block text-[11px] text-parchment/60">{f.ad} <span className="text-parchment/35">({f.ipucu})</span></span>
+                <input type="number" value={a.sinir?.[f.k] ?? 0} onChange={(e) => setA({ ...a, sinir: { ...a.sinir, [f.k]: Number(e.target.value) } })} className={inp} />
+              </div>
+            ))}
+          </div>
+          <p className="mt-1 text-[11px] text-parchment/40">Uzun girdiler sentezi uzatır; sunucu da bu sınırları uygular.</p>
+        </div>
         <div><label className={lbl}>Örnek Pro rapor PDF yolu</label><input value={a.ornekPdf} onChange={(e) => setA({ ...a, ornekPdf: e.target.value })} placeholder="/ornekler/natal-pro.pdf" className={inp} /></div>
         {msg && <p className="text-sm text-parchment/75">{msg}</p>}
         <button onClick={kaydet} className="w-full rounded-full bg-gold py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Kaydet</button>

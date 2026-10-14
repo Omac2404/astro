@@ -1278,6 +1278,13 @@ export type ProAyar = {
   eposta: string;       // satış iletişimi (boşsa iletişim e-postası)
   ornekPdf: string;     // örnek Pro rapor yolu (ör. /ornekler/natal-pro.pdf); boşsa buton gizli
   sayfaAcik: boolean;   // "Astrolog musunuz?" sayfası sitede açık mı (header/footer linki + herkese erişim + sitemap)
+  sinir: ProFormSinir;  // astrolog formundaki alan sınırları (admin'den ayarlanır)
+};
+export type ProFormSinir = { soruAdet: number; soruKarakter: number; notKarakter: number; olayAdet: number; olayKarakter: number };
+export const PRO_SINIR_DEFAULT: ProFormSinir = { soruAdet: 5, soruKarakter: 150, notKarakter: 500, olayAdet: 12, olayKarakter: 100 };
+// Admin'in girebileceği üst/alt sınırlar (çok uzun girdi sentez maliyetini ve kalitesini bozar)
+export const PRO_SINIR_ARALIK: Record<keyof ProFormSinir, [number, number]> = {
+  soruAdet: [0, 10], soruKarakter: [50, 400], notKarakter: [0, 2000], olayAdet: [0, 20], olayKarakter: [30, 300],
 };
 const PRO_AYAR_DEFAULT: ProAyar = {
   model: "claude-opus-5-5", effort: "medium", eszaman: 2, saklamaGun: 365,
@@ -1286,11 +1293,12 @@ const PRO_AYAR_DEFAULT: ProAyar = {
     { jeton: 10, hediye: 1, fiyat: 5000, etiket: "Profesyonel" },
     { jeton: 20, hediye: 3, fiyat: 10000, etiket: "Ofis" },
   ],
-  whatsapp: "", eposta: "", ornekPdf: "", sayfaAcik: false,
+  whatsapp: "", eposta: "", ornekPdf: "", sayfaAcik: false, sinir: PRO_SINIR_DEFAULT,
 };
 export function getProAyar(): ProAyar {
   const s = read<Partial<ProAyar>>("pro-ayar.json", {});
-  return { ...PRO_AYAR_DEFAULT, ...s, paketler: Array.isArray(s.paketler) ? s.paketler : PRO_AYAR_DEFAULT.paketler };
+  return { ...PRO_AYAR_DEFAULT, ...s, paketler: Array.isArray(s.paketler) ? s.paketler : PRO_AYAR_DEFAULT.paketler,
+    sinir: { ...PRO_SINIR_DEFAULT, ...(s.sinir ?? {}) } };
 }
 export function setProAyar(patch: Partial<ProAyar>): ProAyar {
   const next = { ...getProAyar(), ...patch };

@@ -34,6 +34,7 @@ export async function GET() {
     urunler: PRO_URUNLER,
     profil: m?.astrolog ?? null,
     saklamaGun: getProAyar().saklamaGun,
+    sinir: getProAyar().sinir,
   });
 }
 
@@ -43,6 +44,7 @@ type SaatKesin = ProDanisan["saatKesin"];
 const kesinlik = (v: unknown): SaatKesin => (["kesin", "yaklasik", "bilinmiyor"].includes(String(v)) ? v : "kesin") as SaatKesin;
 
 function danisanOku(o: Record<string, unknown>, slug = "natal"): { error?: string; d?: ProDanisan } {
+  const SN = getProAyar().sinir; // admin'den ayarlanan alan sınırları
   const ad = s(o.ad, 40);
   const tarih = s(o.tarih, 10);
   const saat = s(o.saat, 5);
@@ -55,9 +57,9 @@ function danisanOku(o: Record<string, unknown>, slug = "natal"): { error?: strin
   if (saatKesin !== "bilinmiyor" && !/^\d{2}:\d{2}$/.test(saat)) return { error: "Doğum saatini gir ya da “Saat bilinmiyor” seç." };
   if (!yer) return { error: "Doğum yeri gerekli." };
   const olaylar: ProOlay[] = (Array.isArray(o.olaylar) ? o.olaylar : [])
-    .map((x) => ({ tarih: s((x as ProOlay)?.tarih, 10), aciklama: s((x as ProOlay)?.aciklama, 100) }))
+    .map((x) => ({ tarih: s((x as ProOlay)?.tarih, 10), aciklama: s((x as ProOlay)?.aciklama, SN.olayKarakter) }))
     .filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x.tarih) && x.aciklama)
-    .slice(0, 12);
+    .slice(0, SN.olayAdet);
   // Solar Return: yıl seçimi + isteğe bağlı yer
   const srEk: Partial<ProDanisan> = {};
   if (slug === "solar") {
@@ -81,7 +83,7 @@ function danisanOku(o: Record<string, unknown>, slug = "natal"): { error?: strin
   }
   // Sorular: dizi (en çok 5 × 150 karakter); eski istemciden metin gelirse satırlara bölünür
   const soruListe = (Array.isArray(o.sorular) ? o.sorular : String(o.sorular ?? "").split("\n"))
-    .map((x) => s(x, 150)).filter(Boolean).slice(0, 5);
+    .map((x) => s(x, SN.soruKarakter)).filter(Boolean).slice(0, SN.soruAdet);
   return {
     d: {
       ad, tarih, saat: saatKesin === "bilinmiyor" ? "" : saat, yer, saatKesin,
@@ -89,7 +91,7 @@ function danisanOku(o: Record<string, unknown>, slug = "natal"): { error?: strin
       meslek: s(o.meslek, 80) || undefined,
       iliski: s(o.iliski, 60) || undefined,
       sorular: soruListe.length ? soruListe.join("\n") : undefined,
-      astrologNot: s(o.astrologNot, 500) || undefined,
+      astrologNot: s(o.astrologNot, SN.notKarakter) || undefined,
       olaylar: olaylar.length ? olaylar : undefined,
       ...srEk,
     },

@@ -25,6 +25,24 @@ function SunIcon({ className = "" }: { className?: string }) {
   );
 }
 
+// "Astrologlar için" — header'da dikkat çeken altın buton (masaüstü: nav sonunda; mobil: menü altında tam genişlik)
+function AstrologButon({ aktif, tam }: { aktif: boolean; tam?: boolean }) {
+  return (
+    <Link
+      href="/astrolog-musunuz"
+      className={`astro-btn group relative inline-flex items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full border px-4 py-1.5 text-[14px] font-medium transition-all ${
+        tam ? "w-full py-2.5" : ""
+      } ${aktif ? "border-gold-bright bg-gold text-night-deep" : "border-gold/60 bg-gradient-to-r from-gold/25 via-gold/10 to-[#a98fd6]/25 text-gold-bright hover:border-gold-bright hover:shadow-[0_0_22px_-4px_rgba(220,193,136,0.7)]"}`}
+    >
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden className="shrink-0">
+        <path d="M12 2.5l1.7 6.1 6.3.4-5 3.9 1.9 6.1L12 15.4 7.1 19l1.9-6.1-5-3.9 6.3-.4z" />
+      </svg>
+      Astrologlar için
+      <span className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 transition-all duration-700 group-hover:left-full group-hover:opacity-100" />
+    </Link>
+  );
+}
+
 function CartIcon() {
   const { count, bump } = useCart();
   const [pulse, setPulse] = useState(false);
@@ -67,11 +85,8 @@ export function SiteHeader() {
 
   // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...);
   // iletişim sekmesinin etiketi moda göre değişir.
-  const NAV_ETIKETLI0 = NAV.map((n) => (n.href === "/iletisim" ? { ...n, label: iletisimEtiket } : n));
-  // "Astrolog musunuz?" admin anahtarı açıkken İletişim'in hemen önüne eklenir
-  const NAV_ETIKETLI = proSayfa
-    ? [...NAV_ETIKETLI0.slice(0, -1), { href: "/astrolog-musunuz", label: "Astrolog musunuz?" }, ...NAV_ETIKETLI0.slice(-1)]
-    : NAV_ETIKETLI0;
+  const NAV_ETIKETLI = NAV.map((n) => (n.href === "/iletisim" ? { ...n, label: iletisimEtiket } : n));
+  // "Astrologlar için" butonu: admin anahtarı (Astrolog Pro → sayfayı sitede göster) açıkken İletişim'den sonra ayrı buton
   const nav = astrologAcik
     ? [...NAV_ETIKETLI.slice(0, 2), { href: "/astrologlar", label: "Astrologlar" }, ...NAV_ETIKETLI.slice(2)]
     : NAV_ETIKETLI;
@@ -112,6 +127,7 @@ export function SiteHeader() {
                 {n.label}
               </Link>
             ))}
+            {proSayfa && <AstrologButon aktif={isActive("/astrolog-musunuz")} />}
           </nav>
 
           {/* Sağ aksiyonlar. Mobil sıra: giriş · sepet · menü. Masaüstü: sepet · giriş (order ile yer değişir) */}
@@ -220,6 +236,11 @@ export function SiteHeader() {
                 {n.label}
               </Link>
             ))}
+            {proSayfa && (
+              <div className="mt-4 px-1">
+                <AstrologButon aktif={isActive("/astrolog-musunuz")} tam />
+              </div>
+            )}
           </div>
         </nav>
       </div>

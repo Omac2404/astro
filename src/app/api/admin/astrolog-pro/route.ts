@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import {
   getAstrologHesaplari, jetonBakiye, getJetonHareketleri, getProReports, getProAyar, setProAyar,
   astrologHesapKur, astrologRolKaldir, astrologProfilGuncelle, jetonYukle, deleteProReport, proSilmeTarihi,
-  pruneOldProReports, type ProAyar,
+  pruneOldProReports, PRO_SINIR_ARALIK, type ProAyar,
 } from "@/lib/db";
 import { requireAdmin } from "@/lib/session";
 import { proKurtar } from "@/lib/pipeline-pro";
@@ -81,6 +81,14 @@ export async function POST(req: Request) {
     if (a.eposta !== undefined) patch.eposta = s(a.eposta, 120);
     if (a.ornekPdf !== undefined) patch.ornekPdf = s(a.ornekPdf, 300);
     if (a.sayfaAcik !== undefined) patch.sayfaAcik = !!a.sayfaAcik;
+    if (a.sinir && typeof a.sinir === "object") {
+      const sn = { ...getProAyar().sinir };
+      for (const k of Object.keys(PRO_SINIR_ARALIK) as (keyof typeof PRO_SINIR_ARALIK)[]) {
+        const v = Math.trunc(Number((a.sinir as Record<string, unknown>)[k]));
+        if (Number.isFinite(v)) sn[k] = Math.max(PRO_SINIR_ARALIK[k][0], Math.min(PRO_SINIR_ARALIK[k][1], v));
+      }
+      patch.sinir = sn;
+    }
     return NextResponse.json({ ok: true, ayar: setProAyar(patch) });
   }
   return NextResponse.json({ error: "Geçersiz işlem." }, { status: 400 });

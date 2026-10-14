@@ -22,10 +22,11 @@ type Rapor = {
 };
 type Hareket = { id: string; tip: "yukleme" | "kullanim" | "iade" | "duzeltme"; miktar: number; aciklama: string; tarih: string };
 type Urun = { slug: string; ad: string; jeton: number; aktif: boolean; aciklama: string };
-type Veri = { bakiye: number; hareketler: Hareket[]; raporlar: Rapor[]; urunler: Urun[]; profil: { ad: string; marka?: string } | null; saklamaGun: number };
+type Veri = { sinir?: Sinir; bakiye: number; hareketler: Hareket[]; raporlar: Rapor[]; urunler: Urun[]; profil: { ad: string; marka?: string } | null; saklamaGun: number };
 
-// Form sınırları (sunucu da aynı sınırları uygular: api/pro/raporlar)
-const SORU_MAX = 5, SORU_KARAKTER = 150, OLAY_KARAKTER = 100, NOT_KARAKTER = 500;
+// Form sınırları: admin → Astrolog Pro → Pro ayarları'ndan gelir (sunucu da aynı sınırları uygular)
+type Sinir = { soruAdet: number; soruKarakter: number; notKarakter: number; olayAdet: number; olayKarakter: number };
+const SINIR_VARSAYILAN: Sinir = { soruAdet: 5, soruKarakter: 150, notKarakter: 500, olayAdet: 12, olayKarakter: 100 };
 const inputCls = "w-full rounded-xl border border-gold/20 bg-night-deep px-4 py-2.5 text-parchment placeholder:text-parchment/35 outline-none transition-colors focus:border-gold/55";
 const labelCls = "mb-1.5 block text-xs uppercase tracking-[0.15em] text-parchment/55";
 const tarihTR = (iso?: string) => {
@@ -182,6 +183,7 @@ export function AstrologPanel({ email }: { email: string }) {
               urunler={v.urunler}
               bakiye={v.bakiye}
               onDolu={onDolu}
+              sinir={v.sinir ?? SINIR_VARSAYILAN}
               kapat={() => setForm(false)}
               basarili={() => { setForm(false); yukle(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
             />
@@ -276,7 +278,8 @@ function YerAlanlari({ k, set }: { k: Kisi; set: (p: Partial<Kisi>) => void }) {
   );
 }
 
-function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler: Urun[]; bakiye: number; onDolu: OnDolu | null; kapat: () => void; basarili: () => void }) {
+function YeniRaporFormu({ urunler, bakiye, onDolu, sinir, kapat, basarili }: { urunler: Urun[]; bakiye: number; onDolu: OnDolu | null; sinir: Sinir; kapat: () => void; basarili: () => void }) {
+  const { soruAdet: SORU_MAX, soruKarakter: SORU_KARAKTER, notKarakter: NOT_KARAKTER, olayAdet: OLAY_MAX, olayKarakter: OLAY_KARAKTER } = sinir;
   const [slug, setSlug] = useState(onDolu?._slug ?? "natal");
   // Solar Return
   const [srYil, setSrYil] = useState<"gecerli" | "gelecek">(onDolu?.srYil ?? "gecerli");
@@ -382,7 +385,7 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
               <label className={labelCls}>Meslek / uğraş</label>
               <input value={meslek} maxLength={80} onChange={(e) => setMeslek(e.target.value)} placeholder="örn. Mimar, kendi ofisi var" className={inputCls} />
             </div>
-            <div>
+            {SORU_MAX > 0 && <div>
               <label className={labelCls}>Danışanın odak soruları <span className="normal-case tracking-normal text-parchment/35">(en çok {SORU_MAX}, her biri {SORU_KARAKTER} karakter)</span></label>
               <div className="space-y-2">
                 {sorular.map((q, i) => (
@@ -399,11 +402,11 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
                   <button type="button" onClick={() => setSorular((l) => [...l, ""])} className="text-xs text-gold-bright hover:underline">+ Soru ekle</button>
                 )}
               </div>
-            </div>
-            <div>
+            </div>}
+            {NOT_KARAKTER > 0 && <div>
               <label className={labelCls}>Astroloğun notu <span className="normal-case tracking-normal text-parchment/35">({not.length}/{NOT_KARAKTER})</span></label>
               <textarea value={not} maxLength={NOT_KARAKTER} onChange={(e) => setNot(e.target.value)} rows={3} placeholder="Seansta bilmen gereken bağlam, gözlemlerin…" className={inputCls} />
-            </div>
+            </div>}
           </div>
         </div>
 
@@ -448,10 +451,10 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
           </div>
         )}
 
-        <div>
+        {OLAY_MAX > 0 && <div>
           <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-display text-lg font-semibold text-gold-bright">Önemli yaşam olayları <span className="text-xs font-normal text-parchment/45">(isteğe bağlı, en çok 12)</span></h3>
-            {olaylar.length < 12 && (
+            <h3 className="font-display text-lg font-semibold text-gold-bright">Önemli yaşam olayları <span className="text-xs font-normal text-parchment/45">(isteğe bağlı, en çok {OLAY_MAX}, her biri {OLAY_KARAKTER} karakter)</span></h3>
+            {olaylar.length < OLAY_MAX && (
               <button type="button" onClick={() => setOlaylar((o) => [...o, { tarih: "", aciklama: "" }])} className="rounded-full border border-gold/30 px-3 py-1 text-xs text-parchment/80 hover:text-gold-bright">+ Olay ekle</button>
             )}
           </div>
@@ -460,12 +463,15 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
             {olaylar.map((o, i) => (
               <div key={i} className="grid grid-cols-[150px_1fr_auto] gap-2">
                 <input type="date" value={o.tarih} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, tarih: e.target.value } : x)))} className={inputCls + " date-white"} style={{ colorScheme: "dark" }} />
-                <input value={o.aciklama} maxLength={OLAY_KARAKTER} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, aciklama: e.target.value } : x)))} placeholder="örn. Evlendi" className={inputCls} />
+                <div className="relative">
+                  <input value={o.aciklama} maxLength={OLAY_KARAKTER} onChange={(e) => setOlaylar((l) => l.map((x, j) => (j === i ? { ...x, aciklama: e.target.value } : x)))} placeholder="örn. Evlendi" className={inputCls + " pr-16"} />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-parchment/35">{o.aciklama.length}/{OLAY_KARAKTER}</span>
+                </div>
                 <button type="button" onClick={() => setOlaylar((l) => l.filter((_, j) => j !== i))} className="rounded-lg px-3 text-parchment/45 hover:text-rose-300">✕</button>
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
         {msg && <p className="rounded-lg border border-rose-400/25 bg-rose-500/10 px-3 py-2 text-sm text-rose-200">{msg}</p>}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gold/10 pt-5">
