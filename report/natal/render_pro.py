@@ -199,6 +199,8 @@ URUN_AD = {
     "kariyer": ("Kariyer & Para Pro Rapor", "mesleki kimlik · MC zinciri · para · uygun alanlar · zamanlama · seans rehberi"),
     "saglik": ("Enerji & Mizaç Pro Rapor", "mizaç · canlılık · stres kalıpları · yaşam ritmi · zamanlama · seans rehberi"),
     "lilith": ("Lilith & Karmik Pro Rapor", "ay düğümleri · Lilith · Kiron · karmik sınavlar · zamanlama · seans rehberi"),
+    "solar": ("Solar Return Pro Rapor", "yıl haritası · yılın lordu · ay ay takvim · transitler · seans rehberi"),
+    "sinastri": ("Sinastri Pro Rapor", "çift çark · çapraz açılar · ev bindirmeleri · kompozit harita · seans rehberi"),
 }
 ODAK_BASLIK = {
     "ask": ("İlişki Göstergeleri", "İlişki evleri, yöneticileri ve ilişkiyi belirleyen noktalar"),
@@ -269,6 +271,19 @@ def odak_html(ch):
     return "".join(out)
 
 
+def ek_bilgi(ch, urun):
+    """Giriş kutusuna ürüne özel satırlar."""
+    out = []
+    if urun == "solar" and ch.get("sr_pro"):
+        sp = ch["sr_pro"]
+        out += [("Yıl haritası", f'{sp["yil"]} · SR anı {sp["an"]}'), ("SR yeri", sp["yer"] + (" (yer değiştirmeli)" if sp["relocated"] else " (doğum yeri)"))]
+    if urun == "sinastri" and ch.get("sinastri"):
+        B = ch["kisi_b"]["meta"]
+        out += [("İkinci kişi", f'{B["ad"]} · {B["tarih"]}, {B["saat"]} · {B["yer"]}'),
+                ("İlişki türü", ch["sinastri"]["iliski_ad"])]
+    return out
+
+
 def transit_table(tr):
     rows = []
     for e in tr["olaylar"]:
@@ -278,6 +293,144 @@ def transit_table(tr):
                     f'<td class="{UYUM_CLS.get(e["uyum"], "")}">{esc(e["uyum"])}</td></tr>')
     return ('<table class="tbl compact"><thead><tr><th>Transit</th><th></th><th>Natal</th><th>Etki penceresi (≤1,5°)</th>'
             '<th>Tam isabet</th><th>Nitelik</th></tr></thead><tbody>' + "".join(rows) + "</tbody></table>")
+
+
+
+# ---------------- Solar Return / Sinastri veri sayfaları ----------------
+CAPRAZ_ID = ["gunes", "ay", "merkur", "venus", "mars", "jupiter", "saturn", "uranus", "neptun", "pluton", "asc", "mc", "kuzey"]
+KOSE_ETIKET = {"asc": "AC", "mc": "MC"}
+
+
+def _ad_hucre(x, renk=G.INK):
+    code = x.get("glyph") if x.get("glyph") else PT_CODE.get(x["id"])
+    if x["id"] in KOSE_ETIKET:
+        return f'<span class="pl"><b class="ang">{KOSE_ETIKET[x["id"]]}</b><span>{esc(x["ad"])}</span></span>'
+    return planet_cell(code, x["ad"], renk)
+
+
+def kisa_konum(hc, baslik="", natal_ev=False, renk=G.INK):
+    """Kompakt konum tablosu (gezegenler + AC/MC + Kuzey Düğüm)."""
+    rows = []
+    noktalar = [p for p in hc["planets"]] + [q for q in hc["points"] if q["id"] in ("asc", "mc", "kuzey")]
+    for x in noktalar:
+        rows.append(f'<tr><td>{_ad_hucre(x, renk)}</td><td>{sign_cell(x["sign_idx"], x["deg"])}</td><td class="num">{x["house"]}</td>'
+                    + (f'<td class="num">{x.get("natal_ev", "")}</td>' if natal_ev else "")
+                    + f'<td class="c">{"R" if x.get("retro") else ""}</td></tr>')
+    th = '<th>Nokta</th><th>Konum</th><th>Ev</th>' + ('<th>Natal ev</th>' if natal_ev else '') + '<th>R</th>'
+    return (f'<h2 class="sub" style="margin-top:0">{esc(baslik)}</h2>' if baslik else "") + \
+        f'<table class="tbl compact"><thead><tr>{th}</tr></thead><tbody>' + "".join(rows) + "</tbody></table>"
+
+
+def capraz_grid(capraz, adA, adB, labA, labB):
+    """Satırlar A noktaları, sütunlar B noktaları; hücrede çapraz açı simgesi + orb."""
+    amap = {(c["a"], c["b"]): c for c in capraz}
+    head = "".join(f'<td class="gh">{labB.get(b, "")}</td>' for b in CAPRAZ_ID)
+    rows = [f'<tr><td class="gh gcor"><span class="small">{esc(adA)} ↓ · {esc(adB)} →</span></td>{head}</tr>']
+    for a in CAPRAZ_ID:
+        cells = []
+        for b in CAPRAZ_ID:
+            c = amap.get((a, b))
+            cells.append(f'<td class="gc">{G.asp_svg(c["type"], 11)}<span class="orb">{c["orb"]:.0f}</span></td>' if c else '<td class="gc"></td>')
+        rows.append(f'<tr><td class="gh">{labA.get(a, "")}</td>{"".join(cells)}</tr>')
+    return '<table class="grid xgrid"><tbody>' + "".join(rows) + "</tbody></table>"
+
+
+def _etiketler(hc, renk):
+    lab = {p["id"]: G.gsvg(p["glyph"], 12, renk) for p in hc["planets"]}
+    lab.update({"asc": f'<b class="ang" style="color:{renk}">AC</b>', "mc": f'<b class="ang" style="color:{renk}">MC</b>',
+                "kuzey": G.gsvg(0x260A, 12, renk)})
+    return lab
+
+
+def veri_sayfalari_solar(ch, vy):
+    sp = ch["sr_pro"]
+    H = sp["harita"]
+    sayfalar = []
+    bilgi = (f'<div class="two"><div><b>SR anı:</b> {esc(sp["an"])} · {esc(sp["yer"])}{" (yer değiştirmeli)" if sp["relocated"] else ""}</div>'
+             f'<div><b>SR Yükselen:</b> {esc(H["asc"]["sign"])} {esc(H["asc"]["deg"])} → natal {sp["natal_ev_kose"]["asc"]}. ev · '
+             f'<b>SR MC:</b> {esc(H["mc"]["sign"])} {esc(H["mc"]["deg"])} → natal {sp["natal_ev_kose"]["mc"]}. ev</div></div>')
+    sayfalar.append({"baslik": f'Yıl Haritası (Solar Return {sp["yil"]})',
+                     "html": f'<div class="figure wheel">{G.wheel(H)}</div>{bilgi}{vy.get("cark", "")}'})
+    sayfalar.append({"baslik": "Doğum Haritası",
+                     "html": f'<div class="figure wheel">{G.wheel(ch)}</div><p class="note">Yıl haritası doğum haritasının üzerine biner ve onu bu yıl için harekete geçirir; yorumlarda SR gezegenlerinin natal evleri birlikte okunur.</p>{vy.get("natal", "")}'})
+    _, sr_ev, sr_grid, sr_acilar = build_tables(H)
+    sayfalar.append({"baslik": "Yıl Haritası: Konumlar ve Evler",
+                     "html": kisa_konum(H, "SR Gezegenleri ve Natal Evleri", natal_ev=True) + vy.get("konumlar", "")
+                     + '<h2 class="sub">SR Ev Tablosu</h2>' + sr_ev + vy.get("evler", "")})
+    pf = sp["profeksiyon"]
+    cap_rows = "".join(
+        f'<tr><td>SR {esc(c["a_ad"])}</td><td class="c">{G.asp_svg(c["type"], 12)}</td><td>{esc(c["ad"])}</td><td>natal {esc(c["b_ad"])}</td>'
+        f'<td class="num">{c["orb"]:.2f}°</td><td class="{UYUM_CLS.get(c["uyum"], "")}">{esc(c["uyum"])}</td></tr>' for c in sp["capraz"][:14])
+    takvim = "".join(f'<tr><td class="num">{esc(t["tarih"])}</td><td>{sign_cell(SIGNS.index(t["burc"]))}</td><td class="num">{t["sr_ev"]}</td><td class="num">{t["natal_ev"]}</td></tr>'
+                     for t in sp["gunes_takvim"])
+    sayfalar.append({"baslik": "Yıl Göstergeleri",
+                     "html": f'<div class="box"><b>Profeksiyon:</b> {pf["yas"]} yaş yılı → natal {pf["ev"]}. ev ({esc(pf["burc"])}) · '
+                             f'<b>Yılın lordu:</b> {esc(pf["lord"])} · natalde {esc(pf["lord_natal"])} · SR&apos;de {esc(pf["lord_sr"])}<br>'
+                             f'<b>Açısal SR gezegenleri:</b> {esc(", ".join(sp["acisal"])) or "yok"} · <b>SR Ay fazı:</b> {esc(H["ay_fazi"]["ad"])}</div>'
+                             + '<h2 class="sub">SR → Natal Çapraz Açılar (orb ≤3°)</h2><table class="tbl compact"><thead><tr><th>SR</th><th></th><th>Açı</th><th>Natal</th><th>Orb</th><th>Nitelik</th></tr></thead><tbody>'
+                             + cap_rows + "</tbody></table>" + vy.get("yil", "")
+                             + '<h2 class="sub">Güneş Takvimi: Yılın Ay Ay Ritmi</h2><table class="tbl compact"><thead><tr><th>Tarih</th><th>Güneş</th><th>SR evi</th><th>Natal ev</th></tr></thead><tbody>'
+                             + takvim + "</tbody></table>" + vy.get("takvim", "")})
+    sayfalar.append({"baslik": "Yıl Haritası: Açılar",
+                     "html": f'<h2 class="sub" style="margin-top:0">SR Açı Izgarası</h2>{sr_grid}{vy.get("acilar", "")}<h2 class="sub">SR Açıları</h2>{sr_acilar}'})
+    return sayfalar
+
+
+def veri_sayfalari_sinastri(ch, vy):
+    sn = ch["sinastri"]
+    B = ch["kisi_b"]
+    K = sn["kompozit"]
+    adA, adB = sn["adA"], sn["adB"]
+    sayfalar = []
+    lej = (f'<div class="legend"><span><b style="color:{G.INK}">İç halka:</b> {esc(adA)}</span>'
+           f'<span><b style="color:{G.DIS_COL}">Dış halka:</b> {esc(adB)}</span>'
+           '<span><i style="background:#3f7fa6"></i>uyumlu çapraz açı</span><span><i style="background:#b8573a"></i>gergin çapraz açı</span>'
+           '<span>Evler: ' + esc(adA) + '</span></div>')
+    sayfalar.append({"baslik": f"Çift Çark: {adA} ve {adB}",
+                     "html": f'<div class="figure wheel">{G.wheel(ch, dis=B, capraz=sn["capraz"])}{lej}</div>'
+                             f'<p class="note">İlişki türü: {esc(sn["iliski_ad"])} · çizgiler orb ≤3° olan çapraz açılardır.</p>{vy.get("cark", "")}'})
+    sayfalar.append({"baslik": "İki Kişinin Konumları",
+                     "html": '<div class="two">' + f'<div>{kisa_konum(ch, adA)}</div><div>{kisa_konum(B, adB, renk=G.DIS_COL)}</div></div>'
+                             + f'<p class="note">{esc(adA)}: Yükselen {esc(ch["asc"]["sign"])} · {esc(adB)}: Yükselen {esc(B["asc"]["sign"])} '
+                               f'(saat güveni: {esc(B["meta"]["saat_kesin"])})</p>' + vy.get("konumlar", "")})
+    s = sn["sayim"]
+    cap_rows = "".join(
+        f'<tr><td>{esc(adA)} {esc(c["a_ad"])}</td><td class="c">{G.asp_svg(c["type"], 12)}</td><td>{esc(c["ad"])}</td><td>{esc(adB)} {esc(c["b_ad"])}</td>'
+        f'<td class="num">{c["orb"]:.2f}°</td><td class="{UYUM_CLS.get(c["uyum"], "")}">{esc(c["uyum"])}</td></tr>' for c in sn["capraz"][:26])
+    sayfalar.append({"baslik": "Çapraz Açılar",
+                     "html": capraz_grid(sn["capraz"], adA, adB, _etiketler(ch, G.INK), _etiketler(B, G.DIS_COL))
+                             + f'<p class="note">Toplam {s["toplam"]} çapraz açı: uyumlu {s["uyumlu"]}, gergin {s["gergin"]}, kavuşum {s["kavusum"]}. Hücredeki sayı orb derecesidir.</p>'
+                             + vy.get("capraz", "")
+                             + '<h2 class="sub">En Belirleyici Çapraz Açılar</h2><table class="tbl compact"><thead><tr><th>' + esc(adA) + '</th><th></th><th>Açı</th><th>'
+                             + esc(adB) + '</th><th>Orb</th><th>Nitelik</th></tr></thead><tbody>' + cap_rows + "</tbody></table>"})
+
+    def bind_tablo(lst, kaynak, hedef):
+        rows = "".join(f'<tr><td>{esc(x["ad"])}</td><td>{sign_cell(SIGNS.index(x["sign"]), x["deg"])}</td><td class="num"><b>{x["house"]}</b></td>'
+                       f'<td class="small">{esc(HOUSE_KONU_KISA[x["house"] - 1])}</td></tr>' for x in lst)
+        return (f'<h2 class="sub">{esc(kaynak)} → {esc(hedef)}&apos;in evleri</h2><table class="tbl compact"><thead><tr><th>{esc(kaynak)}</th>'
+                f'<th>Konum</th><th>{esc(hedef)} evi</th><th>Yaşam alanı</th></tr></thead><tbody>{rows}</tbody></table>')
+    sayfalar.append({"baslik": "Ev Bindirmeleri",
+                     "html": '<div class="two"><div>' + bind_tablo(sn["bindirme_ab"], adA, adB) + '</div><div>'
+                             + bind_tablo(sn["bindirme_ba"], adB, adA) + '</div></div>' + vy.get("bindirme", "")})
+    kp, kev, _, kac = build_tables(K)
+    sayfalar.append({"baslik": "Kompozit Harita: İlişkinin Kendisi",
+                     "html": f'<div class="figure wheel komp">{G.wheel(K)}</div><p class="note">Orta nokta kompozit haritası: iki haritanın her noktasının kısa yay orta noktası; evler kompozit Yükselen&apos;den (Tüm Burç).</p>'
+                             + vy.get("kompozit", "") + kisa_konum(K, "Kompozit Konumlar")})
+    el_col = {"Ateş": G.EL_COL["Ateş"], "Toprak": G.EL_COL["Toprak"], "Hava": G.EL_COL["Hava"], "Su": G.EL_COL["Su"]}
+    sayfalar.append({"baslik": "Denge Karşılaştırması",
+                     "html": '<div class="two">'
+                             + f'<div><h2 class="sub" style="margin-top:0">{esc(adA)}: Element</h2>{bar_rows(ch["denge"]["element"], el_col, 12)}'
+                               f'<h2 class="sub">{esc(adA)}: Nitelik</h2>{bar_rows(ch["denge"]["nitelik"], None, 12)}</div>'
+                             + f'<div><h2 class="sub" style="margin-top:0">{esc(adB)}: Element</h2>{bar_rows(B["denge"]["element"], el_col, 12)}'
+                               f'<h2 class="sub">{esc(adB)}: Nitelik</h2>{bar_rows(B["denge"]["nitelik"], None, 12)}</div></div>'
+                             + '<p class="note">12 nokta: 10 gezegen + Yükselen + MC.</p>' + vy.get("denge", "")
+                             + '<h2 class="sub">Kompozit Açılar</h2>' + kac})
+    return sayfalar
+
+
+HOUSE_KONU_KISA = ["Kimlik, beden", "Para, değerler", "İletişim, yakın çevre", "Yuva, aile", "Aşk, keyif, yaratıcılık",
+                   "Günlük düzen, iş", "Ortaklık, evlilik", "Mahremiyet, dönüşüm", "İnanç, ufuk", "Kariyer, statü",
+                   "Arkadaşlık, gelecek", "Bilinçaltı, geri çekilme"]
 
 
 def main():
@@ -329,6 +482,11 @@ def main():
         "urun": urun, "urun_ad": urun_ad, "urun_alt": urun_alt, "yorum_keys": yorum_keys,
         "odak_html": odak_html(ch), "odak_baslik": ODAK_BASLIK.get(urun, ("", "")),
         "goster_yapi": urun in ("natal", "saglik"),
+        "veri_sayfalari": (veri_sayfalari_solar(ch, vy) if urun == "solar" else veri_sayfalari_sinastri(ch, vy) if urun == "sinastri" else []),
+        "ek_bilgi": ek_bilgi(ch, urun),
+        "transit_not": ("kompozit haritanın noktalarına (ilişkinin zamanlaması)" if urun == "sinastri"
+                        else "natal kişisel gezegenlere, Yükselen'e ve MC'ye; dönem SR yılıdır" if urun == "solar"
+                        else "natal kişisel gezegenlere, Yükselen'e ve MC'ye"),
     }
     env = Environment(loader=FileSystemLoader(HERE), autoescape=False)
     out_html = os.path.join(IO, "pro-rapor.out.html")

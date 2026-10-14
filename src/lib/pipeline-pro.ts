@@ -9,7 +9,7 @@ import {
   findProReport, updateProReport, proRaporBasarisiz, saveFile, getProAyar, getSmtp, findMember,
   recoverStaleProReports, type ProReport,
 } from "@/lib/db";
-import { birthFromDogum } from "@/lib/pipeline";
+import { birthFromDogum, yerKoordinat } from "@/lib/pipeline";
 import { sendMail } from "@/lib/mail";
 
 const ROOT = process.cwd();
@@ -71,9 +71,29 @@ async function adim<T>(ad: string, deneme: number, fn: () => Promise<T>): Promis
   throw son;
 }
 
-function birthPro(r: ProReport, b: Awaited<ReturnType<typeof birthFromDogum>>) {
+async function birthPro(r: ProReport, b: Awaited<ReturnType<typeof birthFromDogum>>) {
   const d = r.danisan;
+  // Solar Return: yıl seçimi + (varsa) doğum gününde bulunulacak yer
+  const sr: Record<string, unknown> = {};
+  if (r.slug === "solar") {
+    sr.sr_yil = d.srYil || "gecerli";
+    if (d.srYer) {
+      const [la, lo] = await yerKoordinat(d.srYer);
+      Object.assign(sr, { sr_lat: la, sr_lon: lo, sr_yer: d.srYer.replace(/\s*\/\s*/g, ", ") });
+    }
+  }
+  // Sinastri: ikinci kişi + ilişki türü
+  if (r.slug === "sinastri" && d.kisi2) {
+    const k = d.kisi2;
+    const b2 = await birthFromDogum(k);
+    sr.kisi2 = {
+      ...b2, saat: k.saatKesin === "bilinmiyor" || !k.saat ? [12, 0] : b2.saat,
+      saat_kesin: k.saatKesin, yer_metin: k.yer.replace(/\s*\/\s*/g, ", "),
+    };
+    sr.iliski_turu = d.iliskiTuru || "sevgili";
+  }
   return {
+    ...sr,
     ...b,
     saat: d.saatKesin === "bilinmiyor" || !d.saat ? [12, 0] : b.saat,
     urun: r.slug, // rapor türü (natal / ask / kariyer / saglik / lilith) -> compute_pro odak + sentez planı
@@ -98,7 +118,7 @@ async function uretPro(r: ProReport): Promise<{ pdf: Buffer; maliyet?: ProReport
   };
   try {
     const b = await birthFromDogum(r.danisan);
-    fs.writeFileSync(path.join(jobDir, "birth-pro.json"), JSON.stringify(birthPro(r, b), null, 2));
+    fs.writeFileSync(path.join(jobDir, "birth-pro.json"), JSON.stringify(await birthPro(r, b), null, 2));
     await adim("hesap", 2, () => run(PY, [path.join(NATAL, "compute_pro.py")], env));
     const out = await adim("sentez", 2, () => run("node", [path.join(NATAL, "synthesize-pro.mjs")], env));
     let maliyet: ProReport["maliyet"];

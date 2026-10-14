@@ -173,15 +173,22 @@ DIG_PUAN = {"yönetim": 5, "yücelim": 4, "nötr": 0, "düşüş": -4, "zarar": 
 
 
 # ---------- Ana hesap ----------
-def build(birth, now_tr=None):
+def build(birth, now_tr=None, sadece_harita=False, utc_override=None):
+    """sadece_harita=True: transit/progresyon/SR/olay hesaplanmaz (Solar Return haritası, sinastride 2. kişi).
+    utc_override: haritayı doğum anı yerine bu UTC anında kurar (Solar Return anı)."""
     now_tr = now_tr or datetime.now(TR)
     ts = C.get_timescale()
-    y, mo, d = birth["tarih"]
-    h, mi = birth["saat"]
     lat, lon_geo = C.geocode(birth)
     tzname = birth.get("tz") or C.tz_from_latlon(lat, lon_geo)
-    local = datetime(y, mo, d, h, mi, tzinfo=ZoneInfo(tzname))
-    utc = local.astimezone(UTC)
+    if utc_override is not None:
+        utc = utc_override
+        local = utc.astimezone(ZoneInfo(tzname))
+        y, mo, d, h, mi = local.year, local.month, local.day, local.hour, local.minute
+    else:
+        y, mo, d = birth["tarih"]
+        h, mi = birth["saat"]
+        local = datetime(y, mo, d, h, mi, tzinfo=ZoneInfo(tzname))
+        utc = local.astimezone(UTC)
     t = ts.from_datetime(utc)
     saat_kesin = birth.get("saat_kesin", "kesin")  # kesin | yaklasik | bilinmiyor
     zaman_guven = {"kesin": "yuksek", "yaklasik": "orta", "bilinmiyor": "dusuk"}.get(saat_kesin, "yuksek")
@@ -408,6 +415,21 @@ def build(birth, now_tr=None):
     elong = norm(lon["ay"] - lon["gunes"])
     faz_i = int(elong // 45) % 8
     ay_fazi = {"ad": MOON_PHASES[faz_i], "aci": round(elong, 1), "anlam": MOON_PHASE_ANLAM[faz_i]}
+
+    if sadece_harita:
+        return {
+            "meta": {"ad": birth.get("ad", ""), "tarih": f"{d} {AYLAR[mo - 1]} {y}", "saat": f"{h:02d}:{mi:02d}",
+                     "yer": birth.get("yer_metin") or ", ".join(x for x in (birth.get("ilce"), birth.get("il")) if x),
+                     "lat": round(lat, 4), "lon": round(lon_geo, 4), "tz": tzname, "utc": utc.strftime("%Y-%m-%d %H:%M UTC"),
+                     "saat_kesin": saat_kesin, "zaman_guven": zaman_guven, "gunduz_dogum": gunduz},
+            "asc": {"lon": round(asc, 4), "sign": SIGNS[asc_si], "deg": deg_min(asc), "sign_idx": asc_si},
+            "mc": mc_info, "planets": planets, "points": points, "aspects": aspects, "patterns": patterns,
+            "houses": houses, "harita_yoneticisi": harita_yoneticisi,
+            "denge": {"element": el, "nitelik": md, "kutup": polar, "element_gezegen": el_gez, "nitelik_gezegen": md_gez,
+                      "ust_yari": ust, "alt_yari": 10 - ust, "dogu": dogu, "bati": 10 - dogu, "ceyrek": ceyrek},
+            "ay_fazi": ay_fazi, "guc": guc,
+            "_lon": {k: float(v) for k, v in lon.items()}, "_utc": utc, "_asc_si": asc_si,
+        }
 
     # --- Klasik mizaç (7 gezegen + Yükselen; ücretsiz raporlarla aynı kural) ---
     el8 = {e: 0 for e in C.ELEMENT}
@@ -731,6 +753,238 @@ def event_triggers(ts, ev, natal_lon, birth_utc, asc_si):
             "progresif_ay": pmoon, "progresif_ay_acilari": pm_hits}
 
 
+
+# ======================================================================
+# SOLAR RETURN PRO + SİNASTRİ PRO
+# ======================================================================
+CAPRAZ_ID = PLANET_IDS + ["asc", "mc", "kuzey"]
+
+
+def capraz_acilar(lonA, lonB, adA="", adB="", majör_orb=6.0, minor=True):
+    """İki nokta kümesi arasındaki açılar (A noktası -> B noktası). Işıklar +2°, köşe/düğüm en çok 4°."""
+    out = []
+    for a in CAPRAZ_ID:
+        if a not in lonA:
+            continue
+        for b in CAPRAZ_ID:
+            if b not in lonB:
+                continue
+            s_ = sep(lonA[a], lonB[b])
+            nokta = a not in PLANET_IDS or b not in PLANET_IDS
+            for aid, aad, exact, orb, renk, maj in ASPECTS:
+                if not maj and (not minor or aid != "quincunx"):
+                    continue
+                o = (majör_orb + (2 if (a in LUMINER or b in LUMINER) else 0)) if maj else 2.0
+                if nokta:
+                    o = min(o, 4.0 if maj else 1.5)
+                if abs(s_ - exact) <= o:
+                    w = (3 if a in KISISEL else 1) + (3 if b in KISISEL else 1) + (2 if aid in ("kavusum", "karsitlik") else 0)
+                    out.append({"a": a, "b": b, "a_ad": AD[a], "b_ad": AD[b], "type": aid, "ad": aad,
+                                "orb": round(abs(s_ - exact), 2), "uyum": ASP_UYUM[aid], "color": renk, "majör": maj,
+                                "agirlik": w, "a_kisi": adA, "b_kisi": adB})
+                    break
+    out.sort(key=lambda x: (x["orb"] - x["agirlik"] * 0.25))
+    return out
+
+
+def ev_bindirme(lon_kaynak, asc_si_hedef, kaynak_ad=""):
+    """Kaynak haritanın gezegenleri, hedef haritanın hangi (Tüm Burç) evinde?"""
+    out = []
+    for pid in PLANET_IDS + ["asc", "mc"]:
+        if pid in lon_kaynak:
+            si = sign_idx(lon_kaynak[pid])
+            out.append({"id": pid, "ad": AD[pid], "sign": SIGNS[si], "deg": deg_min(lon_kaynak[pid]),
+                        "house": ((si - asc_si_hedef) % 12) + 1, "kisi": kaynak_ad})
+    return out
+
+
+def build_solar(birth, now_tr=None):
+    from compute_sr import find_sr_moment
+    now_tr = now_tr or datetime.now(TR)
+    ts = C.get_timescale()
+    natal = build(dict(birth, urun="natal"), now_tr)
+    nlon = {p["id"]: p["lon"] for p in natal["planets"]}
+    nlon.update({q["id"]: q["lon"] for q in natal["points"]})
+    n_asc_si = natal["asc"]["sign_idx"]
+    y, mo, d = birth["tarih"]
+    h, mi = birth["saat"]
+    # SR anı: geçerli yıl (son doğum günü) ya da gelecek doğum günü
+    secim = birth.get("sr_yil") or "gecerli"
+    now_utc = now_tr.astimezone(UTC)
+    adaylar = []
+    for yy in (now_tr.year - 1, now_tr.year, now_tr.year + 1):
+        try:
+            m_, _ = find_sr_moment(nlon["gunes"], yy, mo, d, h, mi)
+            adaylar.append(m_)
+        except Exception:
+            pass
+    gecmis = [m_ for m_ in adaylar if m_ <= now_utc]
+    gelecek = [m_ for m_ in adaylar if m_ > now_utc]
+    an = (min(gelecek) if secim == "gelecek" and gelecek else (max(gecmis) if gecmis else min(gelecek)))
+    # SR yeri: doğum gününde bulunulacak yer verildiyse oraya göre (relocated SR)
+    rel = "sr_lat" in birth and "sr_lon" in birth
+    sr_birth = dict(birth, lat=birth.get("sr_lat", birth.get("lat")), lon=birth.get("sr_lon", birth.get("lon")),
+                    yer_metin=birth.get("sr_yer") or natal["meta"]["yer"], ad=birth.get("ad", ""), saat_kesin="kesin")
+    sr_birth.pop("tz", None)
+    sr = build(sr_birth, now_tr, sadece_harita=True, utc_override=an)
+    slon = sr.pop("_lon")
+    sr.pop("_utc"); sr.pop("_asc_si")
+    # SR noktalarının natal evleri
+    for p in sr["planets"]:
+        p["natal_ev"] = ((p["sign_idx"] - n_asc_si) % 12) + 1
+    natal_ev_kose = {k: ((sign_idx(slon[k]) - n_asc_si) % 12) + 1 for k in ("asc", "mc")}
+    # SR -> natal çapraz açılar (orb 3°)
+    capraz = [c for c in capraz_acilar(slon, nlon, "SR", "natal", majör_orb=3.0, minor=False)
+              if not (c["a"] == "gunes" and c["b"] == "gunes")]  # SR Güneşi tanım gereği natal Güneş üzerinde
+    # Profeksiyon: tamamlanan yaş -> ASC'den ileri ev; o burcun yöneticisi = yılın lordu
+    an_tr = an.astimezone(TR)
+    yas = an_tr.year - y
+    prof_ev = (yas % 12) + 1
+    prof_si = (n_asc_si + yas) % 12
+    lord = RULER_TRAD[prof_si]
+    Pn = {p["id"]: p for p in natal["planets"]}
+    Ps = {p["id"]: p for p in sr["planets"]}
+    profeksiyon = {"yas": yas, "ev": prof_ev, "burc": SIGNS[prof_si], "lord": AD[lord],
+                   "lord_natal": f'{Pn[lord]["sign"]} {Pn[lord]["deg"]}, natal {Pn[lord]["house"]}. ev',
+                   "lord_sr": f'{Ps[lord]["sign"]} {Ps[lord]["deg"]}, SR {Ps[lord]["house"]}. ev'}
+    # Güneş takvimi: SR yılı boyunca Güneş'in burç geçişleri (SR evi + natal evi) — ay ay ritim
+    dates = [an + timedelta(days=k) for k in range(0, 366)]
+    sun = lon_series("sun", ts.from_datetimes(dates))
+    sidx = (sun // 30).astype(int) % 12
+    sr_asc_si = sr["asc"]["sign_idx"]
+    takvim = [{"tarih": tr_tarih(an_tr), "burc": SIGNS[int(sidx[0])], "sr_ev": ((int(sidx[0]) - sr_asc_si) % 12) + 1,
+               "natal_ev": ((int(sidx[0]) - n_asc_si) % 12) + 1}]
+    for k in range(1, len(sidx)):
+        if sidx[k] != sidx[k - 1]:
+            dt = dates[k].astimezone(TR)
+            takvim.append({"tarih": tr_tarih(dt), "burc": SIGNS[int(sidx[k])], "sr_ev": ((int(sidx[k]) - sr_asc_si) % 12) + 1,
+                           "natal_ev": ((int(sidx[k]) - n_asc_si) % 12) + 1})
+    # SR yılı transitleri (SR anından itibaren 12 ay, natal noktalara)
+    natal["transitler"] = transit_timeline(ts, nlon, an_tr, n_asc_si, days=366)
+    sonraki = an + timedelta(days=365.2422)
+    natal["urun"] = "solar"
+    natal["sr_pro"] = {
+        "an": f"{tr_tarih(an_tr)} {an_tr.strftime('%H:%M')} (TR saati)", "yil": f"{an_tr.year}–{an_tr.year + 1}",
+        "bitis": tr_tarih(sonraki.astimezone(TR)), "secim": secim, "relocated": rel,
+        "yer": sr["meta"]["yer"], "harita": sr, "natal_ev_kose": natal_ev_kose,
+        "acisal": [p["ad"] for p in sr["planets"] if p["house"] in (1, 4, 7, 10)],
+        "capraz": capraz, "profeksiyon": profeksiyon, "gunes_takvim": takvim,
+    }
+    return natal
+
+
+def kompozit(A, B, lonA, lonB):
+    """Orta nokta kompozit haritası (kısa yay orta noktası; ASC/MC dahil, Tüm Burç evleri)."""
+    def mid(a, b):
+        d_ = ((b - a + 540) % 360) - 180
+        return norm(a + d_ / 2)
+    clon = {k: mid(lonA[k], lonB[k]) for k in PLANET_IDS + ["asc", "mc", "kuzey"] if k in lonA and k in lonB}
+    clon["guney"] = norm(clon["kuzey"] + 180)
+    asi = sign_idx(clon["asc"])
+    planets = []
+    for pid, ad_, glyph, _, anlam in PLANETS:
+        L_ = clon[pid]
+        si = sign_idx(L_)
+        planets.append({"id": pid, "ad": ad_, "glyph": glyph, "lon": round(L_, 4), "sign": SIGNS[si], "sign_idx": si,
+                        "deg": deg_min(L_), "house": ((si - asi) % 12) + 1, "element": C.element_of(si),
+                        "modality": C.modality_of(si), "retro": False, "hiz": 0.0, "dignity": dignity(pid, si), "anlam": anlam})
+    points = []
+    for pid in ("asc", "mc", "kuzey", "guney"):
+        si = sign_idx(clon[pid])
+        points.append({"id": pid, "ad": AD[pid], "glyph": GLYPH.get(pid), "lon": round(clon[pid], 4), "sign": SIGNS[si],
+                       "sign_idx": si, "deg": deg_min(clon[pid]), "house": ((si - asi) % 12) + 1, "zamana_bagli": pid in ("asc", "mc")})
+    aspects = []
+    ids = PLANET_IDS + ["asc", "mc"]
+    for i in range(len(ids)):
+        for j in range(i + 1, len(ids)):
+            a, b = ids[i], ids[j]
+            if {a, b} == {"asc", "mc"}:
+                continue
+            s_ = sep(clon[a], clon[b])
+            for aid, aad, exact, orb, renk, maj in ASPECTS:
+                if not maj:
+                    continue
+                o = min(orb, 5) if (a not in PLANET_IDS or b not in PLANET_IDS) else orb
+                if abs(s_ - exact) <= o:
+                    aspects.append({"a": a, "b": b, "a_ad": AD[a], "b_ad": AD[b], "type": aid, "ad": aad,
+                                    "orb": round(abs(s_ - exact), 2), "yaklasan": False, "majör": True,
+                                    "uyum": ASP_UYUM[aid], "color": renk})
+                    break
+    aspects.sort(key=lambda x: x["orb"])
+    pl_by_house = {}
+    for p in planets:
+        pl_by_house.setdefault(p["house"], []).append(p["ad"])
+    P_ = {p["id"]: p for p in planets}
+    houses = []
+    for hn in range(1, 13):
+        si = (asi + hn - 1) % 12
+        rt = RULER_TRAD[si]
+        houses.append({"n": hn, "sign": SIGNS[si], "konu": HOUSE_KONU[hn - 1], "yonetici": AD[rt],
+                       "yonetici_ev": P_[rt]["house"], "yonetici_burc": P_[rt]["sign"], "modern_yonetici": None,
+                       "modern_yonetici_ev": None, "icindekiler": pl_by_house.get(hn, [])})
+    mc_si = sign_idx(clon["mc"])
+    return {"asc": {"lon": round(clon["asc"], 4), "sign": SIGNS[asi], "deg": deg_min(clon["asc"]), "sign_idx": asi},
+            "mc": {"sign": SIGNS[mc_si], "deg": deg_min(clon["mc"]), "house": ((mc_si - asi) % 12) + 1,
+                   "yonetici": AD[RULER_TRAD[mc_si]], "yonetici_ev": P_[RULER_TRAD[mc_si]]["house"]},
+            "planets": planets, "points": points, "aspects": aspects, "houses": houses, "patterns": [],
+            "_lon": clon, "_asc_si": asi}
+
+
+ILISKI_TURU = {"sevgili": "Sevgili / Eş", "arkadas": "Arkadaşlık", "aile": "Aile (ebeveyn, kardeş, çocuk)", "is": "İş ortaklığı"}
+
+
+def build_sinastri(birth, now_tr=None):
+    now_tr = now_tr or datetime.now(TR)
+    ts = C.get_timescale()
+    A = build(dict(birth, urun="natal"), now_tr)
+    lonA = {p["id"]: p["lon"] for p in A["planets"]}
+    lonA.update({q["id"]: q["lon"] for q in A["points"]})
+    k2 = dict(birth["kisi2"])
+    B = build(k2, now_tr, sadece_harita=True)
+    lonB = B.pop("_lon")
+    B.pop("_utc"); bsi = B.pop("_asc_si")
+    adA, adB = A["meta"]["ad"], B["meta"]["ad"]
+    capraz = capraz_acilar(lonA, lonB, adA, adB)
+    komp = kompozit(A, B, lonA, lonB)
+    clon = komp.pop("_lon")
+    casi = komp.pop("_asc_si")
+    sayim = {"uyumlu": sum(1 for c in capraz if c["uyum"] == "uyumlu"), "gergin": sum(1 for c in capraz if c["uyum"] == "gergin"),
+             "kavusum": sum(1 for c in capraz if c["type"] == "kavusum"), "toplam": len(capraz)}
+    CEKIM = {frozenset(x) for x in (("venus", "mars"), ("gunes", "ay"), ("ay", "venus"), ("venus", "venus"), ("mars", "mars"),
+                                    ("gunes", "venus"), ("ay", "mars"), ("venus", "asc"), ("mars", "asc"), ("ay", "asc"), ("gunes", "asc"))}
+    ZOR = {"saturn", "pluton"}
+    cekim = [c for c in capraz if frozenset((c["a"], c["b"])) in CEKIM]
+    zorlayici = [c for c in capraz if (c["a"] in ZOR or c["b"] in ZOR) and (c["a"] in KISISEL or c["b"] in KISISEL)]
+    # İlişkinin 12 ayı: kompozit haritaya transitler
+    trs = transit_timeline(ts, clon, now_tr, casi, days=372, targets=["gunes", "ay", "venus", "mars", "asc", "mc", "saturn", "jupiter"])
+    # İlişki olayları: o tarihlerde kompozit haritaya transitler (progresyon kişiye ait olduğu için alınmaz)
+    olaylar = []
+    for ev in birth.get("olaylar", []) or []:
+        try:
+            o = event_triggers(ts, ev, clon, A_utc_of(A), casi)
+            o["progresif_ay"] = None
+            o["progresif_ay_acilari"] = []
+            olaylar.append(o)
+        except Exception as e:
+            olaylar.append({"tarih": ev.get("tarih"), "aciklama": ev.get("aciklama", ""), "hata": str(e)})
+    A["urun"] = "sinastri"
+    A["transitler"] = trs
+    A["olaylar"] = olaylar
+    A["kisi_b"] = B
+    A["sinastri"] = {
+        "iliski_turu": birth.get("iliski_turu") or "sevgili",
+        "iliski_ad": ILISKI_TURU.get(birth.get("iliski_turu") or "sevgili", "Sevgili / Eş"),
+        "adA": adA, "adB": adB, "capraz": capraz, "sayim": sayim, "cekim": cekim, "zorlayici": zorlayici,
+        "bindirme_ab": ev_bindirme(lonA, bsi, adA), "bindirme_ba": ev_bindirme(lonB, A["asc"]["sign_idx"], adB),
+        "kompozit": komp,
+    }
+    return A
+
+
+def A_utc_of(A):
+    """A haritasının UTC doğum anı (meta.utc metninden)."""
+    return datetime.strptime(A["meta"]["utc"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=UTC)
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -742,7 +996,13 @@ def main():
     else:
         birth = dict(C.REFERENCE, saat_kesin="kesin",
                      olaylar=[{"tarih": "2019-09-14", "aciklama": "Evlilik"}, {"tarih": "2022-03-02", "aciklama": "İş değişikliği"}])
-    chart = build(birth)
+    urun = birth.get("urun") or "natal"
+    if urun == "solar":
+        chart = build_solar(birth)
+    elif urun == "sinastri":
+        chart = build_sinastri(birth)
+    else:
+        chart = build(birth)
     out = os.path.join(IO, "chart-pro.json")
     def _np(o):  # skyfield/numpy skalerleri (np.bool_, np.float64, np.int64) -> yerel tip
         return o.item() if hasattr(o, "item") else str(o)

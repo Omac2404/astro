@@ -39,7 +39,10 @@ export async function GET() {
 
 const s = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
-function danisanOku(o: Record<string, unknown>): { error?: string; d?: ProDanisan } {
+type SaatKesin = ProDanisan["saatKesin"];
+const kesinlik = (v: unknown): SaatKesin => (["kesin", "yaklasik", "bilinmiyor"].includes(String(v)) ? v : "kesin") as SaatKesin;
+
+function danisanOku(o: Record<string, unknown>, slug = "natal"): { error?: string; d?: ProDanisan } {
   const ad = s(o.ad, 40);
   const tarih = s(o.tarih, 10);
   const saat = s(o.saat, 5);
@@ -55,6 +58,27 @@ function danisanOku(o: Record<string, unknown>): { error?: string; d?: ProDanisa
     .map((x) => ({ tarih: s((x as ProOlay)?.tarih, 10), aciklama: s((x as ProOlay)?.aciklama, 100) }))
     .filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x.tarih) && x.aciklama)
     .slice(0, 12);
+  // Solar Return: yıl seçimi + isteğe bağlı yer
+  const srEk: Partial<ProDanisan> = {};
+  if (slug === "solar") {
+    srEk.srYil = o.srYil === "gelecek" ? "gelecek" : "gecerli";
+    const srYer = s(o.srYer, 120);
+    if (srYer) srEk.srYer = srYer;
+  }
+  // Sinastri: ikinci kişi zorunlu
+  if (slug === "sinastri") {
+    const k = (o.kisi2 ?? {}) as Record<string, unknown>;
+    const k2 = { ad: s(k.ad, 40), tarih: s(k.tarih, 10), saat: s(k.saat, 5), yer: s(k.yer, 120), saatKesin: kesinlik(k.saatKesin) };
+    if (!k2.ad) return { error: "İkinci kişinin adı gerekli." };
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(k2.tarih)) return { error: "İkinci kişinin doğum tarihini gir." };
+    const y2 = Number(k2.tarih.slice(0, 4));
+    if (y2 < 1900 || y2 > new Date().getFullYear()) return { error: "İkinci kişinin doğum yılı 1900 ile bugün arasında olmalı." };
+    if (k2.saatKesin !== "bilinmiyor" && !/^\d{2}:\d{2}$/.test(k2.saat)) return { error: "İkinci kişinin doğum saatini gir ya da “Saat bilinmiyor” seç." };
+    if (!k2.yer) return { error: "İkinci kişinin doğum yeri gerekli." };
+    if (k2.saatKesin === "bilinmiyor") k2.saat = "";
+    srEk.kisi2 = k2;
+    srEk.iliskiTuru = (["sevgili", "arkadas", "aile", "is"].includes(String(o.iliskiTuru)) ? o.iliskiTuru : "sevgili") as ProDanisan["iliskiTuru"];
+  }
   // Sorular: dizi (en çok 5 × 150 karakter); eski istemciden metin gelirse satırlara bölünür
   const soruListe = (Array.isArray(o.sorular) ? o.sorular : String(o.sorular ?? "").split("\n"))
     .map((x) => s(x, 150)).filter(Boolean).slice(0, 5);
@@ -67,6 +91,7 @@ function danisanOku(o: Record<string, unknown>): { error?: string; d?: ProDanisa
       sorular: soruListe.length ? soruListe.join("\n") : undefined,
       astrologNot: s(o.astrologNot, 500) || undefined,
       olaylar: olaylar.length ? olaylar : undefined,
+      ...srEk,
     },
   };
 }
@@ -78,7 +103,7 @@ export async function POST(req: Request) {
   const b = await req.json().catch(() => ({}));
   const urun = getProUrun(String(b.slug ?? "natal"));
   if (!urun) return NextResponse.json({ error: "Geçersiz rapor türü." }, { status: 400 });
-  const { error, d } = danisanOku((b.danisan ?? {}) as Record<string, unknown>);
+  const { error, d } = danisanOku((b.danisan ?? {}) as Record<string, unknown>, urun.slug);
   if (error || !d) return NextResponse.json({ error }, { status: 400 });
   const r = proRaporBaslat(email, urun, d);
   if (r.error || !r.rapor) return NextResponse.json({ error: r.error }, { status: 400 });

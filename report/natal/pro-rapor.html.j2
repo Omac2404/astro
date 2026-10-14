@@ -127,6 +127,9 @@
   .oneri .paren{ font-size:.8em; }
   .toc .t2{ padding-left:7mm; color:#5b5577; font-size:9.4pt; }
   .wheel svg{ width:148mm; height:148mm; }
+  .wheel.komp svg{ width:118mm; height:118mm; }
+  table.xgrid td{ width:8.6mm; height:8mm; }
+  table.xgrid td.gcor{ width:auto; font-size:6.5pt; line-height:1.15; padding:0 1mm; }
 </style>
 </head>
 <body>
@@ -167,6 +170,7 @@
       <dt>Yaş</dt><dd>{{ m.yas }}</dd>
       {% if dn.meslek %}<dt>Meslek / uğraş</dt><dd>{{ esc(dn.meslek) }}</dd>{% endif %}
       {% if dn.iliski %}<dt>İlişki durumu</dt><dd>{{ esc(dn.iliski) }}</dd>{% endif %}
+      {% for k, v in ek_bilgi %}<dt>{{ esc(k) }}</dt><dd>{{ esc(v) }}</dd>{% endfor %}
     </dl>
   </div>
   {% if m.zaman_guven == 'dusuk' %}
@@ -184,7 +188,7 @@
     {% if sec['ozet'] %}<div class="t2">Yönetici Özeti</div>{% endif %}
     {% if sec['sorular'] %}<div class="t2">Danışanın Soruları</div>{% endif %}
     <div><b>2</b>Harita Verisi</div>
-    <div class="t2">Çark, konumlar, evler{% if odak_html %}, {{ esc(odak_baslik[0]|lower) }}{% endif %}, açılar{% if goster_yapi %}, yapı ve dengeler{% endif %}</div>
+    <div class="t2">{% if veri_sayfalari %}{{ esc(veri_sayfalari|map(attribute='baslik')|join(', ')) }}{% else %}Çark, konumlar, evler{% if odak_html %}, {{ esc(odak_baslik[0]|lower) }}{% endif %}, açılar{% if goster_yapi %}, yapı ve dengeler{% endif %}{% endif %}</div>
     <div><b>3</b>Derin Yorum</div>
     {% for k in YORUM %}{% if sec[k] %}<div class="t2">{{ esc(sec[k].baslik) }}</div>{% endif %}{% endfor %}
     <div><b>4</b>Zamanlama: transitler, progresyonlar, yıl haritası</div>
@@ -204,6 +208,16 @@
 {% endif %}{% endfor %}
 
 <!-- ============ 2 · HARİTA VERİSİ ============ -->
+{% if veri_sayfalari %}
+{% for v in veri_sayfalari %}
+<section class="chapter">
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
+  <h1 class="ch">{{ esc(v.baslik) }}</h1>
+  <div class="ch-rule"></div>
+  {{ v.html }}
+</section>
+{% endfor %}
+{% else %}
 <section class="chapter">
   <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Natal Çark</h1>
@@ -302,6 +316,8 @@
 </section>
 {% endif %}
 
+{% endif %}
+
 <!-- ============ 3 · DERİN YORUM ============ -->
 {% set ilk = namespace(v=True) %}
 {% for k in YORUM %}{% if sec[k] %}
@@ -318,7 +334,7 @@
   <div class="chap-eyebrow">Kısım 4 · Zamanlama</div>
   <h1 class="ch">Önümüzdeki 12 Ay: Veri</h1>
   <div class="ch-rule"></div>
-  <p class="note">{{ esc(tr.baslangic) }} – {{ esc(tr.bitis) }} · yavaş gezegenlerin (Jüpiter, Satürn, Uranüs, Neptün, Plüton) ve Kuzey Düğüm'ün natal kişisel gezegenlere, Yükselen'e ve MC'ye majör açıları. Çubuk: etki penceresi, elmas: tam isabet. Mavi uyumlu, kızıl gergin, altın kavuşum.</p>
+  <p class="note">{{ esc(tr.baslangic) }} – {{ esc(tr.bitis) }} · yavaş gezegenlerin (Jüpiter, Satürn, Uranüs, Neptün, Plüton) ve Kuzey Düğüm'ün {{ esc(transit_not) }} majör açıları. Çubuk: etki penceresi, elmas: tam isabet. Mavi uyumlu, kızıl gergin, altın kavuşum.</p>
   {% if timeline %}<div class="figure tl">{{ timeline }}</div>{% else %}<p class="muted">Bu dönemde belirgin yavaş gezegen transiti yok.</p>{% endif %}
   {{ vy.get('transit', '') }}
   <h2 class="sub">Şu Anki Gökyüzü (natal evlere göre)</h2>
@@ -326,6 +342,7 @@
   {% if tr.ingresler %}<p><b>Burç geçişleri:</b> {% for g in tr.ingresler %}{{ esc(g.gezegen) }} → {{ esc(g.burc) }} ({{ esc(g.tarih) }}, {{ g.ev }}. ev){% if not loop.last %}; {% endif %}{% endfor %}</p>{% endif %}
   <h2 class="sub">Transit Listesi</h2>
   {{ transit_table }}
+  {% if urun != 'sinastri' %}
   <div class="two">
     <div>
       <h2 class="sub">İkincil Progresyonlar</h2>
@@ -334,7 +351,7 @@
       <p class="note"><b>Progresif Ay yolculuğu:</b> {% for y in pr.ay_yolculugu %}{{ esc(y.tarih) }}: {{ esc(y.burc) }} ({{ y.ev }}. ev){% if not loop.last %} → {% endif %}{% endfor %}</p>
     </div>
     <div>
-      {% if sr %}
+      {% if sr and urun != 'solar' %}
       <h2 class="sub">Solar Return {{ esc(sr.yil) }}</h2>
       <p class="note">An: {{ esc(sr.an) }} · SR Yükselen {{ esc(sr.asc.sign) }} {{ esc(sr.asc.deg) }} · SR MC {{ esc(sr.mc.sign) }} {{ esc(sr.mc.deg) }}{% if sr.acisal_gezegenler %} · açısal: {{ esc(sr.acisal_gezegenler|join(', ')) }}{% endif %}</p>
       <table class="tbl compact"><thead><tr><th>Gezegen</th><th>Konum</th><th>SR evi</th></tr></thead><tbody>{{ sr_rows }}</tbody></table>
@@ -342,6 +359,7 @@
       {% endif %}
     </div>
   </div>
+  {% endif %}
 </section>
 {% if sec['zaman'] %}
 <section class="ai-cont ai">

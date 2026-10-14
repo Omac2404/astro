@@ -63,6 +63,15 @@ function siraya<T>(fn: () => Promise<T>): Promise<T> {
 
 export type Birth = { ad: string; tarih: [number, number, number]; saat: [number, number]; il: string; ilce: string; lat: number; lon: number };
 
+// Yer metni -> [lat, lon] (TR ili tablodan, değilse geocode). Solar Return yeri gibi doğum dışı yerler için de.
+export async function yerKoordinat(yer: string): Promise<[number, number]> {
+  const tr = ilKoordinat((yer.split("/")[0] || "").trim());
+  if (tr) return [tr[0], tr[1]];
+  const g = await geocode(yer);
+  if (!g) throw new Error(`Yer çözülemedi: "${yer}"`);
+  return [g[0], g[1]];
+}
+
 // DogumBilgi: TR ise yer = "İl / İlçe" (tablodan); yurtdışı ise serbest metin (geocode)
 export async function birthFromDogum(d: DogumBilgi): Promise<Birth> {
   const [y, m, dd] = d.tarih.split("-").map(Number);

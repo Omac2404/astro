@@ -1217,8 +1217,8 @@ export const PRO_URUNLER: ProUrun[] = [
   { slug: "kariyer", ad: "Kariyer & Para Pro", jeton: 1, aktif: true, aciklama: "MC zinciri, iş ve para evleri, yetenekler ve uygun meslek alanları; kariyer zamanlaması." },
   { slug: "saglik", ad: "Enerji & Mizaç Pro", jeton: 1, aktif: true, aciklama: "Klasik mizaç, canlılık, stres kalıpları ve yaşam ritmi; enerji döngüleri (tıbbi tanı içermez)." },
   { slug: "lilith", ad: "Lilith & Karmik Pro", jeton: 1, aktif: true, aciklama: "Ay Düğümleri, Lilith, Kiron, karmik sınavlar ve tekrar eden örüntüler; dönüşüm pencereleri." },
-  { slug: "solar", ad: "Solar Return Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
-  { slug: "sinastri", ad: "Sinastri Pro", jeton: 2, aktif: false, aciklama: "Yakında" },
+  { slug: "solar", ad: "Solar Return Pro", jeton: 1, aktif: true, aciklama: "Yıl haritası: SR Yükselen ve açısal gezegenler, yılın lordu (profeksiyon), ay ay Güneş takvimi ve SR yılı transitleri. Yer değiştirmeli SR destekli." },
+  { slug: "sinastri", ad: "Sinastri Pro", jeton: 2, aktif: true, aciklama: "İki kişilik uyum: çift çark, çapraz açılar, iki yönlü ev bindirmeleri, kompozit harita ve ilişkinin 12 ayı. Sevgili, arkadaş, aile ya da iş ortaklığı." },
   { slug: "aylik", ad: "Aylık Dönem Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
 ];
 export function getProUrun(slug: string): ProUrun | undefined {
@@ -1234,6 +1234,12 @@ export type ProDanisan = DogumBilgi & {
   sorular?: string;
   olaylar?: ProOlay[];
   astrologNot?: string;
+  // Solar Return Pro
+  srYil?: "gecerli" | "gelecek";   // geçerli yıl (son doğum günü) ya da gelecek doğum günü
+  srYer?: string;                  // doğum gününde bulunacağı yer (boşsa doğum yeri)
+  // Sinastri Pro
+  kisi2?: DogumBilgi & { saatKesin: "kesin" | "yaklasik" | "bilinmiyor" };
+  iliskiTuru?: "sevgili" | "arkadas" | "aile" | "is";
 };
 export type ProMaliyet = { usd: number; girdi: number; cikti: number; dusunme?: number; model: string; sure?: number };
 export type ProReport = {

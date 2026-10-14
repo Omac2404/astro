@@ -94,10 +94,16 @@ def asp_svg(tip, size=12):
 
 
 # ------------------------------------------------------------------ ÇARK
-def wheel(chart):
+DIS_COL = "#2f6f9a"  # çift çarkta ikinci kişinin rengi
+
+
+def wheel(chart, dis=None, capraz=None):
+    """Natal çark. dis verilirse ÇİFT ÇARK: iç halkada chart (danışan), zodyak dışındaki halkada dis
+    (ikinci kişi / ikinci harita); capraz verilirse açı çizgileri iki harita arasındaki çapraz açılardır."""
     W = 620
     C = W / 2
     R_OUT, R_ZIN, R_HIN, R_PL, R_TICK, R_ASP = 296, 258, 236, 200, 236, 150
+    R_DIS = 334
     asc = chart["asc"]["lon"]
     asc_si = chart["asc"]["sign_idx"]
 
@@ -108,7 +114,10 @@ def wheel(chart):
         a = ang(L)
         return C + r * math.cos(a), C - r * math.sin(a)
 
-    S = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="-26 -26 {W + 52} {W + 52}" font-family="Spectral, serif">']
+    pad = 92 if dis else 26
+    S = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{-pad} {-pad} {W + 2 * pad} {W + 2 * pad}" font-family="Spectral, serif">']
+    if dis:
+        S.append(f'<circle cx="{C}" cy="{C}" r="{R_DIS + 30}" fill="#f4f8fb" stroke="{DIS_COL}" stroke-width=".6" opacity=".9"/>')
     S.append(f'<circle cx="{C}" cy="{C}" r="{R_OUT}" fill="#fbf7ef" stroke="{INK}" stroke-width="1.2"/>')
     # zodyak bandı: element renkli hafif dolgu
     for i in range(12):
@@ -137,12 +146,20 @@ def wheel(chart):
     # açı çizgileri (kavuşum hariç; majör + quincunx)
     lon = {p["id"]: p["lon"] for p in chart["planets"]}
     lon.update({q["id"]: q["lon"] for q in chart["points"]})
-    for a in chart["aspects"]:
+    dlon = {}
+    if dis:
+        dlon = {p["id"]: p["lon"] for p in dis["planets"]}
+        dlon.update({q["id"]: q["lon"] for q in dis["points"]})
+    asp_list = capraz if capraz is not None else chart["aspects"]
+    for a in asp_list:
         if a["type"] == "kavusum" or (not a["majör"] and a["type"] != "quincunx"):
             continue
-        if a["a"] not in lon or a["b"] not in lon:
+        if capraz is not None and a["orb"] > 3:
             continue
-        x1, y1 = pt(lon[a["a"]], R_ASP); x2, y2 = pt(lon[a["b"]], R_ASP)
+        lb = dlon if capraz is not None else lon
+        if a["a"] not in lon or a["b"] not in lb:
+            continue
+        x1, y1 = pt(lon[a["a"]], R_ASP); x2, y2 = pt(lb[a["b"]], R_ASP)
         col = ASP_COL.get(a["type"], INK)
         w = 1.6 if a["orb"] < 2 else 1.0
         dash = ' stroke-dasharray="4 3"' if a["type"] == "quincunx" else ""
@@ -153,9 +170,10 @@ def wheel(chart):
         L = chart["asc"]["lon"] if key == "asc" else next(q["lon"] for q in chart["points"] if q["id"] == "mc")
         x1, y1 = pt(L, R_OUT + 2); x2, y2 = pt(L + 180, R_OUT + 2)
         S.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{GOLD}" stroke-width="1.5" opacity=".85"/>')
-        lx, ly = pt(L, R_OUT + 14)
+        r_lab = (R_ASP - 14) if dis else (R_OUT + 14)
+        lx, ly = pt(L, r_lab)
         S.append(f'<text x="{lx:.1f}" y="{ly:.1f}" font-size="13" font-weight="700" fill="{GOLD}" text-anchor="middle" dominant-baseline="central">{lab}</text>')
-        lx2, ly2 = pt(L + 180, R_OUT + 14)
+        lx2, ly2 = pt(L + 180, r_lab)
         S.append(f'<text x="{lx2:.1f}" y="{ly2:.1f}" font-size="11" fill="{GOLD}" text-anchor="middle" dominant-baseline="central">{"DC" if key == "asc" else "IC"}</text>')
 
     # gezegen + nokta glifleri: çakışmayı açısal yayma ile çöz
@@ -194,6 +212,38 @@ def wheel(chart):
         mi = int(round((b["lon"] % 1) * 60)) % 60
         r = "R" if b.get("retro") else ""
         S.append(f'<text x="{dx:.1f}" y="{dy:.1f}" font-size="9" fill="{INK}" text-anchor="middle" dominant-baseline="central">{deg}°{mi:02d}{r}</text>')
+    # ikinci harita: zodyak bandının dışında
+    if dis:
+        dbodies = [p for p in dis["planets"]] + [q for q in dis["points"] if q["id"] in ("asc", "mc", "kuzey")]
+        ditems = sorted(({"lon": b["lon"], "b": b} for b in dbodies), key=lambda x: x["lon"])
+        dpos = [x["lon"] for x in ditems]
+        for _ in range(80):
+            moved = False
+            for i in range(len(dpos)):
+                j = (i + 1) % len(dpos)
+                gap = (dpos[j] - dpos[i]) % 360
+                if gap < 6.6 and len(dpos) > 1:
+                    push = (6.6 - gap) / 2 + 0.05
+                    dpos[i] -= push
+                    dpos[j] += push
+                    moved = True
+            if not moved:
+                break
+        for it, dl in zip(ditems, dpos):
+            b = it["b"]
+            tx, ty = pt(it["lon"], R_OUT)
+            tx2, ty2 = pt(it["lon"], R_OUT + 9)
+            S.append(f'<line x1="{tx:.1f}" y1="{ty:.1f}" x2="{tx2:.1f}" y2="{ty2:.1f}" stroke="{DIS_COL}" stroke-width="1.4"/>')
+            gx, gy = pt(dl, R_DIS)
+            cx2, cy2 = pt(it["lon"], R_OUT + 10)
+            S.append(f'<line x1="{cx2:.1f}" y1="{cy2:.1f}" x2="{gx:.1f}" y2="{gy:.1f}" stroke="{DIS_COL}" stroke-width=".5" opacity=".6"/>')
+            S.append(f'<circle cx="{gx:.1f}" cy="{gy:.1f}" r="11" fill="#ffffff" stroke="{DIS_COL}" stroke-width=".6"/>')
+            if b["id"] in ("asc", "mc"):
+                S.append(f'<text x="{gx:.1f}" y="{gy:.1f}" font-size="10" font-weight="700" fill="{DIS_COL}" text-anchor="middle" dominant-baseline="central">{"AC" if b["id"] == "asc" else "MC"}</text>')
+            else:
+                S.append(glyph_path(b.get("glyph"), gx, gy, 14 if b["id"] in [p["id"] for p in dis["planets"]] else 12, DIS_COL))
+            dx, dy = pt(dl, R_DIS + 22)
+            S.append(f'<text x="{dx:.1f}" y="{dy:.1f}" font-size="8.5" fill="{DIS_COL}" text-anchor="middle" dominant-baseline="central">{int(b["lon"] % 30)}°{int(round((b["lon"] % 1) * 60)) % 60:02d}</text>')
     S.append("</svg>")
     return "\n".join(s for s in S if s)
 

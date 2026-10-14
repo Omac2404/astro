@@ -115,7 +115,7 @@ if (chart.olaylar.length) {
     if (o.hata) { L.push(`- ${o.tarih}: ${o.aciklama} (hesaplanamadı)`); continue; }
     L.push(`- ${o.tarih_tr} (yaş ${o.yas}): "${o.aciklama}"`);
     L.push(`  · transitler: ${o.tetikleyiciler.length ? o.tetikleyiciler.map((h) => `${h.transit} ${h.ad} natal ${h.natal} (${h.orb}°)`).join("; ") : "belirgin yavaş gezegen tetikleyicisi yok"}`);
-    L.push(`  · transit Jüpiter ${o.transit_evler["Jüpiter"].ev}. ev, transit Satürn ${o.transit_evler["Satürn"].ev}. ev · progresif Ay ${o.progresif_ay.burc} ${o.progresif_ay.deg} (${o.progresif_ay.ev}. ev)${o.progresif_ay_acilari.length ? " · " + o.progresif_ay_acilari.join("; ") : ""}`);
+    L.push(`  · transit Jüpiter ${o.transit_evler["Jüpiter"].ev}. ev, transit Satürn ${o.transit_evler["Satürn"].ev}. ev${o.progresif_ay ? ` · progresif Ay ${o.progresif_ay.burc} ${o.progresif_ay.deg} (${o.progresif_ay.ev}. ev)` : ""}${o.progresif_ay_acilari?.length ? " · " + o.progresif_ay_acilari.join("; ") : ""}`);
   }
 }
 // ---------------- Ürün (rapor türü) ----------------
@@ -131,6 +131,10 @@ const URUN_BILGI = {
              temalar: "Enerji ve Canlılık, Duygusal Ritim, Stres ve Denge, Yaşam Ritmi" },
   lilith:  { ad: "Lilith & Karmik Pro Rapor", tarif: "doğum haritasının karmik, ruhsal ve gölge odaklı profesyonel analizi. Odak: Ay Düğümleri ekseni (Kuzey/Güney Düğüm), Kiron, Lilith (Kara Ay), Satürn, Plüton, 12. ev (bilinçaltı), 8. ev (dönüşüm), 4. ev (kökler, aile mirası) ve bu noktalarla temas eden gezegenler. Reenkarnasyon iddiası kurmadan, sembolik ve psikolojik dille",
              temalar: "Karmik Geçmiş, Gölge ve Güç, Yara ve Şifa, Ruhsal Yön" },
+  solar:   { ad: "Solar Return Pro Rapor", tarif: "Solar Return (yıl dönümü) haritasının, doğum gününden bir sonrakine kadar olan yılın temaları ve zamanlaması odaklı profesyonel analizi. Odak: SR Yükselen ve yöneticisi, açısal SR gezegenleri, SR Güneş ve Ay, SR evleri, SR gezegenlerinin natal evlere düşüşü, SR → natal çapraz açılar, yıllık profeksiyon ve yılın lordu, Güneş takvimi ve SR yılı transitleri",
+             temalar: "Yılın Tonu, İlişkiler, Kariyer ve Para, Yılın Zamanlaması" },
+  sinastri: { ad: "Sinastri Pro Rapor", tarif: `iki kişinin (${chart.sinastri?.adA || ""} ve ${chart.sinastri?.adB || ""}) ilişki uyumu odaklı profesyonel sinastri analizi. İlişki türü: ${chart.sinastri?.iliski_ad || ""}. Odak: iki doğum haritası, çapraz açılar, iki yönlü ev bindirmeleri, kompozit harita ve ilişkinin zamanlaması. İki kişiye de adıyla değin; birini suçlayan ya da 'uyumsuz' diye hüküm veren dil yok`,
+             temalar: "Çekim ve Yakınlık, İletişim, Gerilim ve Denge, Ortak Gelecek" },
 };
 const UB = URUN_BILGI[URUN] || URUN_BILGI.natal;
 
@@ -147,6 +151,49 @@ if (URUN !== "natal" && O.noktalar) {
   L.push("- Transit listesi bu raporun odak noktalarına göre filtrelenmiştir.");
 }
 if (chart.mizac) L.push(`- Klasik mizaç (7 gezegen + Yükselen): ${chart.mizac.ad} (${chart.mizac.tabiat}) · element sayımı: ${Object.entries(chart.mizac.element8).map(([k, v]) => `${k} ${v}`).join(", ")}`);
+// --- Solar Return Pro bağlamı ---
+const SRP = chart.sr_pro;
+if (SRP) {
+  const H = SRP.harita;
+  L.push(`\n## SOLAR RETURN (YIL) HARİTASI · ${SRP.yil} · an: ${SRP.an} · yer: ${SRP.yer}${SRP.relocated ? " (yer değiştirmeli SR: doğum gününde bulunulacak yere göre)" : " (doğum yerine göre)"} · geçerlilik: bir sonraki doğum gününe (${SRP.bitis}) kadar`);
+  L.push(`- SR Yükselen ${H.asc.sign} ${H.asc.deg} (natal ${SRP.natal_ev_kose.asc}. eve düşüyor) · SR MC ${H.mc.sign} ${H.mc.deg} (natal ${SRP.natal_ev_kose.mc}. eve düşüyor) · SR harita yöneticisi ${H.harita_yoneticisi.ad} (${H.harita_yoneticisi.sign}, SR ${H.harita_yoneticisi.house}. ev)`);
+  L.push(`- Açısal SR gezegenleri (1/4/7/10. SR evleri): ${SRP.acisal.join(", ") || "yok"} · SR Ay fazı: ${H.ay_fazi.ad}`);
+  L.push("- SR gezegenleri (burç derece · SR evi · natal evi):");
+  for (const p of H.planets) L.push(`  · ${p.ad}: ${p.sign} ${p.deg} · SR ${p.house}. ev · natal ${p.natal_ev}. ev${p.retro ? " · RETRO" : ""}`);
+  L.push("- SR evleri: " + H.houses.map((h) => `${h.n}. ${h.sign} (yön. ${h.yonetici} → ${h.yonetici_ev}. ev${h.icindekiler.length ? "; " + h.icindekiler.join(", ") : ""})`).join(" · "));
+  L.push("- SR açıları: " + H.aspects.filter((a) => a["majör"]).slice(0, 16).map((a) => `${a.a_ad} ${a.ad} ${a.b_ad} (${a.orb}°)`).join("; "));
+  L.push("- SR → natal çapraz açılar (orb ≤3°): " + SRP.capraz.slice(0, 16).map((c) => `SR ${c.a_ad} ${c.ad} natal ${c.b_ad} (${c.orb}°)`).join("; "));
+  const PF = SRP.profeksiyon;
+  L.push(`- Profeksiyon: ${PF.yas} yaş yılı → natal ${PF.ev}. ev (${PF.burc}) · yılın lordu ${PF.lord} · natalde ${PF.lord_natal} · SR'de ${PF.lord_sr}`);
+  L.push("- Güneş takvimi (Güneş'in SR yılı boyunca burç geçişleri; ay ay ritim): " + SRP.gunes_takvim.map((t) => `${t.tarih}: ${t.burc} (SR ${t.sr_ev}. ev, natal ${t.natal_ev}. ev)`).join(" → "));
+  L.push(`- SR element dengesi: ${Object.entries(H.denge.element).map(([k, v]) => `${k} ${v}`).join(", ")}`);
+  L.push("- NOT: Yukarıdaki TRANSİTLER bölümü SR yılını (SR anından itibaren 12 ay) kapsar.");
+}
+// --- Sinastri Pro bağlamı ---
+const SN = chart.sinastri;
+if (SN) {
+  const B = chart.kisi_b;
+  L.push(`\n## İKİNCİ KİŞİ: ${SN.adB} · doğum ${B.meta.tarih} ${B.meta.saat} · ${B.meta.yer} · saat güveni ${GUVEN[B.meta.zaman_guven] || B.meta.zaman_guven}`);
+  L.push(`- İlişki türü: ${SN.iliski_ad} · Birinci kişi (danışan): ${SN.adA}`);
+  L.push(`- ${SN.adB} Yükselen ${B.asc.sign} ${B.asc.deg} · MC ${B.mc.sign} ${B.mc.deg} · harita yöneticisi ${B.harita_yoneticisi.ad}`);
+  for (const p of B.planets) L.push(`  · ${SN.adB} ${p.ad}: ${p.sign} ${p.deg} · ${p.house}. ev · ${p.dignity}${p.retro ? " · RETRO" : ""}`);
+  for (const q of B.points.filter((x) => ["kuzey", "lilith", "chiron"].includes(x.id))) L.push(`  · ${SN.adB} ${q.ad}: ${q.sign} ${q.deg} · ${q.house}. ev`);
+  L.push(`- ${SN.adB} kendi açıları (en belirleyici): ` + B.aspects.filter((a) => a["majör"]).slice(0, 12).map((a) => `${a.a_ad} ${a.ad} ${a.b_ad} (${a.orb}°)`).join("; "));
+  L.push(`- Element: ${SN.adA} ${Object.entries(chart.denge.element).map(([k, v]) => `${k} ${v}`).join("/")} · ${SN.adB} ${Object.entries(B.denge.element).map(([k, v]) => `${k} ${v}`).join("/")}`);
+  L.push(`- Nitelik: ${SN.adA} ${Object.entries(chart.denge.nitelik).map(([k, v]) => `${k} ${v}`).join("/")} · ${SN.adB} ${Object.entries(B.denge.nitelik).map(([k, v]) => `${k} ${v}`).join("/")}`);
+  L.push(`\n## SİNASTRİ: ÇAPRAZ AÇILAR (${SN.adA} gezegeni → ${SN.adB} gezegeni; en belirleyiciden) · toplam ${SN.sayim.toplam}: uyumlu ${SN.sayim.uyumlu}, gergin ${SN.sayim.gergin}, kavuşum ${SN.sayim.kavusum}`);
+  for (const c of SN.capraz.slice(0, 32)) L.push(`- ${SN.adA} ${c.a_ad} ${c.ad} ${SN.adB} ${c.b_ad} · orb ${c.orb}° · ${c.uyum}`);
+  L.push(`- Çekim göstergeleri: ${SN.cekim.map((c) => `${SN.adA} ${c.a_ad} ${c.ad} ${SN.adB} ${c.b_ad} (${c.orb}°)`).join("; ") || "belirgin yok"}`);
+  L.push(`- Zorlayıcı temaslar (Satürn/Plüton ↔ kişisel): ${SN.zorlayici.map((c) => `${SN.adA} ${c.a_ad} ${c.ad} ${SN.adB} ${c.b_ad} (${c.orb}°)`).join("; ") || "belirgin yok"}`);
+  L.push(`\n## EV BİNDİRMELERİ`);
+  L.push(`- ${SN.adA}'nin gezegenleri ${SN.adB}'nin evlerinde: ` + SN.bindirme_ab.map((x) => `${x.ad} → ${x.house}. ev`).join(", "));
+  L.push(`- ${SN.adB}'nin gezegenleri ${SN.adA}'nin evlerinde: ` + SN.bindirme_ba.map((x) => `${x.ad} → ${x.house}. ev`).join(", "));
+  const K = SN.kompozit;
+  L.push(`\n## KOMPOZİT HARİTA (orta nokta; ilişkinin kendisi) · Yükselen ${K.asc.sign} ${K.asc.deg} · MC ${K.mc.sign} ${K.mc.deg}`);
+  for (const p of K.planets) L.push(`- Kompozit ${p.ad}: ${p.sign} ${p.deg} · ${p.house}. ev`);
+  L.push("- Kompozit açılar: " + K.aspects.slice(0, 16).map((a) => `${a.a_ad} ${a.ad} ${a.b_ad} (${a.orb}°)`).join("; "));
+  L.push("- NOT: Yukarıdaki TRANSİTLER bölümü KOMPOZİT haritanın noktalarına göredir (ilişkinin zamanlaması); YAŞAM OLAYLARI da kompozit haritaya göre hesaplandı (ilişkinin olayları).");
+}
 const BAGLAM = L.join("\n");
 
 // ---------------- Bölüm planı ----------------
@@ -228,6 +275,36 @@ const DERIN = {
     { key: "l_oruntu", baslik: "Tekrar Eden Örüntüler ve Ruhsal Bütünleşme", kelime: 450,
       is: "Önceki bölümlerdeki temaları birleştir: tekrar eden 3-4 karmik örüntü (madde listesi, her biri teknik dayanaklı) ve \"### Bütünleşme Yolu\" alt başlığıyla somut ruhsal pratikler." },
   ],
+  solar: [
+    { key: "sr_ton", baslik: "Yılın Tonu: SR Yükselen, Yöneticisi ve Açısal Gezegenler", kelime: 600,
+      is: "SR Yükselen burcu ve derecesi, natal haritada hangi eve düştüğü, SR harita yöneticisinin konumu ve açısal (1/4/7/10. ev) SR gezegenleri için alt başlıklar. Yılın genel karakteri ve kişinin bu yıl nasıl bir 'kostüm' giydiği. Yer değiştirmeli SR ise bunun anlamına bir cümle." },
+    { key: "sr_isiklar", baslik: "SR Güneş ve Ay: Yılın Odağı ve Duygusal İklimi", kelime: 600,
+      is: "\"### SR Güneşi\" (SR evi ve natal evi: yılın ana sahnesi, enerjinin toplandığı alan), \"### SR Ayı\" (burç, SR evi, natal evi, açıları: duygusal iklim, ihtiyaçlar, değişkenlik), \"### Işıkların Diyaloğu\" (SR Ay fazı ve Güneş–Ay ilişkisi)." },
+    { key: "sr_evler", baslik: "Yılın Sahneleri: SR Evleri", kelime: 750,
+      is: "SR evlerini öne çıkanlardan başlayarak işle: dolu SR evleri (içindeki gezegenler ve yöneticiler) için alt başlıklar ve 2-4 cümle; boş evleri tek paragrafta topla. Her evde: bu yıl o yaşam alanında ne hareketleniyor." },
+    { key: "sr_natal", baslik: "Yıl Haritası ile Doğum Haritasının Buluşması", kelime: 600,
+      is: "SR gezegenlerinin natal evlere düşüşü (özellikle Güneş, Ay, Venüs, Mars, Jüpiter, Satürn), SR Yükselen ve MC'nin natal evleri ve en sıkı SR → natal çapraz açılar: yılın doğum haritasındaki hangi temaları tetiklediği. Alt başlıklarla." },
+    { key: "sr_lord", baslik: "Yılın Lordu: Profeksiyon", kelime: 400,
+      is: "Yıllık profeksiyon: kaç yaş yılında olunduğu, aktive olan natal ev ve burç, yılın lordu gezegen; lordun natal ve SR konumu, yıl boyunca bu gezegenin transitlerinin neden önemli olduğu." },
+    { key: "sr_alanlar", baslik: "Yılın Yaşam Alanları", kelime: 600,
+      is: `Dört alt başlık, her biri 1-2 paragraf: "### Aşk ve İlişkiler" (SR Venüs, Mars, 5. ve 7. SR evleri), "### Kariyer ve Para" (SR MC, 10., 2. ve 6. SR evleri, Satürn/Jüpiter), "### Sağlık ve Enerji" (SR 1. ve 6. ev, Mars; tıbbi tanı yok), "### Aile ve Yuva" (SR 4. ev, Ay). Danışan bilgisi varsa bağla.` },
+  ],
+  sinastri: [
+    { key: "sn_kisiler", baslik: "İki Kişi: Temel Doğalar ve İhtiyaçlar", kelime: 600,
+      is: "Her iki kişi için ayrı alt başlık (adlarıyla): Güneş, Ay, Yükselen, Venüs ve Mars üzerinden ilişkiye getirdikleri temel doğa ve ihtiyaçlar (kısa, yoğun). Son alt başlık \"### İki Doğanın Buluşması\": element ve nitelik karşılaştırması, birbirini tamamlayan ve zorlayan yanlar." },
+    { key: "sn_cekim", baslik: "Çekim, Kimya ve Yakınlık", kelime: 650,
+      is: "Çekim göstergelerini (Güneş–Ay, Venüs–Mars, Venüs–Venüs, Yükselen temasları) alt başlıklarla işle: bu ilişkide çekimin, sıcaklığın ve yakınlığın nereden geldiği. İlişki türüne uygun dil kullan (sevgili/eş ise romantik ve cinsel çekim; arkadaş/aile/iş ise yakınlık, güven ve iş birliği kimyası)." },
+    { key: "sn_duygu", baslik: "Duygusal Bağ ve İletişim", kelime: 550,
+      is: "Ay temasları (duygusal güvenlik, birbirini anlama) ve Merkür temasları (konuşma, tartışma, karar alma) için alt başlıklar; çapraz açılardan teknik dayanakla. Somut iletişim dinamikleri ve tıkanma noktaları." },
+    { key: "sn_bindirme", baslik: "Ev Bindirmeleri: Birbirinizin Hayatındaki Yeri", kelime: 550,
+      is: "İki yönlü ev bindirmeleri: her kişinin kişisel gezegenleri ve Yükselen'i diğerinin hangi evine düşüyor; birbirinin hangi yaşam alanını aktive ettiği. İki alt başlık (her yön için) ve bir özet paragraf." },
+    { key: "sn_gerilim", baslik: "Gerilim Noktaları ve Satürn–Plüton Temasları", kelime: 550,
+      is: "Gergin çapraz açılar ve zorlayıcı temaslar (Satürn/Plüton ↔ kişisel gezegenler): tekrarlayan çatışma senaryoları, güç ve kontrol dinamikleri, sorumluluk ve sınır meseleleri. Her biri için olgun ve yapıcı ifade yolu. Yargılamadan." },
+    { key: "sn_kompozit", baslik: "Kompozit Harita: İlişkinin Kendisi", kelime: 600,
+      is: "Kompozit Yükselen, Güneş, Ay, Venüs ve MC; kompozit açılar ve dolu kompozit evler: ilişkinin kendine ait karakteri, amacı ve dünyaya nasıl göründüğü. Alt başlıklarla." },
+    { key: "sn_rehber", baslik: "İlişkiyi Besleyen Öneriler", kelime: 400,
+      is: "Tüm analizi birleştirerek ilişki türüne uygun somut öneriler: güçlü yanları büyütmek, gerilim noktalarını yönetmek, ortak ritim ve iletişim pratikleri (madde listesi ağırlıklı). Kesin hüküm ya da 'uyumsuz' etiketi yok." },
+  ],
 };
 const ZAMAN_BASLIK = {
   natal: "Önümüzdeki 12 Ay: Transitler, Progresyonlar ve Yıl Haritası",
@@ -235,19 +312,29 @@ const ZAMAN_BASLIK = {
   kariyer: "Önümüzdeki 12 Ay: Kariyer ve Para Zamanlaması",
   saglik: "Önümüzdeki 12 Ay: Enerji Döngüleri ve Denge Zamanlaması",
   lilith: "Önümüzdeki 12 Ay: Karmik Tetikleyiciler ve Dönüşüm Pencereleri",
+  solar: "Yılın Takvimi: Ay Ay Akış ve Transitler",
+  sinastri: "İlişkinin Önümüzdeki 12 Ayı",
+};
+const ZAMAN_IS = {
+  solar: `SR yılının takvimi. Önce 1 paragraf yılın genel akışı. Sonra "### Ay Ay Akış" altında Güneş takvimindeki her güneş ayı için (tarih aralığı + burç + SR evi + natal evi) 1-2 cümlelik somut tema; madde listesi. Ardından "### Önemli Transit Pencereleri" altında SR yılındaki en ağır 6-8 transit penceresi (tarih aralığı + tam isabet + tema). Yılın lordunun transitlerine özellikle değin. Kesin olay kehaneti yok; pencere ve tema dili.`,
+  sinastri: `İlişkinin önümüzdeki 12 ayı: kompozit haritaya yapılan transitler. Önce 1 paragraf genel ilişki iklimi. Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: en önemli 8-10 transit penceresi (tarih aralığı + tam isabet + ilişkiye yansıyan tek cümlelik tema). Sonda "### İlişki İçin Uygun Zamanlar" kısa paragrafı (birlikte karar, yeni başlangıç, yüzleşme için uygun ve zorlayıcı dönemler). Kesin olay kehaneti yok.`,
 };
 const ORTAK_SON = [
-  { key: "zaman", baslik: ZAMAN_BASLIK[URUN] || ZAMAN_BASLIK.natal, kelime: 700,
-    is: `Bu raporun konusu (${UB.tarif.split(".")[0]}) açısından önümüzdeki 12 ay. Önce 1 paragraflık genel yıl tonu (Solar Return ve en ağır transitler). Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: yalnızca konuyla en ilgili 8-10 transit penceresi, her biri tarih aralığı + tam isabet + tek cümlelik somut tema (benzerlerini birleştir). Ardından "### Progresyonlar ve Solar Return" alt başlığıyla tek-iki paragraf. Kesin olay kehaneti yok; pencere ve tema dili.` },
-  { key: "olaylar", baslik: "Yaşam Olaylarının Astrolojik Okuması", kelime: 0, kosul: () => chart.olaylar.length > 0,
-    is: "Danışanın verdiği her yaşam olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihteki tetikleyicileri (transitler, transit Jüpiter/Satürn evleri, progresif Ay) olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla kısa bir ortak tema ve doğum saati doğrulamasına katkısı." },
+  { key: "zaman", baslik: ZAMAN_BASLIK[URUN] || ZAMAN_BASLIK.natal, kelime: URUN === "solar" ? 900 : 700,
+    is: ZAMAN_IS[URUN] || `Bu raporun konusu (${UB.tarif.split(".")[0]}) açısından önümüzdeki 12 ay. Önce 1 paragraflık genel yıl tonu (Solar Return ve en ağır transitler). Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: yalnızca konuyla en ilgili 8-10 transit penceresi, her biri tarih aralığı + tam isabet + tek cümlelik somut tema (benzerlerini birleştir). Ardından "### Progresyonlar ve Solar Return" alt başlığıyla tek-iki paragraf. Kesin olay kehaneti yok; pencere ve tema dili.` },
+  { key: "olaylar", baslik: URUN === "sinastri" ? "İlişkinin Olaylarının Astrolojik Okuması" : "Yaşam Olaylarının Astrolojik Okuması", kelime: 0, kosul: () => chart.olaylar.length > 0,
+    is: URUN === "sinastri" ? "Verilen her ilişki olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihte kompozit haritaya yapılan transitleri olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla ilişkinin dönüm noktalarındaki ortak tema." : "Danışanın verdiği her yaşam olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihteki tetikleyicileri (transitler, transit Jüpiter/Satürn evleri, progresif Ay) olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla kısa bir ortak tema ve doğum saati doğrulamasına katkısı." },
   { key: "sorular", baslik: "Danışanın Soruları", kelime: 0, kosul: () => !!(dn.sorular && dn.sorular.trim()),
     is: "Danışanın odak sorularının HER BİRİNİ ayrı alt başlık yap (soruyu kısaltarak başlık olarak yaz). Her birine haritadan teknik dayanaklı, dengeli ve uygulanabilir 1-2 paragraflık bir cevap ver; zamanlama varsa transit/progresyon pencerelerine bağla. Kehanet yok, eğilim ve öneri dili." },
   { key: "seans", baslik: "Astrolog İçin Seans Rehberi", kelime: 1000,
-    is: `Astroloğa bu danışana ve bu rapor konusuna (${UB.ad}) özel, uygulamaya hazır seans planı. Alt başlıklar (bu sırayla): "### Seans Akışı" (60 dakikalık seans için dakika aralıklı 5-6 maddelik akış; her adımda hangi konu ve haritanın hangi yerleşimi), "### Açılış" (astroloğun seansı açabileceği 2-3 cümle, \`> \` satırı olarak), "### Sorulacak Sorular" (konuyla ilgili temaları doğrulamak ve derinleştirmek için 8-10 soru; her birinin yanında parantez içinde hangi yerleşimden geldiği), "### Temalara Göre Söylenebilecek Cümleler" (${UB.temalar} için kısa birer giriş cümlesi ve her birinde 1-2 \`> \` satırı), "### Hassas Noktalar ve Dil Önerisi" (dikkatle ele alınacak konular ve nasıl dile getirilmeli; madde listesi), "### Danışana Öneriler ve Pratikler" (somut, uygulanabilir farkındalık çalışmaları; madde listesi), "### Takip Seansı Zamanlaması" (transit ve progresyon pencerelerine göre bir sonraki seans için 2-3 tarih önerisi ve gerekçesi), "### Kapanış" (seansı kapatmak için 1 \`> \` satırı). Danışanın soruları ve astroloğun notu varsa planı onlara göre kur.` },
+    is: `Astroloğa bu danışana ve bu rapor konusuna (${UB.ad}) özel, uygulamaya hazır seans planı. Alt başlıklar (bu sırayla): "### Seans Akışı" (60 dakikalık seans için dakika aralıklı 5-6 maddelik akış; her adımda hangi konu ve haritanın hangi yerleşimi), "### Açılış" (astroloğun seansı açabileceği 2-3 cümle, \`> \` satırı olarak), "### Sorulacak Sorular" (konuyla ilgili temaları doğrulamak ve derinleştirmek için 8-10 soru; her birinin yanında parantez içinde hangi yerleşimden geldiği), "### Temalara Göre Söylenebilecek Cümleler" (${UB.temalar} için kısa birer giriş cümlesi ve her birinde 1-2 \`> \` satırı), "### Hassas Noktalar ve Dil Önerisi" (dikkatle ele alınacak konular ve nasıl dile getirilmeli; madde listesi), "### Danışana Öneriler ve Pratikler" (somut, uygulanabilir farkındalık çalışmaları; madde listesi), "### Takip Seansı Zamanlaması" (transit ve progresyon pencerelerine göre bir sonraki seans için 2-3 tarih önerisi ve gerekçesi), "### Kapanış" (seansı kapatmak için 1 \`> \` satırı). Danışanın soruları ve astroloğun notu varsa planı onlara göre kur.${URUN === "sinastri" ? " Seansa iki kişi birlikte de gelebilir, yalnız danışan da: akışta ve dil önerisinde ikisine göre ayrı ipuçları ver; iki kişiyi de adıyla an." : ""}` },
 ];
 // Grafik/tablo yorum anahtarları (render_pro bu anahtarları ilgili figürün altına basar)
-const VERI_ANAHTAR = URUN === "natal"
+const VERI_ANAHTAR = URUN === "solar"
+  ? `"### cark" (yıl haritası çarkında ilk göze çarpan), "### natal" (doğum haritası çarkıyla yıl haritası arasındaki temel fark), "### konumlar" (SR gezegenleri ve natal evleri tablosunun ana mesajı), "### evler" (SR ev tablosunda yılın öne çıkan sahneleri), "### yil" (yıl göstergeleri: profeksiyon, yılın lordu, SR → natal çapraz açılar), "### takvim" (Güneş takviminde yılın ritmi), "### acilar" (SR açılarının baskın deseni), "### transit" (SR yılı transit çizelgesindeki ana hareket)`
+  : URUN === "sinastri"
+  ? `"### cark" (iki haritanın üst üste bindirildiği çift çarkta ilk göze çarpan), "### konumlar" (iki kişinin konum tablolarının karşılaştırması), "### capraz" (çapraz açı ızgarasının baskın deseni: uyum ve gerilim dengesi), "### bindirme" (ev bindirmelerinin ana mesajı), "### kompozit" (kompozit harita: ilişkinin kendi karakteri), "### denge" (iki kişinin element ve nitelik dengesinin karşılaştırması), "### transit" (ilişkinin 12 aylık transit çizelgesindeki ana hareket)`
+  : URUN === "natal"
   ? `"### cark" (natal çarkın genel görünümü ve ilk göze çarpan), "### konumlar" (gezegen tablosundaki en belirleyici 2-3 yerleşim), "### evler" (dolu ve boş evlerin dağılımı), "### acilar" (açı ağının baskın deseni, uyumlu mu gergin mi), "### denge" (element, nitelik ve kutup dengesi), "### yarikure" (yarıküre ve çeyrek dağılımı), "### guc" (en güçlü ve en zorlanan gezegen), "### dispozitor" (dispozitör zincirinin merkezi), "### transit" (önümüzdeki 12 ayın transit çizelgesindeki ana hareket)`
   : `"### cark" (çarkta bu konu açısından ilk göze çarpan), "### konumlar" (gezegen tablosunda bu konu için en belirleyici 2-3 yerleşim), "### evler" (ev tablosunda bu konunun evleri), "### odak" (${UB.ad} odak tablosunun ana mesajı: odak noktaları ve evler${URUN === "lilith" ? ", karmik noktalar ve temasları" : ""}${URUN === "saglik" ? ", mizaç" : ""}), "### acilar" (bu konuya dokunan açıların baskın deseni), ${URUN === "saglik" ? `"### denge" (element, nitelik ve mizaç dengesi), "### yarikure" (yarıküre dağılımı ve enerji yönü), ` : ""}"### transit" (önümüzdeki 12 ayın bu konuya ilişkin transit çizelgesindeki ana hareket)`;
 const VERI = { key: "veri", baslik: "Grafik ve Tablo Yorumları", kelime: URUN === "natal" ? 450 : 380,

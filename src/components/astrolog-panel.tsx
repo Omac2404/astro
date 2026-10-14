@@ -3,12 +3,19 @@
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PersonFields, bosKisi, toDogum, type Kisi } from "@/components/birth-form";
+import { IL_LISTESI } from "@/lib/tr-cities";
 
 type Olay = { tarih: string; aciklama: string };
 type Danisan = {
   ad: string; tarih: string; saat: string; yer: string; saatKesin: "kesin" | "yaklasik" | "bilinmiyor";
   cinsiyet?: string; meslek?: string; iliski?: string; sorular?: string; olaylar?: Olay[]; astrologNot?: string;
+  srYil?: "gecerli" | "gelecek"; srYer?: string;
+  kisi2?: { ad: string; tarih: string; saat: string; yer: string; saatKesin: SaatKesin };
+  iliskiTuru?: "sevgili" | "arkadas" | "aile" | "is";
 };
+type SaatKesin = "kesin" | "yaklasik" | "bilinmiyor";
+type OnDolu = Danisan & { _slug?: string };
+const ILISKI_TURLERI = [["sevgili", "Sevgili / Eş"], ["arkadas", "Arkadaşlık"], ["aile", "Aile"], ["is", "İş ortaklığı"]] as const;
 type Rapor = {
   id: string; slug: string; urunAd: string; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; hata?: string;
   iade?: boolean; jeton: number; tarih: string; hazirTarih?: string; silmeTarih: string; danisan: Danisan;
@@ -63,7 +70,7 @@ const getir = (): Promise<Veri | null> =>
 export function AstrologPanel({ email }: { email: string }) {
   const [v, setV] = useState<Veri | null>(null);
   const [form, setForm] = useState(false);
-  const [onDolu, setOnDolu] = useState<Danisan | null>(null);
+  const [onDolu, setOnDolu] = useState<OnDolu | null>(null);
   const [q, setQ] = useState("");
   const [hareketAcik, setHareketAcik] = useState(false);
 
@@ -197,7 +204,7 @@ export function AstrologPanel({ email }: { email: string }) {
                 {liste.map((r) => (
                   <li key={r.id} className="flex flex-wrap items-center justify-between gap-3 py-3.5">
                     <div className="min-w-0">
-                      <div className="font-medium text-parchment/90">{r.danisan.ad} <span className="text-sm font-normal text-parchment/45">· {r.urunAd}</span></div>
+                      <div className="font-medium text-parchment/90">{r.danisan.ad}{r.danisan.kisi2 ? ` & ${r.danisan.kisi2.ad}` : ""} <span className="text-sm font-normal text-parchment/45">· {r.urunAd}</span></div>
                       <div className="text-xs text-parchment/45">
                         {r.danisan.tarih} {r.danisan.saat || "(saat yok)"} · {r.danisan.yer} · oluşturma {tarihTR(r.tarih)}
                       </div>
@@ -210,7 +217,7 @@ export function AstrologPanel({ email }: { email: string }) {
                         <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="rounded-full bg-gold px-4 py-1.5 text-xs font-medium text-night-deep transition-colors hover:bg-gold-bright">PDF&apos;i aç</a>
                       )}
                       {r.durum === "hata" && (
-                        <button onClick={() => { setOnDolu(r.danisan); setForm(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="rounded-full border border-gold/30 px-4 py-1.5 text-xs text-parchment/80 hover:text-gold-bright">Tekrar oluştur</button>
+                        <button onClick={() => { setOnDolu({ ...r.danisan, _slug: r.slug }); setForm(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="rounded-full border border-gold/30 px-4 py-1.5 text-xs text-parchment/80 hover:text-gold-bright">Tekrar oluştur</button>
                       )}
                       {r.durum !== "olusturuluyor" && (
                         <button onClick={() => sil(r)} title="Sil" className="rounded-full border border-rose-400/25 px-3 py-1.5 text-xs text-rose-300/80 hover:border-rose-400/60">Sil</button>
@@ -227,8 +234,58 @@ export function AstrologPanel({ email }: { email: string }) {
   );
 }
 
-function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler: Urun[]; bakiye: number; onDolu: Danisan | null; kapat: () => void; basarili: () => void }) {
-  const [slug, setSlug] = useState("natal");
+// Saat kesinliği seçici (danışan ve sinastride ikinci kişi)
+function SaatKesinSecici({ v, set }: { v: SaatKesin; set: (x: SaatKesin) => void }) {
+  return (
+    <div className="mt-3">
+      <label className={labelCls}>Doğum saati ne kadar kesin?</label>
+      <div className="grid grid-cols-3 gap-2 text-sm">
+        {([["kesin", "Kesin"], ["yaklasik", "Yaklaşık"], ["bilinmiyor", "Bilinmiyor"]] as const).map(([val, lab]) => (
+          <button type="button" key={val} onClick={() => set(val)}
+            className={`rounded-lg border px-2 py-2 ${v === val ? "border-gold/70 bg-gold/10 text-gold-bright" : "border-gold/15 text-parchment/65"}`}>{lab}</button>
+        ))}
+      </div>
+      {v === "bilinmiyor" && <p className="mt-1.5 text-[11px] text-amber-200/70">Saat 12:00 alınır; Yükselen ve evler raporda “doğrulanmalı” olarak işaretlenir.</p>}
+    </div>
+  );
+}
+
+// Yalnız yer alanları (Solar Return: doğum gününde bulunulacak yer)
+function YerAlanlari({ k, set }: { k: Kisi; set: (p: Partial<Kisi>) => void }) {
+  return (
+    <div className="space-y-2">
+      <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-gold/15 bg-night-deep px-4 py-2.5">
+        <span className="text-sm text-parchment/80">Yurtdışında</span>
+        <input type="checkbox" checked={k.yurtdisi} onChange={(e) => set({ yurtdisi: e.target.checked })} className="h-4 w-4 accent-[#c2a36b]" />
+      </label>
+      {k.yurtdisi ? (
+        <div className="grid grid-cols-2 gap-3">
+          <input value={k.ulke} onChange={(e) => set({ ulke: e.target.value })} placeholder="Ülke" className={inputCls} />
+          <input value={k.sehir} onChange={(e) => set({ sehir: e.target.value })} placeholder="Şehir" className={inputCls} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3">
+          <select value={k.il} onChange={(e) => set({ il: e.target.value })} className={inputCls} style={{ colorScheme: "dark" }}>
+            <option value="">İl seç</option>
+            {IL_LISTESI.map((il) => <option key={il} value={il}>{il}</option>)}
+          </select>
+          <input value={k.ilce} onChange={(e) => set({ ilce: e.target.value })} placeholder="İlçe" className={inputCls} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler: Urun[]; bakiye: number; onDolu: OnDolu | null; kapat: () => void; basarili: () => void }) {
+  const [slug, setSlug] = useState(onDolu?._slug ?? "natal");
+  // Solar Return
+  const [srYil, setSrYil] = useState<"gecerli" | "gelecek">(onDolu?.srYil ?? "gecerli");
+  const [srFarkli, setSrFarkli] = useState(!!onDolu?.srYer);
+  const [srK, setSrK] = useState<Kisi>(() => (onDolu?.srYer ? kisiFromDanisan({ ...onDolu, yer: onDolu.srYer }) : bosKisi()));
+  // Sinastri
+  const [k2, setK2] = useState<Kisi>(() => (onDolu?.kisi2 ? kisiFromDanisan({ ...onDolu.kisi2 }) : bosKisi()));
+  const [saatKesin2, setSaatKesin2] = useState<SaatKesin>(onDolu?.kisi2?.saatKesin ?? "kesin");
+  const [iliskiTuru, setIliskiTuru] = useState<NonNullable<Danisan["iliskiTuru"]>>(onDolu?.iliskiTuru ?? "sevgili");
   const [k, setK] = useState<Kisi>(() => (onDolu ? kisiFromDanisan(onDolu) : bosKisi()));
   const [saatKesin, setSaatKesin] = useState<Danisan["saatKesin"]>(onDolu?.saatKesin ?? "kesin");
   const [cinsiyet, setCinsiyet] = useState(onDolu?.cinsiyet ?? "");
@@ -250,12 +307,21 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
     setMsg("");
     if (saatKesin !== "bilinmiyor" && !k.saat) { setMsg("Doğum saatini gir ya da “Saat bilinmiyor”u seç."); return; }
     if (!urun?.aktif) { setMsg("Bu rapor türü henüz aktif değil."); return; }
-    if (!confirm(`${k.ad} için ${urun.ad} oluşturulacak ve ${urun.jeton} jeton düşülecek. Onaylıyor musun?`)) return;
+    if (slug === "sinastri") {
+      if (!k2.ad.trim() || !k2.tarih) { setMsg("İkinci kişinin adını ve doğum tarihini gir."); return; }
+      if (saatKesin2 !== "bilinmiyor" && !k2.saat) { setMsg("İkinci kişinin doğum saatini gir ya da “Bilinmiyor”u seç."); return; }
+      if (!(k2.yurtdisi ? k2.ulke && k2.sehir : k2.il)) { setMsg("İkinci kişinin doğum yerini gir."); return; }
+    }
+    if (slug === "solar" && srFarkli && !(srK.yurtdisi ? srK.ulke && srK.sehir : srK.il)) { setMsg("Doğum gününde bulunacağı yeri gir ya da seçeneği kapat."); return; }
+    const kim = slug === "sinastri" ? `${k.ad} & ${k2.ad}` : k.ad;
+    if (!confirm(`${kim} için ${urun.ad} oluşturulacak ve ${urun.jeton} jeton düşülecek. Onaylıyor musun?`)) return;
     setBusy(true);
     const danisan = {
       ...toDogum(k), saatKesin, cinsiyet, meslek, iliski, astrologNot: not,
       sorular: sorular.map((x) => x.trim()).filter(Boolean),
       olaylar: olaylar.filter((o) => o.tarih && o.aciklama.trim()),
+      ...(slug === "solar" ? { srYil, srYer: srFarkli ? toDogum(srK).yer : "" } : {}),
+      ...(slug === "sinastri" ? { kisi2: { ...toDogum(k2), saatKesin: saatKesin2 }, iliskiTuru } : {}),
     };
     const r = await fetch("/api/pro/raporlar", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ slug, danisan }) });
     const d = await r.json().catch(() => ({}));
@@ -293,16 +359,7 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
           <div>
             <h3 className="mb-3 font-display text-lg font-semibold text-gold-bright">Danışanın doğum bilgileri</h3>
             <PersonFields k={k} set={(p) => setK((s) => ({ ...s, ...p }))} />
-            <div className="mt-3">
-              <label className={labelCls}>Doğum saati ne kadar kesin?</label>
-              <div className="grid grid-cols-3 gap-2 text-sm">
-                {([["kesin", "Kesin"], ["yaklasik", "Yaklaşık"], ["bilinmiyor", "Bilinmiyor"]] as const).map(([val, lab]) => (
-                  <button type="button" key={val} onClick={() => setSaatKesin(val)}
-                    className={`rounded-lg border px-2 py-2 ${saatKesin === val ? "border-gold/70 bg-gold/10 text-gold-bright" : "border-gold/15 text-parchment/65"}`}>{lab}</button>
-                ))}
-              </div>
-              {saatKesin === "bilinmiyor" && <p className="mt-1.5 text-[11px] text-amber-200/70">Saat 12:00 alınır; Yükselen ve evler raporda “doğrulanmalı” olarak işaretlenir.</p>}
-            </div>
+            <SaatKesinSecici v={saatKesin} set={setSaatKesin} />
           </div>
 
           <div className="space-y-3">
@@ -349,6 +406,47 @@ function YeniRaporFormu({ urunler, bakiye, onDolu, kapat, basarili }: { urunler:
             </div>
           </div>
         </div>
+
+        {slug === "solar" && (
+          <div className="rounded-xl border border-gold/20 bg-night-deep/60 p-4">
+            <h3 className="mb-3 font-display text-lg font-semibold text-gold-bright">Yıl haritası (Solar Return)</h3>
+            <label className={labelCls}>Hangi yıl?</label>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              {([["gecerli", "Geçerli yıl (son doğum günü)"], ["gelecek", "Gelecek doğum günü"]] as const).map(([val, lab]) => (
+                <button type="button" key={val} onClick={() => setSrYil(val)}
+                  className={`rounded-lg border px-2 py-2 ${srYil === val ? "border-gold/70 bg-gold/10 text-gold-bright" : "border-gold/15 text-parchment/65"}`}>{lab}</button>
+              ))}
+            </div>
+            <label className="mt-3 flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-gold/15 bg-night-deep px-4 py-2.5">
+              <span className="text-sm text-parchment/80">Doğum gününde başka bir yerde olacak / oldu</span>
+              <input type="checkbox" checked={srFarkli} onChange={(e) => setSrFarkli(e.target.checked)} className="h-4 w-4 accent-[#c2a36b]" />
+            </label>
+            {srFarkli && <div className="mt-2"><YerAlanlari k={srK} set={(p) => setSrK((x) => ({ ...x, ...p }))} /></div>}
+            <p className="mt-1.5 text-[11px] text-parchment/45">Yer verilirse yıl haritası o yere göre kurulur (yer değiştirmeli SR); verilmezse doğum yeri kullanılır.</p>
+          </div>
+        )}
+
+        {slug === "sinastri" && (
+          <div className="rounded-xl border border-gold/20 bg-night-deep/60 p-4">
+            <h3 className="mb-3 font-display text-lg font-semibold text-gold-bright">İkinci kişi</h3>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div>
+                <PersonFields k={k2} set={(p) => setK2((x) => ({ ...x, ...p }))} />
+                <SaatKesinSecici v={saatKesin2} set={setSaatKesin2} />
+              </div>
+              <div>
+                <label className={labelCls}>İlişki türü</label>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  {ILISKI_TURLERI.map(([val, lab]) => (
+                    <button type="button" key={val} onClick={() => setIliskiTuru(val)}
+                      className={`rounded-lg border px-2 py-2 ${iliskiTuru === val ? "border-gold/70 bg-gold/10 text-gold-bright" : "border-gold/15 text-parchment/65"}`}>{lab}</button>
+                  ))}
+                </div>
+                <p className="mt-2 text-[11px] text-parchment/45">Rapor iki haritanın çapraz açılarını, ev bindirmelerini ve kompozit haritayı inceler. Aşağıdaki olaylara ilişkinin dönüm noktalarını (tanışma, evlilik, ayrılık…) yazabilirsin.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div>
           <div className="mb-2 flex items-center justify-between">
