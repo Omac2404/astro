@@ -200,6 +200,7 @@ URUN_AD = {
     "saglik": ("Enerji & Mizaç Pro Rapor", "mizaç · canlılık · stres kalıpları · yaşam ritmi · zamanlama · seans rehberi"),
     "lilith": ("Lilith & Karmik Pro Rapor", "ay düğümleri · Lilith · Kiron · karmik sınavlar · zamanlama · seans rehberi"),
     "solar": ("Solar Return Pro Rapor", "yıl haritası · yılın lordu · ay ay takvim · transitler · seans rehberi"),
+    "aylik": ("Aylık Dönem Pro Rapor", "30 günlük transitler · Yeni Ay ve Dolunay · istasyonlar · hafta hafta takvim · seans rehberi"),
     "sinastri": ("Sinastri Pro Rapor", "çift çark · çapraz açılar · ev bindirmeleri · kompozit harita · seans rehberi"),
 }
 ODAK_BASLIK = {
@@ -433,6 +434,46 @@ HOUSE_KONU_KISA = ["Kimlik, beden", "Para, değerler", "İletişim, yakın çevr
                    "Arkadaşlık, gelecek", "Bilinçaltı, geri çekilme"]
 
 
+def veri_sayfalari_aylik(ch, vy):
+    ap = ch["aylik_pro"]
+    gk = ap["gokyuzu"]
+    sayfalar = []
+    lej = (f'<div class="legend"><span><b style="color:{G.INK}">İç halka:</b> doğum haritası</span>'
+           f'<span><b style="color:{G.DIS_COL}">Dış halka:</b> {esc(ap["baslangic"])} gökyüzü</span>'
+           '<span><i style="background:#3f7fa6"></i>uyumlu</span><span><i style="background:#b8573a"></i>gergin</span></div>')
+    sayfalar.append({"baslik": f'Dönem: {ap["baslangic"]} – {ap["bitis"]}',
+                     "html": f'<div class="figure wheel">{G.wheel(ch, dis=gk, capraz=ap["capraz"])}{lej}</div>{vy.get("cark", "")}'})
+    rows = "".join(f'<tr><td>{planet_cell(p["glyph"], p["ad"])}</td><td>{sign_cell(p["sign_idx"], p["deg"])}</td>'
+                   f'<td class="num">{p["house"]}</td><td class="small">{esc(HOUSE_KONU_KISA[p["house"] - 1])}</td><td class="c">{"R" if p["retro"] else ""}</td></tr>'
+                   for p in gk["planets"])
+    ist = "".join(f'<tr><td>{esc(x["tarih"])}</td><td>{esc(x["gezegen"])}</td><td>{esc(x["tip"])}</td><td>{sign_cell(SIGNS.index(x["burc"]), x["deg"])}</td><td class="num">{x["ev"]}</td></tr>'
+                  for x in ap["istasyon"])
+    ing = "".join(f'<tr><td>{esc(x["tarih"])}</td><td>{esc(x["gezegen"])}</td><td>→ burç değişimi</td><td>{sign_cell(SIGNS.index(x["burc"]))}</td><td class="num">{x["ev"]}</td></tr>'
+                  for x in ap["ingresler"])
+    takvim = (ist + ing) or '<tr><td colspan="5" class="muted">Bu dönemde istasyon ya da burç geçişi yok.</td></tr>'
+    sayfalar.append({"baslik": "Dönemin Gökyüzü",
+                     "html": '<h2 class="sub" style="margin-top:0">Dönem Başında Gezegenler (natal evlere göre)</h2>'
+                             '<table class="tbl compact"><thead><tr><th>Gezegen</th><th>Konum</th><th>Natal ev</th><th>Yaşam alanı</th><th>R</th></tr></thead><tbody>'
+                             + rows + "</tbody></table>" + vy.get("gokyuzu", "")
+                             + '<h2 class="sub">İstasyonlar ve Burç Geçişleri</h2><table class="tbl compact"><thead><tr><th>Tarih</th><th>Gezegen</th><th>Olay</th><th>Konum</th><th>Natal ev</th></tr></thead><tbody>'
+                             + takvim + "</tbody></table>" + vy.get("takvim", "")})
+    lr = []
+    for l in ap["lunasyon"]:
+        tm = "; ".join(f'{esc(t["ad"])} natal {esc(t["natal"])} ({t["orb"]}°)' for t in l["temaslar"]) or '<span class="muted">belirgin temas yok</span>'
+        lr.append(f'<tr><td><b>{esc(l["ad"])}</b>{" · <span class=small>tutulma sezonu</span>" if l["tutulma"] else ""}</td><td>{esc(l["tarih"])} {esc(l["saat"])}</td>'
+                  f'<td>{sign_cell(SIGNS.index(l["burc"]), l["deg"])}</td><td class="num">{l["ev"]}</td><td class="small">{tm}</td></tr>')
+    ay = "".join(f'<tr><td>{esc(x["tarih"])} {esc(x["saat"])}</td><td>{sign_cell(SIGNS.index(x["burc"]))}</td><td class="num">{x["ev"]}</td><td class="small">{esc(HOUSE_KONU_KISA[x["ev"] - 1])}</td></tr>'
+                 for x in ap["ay_gecis"])
+    sayfalar.append({"baslik": "Yeni Ay, Dolunay ve Ay Takvimi",
+                     "html": '<h2 class="sub" style="margin-top:0">Yeni Ay ve Dolunay</h2><table class="tbl compact"><thead><tr><th>Lunasyon</th><th>Tarih</th><th>Konum</th><th>Natal ev</th><th>Natal temaslar</th></tr></thead><tbody>'
+                             + ("".join(lr) or '<tr><td colspan="5" class="muted">Dönemde lunasyon yok.</td></tr>') + "</tbody></table>" + vy.get("lunasyon", "")
+                             + '<h2 class="sub">Ay&apos;ın Natal Evlerden Geçişi</h2><table class="tbl compact"><thead><tr><th>Giriş</th><th>Burç</th><th>Natal ev</th><th>Gündem</th></tr></thead><tbody>'
+                             + ay + "</tbody></table>" + vy.get("ay", "")})
+    pos, evler, grid, acilar = build_tables(ch)
+    sayfalar.append({"baslik": "Doğum Haritası: Konumlar", "html": pos + '<h2 class="sub">Ev Tablosu</h2>' + evler})
+    return sayfalar
+
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -482,9 +523,12 @@ def main():
         "urun": urun, "urun_ad": urun_ad, "urun_alt": urun_alt, "yorum_keys": yorum_keys,
         "odak_html": odak_html(ch), "odak_baslik": ODAK_BASLIK.get(urun, ("", "")),
         "goster_yapi": urun in ("natal", "saglik"),
-        "veri_sayfalari": (veri_sayfalari_solar(ch, vy) if urun == "solar" else veri_sayfalari_sinastri(ch, vy) if urun == "sinastri" else []),
+        "veri_sayfalari": (veri_sayfalari_solar(ch, vy) if urun == "solar" else veri_sayfalari_sinastri(ch, vy) if urun == "sinastri"
+                           else veri_sayfalari_aylik(ch, vy) if urun == "aylik" else []),
+        "zaman_veri_baslik": {"aylik": "Önümüzdeki 30 Gün: Veri", "solar": "Yılın Transitleri: Veri", "sinastri": "İlişkinin 12 Ayı: Veri"}.get(urun, "Önümüzdeki 12 Ay: Veri"),
         "ek_bilgi": ek_bilgi(ch, urun),
         "transit_not": ("kompozit haritanın noktalarına (ilişkinin zamanlaması)" if urun == "sinastri"
+                        else "natal noktalara; hızlı gezegenler (Güneş, Merkür, Venüs, Mars) orb ≤1° ile dahil" if urun == "aylik"
                         else "natal kişisel gezegenlere, Yükselen'e ve MC'ye; dönem SR yılıdır" if urun == "solar"
                         else "natal kişisel gezegenlere, Yükselen'e ve MC'ye"),
     }

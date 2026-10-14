@@ -332,7 +332,7 @@
 <!-- ============ 4 · ZAMANLAMA ============ -->
 <section class="chapter">
   <div class="chap-eyebrow">Kısım 4 · Zamanlama</div>
-  <h1 class="ch">Önümüzdeki 12 Ay: Veri</h1>
+  <h1 class="ch">{{ esc(zaman_veri_baslik) }}</h1>
   <div class="ch-rule"></div>
   <p class="note">{{ esc(tr.baslangic) }} – {{ esc(tr.bitis) }} · yavaş gezegenlerin (Jüpiter, Satürn, Uranüs, Neptün, Plüton) ve Kuzey Düğüm'ün {{ esc(transit_not) }} majör açıları. Çubuk: etki penceresi, elmas: tam isabet. Mavi uyumlu, kızıl gergin, altın kavuşum.</p>
   {% if timeline %}<div class="figure tl">{{ timeline }}</div>{% else %}<p class="muted">Bu dönemde belirgin yavaş gezegen transiti yok.</p>{% endif %}
@@ -342,7 +342,7 @@
   {% if tr.ingresler %}<p><b>Burç geçişleri:</b> {% for g in tr.ingresler %}{{ esc(g.gezegen) }} → {{ esc(g.burc) }} ({{ esc(g.tarih) }}, {{ g.ev }}. ev){% if not loop.last %}; {% endif %}{% endfor %}</p>{% endif %}
   <h2 class="sub">Transit Listesi</h2>
   {{ transit_table }}
-  {% if urun != 'sinastri' %}
+  {% if urun not in ['sinastri', 'aylik'] %}
   <div class="two">
     <div>
       <h2 class="sub">İkincil Progresyonlar</h2>

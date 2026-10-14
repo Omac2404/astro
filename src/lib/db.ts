@@ -1219,7 +1219,7 @@ export const PRO_URUNLER: ProUrun[] = [
   { slug: "lilith", ad: "Lilith & Karmik Pro", jeton: 1, aktif: true, aciklama: "Ay Düğümleri, Lilith, Kiron, karmik sınavlar ve tekrar eden örüntüler; dönüşüm pencereleri." },
   { slug: "solar", ad: "Solar Return Pro", jeton: 1, aktif: true, aciklama: "Yıl haritası: SR Yükselen ve açısal gezegenler, yılın lordu (profeksiyon), ay ay Güneş takvimi ve SR yılı transitleri. Yer değiştirmeli SR destekli." },
   { slug: "sinastri", ad: "Sinastri Pro", jeton: 2, aktif: true, aciklama: "İki kişilik uyum: çift çark, çapraz açılar, iki yönlü ev bindirmeleri, kompozit harita ve ilişkinin 12 ayı. Sevgili, arkadaş, aile ya da iş ortaklığı." },
-  { slug: "aylik", ad: "Aylık Dönem Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
+  { slug: "aylik", ad: "Aylık Dönem Pro", jeton: 1, aktif: true, aciklama: "Önümüzdeki 30 gün: hızlı ve yavaş gezegen transitleri, Yeni Ay ve Dolunay, retro istasyonları, Ay takvimi ve hafta hafta akış." },
 ];
 export function getProUrun(slug: string): ProUrun | undefined {
   return PRO_URUNLER.find((u) => u.slug === slug);

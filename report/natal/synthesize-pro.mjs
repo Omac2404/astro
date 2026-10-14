@@ -133,6 +133,8 @@ const URUN_BILGI = {
              temalar: "Karmik Geçmiş, Gölge ve Güç, Yara ve Şifa, Ruhsal Yön" },
   solar:   { ad: "Solar Return Pro Rapor", tarif: "Solar Return (yıl dönümü) haritasının, doğum gününden bir sonrakine kadar olan yılın temaları ve zamanlaması odaklı profesyonel analizi. Odak: SR Yükselen ve yöneticisi, açısal SR gezegenleri, SR Güneş ve Ay, SR evleri, SR gezegenlerinin natal evlere düşüşü, SR → natal çapraz açılar, yıllık profeksiyon ve yılın lordu, Güneş takvimi ve SR yılı transitleri",
              temalar: "Yılın Tonu, İlişkiler, Kariyer ve Para, Yılın Zamanlaması" },
+  aylik:   { ad: "Aylık Dönem Pro Rapor", tarif: "önümüzdeki 30 günün kişiye özel transit analizi. Odak: hızlı gezegen transitleri (Güneş, Merkür, Venüs, Mars), arka plandaki yavaş gezegen transitleri, Yeni Ay ve Dolunay, retro istasyonları, burç geçişleri ve Ay'ın natal evlerden geçişi; gün ve hafta düzeyinde somut zamanlama",
+             temalar: "Ayın Teması, İlişkiler, İş ve Para, Uygun ve Dikkat Günleri" },
   sinastri: { ad: "Sinastri Pro Rapor", tarif: `iki kişinin (${chart.sinastri?.adA || ""} ve ${chart.sinastri?.adB || ""}) ilişki uyumu odaklı profesyonel sinastri analizi. İlişki türü: ${chart.sinastri?.iliski_ad || ""}. Odak: iki doğum haritası, çapraz açılar, iki yönlü ev bindirmeleri, kompozit harita ve ilişkinin zamanlaması. İki kişiye de adıyla değin; birini suçlayan ya da 'uyumsuz' diye hüküm veren dil yok`,
              temalar: "Çekim ve Yakınlık, İletişim, Gerilim ve Denge, Ortak Gelecek" },
 };
@@ -193,6 +195,17 @@ if (SN) {
   for (const p of K.planets) L.push(`- Kompozit ${p.ad}: ${p.sign} ${p.deg} · ${p.house}. ev`);
   L.push("- Kompozit açılar: " + K.aspects.slice(0, 16).map((a) => `${a.a_ad} ${a.ad} ${a.b_ad} (${a.orb}°)`).join("; "));
   L.push("- NOT: Yukarıdaki TRANSİTLER bölümü KOMPOZİT haritanın noktalarına göredir (ilişkinin zamanlaması); YAŞAM OLAYLARI da kompozit haritaya göre hesaplandı (ilişkinin olayları).");
+}
+// --- Aylık Dönem Pro bağlamı ---
+const AYP = chart.aylik_pro;
+if (AYP) {
+  L.push(`\n## DÖNEM: ${AYP.baslangic} – ${AYP.bitis} (${AYP.gun} gün)`);
+  L.push("- NOT: Yukarıdaki TRANSİTLER bölümü bu 30 günü kapsar ve hızlı gezegenleri (Güneş, Merkür, Venüs, Mars; orb ≤1°) de içerir.");
+  L.push("- Dönem başında gökyüzü (natal evlere göre): " + AYP.gokyuzu.planets.map((p) => `${p.ad} ${p.sign} ${p.deg} (${p.house}. ev${p.retro ? ", retro" : ""})`).join(" · "));
+  L.push("- Dönem başında transit → natal açılar (orb ≤3°): " + AYP.capraz.slice(0, 14).map((c) => `transit ${c.b_ad} ${c.ad} natal ${c.a_ad} (${c.orb}°)`).join("; "));
+  for (const l of AYP.lunasyon) L.push(`- ${l.ad}: ${l.tarih} ${l.saat} · ${l.burc} ${l.deg} · natal ${l.ev}. ev${l.tutulma ? " · Ay düğümüne yakın (tutulma sezonu)" : ""} · natal temaslar: ${l.temaslar.length ? l.temaslar.map((t) => `${t.ad} ${t.natal} (${t.orb}°)`).join("; ") : "yok"}`);
+  if (AYP.istasyon.length) L.push("- İstasyonlar: " + AYP.istasyon.map((x) => `${x.gezegen} ${x.tip} (${x.tarih}, ${x.burc} ${x.deg}, natal ${x.ev}. ev)`).join("; "));
+  L.push("- Ay'ın natal evlerden geçişi: " + AYP.ay_gecis.map((x) => `${x.tarih}${x.saat ? " " + x.saat : ""}: ${x.burc} (${x.ev}. ev)`).join(" → "));
 }
 const BAGLAM = L.join("\n");
 
@@ -289,6 +302,18 @@ const DERIN = {
     { key: "sr_alanlar", baslik: "Yılın Yaşam Alanları", kelime: 600,
       is: `Dört alt başlık, her biri 1-2 paragraf: "### Aşk ve İlişkiler" (SR Venüs, Mars, 5. ve 7. SR evleri), "### Kariyer ve Para" (SR MC, 10., 2. ve 6. SR evleri, Satürn/Jüpiter), "### Sağlık ve Enerji" (SR 1. ve 6. ev, Mars; tıbbi tanı yok), "### Aile ve Yuva" (SR 4. ev, Ay). Danışan bilgisi varsa bağla.` },
   ],
+  aylik: [
+    { key: "y_ton", baslik: "Ayın Tonu ve Ana Temaları", kelime: 550,
+      is: "Dönemin genel atmosferi: dönem başındaki gökyüzünün natal evlere dağılımı, en ağır transitler ve istasyonlar. \"### Ana Temalar\" alt başlığıyla 4-5 maddelik, teknik dayanaklı tema listesi." },
+    { key: "y_lunasyon", baslik: "Yeni Ay ve Dolunay: Ayın Dönüm Noktaları", kelime: 500,
+      is: "Dönemdeki her Yeni Ay ve Dolunay için alt başlık (tarih + burç): natal evi, natal temasları, ne başlatmak ya da neyi tamamlamak için uygun olduğu. Tutulma sezonu notu varsa belirt." },
+    { key: "y_hizli", baslik: "Hızlı Gezegenler: Güneş, Merkür, Venüs ve Mars", kelime: 650,
+      is: "Bu 30 günde Güneş, Merkür, Venüs ve Mars'ın natal noktalara yaptığı transitler ve burç/ev geçişleri; varsa retro istasyonları (Merkür/Venüs/Mars retrosu ise pratik öneriler). Her gezegen için alt başlık; tarihleriyle." },
+    { key: "y_yavas", baslik: "Arka Plandaki Büyük Döngüler", kelime: 450,
+      is: "Dönem boyunca etkin olan yavaş gezegen transitleri (Jüpiter, Satürn, Uranüs, Neptün, Plüton, Kuzey Düğüm) ve istasyonları: bu ayın daha uzun bir sürecin hangi aşamasına denk geldiği." },
+    { key: "y_alanlar", baslik: "Ayın Yaşam Alanları", kelime: 550,
+      is: `Dört alt başlık, her biri 1 yoğun paragraf ve tarih vurgusu: "### Aşk ve İlişkiler", "### İş, Para ve Sorumluluk", "### Enerji ve Beden" (tıbbi tanı yok), "### Ev, Aile ve İç Dünya". Danışan bilgisi varsa bağla.` },
+  ],
   sinastri: [
     { key: "sn_kisiler", baslik: "İki Kişi: Temel Doğalar ve İhtiyaçlar", kelime: 600,
       is: "Her iki kişi için ayrı alt başlık (adlarıyla): Güneş, Ay, Yükselen, Venüs ve Mars üzerinden ilişkiye getirdikleri temel doğa ve ihtiyaçlar (kısa, yoğun). Son alt başlık \"### İki Doğanın Buluşması\": element ve nitelik karşılaştırması, birbirini tamamlayan ve zorlayan yanlar." },
@@ -313,14 +338,16 @@ const ZAMAN_BASLIK = {
   saglik: "Önümüzdeki 12 Ay: Enerji Döngüleri ve Denge Zamanlaması",
   lilith: "Önümüzdeki 12 Ay: Karmik Tetikleyiciler ve Dönüşüm Pencereleri",
   solar: "Yılın Takvimi: Ay Ay Akış ve Transitler",
+  aylik: "Hafta Hafta Takvim",
   sinastri: "İlişkinin Önümüzdeki 12 Ayı",
 };
 const ZAMAN_IS = {
+  aylik: `Dönemin hafta hafta takvimi. Dönemi 4-5 haftaya böl; her hafta için "### [tarih aralığı]" alt başlığı ve altında o haftanın öne çıkan transitleri, lunasyon ve istasyonları (tarihleriyle) ile 2-3 cümlelik somut yönlendirme. Sonda "### Uygun Günler ve Dikkat Günleri" alt başlığıyla iki kısa madde listesi (tarih + gerekçe: ör. yeni başlangıç, görüşme, imza, dinlenme). Kesin olay kehaneti yok.`,
   solar: `SR yılının takvimi. Önce 1 paragraf yılın genel akışı. Sonra "### Ay Ay Akış" altında Güneş takvimindeki her güneş ayı için (tarih aralığı + burç + SR evi + natal evi) 1-2 cümlelik somut tema; madde listesi. Ardından "### Önemli Transit Pencereleri" altında SR yılındaki en ağır 6-8 transit penceresi (tarih aralığı + tam isabet + tema). Yılın lordunun transitlerine özellikle değin. Kesin olay kehaneti yok; pencere ve tema dili.`,
   sinastri: `İlişkinin önümüzdeki 12 ayı: kompozit haritaya yapılan transitler. Önce 1 paragraf genel ilişki iklimi. Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: en önemli 8-10 transit penceresi (tarih aralığı + tam isabet + ilişkiye yansıyan tek cümlelik tema). Sonda "### İlişki İçin Uygun Zamanlar" kısa paragrafı (birlikte karar, yeni başlangıç, yüzleşme için uygun ve zorlayıcı dönemler). Kesin olay kehaneti yok.`,
 };
 const ORTAK_SON = [
-  { key: "zaman", baslik: ZAMAN_BASLIK[URUN] || ZAMAN_BASLIK.natal, kelime: URUN === "solar" ? 900 : 700,
+  { key: "zaman", baslik: ZAMAN_BASLIK[URUN] || ZAMAN_BASLIK.natal, kelime: URUN === "aylik" ? 1000 : URUN === "solar" ? 900 : 700,
     is: ZAMAN_IS[URUN] || `Bu raporun konusu (${UB.tarif.split(".")[0]}) açısından önümüzdeki 12 ay. Önce 1 paragraflık genel yıl tonu (Solar Return ve en ağır transitler). Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: yalnızca konuyla en ilgili 8-10 transit penceresi, her biri tarih aralığı + tam isabet + tek cümlelik somut tema (benzerlerini birleştir). Ardından "### Progresyonlar ve Solar Return" alt başlığıyla tek-iki paragraf. Kesin olay kehaneti yok; pencere ve tema dili.` },
   { key: "olaylar", baslik: URUN === "sinastri" ? "İlişkinin Olaylarının Astrolojik Okuması" : "Yaşam Olaylarının Astrolojik Okuması", kelime: 0, kosul: () => chart.olaylar.length > 0,
     is: URUN === "sinastri" ? "Verilen her ilişki olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihte kompozit haritaya yapılan transitleri olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla ilişkinin dönüm noktalarındaki ortak tema." : "Danışanın verdiği her yaşam olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihteki tetikleyicileri (transitler, transit Jüpiter/Satürn evleri, progresif Ay) olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla kısa bir ortak tema ve doğum saati doğrulamasına katkısı." },
@@ -330,7 +357,9 @@ const ORTAK_SON = [
     is: `Astroloğa bu danışana ve bu rapor konusuna (${UB.ad}) özel, uygulamaya hazır seans planı. Alt başlıklar (bu sırayla): "### Seans Akışı" (60 dakikalık seans için dakika aralıklı 5-6 maddelik akış; her adımda hangi konu ve haritanın hangi yerleşimi), "### Açılış" (astroloğun seansı açabileceği 2-3 cümle, \`> \` satırı olarak), "### Sorulacak Sorular" (konuyla ilgili temaları doğrulamak ve derinleştirmek için 8-10 soru; her birinin yanında parantez içinde hangi yerleşimden geldiği), "### Temalara Göre Söylenebilecek Cümleler" (${UB.temalar} için kısa birer giriş cümlesi ve her birinde 1-2 \`> \` satırı), "### Hassas Noktalar ve Dil Önerisi" (dikkatle ele alınacak konular ve nasıl dile getirilmeli; madde listesi), "### Danışana Öneriler ve Pratikler" (somut, uygulanabilir farkındalık çalışmaları; madde listesi), "### Takip Seansı Zamanlaması" (transit ve progresyon pencerelerine göre bir sonraki seans için 2-3 tarih önerisi ve gerekçesi), "### Kapanış" (seansı kapatmak için 1 \`> \` satırı). Danışanın soruları ve astroloğun notu varsa planı onlara göre kur.${URUN === "sinastri" ? " Seansa iki kişi birlikte de gelebilir, yalnız danışan da: akışta ve dil önerisinde ikisine göre ayrı ipuçları ver; iki kişiyi de adıyla an." : ""}` },
 ];
 // Grafik/tablo yorum anahtarları (render_pro bu anahtarları ilgili figürün altına basar)
-const VERI_ANAHTAR = URUN === "solar"
+const VERI_ANAHTAR = URUN === "aylik"
+  ? `"### cark" (doğum haritası ile dönem başındaki gökyüzünün çift çarkında ilk göze çarpan), "### gokyuzu" (dönemin gökyüzü tablosu: gezegenlerin hangi natal evlerden geçtiği), "### lunasyon" (Yeni Ay ve Dolunay tablosunun mesajı), "### takvim" (istasyonlar ve burç geçişleri), "### ay" (Ay'ın ev geçiş takviminin pratik kullanımı), "### transit" (30 günlük transit çizelgesindeki ana hareket)`
+  : URUN === "solar"
   ? `"### cark" (yıl haritası çarkında ilk göze çarpan), "### natal" (doğum haritası çarkıyla yıl haritası arasındaki temel fark), "### konumlar" (SR gezegenleri ve natal evleri tablosunun ana mesajı), "### evler" (SR ev tablosunda yılın öne çıkan sahneleri), "### yil" (yıl göstergeleri: profeksiyon, yılın lordu, SR → natal çapraz açılar), "### takvim" (Güneş takviminde yılın ritmi), "### acilar" (SR açılarının baskın deseni), "### transit" (SR yılı transit çizelgesindeki ana hareket)`
   : URUN === "sinastri"
   ? `"### cark" (iki haritanın üst üste bindirildiği çift çarkta ilk göze çarpan), "### konumlar" (iki kişinin konum tablolarının karşılaştırması), "### capraz" (çapraz açı ızgarasının baskın deseni: uyum ve gerilim dengesi), "### bindirme" (ev bindirmelerinin ana mesajı), "### kompozit" (kompozit harita: ilişkinin kendi karakteri), "### denge" (iki kişinin element ve nitelik dengesinin karşılaştırması), "### transit" (ilişkinin 12 aylık transit çizelgesindeki ana hareket)`

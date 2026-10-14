@@ -566,17 +566,19 @@ def _windows(mask):
     return out
 
 
-def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372, targets=None):
+def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372, targets=None, bodies=None):
+    """bodies: (id, skyfield hedefi) listesi; varsayılan yavaş gezegenler + Kuzey Düğüm. Hızlı gezegenlerde orb 1°."""
     targets = [t for t in (targets or NATAL_TARGETS) if t in natal_lon]
+    bodies = bodies or TRANSIT_BODIES
     start = datetime(now_tr.year, now_tr.month, now_tr.day, 12, 0, tzinfo=TR).astimezone(UTC)
     dates = [start + timedelta(days=k) for k in range(days)]
     t_arr = ts.from_datetimes(dates)
     series = {}
-    for tid, target in TRANSIT_BODIES:
+    for tid, target in bodies:
         series[tid] = mean_node_series(t_arr) if target is None else lon_series(target, t_arr)
     events = []
     ingresler = []
-    for tid, _ in TRANSIT_BODIES:
+    for tid, _ in bodies:
         L = series[tid]
         # burç değişimleri
         sidx = (L // 30).astype(int) % 12
@@ -588,7 +590,7 @@ def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372, targets=None):
             if tid == "kuzey" and nid in ("kuzey", "guney"):
                 continue  # düğüm kendi eksenine: anlamsız (düğüm dönüşü 18,6 yıl; transit Kuzey Düğüm natal düğüme ayrıca bakılmaz)
             for aid, aad, exact, _, renk, _ in TR_ASPECTS:
-                orb = 1.5 if tid in ("jupiter", "saturn", "kuzey") else 1.2
+                orb = 1.0 if tid in ("gunes", "merkur", "venus", "mars") else (1.5 if tid in ("jupiter", "saturn", "kuzey") else 1.2)
                 d = np.abs(np.abs(((L - natal_lon[nid]) + 540) % 360 - 180) - exact)
                 for (i, j) in _windows(d <= orb):
                     seg = d[i:j + 1]
@@ -614,14 +616,14 @@ def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372, targets=None):
     # şu an ev konumları
     simdi = {AD[tid]: {"burc": SIGNS[int(series[tid][0] // 30) % 12],
                        "ev": ((int(series[tid][0] // 30) % 12 - asc_si) % 12) + 1,
-                       "deg": deg_min(series[tid][0])} for tid, _ in TRANSIT_BODIES}
+                       "deg": deg_min(series[tid][0])} for tid, _ in bodies}
     return {"baslangic": tr_tarih(now_tr), "bitis": tr_tarih((start + timedelta(days=days - 1)).astimezone(TR)),
             "baslangic_iso": iso_gun(now_tr), "bitis_iso": iso_gun((start + timedelta(days=days - 1)).astimezone(TR)),
             "olaylar": events, "ingresler": ingresler, "simdi": simdi}
 
 
 def _transit_agirlik(tid, nid, aid):
-    w = {"pluton": 5, "neptun": 4, "uranus": 4, "saturn": 4, "jupiter": 2, "kuzey": 2}[tid]
+    w = {"pluton": 5, "neptun": 4, "uranus": 4, "saturn": 4, "jupiter": 2, "kuzey": 2, "mars": 2, "gunes": 1, "venus": 1, "merkur": 1}[tid]
     w += {"gunes": 2, "ay": 2, "asc": 2, "mc": 2}.get(nid, 1)
     w += {"kavusum": 2, "karsitlik": 1, "kare": 1}.get(aid, 0)
     return w
@@ -985,6 +987,100 @@ def A_utc_of(A):
     """A haritasının UTC doğum anı (meta.utc metninden)."""
     return datetime.strptime(A["meta"]["utc"], "%Y-%m-%d %H:%M UTC").replace(tzinfo=UTC)
 
+
+# ======================================================================
+# AYLIK DÖNEM PRO (önümüzdeki 30 gün)
+# ======================================================================
+HIZLI_BODIES = [("gunes", "sun"), ("merkur", "mercury"), ("venus", "venus"), ("mars", "mars")]
+DONEM_BODIES = HIZLI_BODIES + TRANSIT_BODIES
+DONEM_HEDEF = PLANET_IDS + ["asc", "mc"]
+
+
+def build_aylik(birth, now_tr=None, gun=30):
+    now_tr = now_tr or datetime.now(TR)
+    ts = C.get_timescale()
+    ch = build(dict(birth, urun="natal"), now_tr)
+    nlon = {p["id"]: p["lon"] for p in ch["planets"]}
+    nlon.update({q["id"]: q["lon"] for q in ch["points"]})
+    asi = ch["asc"]["sign_idx"]
+    # 30 günlük transitler: hızlı (orb 1°) + yavaş gezegenler -> natal noktalar
+    tr = transit_timeline(ts, nlon, now_tr, asi, days=gun + 1, targets=DONEM_HEDEF, bodies=DONEM_BODIES)
+    start = datetime(now_tr.year, now_tr.month, now_tr.day, 0, 0, tzinfo=TR).astimezone(UTC)
+    saatler = [start + timedelta(hours=k) for k in range((gun + 1) * 24)]
+    t_h = ts.from_datetimes(saatler)
+    sun = lon_series("sun", t_h)
+    moon = lon_series("moon", t_h)
+
+    def ev(L):
+        return ((sign_idx(L) - asi) % 12) + 1
+
+    # Yeni Ay / Dolunay (Güneş–Ay uzanımının 0° ve 180° geçişleri)
+    el = (moon - sun) % 360
+    lunasyon = []
+    nn = mean_node_series(t_h)
+    for k in range(1, len(el)):
+        for hedef, ad_ in ((0, "Yeni Ay"), (180, "Dolunay")):
+            a0 = ((el[k - 1] - hedef + 540) % 360) - 180
+            a1 = ((el[k] - hedef + 540) % 360) - 180
+            if a0 < 0 <= a1 and abs(a1 - a0) < 30:
+                L = float(moon[k]) if hedef == 180 else float(sun[k])
+                dugum = min(sep(float(sun[k]), float(nn[k])), sep(float(sun[k]), float(nn[k]) + 180))
+                temas = []
+                for nid in DONEM_HEDEF:
+                    s_ = sep(L, nlon[nid])
+                    for aid, aad, exact, _, _, maj in ASPECTS:
+                        if maj and abs(s_ - exact) <= 3:
+                            temas.append({"natal": AD[nid], "ad": aad, "tip": aid, "orb": round(abs(s_ - exact), 2), "uyum": ASP_UYUM[aid]})
+                temas.sort(key=lambda x: x["orb"])
+                dt = saatler[k].astimezone(TR)
+                lunasyon.append({"ad": ad_, "tarih": tr_tarih(dt), "saat": dt.strftime("%H:%M"), "iso": iso_gun(dt),
+                                 "burc": SIGNS[sign_idx(L)], "deg": deg_min(L), "ev": ev(L),
+                                 "tutulma": dugum <= 15, "temaslar": temas[:6]})
+    # Ay'ın burç / natal ev geçişleri
+    msi = (moon // 30).astype(int) % 12
+    ay_gecis = [{"tarih": tr_tarih(saatler[0].astimezone(TR)), "saat": "", "burc": SIGNS[int(msi[0])], "ev": ((int(msi[0]) - asi) % 12) + 1}]
+    for k in range(1, len(msi)):
+        if msi[k] != msi[k - 1]:
+            dt = saatler[k].astimezone(TR)
+            ay_gecis.append({"tarih": tr_tarih(dt), "saat": dt.strftime("%H:%M"), "burc": SIGNS[int(msi[k])], "ev": ((int(msi[k]) - asi) % 12) + 1})
+    # Retro istasyonları (günlük örnekleme)
+    gunler = [start + timedelta(days=k) for k in range(-1, gun + 2)]
+    t_g = ts.from_datetimes(gunler)
+    istasyon = []
+    for pid, target in [("merkur", "mercury"), ("venus", "venus"), ("mars", "mars"), ("jupiter", "jupiter"),
+                        ("saturn", "saturn"), ("uranus", "uranus"), ("neptun", "neptune"), ("pluton", "pluto")]:
+        L = lon_series(target, t_g)
+        hz = ((np.diff(L) + 540) % 360) - 180
+        for k in range(1, len(hz)):
+            if np.sign(hz[k]) != np.sign(hz[k - 1]) and hz[k] != 0:
+                dt = gunler[k].astimezone(TR)
+                istasyon.append({"gezegen": AD[pid], "tip": "retro başlıyor" if hz[k] < 0 else "düz harekete dönüyor",
+                                 "tarih": tr_tarih(dt), "iso": iso_gun(dt), "burc": SIGNS[sign_idx(float(L[k]))],
+                                 "deg": deg_min(float(L[k])), "ev": ev(float(L[k]))})
+    # Dönem başında gökyüzü (çift çarkın dış halkası)
+    t0 = ts.from_datetime(start + timedelta(hours=12))
+    t1 = ts.from_datetime(start + timedelta(hours=36))
+    gk = []
+    for pid, ad_, glyph, target, anlam in PLANETS:
+        L = lon_at(target, t0)
+        L2 = lon_at(target, t1)
+        si = sign_idx(L)
+        gk.append({"id": pid, "ad": ad_, "glyph": glyph, "lon": round(L, 4), "sign": SIGNS[si], "sign_idx": si, "deg": deg_min(L),
+                   "house": ((si - asi) % 12) + 1, "retro": (((L2 - L) + 540) % 360 - 180) < 0})
+    nnL = K.mean_node_lon(t0)
+    gokyuzu = {"planets": gk, "points": [{"id": "kuzey", "ad": "Kuzey Düğüm", "glyph": GLYPH["kuzey"], "lon": round(nnL, 4),
+                                          "sign": SIGNS[sign_idx(nnL)], "sign_idx": sign_idx(nnL), "deg": deg_min(nnL), "house": ev(nnL)}]}
+    glon = {p["id"]: p["lon"] for p in gk}
+    glon["kuzey"] = nnL
+    ch["urun"] = "aylik"
+    ch["transitler"] = tr
+    ch["aylik_pro"] = {
+        "baslangic": tr["baslangic"], "bitis": tr["bitis"], "gun": gun, "gokyuzu": gokyuzu,
+        "capraz": capraz_acilar(nlon, glon, "natal", "transit", majör_orb=3.0, minor=False),
+        "lunasyon": lunasyon, "ay_gecis": ay_gecis, "istasyon": istasyon, "ingresler": tr["ingresler"],
+    }
+    return ch
+
 def main():
     try:
         sys.stdout.reconfigure(encoding="utf-8")
@@ -1001,6 +1097,8 @@ def main():
         chart = build_solar(birth)
     elif urun == "sinastri":
         chart = build_sinastri(birth)
+    elif urun == "aylik":
+        chart = build_aylik(birth)
     else:
         chart = build(birth)
     out = os.path.join(IO, "chart-pro.json")
