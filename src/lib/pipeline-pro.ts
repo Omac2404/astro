@@ -76,6 +76,7 @@ function birthPro(r: ProReport, b: Awaited<ReturnType<typeof birthFromDogum>>) {
   return {
     ...b,
     saat: d.saatKesin === "bilinmiyor" || !d.saat ? [12, 0] : b.saat,
+    urun: r.slug, // rapor türü (natal / ask / kariyer / saglik / lilith) -> compute_pro odak + sentez planı
     saat_kesin: d.saatKesin,
     yer_metin: d.yer.replace(/\s*\/\s*/g, ", "),
     olaylar: (d.olaylar ?? []).filter((o) => /^\d{4}-\d{2}-\d{2}$/.test(o.tarih)),

@@ -193,6 +193,82 @@ def guc_rows(guc):
     return "".join(out)
 
 
+URUN_AD = {
+    "natal": ("Natal Pro Rapor", "derinlemesine doğum haritası analizi · zamanlama · seans rehberi"),
+    "ask": ("Aşk & İlişki Pro Rapor", "sevgi dili · bağlanma · ilişki evleri · ilişki zamanlaması · seans rehberi"),
+    "kariyer": ("Kariyer & Para Pro Rapor", "mesleki kimlik · MC zinciri · para · uygun alanlar · zamanlama · seans rehberi"),
+    "saglik": ("Enerji & Mizaç Pro Rapor", "mizaç · canlılık · stres kalıpları · yaşam ritmi · zamanlama · seans rehberi"),
+    "lilith": ("Lilith & Karmik Pro Rapor", "ay düğümleri · Lilith · Kiron · karmik sınavlar · zamanlama · seans rehberi"),
+}
+ODAK_BASLIK = {
+    "ask": ("İlişki Göstergeleri", "İlişki evleri, yöneticileri ve ilişkiyi belirleyen noktalar"),
+    "kariyer": ("Kariyer ve Para Göstergeleri", "Kariyer, iş ve para evleri; MC zinciri ve meslek göstergeleri"),
+    "saglik": ("Enerji ve Mizaç Göstergeleri", "Canlılık evleri, mizaç ve enerji gezegenleri"),
+    "lilith": ("Karmik Göstergeler", "Ay Düğümleri, Lilith, Kiron ve karmik evler"),
+}
+# Natal Pro'nun derin yorum sırası; diğer ürünlerde rapor-pro.json sırası kullanılır
+OZEL = {"seans", "ozet", "sorular", "zaman", "olaylar", "veri"}
+
+
+def odak_html(ch):
+    """Ürüne özel odak veri sayfası (natal'de boş)."""
+    o = ch.get("odak") or {}
+    urun = ch.get("urun", "natal")
+    if urun == "natal" or not o:
+        return ""
+    P = {p["id"]: p for p in ch["planets"]}
+    Q = {q["id"]: q for q in ch["points"]}
+    out = []
+    # odak noktaları tablosu
+    rows = []
+    for nid in o.get("noktalar", []):
+        x = P.get(nid) or Q.get(nid)
+        if not x:
+            continue
+        code = x.get("glyph") if nid in P else PT_CODE.get(nid)
+        ad_html = planet_cell(code, x["ad"], G.INK if nid in P else G.VIOLET) if code else f'<span class="pl"><b class="ang">{ {"asc": "AC", "mc": "MC", "dsc": "DC", "ic": "IC"}.get(nid, "") }</b><span>{esc(x["ad"])}</span></span>'
+        dig = x.get("dignity", "")
+        rows.append(f'<tr><td>{ad_html}</td><td>{sign_cell(x["sign_idx"], x["deg"])}</td><td class="num">{x["house"]}</td>'
+                    f'<td class="{DIG_CLS.get(dig, "")}">{esc(dig) if dig else ""}{" · R" if x.get("retro") else ""}</td></tr>')
+    out.append('<h2 class="sub" style="margin-top:0">Odak Noktaları</h2>'
+               '<table class="tbl compact"><thead><tr><th>Nokta</th><th>Konum</th><th>Ev</th><th>Durum</th></tr></thead><tbody>'
+               + "".join(rows) + "</tbody></table>")
+    # odak evleri
+    hr = []
+    for h in o.get("evler", []):
+        si = SIGNS.index(h["sign"])
+        hr.append(f'<tr><td class="num"><b>{h["n"]}</b></td><td>{sign_cell(si)}</td><td class="small">{esc(h["konu"])}</td>'
+                  f'<td>{esc(h["yonetici"])} → {h["yonetici_ev"]}. ev <span class="small">({esc(h["yonetici_burc"])})</span></td>'
+                  f'<td>{", ".join(esc(x) for x in h["icindekiler"]) or "<span class=muted>boş</span>"}</td></tr>')
+    if hr:
+        out.append('<h2 class="sub">Odak Evleri</h2><table class="tbl compact"><thead><tr><th>Ev</th><th>Burç</th><th>Yaşam alanı</th>'
+                   '<th>Yönetici → konumu</th><th>İçindekiler</th></tr></thead><tbody>' + "".join(hr) + "</tbody></table>")
+    # mizaç (Enerji & Mizaç)
+    if urun == "saglik" and ch.get("mizac"):
+        mz = ch["mizac"]
+        out.append(f'<div class="box"><b>Klasik mizaç:</b> {esc(mz["ad"])} <span class="small">({esc(mz["tabiat"])})</span> · '
+                   f'element sayımı (7 gezegen + Yükselen): ' + ", ".join(f'{esc(k)} {v}' for k, v in mz["element8"].items()) + '</div>')
+    # karmik noktalar (Lilith & Karmik)
+    if o.get("karmik"):
+        kr = []
+        for k in o["karmik"]:
+            tm = "; ".join(f'{esc(t["ad"])} {esc(t["aci"])} ({t["orb"]}°)' for t in k["temaslar"][:5]) or '<span class="muted">belirgin temas yok</span>'
+            kr.append(f'<tr><td>{planet_cell(PT_CODE.get(k["id"]), k["ad"], G.VIOLET)}</td><td>{sign_cell(k["sign_idx"], k["deg"])}</td>'
+                      f'<td class="num">{k["house"]}</td><td>{esc(k["yonetici"])} → {k["yonetici_ev"]}. ev</td><td class="small">{tm}</td></tr>')
+        out.append('<h2 class="sub">Karmik Noktalar ve Temasları</h2><table class="tbl compact"><thead><tr><th>Nokta</th><th>Konum</th>'
+                   '<th>Ev</th><th>Burç yöneticisi</th><th>Gezegen temasları</th></tr></thead><tbody>' + "".join(kr) + "</tbody></table>")
+    # odak açıları
+    al = []
+    for a in o.get("acilar", [])[:16]:
+        al.append(f'<tr class="{"" if a["majör"] else "minor"}"><td>{esc(a["a_ad"])}</td><td class="c">{G.asp_svg(a["type"], 12)}</td>'
+                  f'<td>{esc(a["ad"])}</td><td>{esc(a["b_ad"])}</td><td class="num">{a["orb"]:.2f}°</td>'
+                  f'<td class="{UYUM_CLS.get(a["uyum"], "")}">{esc(a["uyum"])}</td></tr>')
+    if al:
+        out.append('<h2 class="sub">Odak Açıları</h2><table class="tbl compact"><thead><tr><th>Gezegen</th><th></th><th>Açı</th>'
+                   '<th>Gezegen</th><th>Orb</th><th>Nitelik</th></tr></thead><tbody>' + "".join(al) + "</tbody></table>")
+    return "".join(out)
+
+
 def transit_table(tr):
     rows = []
     for e in tr["olaylar"]:
@@ -215,6 +291,9 @@ def main():
     vy = veri_yorumlari(next((s["metin"] for s in rp["sections"] if s["key"] == "veri"), ""))
 
     pos, evler, grid, acilar = build_tables(ch)
+    urun = ch.get("urun", "natal")
+    urun_ad, urun_alt = URUN_AD.get(urun, URUN_AD["natal"])
+    yorum_keys = [s["key"] for s in rp["sections"] if s["key"] not in OZEL]
     D = ch["denge"]
     el_col = {"Ateş": G.EL_COL["Ateş"], "Toprak": G.EL_COL["Toprak"], "Hava": G.EL_COL["Hava"], "Su": G.EL_COL["Su"]}
     tr = ch["transitler"]
@@ -247,13 +326,16 @@ def main():
         "rapor_id": os.environ.get("PRO_RAPOR_ID", ""), "hazirlayan": os.environ.get("PRO_HAZIRLAYAN", ""),
         "model": rp.get("model", ""),
         "vy": vy,
+        "urun": urun, "urun_ad": urun_ad, "urun_alt": urun_alt, "yorum_keys": yorum_keys,
+        "odak_html": odak_html(ch), "odak_baslik": ODAK_BASLIK.get(urun, ("", "")),
+        "goster_yapi": urun in ("natal", "saglik"),
     }
     env = Environment(loader=FileSystemLoader(HERE), autoescape=False)
     out_html = os.path.join(IO, "pro-rapor.out.html")
     open(out_html, "w", encoding="utf-8").write(env.get_template("pro-rapor.html.j2").render(**ctx))
     print("ok -> pro-rapor.out.html")
     footer_ad = ch["meta"]["ad"]
-    r = subprocess.run(["node", os.path.join(HERE, "render-pro.mjs"), out_html, footer_ad], capture_output=True, text=True, encoding="utf-8")
+    r = subprocess.run(["node", os.path.join(HERE, "render-pro.mjs"), out_html, footer_ad, urun_ad], capture_output=True, text=True, encoding="utf-8")
     print(r.stdout.strip())
     if r.returncode != 0:
         print("PDF render hata:", (r.stderr or "").strip()[:800])

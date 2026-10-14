@@ -118,40 +118,141 @@ if (chart.olaylar.length) {
     L.push(`  · transit Jüpiter ${o.transit_evler["Jüpiter"].ev}. ev, transit Satürn ${o.transit_evler["Satürn"].ev}. ev · progresif Ay ${o.progresif_ay.burc} ${o.progresif_ay.deg} (${o.progresif_ay.ev}. ev)${o.progresif_ay_acilari.length ? " · " + o.progresif_ay_acilari.join("; ") : ""}`);
   }
 }
+// ---------------- Ürün (rapor türü) ----------------
+const URUN = chart.urun || "natal";
+const URUN_BILGI = {
+  natal:   { ad: "Natal Pro Rapor", tarif: "doğum haritasının bütünlüklü, her alanı kapsayan profesyonel analizi",
+             temalar: "Kimlik, İlişkiler, Kariyer ve Para, Önümüzdeki Dönem" },
+  ask:     { ad: "Aşk & İlişki Pro Rapor", tarif: "doğum haritasının aşk, ilişki, bağlanma ve partnerlik odaklı profesyonel analizi. Odak: Venüs, Mars, Ay, Güneş, 5. ev (flört, romantizm), 7. ev (evlilik, ortaklık), 8. ev (yakınlık, cinsellik, bağ), bu evlerin yöneticileri ve Alçalan",
+             temalar: "Sevgi Dili, Çekim ve Arzu, Bağlanma ve Güven, İlişki Zamanlaması" },
+  kariyer: { ad: "Kariyer & Para Pro Rapor", tarif: "doğum haritasının kariyer, meslek, para ve toplumsal yön odaklı profesyonel analizi. Odak: MC ve yöneticisi, 10. ev (kariyer, itibar), 6. ev (iş, çalışma düzeni), 2. ev (para, değerler), Güneş, Satürn, Jüpiter, Merkür",
+             temalar: "Mesleki Kimlik, Çalışma Tarzı, Para ve Değer, Kariyer Zamanlaması" },
+  saglik:  { ad: "Enerji & Mizaç Pro Rapor", tarif: "doğum haritasının enerji, canlılık, mizaç (klasik dört mizaç), beden-zihin dengesi ve yaşam ritmi odaklı profesyonel analizi. Odak: Yükselen ve yöneticisi, 1. ev (beden, canlılık), 6. ev (günlük düzen, dayanıklılık), 8. ev (yenilenme), Güneş, Ay, Mars, Satürn, element dengesi. Tıbbi tanı, tedavi ya da ilaç önerisi YOK; yalnızca astrolojik eğilim ve öz bakım farkındalığı",
+             temalar: "Enerji ve Canlılık, Duygusal Ritim, Stres ve Denge, Yaşam Ritmi" },
+  lilith:  { ad: "Lilith & Karmik Pro Rapor", tarif: "doğum haritasının karmik, ruhsal ve gölge odaklı profesyonel analizi. Odak: Ay Düğümleri ekseni (Kuzey/Güney Düğüm), Kiron, Lilith (Kara Ay), Satürn, Plüton, 12. ev (bilinçaltı), 8. ev (dönüşüm), 4. ev (kökler, aile mirası) ve bu noktalarla temas eden gezegenler. Reenkarnasyon iddiası kurmadan, sembolik ve psikolojik dille",
+             temalar: "Karmik Geçmiş, Gölge ve Güç, Yara ve Şifa, Ruhsal Yön" },
+};
+const UB = URUN_BILGI[URUN] || URUN_BILGI.natal;
+
+// Ürün odağı bağlamı (compute_pro: chart.odak)
+const O = chart.odak || {};
+if (URUN !== "natal" && O.noktalar) {
+  L.push(`\n## RAPOR ODAĞI: ${UB.ad}`);
+  L.push(`- Odak noktaları: ${O.noktalar_ad.join(", ")}`);
+  for (const h of O.evler) L.push(`- Odak ev: ${h.n}. ev ${h.sign} (${h.konu}) · yöneticisi ${h.yonetici} → ${h.yonetici_ev}. ev (${h.yonetici_burc}) · içindekiler: ${h.icindekiler.length ? h.icindekiler.join(", ") : "boş"}`);
+  if (O.acilar?.length) L.push(`- Odak açıları: ${O.acilar.map((a) => `${a.a_ad} ${a.ad} ${a.b_ad} (${a.orb}°)`).join("; ")}`);
+  for (const k of O.karmik || []) {
+    L.push(`- ${k.ad}: ${k.sign} ${k.deg}, ${k.house}. ev · burç yöneticisi ${k.yonetici} (${k.yonetici_burc}, ${k.yonetici_ev}. ev) · temaslar: ${k.temaslar.length ? k.temaslar.map((t) => `${t.ad} ${t.aci} (${t.orb}°)`).join("; ") : "yok"}`);
+  }
+  L.push("- Transit listesi bu raporun odak noktalarına göre filtrelenmiştir.");
+}
+if (chart.mizac) L.push(`- Klasik mizaç (7 gezegen + Yükselen): ${chart.mizac.ad} (${chart.mizac.tabiat}) · element sayımı: ${Object.entries(chart.mizac.element8).map(([k, v]) => `${k} ${v}`).join(", ")}`);
 const BAGLAM = L.join("\n");
 
 // ---------------- Bölüm planı ----------------
-// Hedef: toplam ~6.000 kelime yorum → veri sayfalarıyla birlikte ~30 sayfalık PDF.
-// Kelime hedefleri bilinçli olarak sıkı: yoğun, tekrarsız, teknik dayanaklı metin.
-const BOLUMLER = [
+// Hedef: toplam ~6.000-6.500 kelime yorum → veri sayfalarıyla birlikte ~30-34 sayfalık PDF.
+// Ortak bölümler (özet, sorular, olaylar, zamanlama, seans rehberi, grafik yorumları) her üründe var;
+// derin yorum bölümleri ürüne özgü.
+const ORTAK_BAS = [
   { key: "ozet", baslik: "Yönetici Özeti", kelime: 300,
-    is: `Haritanın kuşbakışı portresi. Önce 1 paragrafta ${ad}'nin haritasının ana hikâyesini anlat. Ardından "### Haritanın Ana Temaları" alt başlığıyla 5-6 maddelik, her biri tek cümlelik ve teknik dayanaklı bir tema listesi ver. Sonda 2 Astrolog Önerisi (`> ` satırı).` },
-  { key: "cekirdek", baslik: "Kişilik Çekirdeği: Güneş, Ay ve Yükselen", kelime: 600,
-    is: `Güneş, Ay ve Yükselen'i ayrı alt başlıklarla işle (burç, ev, derece, en önemli açılar, yöneticisinin durumu); her biri 1-2 paragraf. Son alt başlıkta "### Üçlünün Sentezi": üçü birbirini nasıl destekliyor ya da zorluyor, iç dünya ile dış görünüm farkı. Ay fazına bir cümleyle değin.` },
-  { key: "yonetici", baslik: "Harita Yöneticisi, Dispozitörler ve Güç Dengesi", kelime: 350,
-    is: "Harita yöneticisinin konumu ve hikâyesi; dispozitör zincirinin işaret ettiği merkez(ler); güç sıralamasında en güçlü ve en zorlanan gezegenlerin hayattaki karşılığı; element/nitelik ve yarıküre dengesinin psikolojik anlamı (eksik ya da baskın element)." },
-  { key: "gezegenler", baslik: "Gezegenler: Merkür'den Plüton'a", kelime: 900,
-    is: "Merkür, Venüs, Mars, Jüpiter ve Satürn için ayrı alt başlıklar (burç, ev, öz-onur, retro ise anlamı, en önemli 1-2 açı; her biri tek yoğun paragraf). Merkür: düşünme ve iletişim; Venüs: sevgi dili, değerler, para; Mars: eylem, öfke, arzu; Jüpiter: büyüme ve inanç; Satürn: sorumluluk, korku, ustalık (yaşa göre Satürn döngüsünde nerede durduğu). Son alt başlık \"### Uranüs, Neptün ve Plüton\": burç anlamları kuşaksaldır; yalnızca ev konumları ve kişisel gezegenlere/köşelere yaptıkları açılar üzerinden kısa kişisel iz." },
-  { key: "evler", baslik: "On İki Ev", kelime: 800,
-    is: "12 evin her biri için kısa alt başlık (örn. \"### 2. Ev: Koç\"): evin burcu, yöneticisi ve yöneticinin bulunduğu ev (ev zinciri), içindeki gezegenler. Dolu evlere 3-4 cümle, boş evlere yöneticisi üzerinden 1-2 cümle." },
-  { key: "acilar", baslik: "Belirleyici Açılar ve Harita Kalıpları", kelime: 550,
-    is: "Önce varsa harita kalıplarını (stelyum, T-kare, yod vb.) alt başlıklarla yorumla: apeks gezegen, çözüm noktası, yaşamdaki karşılığı. Sonra en belirleyici 5-6 açıyı (sıkı orb, ışıklar, köşeler, yaklaşan açılar öncelikli) her biri kısa bir alt başlık ve tek paragrafla işle: dinamik, gölge, olgunlaşmış ifade." },
-  { key: "karmik", baslik: "Karmik Eksen: Ay Düğümleri, Kiron ve Lilith", kelime: 350,
-    is: "Kuzey ve Güney Düğüm ekseni (burç, ev, düğümlere açı yapan gezegenler): konfor alanı ile büyüme yönü. Kiron: yara ve şifacılık kapasitesi. Lilith: bastırılan güç ve otantiklik. Şans Noktası'na (saat güvenilirse) bir cümle." },
-  { key: "alanlar", baslik: "Yaşam Alanları", kelime: 650,
-    is: `Dört alt başlık, her biri 1-2 yoğun paragraf: "### Aşk ve İlişkiler" (Venüs, Mars, 5. ve 7. ev), "### Kariyer, Para ve Yön" (MC ve yöneticisi, 10., 6. ve 2. ev), "### Sağlık ve Enerji" (6. ev, 1. ev, Mars, element dengesi; tıbbi tanı yok, yalnızca eğilim ve öz bakım farkındalığı), "### Aile ve Kökler" (4. ev, IC, Ay, Satürn). Danışan bilgisi (meslek, ilişki durumu) varsa bağla.` },
-  { key: "zaman", baslik: "Önümüzdeki 12 Ay: Transitler, Progresyonlar ve Yıl Haritası", kelime: 700,
-    is: "Önce 1 paragraflık genel yıl tonu (Solar Return Yükselen ve açısal gezegenler + en ağır transitler). Sonra \"### Zaman Çizelgesi\" altında kronolojik madde listesi: yalnızca en önemli 8-10 transit penceresi, her biri tarih aralığı + tam isabet + tek cümlelik somut tema (benzerlerini birleştir). Ardından \"### Progresyonlar ve Solar Return\" alt başlığıyla tek-iki paragraf. Kesin olay kehaneti yok; pencere ve tema dili." },
+    is: `Bu ${UB.ad} için kuşbakışı portre. Önce 1 paragrafta ${ad}'nin haritasının bu konudaki ana hikâyesini anlat. Ardından "### Ana Temalar" alt başlığıyla 5-6 maddelik, her biri tek cümlelik ve teknik dayanaklı bir tema listesi ver. Sonda 2 Astrolog Önerisi (\`> \` satırı).` },
+];
+const DERIN = {
+  natal: [
+    { key: "cekirdek", baslik: "Kişilik Çekirdeği: Güneş, Ay ve Yükselen", kelime: 600,
+      is: `Güneş, Ay ve Yükselen'i ayrı alt başlıklarla işle (burç, ev, derece, en önemli açılar, yöneticisinin durumu); her biri 1-2 paragraf. Son alt başlıkta "### Üçlünün Sentezi": üçü birbirini nasıl destekliyor ya da zorluyor, iç dünya ile dış görünüm farkı. Ay fazına bir cümleyle değin.` },
+    { key: "yonetici", baslik: "Harita Yöneticisi, Dispozitörler ve Güç Dengesi", kelime: 350,
+      is: "Harita yöneticisinin konumu ve hikâyesi; dispozitör zincirinin işaret ettiği merkez(ler); güç sıralamasında en güçlü ve en zorlanan gezegenlerin hayattaki karşılığı; element/nitelik ve yarıküre dengesinin psikolojik anlamı (eksik ya da baskın element)." },
+    { key: "gezegenler", baslik: "Gezegenler: Merkür'den Plüton'a", kelime: 900,
+      is: "Merkür, Venüs, Mars, Jüpiter ve Satürn için ayrı alt başlıklar (burç, ev, öz-onur, retro ise anlamı, en önemli 1-2 açı; her biri tek yoğun paragraf). Merkür: düşünme ve iletişim; Venüs: sevgi dili, değerler, para; Mars: eylem, öfke, arzu; Jüpiter: büyüme ve inanç; Satürn: sorumluluk, korku, ustalık (yaşa göre Satürn döngüsünde nerede durduğu). Son alt başlık \"### Uranüs, Neptün ve Plüton\": burç anlamları kuşaksaldır; yalnızca ev konumları ve kişisel gezegenlere/köşelere yaptıkları açılar üzerinden kısa kişisel iz." },
+    { key: "evler", baslik: "On İki Ev", kelime: 800,
+      is: "12 evin her biri için kısa alt başlık (örn. \"### 2. Ev: Koç\"): evin burcu, yöneticisi ve yöneticinin bulunduğu ev (ev zinciri), içindeki gezegenler. Dolu evlere 3-4 cümle, boş evlere yöneticisi üzerinden 1-2 cümle." },
+    { key: "acilar", baslik: "Belirleyici Açılar ve Harita Kalıpları", kelime: 550,
+      is: "Önce varsa harita kalıplarını (stelyum, T-kare, yod vb.) alt başlıklarla yorumla: apeks gezegen, çözüm noktası, yaşamdaki karşılığı. Sonra en belirleyici 5-6 açıyı (sıkı orb, ışıklar, köşeler, yaklaşan açılar öncelikli) her biri kısa bir alt başlık ve tek paragrafla işle: dinamik, gölge, olgunlaşmış ifade." },
+    { key: "karmik", baslik: "Karmik Eksen: Ay Düğümleri, Kiron ve Lilith", kelime: 350,
+      is: "Kuzey ve Güney Düğüm ekseni (burç, ev, düğümlere açı yapan gezegenler): konfor alanı ile büyüme yönü. Kiron: yara ve şifacılık kapasitesi. Lilith: bastırılan güç ve otantiklik. Şans Noktası'na (saat güvenilirse) bir cümle." },
+    { key: "alanlar", baslik: "Yaşam Alanları", kelime: 650,
+      is: `Dört alt başlık, her biri 1-2 yoğun paragraf: "### Aşk ve İlişkiler" (Venüs, Mars, 5. ve 7. ev), "### Kariyer, Para ve Yön" (MC ve yöneticisi, 10., 6. ve 2. ev), "### Sağlık ve Enerji" (6. ev, 1. ev, Mars, element dengesi; tıbbi tanı yok, yalnızca eğilim ve öz bakım farkındalığı), "### Aile ve Kökler" (4. ev, IC, Ay, Satürn). Danışan bilgisi (meslek, ilişki durumu) varsa bağla.` },
+  ],
+  ask: [
+    { key: "a_benlik", baslik: "İlişkide Benlik: Güneş, Ay, Yükselen ve Alçalan", kelime: 550,
+      is: "Alt başlıklarla: Güneş (ilişkide neyle parlıyor, neyi talep ediyor), Ay (duygusal güvenlik ihtiyacı, bağlanma biçimi), Yükselen–Alçalan ekseni (kendini nasıl sunuyor, karşısında neyi arıyor, yansıtma). Son alt başlık \"### İlişkideki Çekirdek İhtiyaç\"." },
+    { key: "a_venusmars", baslik: "Venüs ve Mars: Sevgi Dili ve Arzu", kelime: 800,
+      is: "\"### Venüs\" (burç, ev, öz-onur, açılar: nasıl sever, neye değer verir, nasıl sevilmek ister, estetik ve zevk), \"### Mars\" (burç, ev, açılar: arzu, çekim, cinsel enerji, çatışma ve öfke tarzı), \"### Venüs–Mars Dinamiği\" (aralarındaki açı ya da açı yoksa element/nitelik ilişkisi; çekim ile sevgi arasındaki uyum)." },
+    { key: "a_evler", baslik: "İlişki Evleri: 5., 7. ve 8. Ev", kelime: 700,
+      is: "Her ev için alt başlık: burç, yönetici ve yöneticinin bulunduğu ev (ev zinciri hikâyesi), içindeki gezegenler. 5. ev: flört, romantizm, keyif; 7. ev: evlilik ve bağlayıcı ortaklık, partnerde aranan nitelikler; 8. ev: derin bağ, mahremiyet, ortak kaynaklar, krizle dönüşüm." },
+    { key: "a_acilar", baslik: "İlişki Açıları ve Bağlanma Kalıpları", kelime: 600,
+      is: "Odak açılarından en belirleyici 5-6 tanesini alt başlıklarla işle (Venüs/Mars/Ay'ın Satürn, Plüton, Uranüs, Neptün ile temasları öncelikli): her birinin ilişkide yarattığı kalıp, tekrarlayan senaryo, gölge ve olgun ifadesi. Sonda \"### Tekrarlayan Senaryo\" alt başlığıyla ana bağlanma kalıbı." },
+    { key: "a_karmik", baslik: "Bağlanma Yaraları ve İlişki Dersleri", kelime: 400,
+      is: "Kiron, Lilith ve Ay Düğümleri ekseninin ilişkilere yansıması; Satürn'ün ilişkide yarattığı korku ya da sorumluluk; ilişki üzerinden öğrenilecek ana ders. Sembolik ve psikolojik dil." },
+    { key: "a_partner", baslik: "Uyumlu Partner Profili ve İlişki Önerileri", kelime: 450,
+      is: "7. ev burcu ve yöneticisi, Alçalan, Venüs ve Mars elementlerinden yola çıkarak: ona iyi gelen partner nitelikleri (burç ve element eğilimleri dahil, kesin hüküm olmadan), zorlanabileceği dinamikler ve ilişkiyi besleyen somut öneriler (madde listesi)." },
+  ],
+  kariyer: [
+    { key: "k_kimlik", baslik: "Mesleki Kimlik: Güneş, Satürn ve Harita Yöneticisi", kelime: 550,
+      is: "Güneş (yaratıcı amaç, görünürlük), Satürn (ustalık alanı, sorumluluk, korku ve disiplin), harita yöneticisi ve güç sıralaması (hangi gezegen iş hayatında öne çıkıyor) için alt başlıklar. Son alt başlık \"### Çekirdek Mesleki Motivasyon\"." },
+    { key: "k_mc", baslik: "Kariyer Yönü: MC, 10. Ev ve Yöneticisi", kelime: 700,
+      is: "MC burcu ve derecesi, MC yöneticisinin konumu (burç, ev, açılar), 10. evin içindekileri ve MC'ye açılar. Toplumsal rol, itibar, kariyer yolu ve hedef. Sonda MC zincirinin tek cümlelik özeti." },
+    { key: "k_tarz", baslik: "Çalışma Tarzı ve Günlük İş: 6. Ev, Merkür ve Mars", kelime: 550,
+      is: "6. ev (burç, yönetici, içindekiler: ideal çalışma düzeni, iş ortamı, hizmet biçimi), Merkür (düşünme, iletişim, karar verme), Mars (girişim, rekabet, enerji yönetimi). Ekiple mi tek başına mı, liderlik mi uzmanlık mı." },
+    { key: "k_para", baslik: "Para ve Değerler: 2. ve 8. Ev, Venüs ve Jüpiter", kelime: 600,
+      is: "2. ev (kendi kazancı, para ile ilişkisi, öz-değer), 8. ev (ortak kaynaklar, yatırım, borç, başkalarının parası), Venüs (değer ve kazanç), Jüpiter (büyüme ve fırsat). Para kalıpları, risk iştahı ve sürdürülebilir kazanç önerileri (yatırım tavsiyesi değil)." },
+    { key: "k_yetenek", baslik: "Yetenekler, Uygun Meslek Alanları ve Engeller", kelime: 650,
+      is: "Element/nitelik dengesi, güçlü gezegenler ve odak açılardan yola çıkarak: \"### Doğal Yetenekler\", \"### Uygun Meslek ve Sektör Alanları\" (8-12 somut alan, her birinin yanında parantez içinde hangi yerleşimden geldiği; danışanın mevcut mesleği verildiyse onunla bağla), \"### Engeller ve Gelişim Alanları\"." },
+  ],
+  saglik: [
+    { key: "s_mizac", baslik: "Mizaç ve Element Dengesi", kelime: 600,
+      is: "Klasik mizaç (safravi, demevi, balgami, sevdavi ya da karma) ve tabiatı (sıcak-kuru vb.), baskın ve eksik element, nitelik dengesi: bedenin ve zihnin doğal temposu. \"### Mizacın Güçlü Yanları\" ve \"### Dengeleme Gereken Yanlar\" alt başlıkları." },
+    { key: "s_canlilik", baslik: "Canlılık ve Enerji: Güneş, Mars ve Yükselen", kelime: 600,
+      is: "Güneş (yaşam gücü), Mars (fiziksel enerji, dayanıklılık, öfke ve hareket ihtiyacı), Yükselen ve yöneticisi (beden yapısı, ilk tepki) için alt başlıklar; açılarıyla enerjinin nasıl aktığı ya da tıkandığı." },
+    { key: "s_ritim", baslik: "Duygusal Ritim ve Beden: Ay ve Satürn", kelime: 500,
+      is: "Ay (duygusal ritim, beslenme ve uyku ilişkisi, güvenlik ihtiyacı), Satürn (yorgunluk, kısıtlanma hissi, dayanıklılık ve disiplin), 4. ve 12. evin dinlenme ve geri çekilme ihtiyacına etkisi." },
+    { key: "s_rutin", baslik: "Günlük Düzen ve Dayanıklılık: 6. ve 8. Ev", kelime: 550,
+      is: "6. ev (burç, yönetici, içindekiler: günlük rutin, iş yükü, beden bakımı alışkanlıkları), 8. ev (kriz sonrası toparlanma, yenilenme kapasitesi). Tıbbi tanı yok." },
+    { key: "s_stres", baslik: "Stres Kalıpları ve Hassas Alanlar", kelime: 500,
+      is: "Gergin odak açılarından yola çıkarak stresin nasıl biriktiği ve nerede kendini gösterdiği; geleneksel astrolojide burç ve gezegenlerin ilişkilendirildiği beden bölgeleri (yalnızca sembolik farkındalık olarak, tanı ve kesin hüküm OLMADAN; gerekirse uzmana danışma önerisi)." },
+    { key: "s_yasam", baslik: "Sana Uygun Yaşam Ritmi ve Pratikler", kelime: 450,
+      is: "Mizaca ve element dengesine uygun somut öneriler: hareket türü, dinlenme biçimi, beslenme ritmi (genel, diyet önerisi değil), doğa/sosyal/yaratıcı denge pratikleri. Madde listesi ağırlıklı." },
+  ],
+  lilith: [
+    { key: "l_dugum", baslik: "Ay Düğümleri: Karmik Geçmiş ve Gelişim Yönü", kelime: 750,
+      is: "\"### Güney Düğüm\" (burç, ev, yöneticisi: konfor alanı, geçmişten gelen ustalık ve tuzak), \"### Kuzey Düğüm\" (burç, ev, yöneticisi: büyüme yönü, bu hayatın davet ettiği beceri), \"### Düğümlere Temas Eden Gezegenler\" (temaslar listesinden), \"### Eksen Üzerinde Yürümek\"." },
+    { key: "l_lilith", baslik: "Lilith: Gölge, Bastırılmış Güç ve Otantiklik", kelime: 550,
+      is: "Lilith'in burcu, evi, yöneticisi ve temasları: bastırılan ya da reddedilen yan, utanç ve öfke noktaları, sınır koyma, otantik güce dönüşme yolu." },
+    { key: "l_kiron", baslik: "Kiron: Yara ve Şifacılık", kelime: 550,
+      is: "Kiron'un burcu, evi ve temasları: çekirdek yara, telafi davranışları, yaranın başkalarına şifa kapasitesine dönüşmesi. Kiron dönüşü ya da karesi yaşa göre veriden çıkarılabiliyorsa belirt." },
+    { key: "l_sinav", baslik: "Satürn ve Plüton: Karmik Sınavlar ve Dönüşüm", kelime: 500,
+      is: "Satürn (sınav, sorumluluk, korku, olgunlaşma) ve Plüton (güç, kontrol, ölüm-yeniden doğuş temaları) için alt başlıklar; kişisel gezegenlerle temasları ve ev konumlarıyla tekrar eden dersler." },
+    { key: "l_bilincalti", baslik: "Bilinçaltı ve Aile Mirası: 12., 8. ve 4. Ev", kelime: 450,
+      is: "12. ev (bilinçaltı, gizli örüntüler, ruhsal geri çekilme), 8. ev (dönüşüm, miras, tabular), 4. ev (aile mirası, atalardan gelen kalıplar) için kısa alt başlıklar; yöneticileri ve içindekiler." },
+    { key: "l_oruntu", baslik: "Tekrar Eden Örüntüler ve Ruhsal Bütünleşme", kelime: 450,
+      is: "Önceki bölümlerdeki temaları birleştir: tekrar eden 3-4 karmik örüntü (madde listesi, her biri teknik dayanaklı) ve \"### Bütünleşme Yolu\" alt başlığıyla somut ruhsal pratikler." },
+  ],
+};
+const ZAMAN_BASLIK = {
+  natal: "Önümüzdeki 12 Ay: Transitler, Progresyonlar ve Yıl Haritası",
+  ask: "Önümüzdeki 12 Ay: Aşk ve İlişki Zamanlaması",
+  kariyer: "Önümüzdeki 12 Ay: Kariyer ve Para Zamanlaması",
+  saglik: "Önümüzdeki 12 Ay: Enerji Döngüleri ve Denge Zamanlaması",
+  lilith: "Önümüzdeki 12 Ay: Karmik Tetikleyiciler ve Dönüşüm Pencereleri",
+};
+const ORTAK_SON = [
+  { key: "zaman", baslik: ZAMAN_BASLIK[URUN] || ZAMAN_BASLIK.natal, kelime: 700,
+    is: `Bu raporun konusu (${UB.tarif.split(".")[0]}) açısından önümüzdeki 12 ay. Önce 1 paragraflık genel yıl tonu (Solar Return ve en ağır transitler). Sonra "### Zaman Çizelgesi" altında kronolojik madde listesi: yalnızca konuyla en ilgili 8-10 transit penceresi, her biri tarih aralığı + tam isabet + tek cümlelik somut tema (benzerlerini birleştir). Ardından "### Progresyonlar ve Solar Return" alt başlığıyla tek-iki paragraf. Kesin olay kehaneti yok; pencere ve tema dili.` },
   { key: "olaylar", baslik: "Yaşam Olaylarının Astrolojik Okuması", kelime: 0, kosul: () => chart.olaylar.length > 0,
     is: "Danışanın verdiği her yaşam olayı için ayrı alt başlık (tarih + olay) ve tek yoğun paragraf: o tarihteki tetikleyicileri (transitler, transit Jüpiter/Satürn evleri, progresif Ay) olayla ilişkilendir. Tetikleyici zayıfsa dürüstçe söyle. En sonda \"### Desen\" alt başlığıyla kısa bir ortak tema ve doğum saati doğrulamasına katkısı." },
   { key: "sorular", baslik: "Danışanın Soruları", kelime: 0, kosul: () => !!(dn.sorular && dn.sorular.trim()),
     is: "Danışanın odak sorularının HER BİRİNİ ayrı alt başlık yap (soruyu kısaltarak başlık olarak yaz). Her birine haritadan teknik dayanaklı, dengeli ve uygulanabilir 1-2 paragraflık bir cevap ver; zamanlama varsa transit/progresyon pencerelerine bağla. Kehanet yok, eğilim ve öneri dili." },
   { key: "seans", baslik: "Astrolog İçin Seans Rehberi", kelime: 1000,
-    is: `Astroloğa bu danışana özel, uygulamaya hazır seans planı. Alt başlıklar (bu sırayla): "### Seans Akışı" (60 dakikalık seans için dakika aralıklı 5-6 maddelik akış; her adımda hangi konu ve haritanın hangi yerleşimi), "### Açılış" (astroloğun seansı açabileceği 2-3 cümle, \`> \` satırı olarak), "### Sorulacak Sorular" (haritanın işaret ettiği temaları doğrulamak ve derinleştirmek için 8-10 soru; her birinin yanında parantez içinde hangi yerleşimden geldiği), "### Temalara Göre Söylenebilecek Cümleler" (Kimlik, İlişkiler, Kariyer ve Para, Önümüzdeki Dönem için kısa birer giriş cümlesi ve her birinde 1-2 \`> \` satırı), "### Hassas Noktalar ve Dil Önerisi" (dikkatle ele alınacak konular ve nasıl dile getirilmeli; madde listesi), "### Danışana Öneriler ve Pratikler" (somut, uygulanabilir farkındalık çalışmaları; madde listesi), "### Takip Seansı Zamanlaması" (transit ve progresyon pencerelerine göre bir sonraki seans için 2-3 tarih önerisi ve gerekçesi), "### Kapanış" (seansı kapatmak için 1 \`> \` satırı). Danışanın soruları ve astroloğun notu varsa planı onlara göre kur.` },
-  // Veri sayfalarındaki grafik/tabloların altına basılan "Astrolog Önerisi" yorumları (render_pro: veri_yorum).
-  { key: "veri", baslik: "Grafik ve Tablo Yorumları", kelime: 450,
-    is: `Raporun veri sayfalarındaki her grafik ve tablonun altına "Astrolog Önerisi" kutusu olarak basılacak kısa yorumlar yaz. Aşağıdaki anahtarların HER BİRİNİ tam bu yazımla "### anahtar" satırıyla aç (küçük harf, Türkçe karaktersiz) ve altına 2-3 cümle yaz: astroloğun o grafiği/tabloyu danışana gösterirken söyleyebileceği cümleler, astroloğun ağzından, danışana ikinci tekil şahısla, teknik terimleri sadeleştirerek ve bu haritaya özgü. Başka başlık, giriş ya da \`> \` satırı yazma. Anahtarlar: "### cark" (natal çarkın genel görünümü ve ilk göze çarpan), "### konumlar" (gezegen tablosundaki en belirleyici 2-3 yerleşim), "### evler" (dolu ve boş evlerin dağılımı), "### acilar" (açı ağının baskın deseni, uyumlu mu gergin mi), "### denge" (element, nitelik ve kutup dengesi), "### yarikure" (yarıküre ve çeyrek dağılımı), "### guc" (en güçlü ve en zorlanan gezegen), "### dispozitor" (dispozitör zincirinin merkezi), "### transit" (önümüzdeki 12 ayın transit çizelgesindeki ana hareket).` },
+    is: `Astroloğa bu danışana ve bu rapor konusuna (${UB.ad}) özel, uygulamaya hazır seans planı. Alt başlıklar (bu sırayla): "### Seans Akışı" (60 dakikalık seans için dakika aralıklı 5-6 maddelik akış; her adımda hangi konu ve haritanın hangi yerleşimi), "### Açılış" (astroloğun seansı açabileceği 2-3 cümle, \`> \` satırı olarak), "### Sorulacak Sorular" (konuyla ilgili temaları doğrulamak ve derinleştirmek için 8-10 soru; her birinin yanında parantez içinde hangi yerleşimden geldiği), "### Temalara Göre Söylenebilecek Cümleler" (${UB.temalar} için kısa birer giriş cümlesi ve her birinde 1-2 \`> \` satırı), "### Hassas Noktalar ve Dil Önerisi" (dikkatle ele alınacak konular ve nasıl dile getirilmeli; madde listesi), "### Danışana Öneriler ve Pratikler" (somut, uygulanabilir farkındalık çalışmaları; madde listesi), "### Takip Seansı Zamanlaması" (transit ve progresyon pencerelerine göre bir sonraki seans için 2-3 tarih önerisi ve gerekçesi), "### Kapanış" (seansı kapatmak için 1 \`> \` satırı). Danışanın soruları ve astroloğun notu varsa planı onlara göre kur.` },
 ];
+// Grafik/tablo yorum anahtarları (render_pro bu anahtarları ilgili figürün altına basar)
+const VERI_ANAHTAR = URUN === "natal"
+  ? `"### cark" (natal çarkın genel görünümü ve ilk göze çarpan), "### konumlar" (gezegen tablosundaki en belirleyici 2-3 yerleşim), "### evler" (dolu ve boş evlerin dağılımı), "### acilar" (açı ağının baskın deseni, uyumlu mu gergin mi), "### denge" (element, nitelik ve kutup dengesi), "### yarikure" (yarıküre ve çeyrek dağılımı), "### guc" (en güçlü ve en zorlanan gezegen), "### dispozitor" (dispozitör zincirinin merkezi), "### transit" (önümüzdeki 12 ayın transit çizelgesindeki ana hareket)`
+  : `"### cark" (çarkta bu konu açısından ilk göze çarpan), "### konumlar" (gezegen tablosunda bu konu için en belirleyici 2-3 yerleşim), "### evler" (ev tablosunda bu konunun evleri), "### odak" (${UB.ad} odak tablosunun ana mesajı: odak noktaları ve evler${URUN === "lilith" ? ", karmik noktalar ve temasları" : ""}${URUN === "saglik" ? ", mizaç" : ""}), "### acilar" (bu konuya dokunan açıların baskın deseni), ${URUN === "saglik" ? `"### denge" (element, nitelik ve mizaç dengesi), "### yarikure" (yarıküre dağılımı ve enerji yönü), ` : ""}"### transit" (önümüzdeki 12 ayın bu konuya ilişkin transit çizelgesindeki ana hareket)`;
+const VERI = { key: "veri", baslik: "Grafik ve Tablo Yorumları", kelime: URUN === "natal" ? 450 : 380,
+  is: `Raporun veri sayfalarındaki her grafik ve tablonun altına "Astrolog Önerisi" kutusu olarak basılacak kısa yorumlar yaz. Aşağıdaki anahtarların HER BİRİNİ tam bu yazımla "### anahtar" satırıyla aç (küçük harf, Türkçe karaktersiz) ve altına 2-3 cümle yaz: astroloğun o grafiği/tabloyu danışana gösterirken söyleyebileceği cümleler, astroloğun ağzından, danışana ikinci tekil şahısla, teknik terimleri sadeleştirerek, bu haritaya ve bu rapor konusuna özgü. Başka başlık, giriş ya da \`> \` satırı yazma. Anahtarlar: ${VERI_ANAHTAR}.` };
+const BOLUMLER = [...ORTAK_BAS, ...(DERIN[URUN] || DERIN.natal), ...ORTAK_SON, VERI];
 // --sadece key1,key2 : yalnız bu bölümleri üret (test/maliyet ölçümü için)
 const _si = process.argv.indexOf("--sadece");
 const SADECE = _si > 0 ? (process.argv[_si + 1] || "").split(",") : null;
@@ -165,7 +266,7 @@ function kelimeHedefi(b) {
 
 // ---------------- API çağrısı ----------------
 const SYSTEM = [
-  { type: "text", text: SYSTEM_TALIMAT },
+  { type: "text", text: SYSTEM_TALIMAT + `\n\n## Bu rapor\nBu bir **${UB.ad}**: ${UB.tarif}. Tüm bölümleri bu odakla yaz; konu dışı genel natal yorumuna kayma (gerekli bağlamı kısa tut).` },
   { type: "text", text: "Aşağıda bu raporun tüm bölümlerinde kullanacağın HESAPLANMIŞ HARİTA VERİSİ var:\n\n" + BAGLAM, cache_control: { type: "ephemeral" } },
 ];
 
@@ -250,7 +351,7 @@ async function havuz(list, n, fn) {
 
 if (process.argv.includes("--baglam")) { console.log(BAGLAM); process.exit(0); }
 
-console.error(`\n${"=".repeat(60)}\n  PRO SENTEZ · MODEL: ${MODEL} · effort: ${EFFORT} · ${aktifBolumler.length} bölüm · paralel ${ESZAMAN}\n${"=".repeat(60)}`);
+console.error(`\n${"=".repeat(60)}\n  PRO SENTEZ · ${UB.ad} · MODEL: ${MODEL} · effort: ${EFFORT} · ${aktifBolumler.length} bölüm · paralel ${ESZAMAN}\n${"=".repeat(60)}`);
 const t0 = Date.now();
 try {
   // 1) İlk bölüm tek başına: sistem + harita bağlamını cache'e yazar; kalanlar cache'ten okur.

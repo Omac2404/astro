@@ -9,6 +9,7 @@ import { pathToFileURL, fileURLToPath } from "node:url";
 const IO = process.env.NATAL_IO || path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.resolve(process.argv[2]);
 const AD = (process.argv[3] || "").replace(/[<>&"]/g, "");
+const URUN_AD = (process.argv[4] || "Natal Pro Rapor").replace(/[<>"]/g, "").replace(/&/g, "&amp;");
 const OUT_PDF = path.join(IO, "pro.pdf");
 
 const CANDIDATES = [
@@ -30,7 +31,7 @@ try {
   await page.goto(pathToFileURL(HTML).href, { waitUntil: "networkidle0", timeout: 90000 });
   await page.evaluate(() => document.fonts && document.fonts.ready);
   const footer = `<div style="width:100%;font-family:Georgia,serif;font-size:7.5pt;color:#8a86a3;padding:0 16mm;display:flex;justify-content:space-between;">
-    <span>gökname · Natal Pro Rapor${AD ? " · " + AD : ""}</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`;
+    <span>gökname · ${URUN_AD}${AD ? " · " + AD : ""}</span><span><span class="pageNumber"></span> / <span class="totalPages"></span></span></div>`;
   await page.pdf({
     path: OUT_PDF, format: "A4", printBackground: true, preferCSSPageSize: true,
     displayHeaderFooter: true, headerTemplate: "<span></span>", footerTemplate: footer,

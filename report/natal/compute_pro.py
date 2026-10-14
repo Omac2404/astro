@@ -409,8 +409,24 @@ def build(birth, now_tr=None):
     faz_i = int(elong // 45) % 8
     ay_fazi = {"ad": MOON_PHASES[faz_i], "aci": round(elong, 1), "anlam": MOON_PHASE_ANLAM[faz_i]}
 
-    # --- Önümüzdeki 12 ay transitleri ---
-    transits = transit_timeline(ts, lon, now_tr, asc_si, days=372)
+    # --- Klasik mizaç (7 gezegen + Yükselen; ücretsiz raporlarla aynı kural) ---
+    el8 = {e: 0 for e in C.ELEMENT}
+    for si in [p["sign_idx"] for p in planets[:7]] + [asc_si]:
+        el8[C.element_of(si)] += 1
+    mx8 = max(el8.values())
+    dom8 = [e for e in C.ELEMENT if el8[e] == mx8]
+    if len(dom8) == 1:
+        mk, mad, mtab = C.MIZAC[dom8[0]]
+    else:
+        mk, mad, mtab = "karma", "Karma", "+".join(dom8)
+    mizac = {"key": mk, "ad": mad, "tabiat": mtab, "element8": el8}
+
+    # --- Ürün odağı (Aşk / Kariyer / Enerji & Mizaç / Lilith & Karmik) ---
+    urun = birth.get("urun") or "natal"
+    odak = urun_odagi(urun, planets, points, aspects, houses, lon, asc_si, mc_si, P)
+
+    # --- Önümüzdeki 12 ay transitleri (ürünün odak noktalarına göre) ---
+    transits = transit_timeline(ts, lon, now_tr, asc_si, days=372, targets=odak.get("transit_hedef"))
 
     # --- Progresyonlar ---
     prog = progressions(ts, utc, lon, now_tr, asc_si, lat, lon_geo)
@@ -428,7 +444,7 @@ def build(birth, now_tr=None):
 
     yas = (now_tr.astimezone(UTC) - utc).days / YIL_GUN
     return {
-        "tip": "pro-natal",
+        "tip": "pro-natal", "urun": urun, "odak": odak, "mizac": mizac,
         "meta": {
             "ad": birth["ad"], "tarih": f"{d} {AYLAR[mo - 1]} {y}", "saat": f"{h:02d}:{mi:02d}",
             "yer": birth.get("yer_metin") or ", ".join(x for x in (birth.get("ilce"), birth.get("il")) if x),
@@ -448,6 +464,62 @@ def build(birth, now_tr=None):
                   "ust_yari": ust, "alt_yari": 10 - ust, "dogu": dogu, "bati": 10 - dogu, "ceyrek": ceyrek},
         "ay_fazi": ay_fazi,
         "transitler": transits, "progresyon": prog, "solar_return": sr, "olaylar": olaylar,
+    }
+
+
+# ---------- Ürün odağı ----------
+URUN_ODAK = {
+    # evler: odak evleri · noktalar: odak gezegen/nokta id'leri · transit: transitlerin bakacağı natal noktalar
+    # (evlerin yöneticileri dinamik olarak eklenir)
+    "natal":   {"evler": [], "noktalar": [], "transit": None},
+    "ask":     {"evler": [5, 7, 8], "noktalar": ["venus", "mars", "ay", "gunes", "dsc"],
+                "transit": ["venus", "mars", "ay", "gunes", "asc"]},
+    "kariyer": {"evler": [10, 6, 2], "noktalar": ["mc", "gunes", "saturn", "jupiter", "merkur"],
+                "transit": ["mc", "gunes", "saturn", "jupiter", "merkur"]},
+    "saglik":  {"evler": [1, 6, 8], "noktalar": ["asc", "gunes", "ay", "mars", "saturn"],
+                "transit": ["asc", "gunes", "ay", "mars", "saturn"]},
+    "lilith":  {"evler": [12, 8, 4], "noktalar": ["kuzey", "guney", "lilith", "chiron", "saturn", "pluton"],
+                "transit": ["kuzey", "lilith", "chiron", "ay", "gunes", "saturn"]},
+}
+
+
+def urun_odagi(urun, planets, points, aspects, houses, lon, asc_si, mc_si, P):
+    cfg = URUN_ODAK.get(urun, URUN_ODAK["natal"])
+    hmap = {h["n"]: h for h in houses}
+    ad2id = {v: k for k, v in AD.items()}
+    # odak evlerinin geleneksel yöneticileri de odak noktası olur
+    yoneticiler = []
+    for hn in cfg["evler"]:
+        rid = RULER_TRAD[(asc_si + hn - 1) % 12]
+        if rid not in yoneticiler:
+            yoneticiler.append(rid)
+    noktalar = list(dict.fromkeys(cfg["noktalar"] + yoneticiler))
+    transit = None
+    if cfg["transit"] is not None:
+        transit = list(dict.fromkeys(cfg["transit"] + yoneticiler + (["mc"] if urun == "kariyer" else [])))
+    # odak noktalarına dokunan açılar (natal açı listesinden)
+    acilar = [a for a in aspects if a["a"] in noktalar or a["b"] in noktalar]
+    # karmik noktalar: her biri için burç yöneticisi + gezegenlerle majör açılar (orb ≤4; Lilith ≤3)
+    karmik = []
+    if urun == "lilith":
+        for q in points:
+            if q["id"] not in ("kuzey", "guney", "lilith", "chiron"):
+                continue
+            rid = RULER_TRAD[q["sign_idx"]]
+            temas = []
+            for p in planets + [{"id": "asc", "ad": "Yükselen", "lon": lon["asc"]}, {"id": "mc", "ad": "MC", "lon": lon["mc"]}]:
+                s_ = sep(q["lon"], p["lon"])
+                for aid, aad, exact, _, _, maj in ASPECTS:
+                    if maj and abs(s_ - exact) <= (3 if q["id"] == "lilith" else 4):
+                        temas.append({"ad": p["ad"], "aci": aad, "tip": aid, "orb": round(abs(s_ - exact), 2), "uyum": ASP_UYUM[aid]})
+            temas.sort(key=lambda x: x["orb"])
+            karmik.append({"id": q["id"], "ad": q["ad"], "sign": q["sign"], "sign_idx": q["sign_idx"], "deg": q["deg"],
+                           "house": q["house"], "yonetici": AD[rid], "yonetici_ev": P[rid]["house"],
+                           "yonetici_burc": P[rid]["sign"], "temaslar": temas})
+    return {
+        "urun": urun, "evler": [hmap[h] for h in cfg["evler"]], "noktalar": noktalar,
+        "noktalar_ad": [AD.get(x, x) for x in noktalar], "acilar": acilar, "karmik": karmik,
+        "transit_hedef": transit,
     }
 
 
@@ -472,7 +544,8 @@ def _windows(mask):
     return out
 
 
-def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372):
+def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372, targets=None):
+    targets = [t for t in (targets or NATAL_TARGETS) if t in natal_lon]
     start = datetime(now_tr.year, now_tr.month, now_tr.day, 12, 0, tzinfo=TR).astimezone(UTC)
     dates = [start + timedelta(days=k) for k in range(days)]
     t_arr = ts.from_datetimes(dates)
@@ -489,9 +562,9 @@ def transit_timeline(ts, natal_lon, now_tr, asc_si, days=372):
             if sidx[k] != sidx[k - 1]:
                 ingresler.append({"gezegen": AD[tid], "burc": SIGNS[sidx[k]], "tarih": tr_tarih(dates[k].astimezone(TR)),
                                   "iso": iso_gun(dates[k].astimezone(TR)), "ev": ((sidx[k] - asc_si) % 12) + 1})
-        for nid in NATAL_TARGETS:
-            if tid == nid:
-                continue  # dönüşler (Satürn dönüşü vs.) aşağıda kavuşum olarak zaten yakalanır
+        for nid in targets:
+            if tid == "kuzey" and nid in ("kuzey", "guney"):
+                continue  # düğüm kendi eksenine: anlamsız (düğüm dönüşü 18,6 yıl; transit Kuzey Düğüm natal düğüme ayrıca bakılmaz)
             for aid, aad, exact, _, renk, _ in TR_ASPECTS:
                 orb = 1.5 if tid in ("jupiter", "saturn", "kuzey") else 1.2
                 d = np.abs(np.abs(((L - natal_lon[nid]) + 540) % 360 - 180) - exact)

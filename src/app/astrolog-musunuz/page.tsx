@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Faq } from "@/components/faq";
-import { getProAyar, getPaytr, getGenelAyar, isAstrolog } from "@/lib/db";
+import { getProAyar, getPaytr, getGenelAyar, isAstrolog, PRO_URUNLER } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { seoMetadata } from "@/lib/seo";
 
@@ -114,6 +114,25 @@ export default async function AstrologMusunuzPage() {
             <div key={x.t} className="rounded-2xl border border-gold/15 bg-night p-5">
               <h3 className="font-display text-xl text-gold-bright">{x.t}</h3>
               <p className="mt-1.5 text-[15px] leading-relaxed text-parchment/70">{x.d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Rapor türleri (PRO_URUNLER'deki aktif ürünler) */}
+      <section className="mt-20">
+        <h2 className="text-center font-display text-3xl font-semibold">Rapor türleri</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-center text-parchment/65">
+          Hepsi aynı profesyonel yapıda: seans rehberi, Astrolog Önerisi kutuları, tam teknik veri ve 12 aylık zamanlama. Danışanının ihtiyacına göre seç.
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {PRO_URUNLER.filter((u) => u.aktif).map((u) => (
+            <div key={u.slug} className="rounded-2xl border border-gold/15 bg-night p-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="font-display text-xl text-gold-bright">{u.ad}</h3>
+                <span className="shrink-0 text-xs text-parchment/55">{u.jeton} jeton</span>
+              </div>
+              <p className="mt-1.5 text-[15px] leading-relaxed text-parchment/70">{u.aciklama}</p>
             </div>
           ))}
         </div>

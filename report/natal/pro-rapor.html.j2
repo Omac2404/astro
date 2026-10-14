@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<title>Natal Pro Rapor · {{ m.ad }}</title>
+<title>{{ urun_ad }} · {{ m.ad }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -136,8 +136,8 @@
   <div class="in">
     {% if logo %}<img class="logo" src="{{ logo }}" alt="gökname">{% endif %}
     <div class="eyebrow">Profesyonel Astrolog Çalışma Dosyası</div>
-    <h1>Natal Pro Rapor</h1>
-    <div class="sub">derinlemesine doğum haritası analizi · zamanlama · seans rehberi</div>
+    <h1>{{ esc(urun_ad) }}</h1>
+    <div class="sub">{{ esc(urun_alt) }}</div>
     <div class="rule"></div>
     <div class="who">{{ esc(m.ad) }}</div>
     <div class="birth">{{ esc(m.tarih) }} · {{ esc(m.saat) }} · {{ esc(m.yer) }}</div>
@@ -150,12 +150,12 @@
 </section>
 
 <!-- ============ GİRİŞ ============ -->
-{% set YORUM = ['cekirdek','yonetici','gezegenler','evler','acilar','karmik','alanlar'] %}
+{% set YORUM = yorum_keys %}
 <section>
   <div class="chap-eyebrow">Giriş</div>
   <h1 class="ch">Rapor Hakkında</h1>
   <div class="ch-rule"></div>
-  <p>Bu dosya, {{ esc(m.ad) }} için hesaplanmış doğum haritasının astroloğa özel hazırlanmış kapsamlı bir çalışma dökümüdür. Önce seansınızı kurmanız için hazırlanan rehber, haritanın özeti ve danışanın sorularına cevaplar gelir; ardından haritanın tüm teknik verisi, derinlemesine yorum ve önümüzdeki on iki ayın zamanlaması yer alır. Yorumlarda teknik dayanak parantez içinde verilmiştir. <b>Astrolog Önerisi</b> etiketli kutular, seansta danışanınıza doğrudan söyleyebileceğiniz hazır cümlelerdir.</p>
+  <p>Bu dosya, {{ esc(m.ad) }} için hazırlanmış <b>{{ esc(urun_ad) }}</b>: hesaplanmış doğum haritasının astroloğa özel kapsamlı bir çalışma dökümüdür. Önce seansınızı kurmanız için hazırlanan rehber, haritanın özeti ve danışanın sorularına cevaplar gelir; ardından haritanın tüm teknik verisi, derinlemesine yorum ve önümüzdeki on iki ayın zamanlaması yer alır. Yorumlarda teknik dayanak parantez içinde verilmiştir. <b>Astrolog Önerisi</b> etiketli kutular, seansta danışanınıza doğrudan söyleyebileceğiniz hazır cümlelerdir.</p>
 
   <div class="box">
     <dl class="kv">
@@ -184,7 +184,7 @@
     {% if sec['ozet'] %}<div class="t2">Yönetici Özeti</div>{% endif %}
     {% if sec['sorular'] %}<div class="t2">Danışanın Soruları</div>{% endif %}
     <div><b>2</b>Harita Verisi</div>
-    <div class="t2">Çark, konumlar, evler, açılar, yapı ve dengeler</div>
+    <div class="t2">Çark, konumlar, evler{% if odak_html %}, {{ esc(odak_baslik[0]|lower) }}{% endif %}, açılar{% if goster_yapi %}, yapı ve dengeler{% endif %}</div>
     <div><b>3</b>Derin Yorum</div>
     {% for k in YORUM %}{% if sec[k] %}<div class="t2">{{ esc(sec[k].baslik) }}</div>{% endif %}{% endfor %}
     <div><b>4</b>Zamanlama: transitler, progresyonlar, yıl haritası</div>
@@ -237,6 +237,17 @@
   {{ vy.get('evler', '') }}
 </section>
 
+{% if odak_html %}
+<section class="chapter odak">
+  <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
+  <h1 class="ch">{{ esc(odak_baslik[0]) }}</h1>
+  <div class="ch-rule"></div>
+  <p class="note" style="margin-top:0">{{ esc(odak_baslik[1]) }}. Odak noktaları, raporun konusuyla en doğrudan ilgili gezegenler ve odak evlerinin yöneticileridir.</p>
+  {{ odak_html }}
+  {{ vy.get('odak', '') }}
+</section>
+{% endif %}
+
 <section class="chapter">
   <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Açılar</h1>
@@ -260,6 +271,7 @@
   <p class="note">Orb sınırları: kavuşum/karşıt 8°, üçgen/kare 7°, altmışlık 5° (Güneş ve Ay için +2°), minör açılar 2-3°. Köşe ve noktalarla majör açılarda en çok 5°.</p>
 </section>
 
+{% if goster_yapi %}
 <section class="chapter yapi">
   <div class="chap-eyebrow">Kısım 2 · Harita Verisi</div>
   <h1 class="ch">Yapı ve Dengeler</h1>
@@ -288,6 +300,7 @@
   <p class="note">Kendi burcundaki gezegen(ler): {{ esc(ch.dispozitor.kendi_burcunda|join(', ')) or 'yok' }} · Son dispozitör: {{ esc(ch.dispozitor.son) if ch.dispozitor.son else 'tek bir son dispozitör yok' }}{% if ch.dispozitor.karsilikli_agirlama %} · Karşılıklı ağırlama: {{ esc(ch.dispozitor.karsilikli_agirlama|join('; ')) }}{% endif %}</p>
   {{ vy.get('dispozitor', '') }}
 </section>
+{% endif %}
 
 <!-- ============ 3 · DERİN YORUM ============ -->
 {% set ilk = namespace(v=True) %}

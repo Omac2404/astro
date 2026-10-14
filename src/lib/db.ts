@@ -1212,11 +1212,14 @@ export function getAstrologTik(): Record<string, { toplam: number; bugun: number
 // =====================================================================================
 export type ProUrun = { slug: string; ad: string; jeton: number; aktif: boolean; aciklama: string };
 export const PRO_URUNLER: ProUrun[] = [
-  { slug: "natal", ad: "Natal Pro Rapor", jeton: 1, aktif: true, aciklama: "Doğum haritasının 20+ sayfalık profesyonel analizi: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi." },
-  { slug: "ask", ad: "Aşk & İlişki Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
-  { slug: "kariyer", ad: "Kariyer & Para Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
+  { slug: "natal", ad: "Natal Pro Rapor", jeton: 1, aktif: true, aciklama: "Doğum haritasının 30+ sayfalık profesyonel analizi: tam teknik veri, derin yorum, 12 aylık zamanlama ve seans rehberi." },
+  { slug: "ask", ad: "Aşk & İlişki Pro", jeton: 1, aktif: true, aciklama: "Venüs, Mars, ilişki evleri ve bağlanma kalıpları; uyumlu partner profili ve ilişki zamanlaması." },
+  { slug: "kariyer", ad: "Kariyer & Para Pro", jeton: 1, aktif: true, aciklama: "MC zinciri, iş ve para evleri, yetenekler ve uygun meslek alanları; kariyer zamanlaması." },
+  { slug: "saglik", ad: "Enerji & Mizaç Pro", jeton: 1, aktif: true, aciklama: "Klasik mizaç, canlılık, stres kalıpları ve yaşam ritmi; enerji döngüleri (tıbbi tanı içermez)." },
+  { slug: "lilith", ad: "Lilith & Karmik Pro", jeton: 1, aktif: true, aciklama: "Ay Düğümleri, Lilith, Kiron, karmik sınavlar ve tekrar eden örüntüler; dönüşüm pencereleri." },
   { slug: "solar", ad: "Solar Return Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
   { slug: "sinastri", ad: "Sinastri Pro", jeton: 2, aktif: false, aciklama: "Yakında" },
+  { slug: "aylik", ad: "Aylık Dönem Pro", jeton: 1, aktif: false, aciklama: "Yakında" },
 ];
 export function getProUrun(slug: string): ProUrun | undefined {
   return PRO_URUNLER.find((u) => u.slug === slug);
