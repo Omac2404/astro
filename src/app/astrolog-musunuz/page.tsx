@@ -2,7 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
+import fs from "node:fs";
+import path from "node:path";
 import { Faq } from "@/components/faq";
+import { Flipbook } from "@/components/flipbook";
 import { getProAyar, getPaytr, getGenelAyar, isAstrolog, PRO_URUNLER } from "@/lib/db";
 import { currentUser } from "@/lib/session";
 import { seoMetadata } from "@/lib/seo";
@@ -79,6 +82,18 @@ const ADIMLAR: { t: string; d: string }[] = [
   { t: "Dosyan hazır", d: "Dakikalar içinde 30+ sayfalık PDF panelinde; 1 yıl saklanır." },
 ];
 
+// Örnek rapor (hayali danışan): public/ornekler/natal-pro/ altındaki sayfa görselleri + PDF
+const ORNEK_DIR = "ornekler/natal-pro";
+function ornekSayfalar(): string[] {
+  try {
+    return fs.readdirSync(path.join(process.cwd(), "public", ORNEK_DIR))
+      .filter((f) => /^sayfa-\d+\.jpg$/.test(f)).sort()
+      .map((f) => `/${ORNEK_DIR}/${f}`);
+  } catch {
+    return [];
+  }
+}
+
 function waLink(numara: string, mesaj: string) {
   const n = numara.replace(/\D/g, "");
   return n ? `https://wa.me/${n}?text=${encodeURIComponent(mesaj)}` : "";
@@ -120,6 +135,7 @@ export default async function AstrologMusunuzPage() {
   const eposta = ayar.eposta || getGenelAyar().iletisim.eposta;
   const genelWa = waLink(whatsapp, "Merhaba, astroloğum. Gökname Pro raporları ve jeton paketleri hakkında bilgi almak istiyorum.");
   const urunler = PRO_URUNLER.filter((u) => u.aktif);
+  const ornek = ornekSayfalar();
   const sss = [
     { q: "Jetonu nasıl alırım?", a: "Bize WhatsApp ya da e-postadan ulaşman yeterli. Ödeme tamamlanınca **astrolog hesabını açar ve jetonlarını yükleriz**; giriş bilgilerin sana iletilir." },
     { q: "Rapor ne kadar sürede hazırlanır?", a: "Genellikle **birkaç dakika**. Raporu başlattıktan sonra sayfayı kapatabilirsin; hazır olunca panelinde görünür." },
@@ -160,8 +176,8 @@ export default async function AstrologMusunuzPage() {
                 Örnek rapor iste
               </a>
             )}
-            {ayar.ornekPdf && (
-              <a href={ayar.ornekPdf} target="_blank" rel="noopener" className="rounded-full border border-gold/30 px-7 py-3.5 text-parchment/85 transition-colors hover:text-gold-bright">Örneği incele</a>
+            {ornek.length > 0 && (
+              <a href="#ornek" className="rounded-full border border-gold/30 px-7 py-3.5 text-parchment/85 transition-colors hover:text-gold-bright">Örnek raporu incele</a>
             )}
           </div>
           <Link href="/giris?next=/hesabim" className="mt-5 inline-block text-sm text-parchment/55 underline-offset-4 hover:text-gold-bright hover:underline">
@@ -186,8 +202,8 @@ export default async function AstrologMusunuzPage() {
         <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-gold/20 bg-gold/15 sm:grid-cols-4">
           {[["30+", "sayfa"], [String(urunler.length), "rapor türü"], ["~5 dk", "hazırlanma"], [`${Math.round(ayar.saklamaGun / 30)} ay`, "panelde saklama"]].map(([v, l]) => (
             <div key={l} className="bg-night-deep/90 px-5 py-6 text-center">
-              <div className="font-display text-4xl font-semibold text-gold-bright">{v}</div>
-              <div className="mt-1 text-xs uppercase tracking-[0.2em] text-parchment/55">{l}</div>
+              <div className="rakam text-[2.1rem] font-semibold leading-none text-gold-bright">{v}</div>
+              <div className="mt-2 text-xs uppercase tracking-[0.2em] text-parchment/55">{l}</div>
             </div>
           ))}
         </div>
@@ -201,7 +217,7 @@ export default async function AstrologMusunuzPage() {
             <div className="pointer-events-none absolute left-[12%] right-[12%] top-7 hidden h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent lg:block" />
             {ADIMLAR.map((a, i) => (
               <div key={a.t} className="relative text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-gold/60 bg-night-deep font-display text-2xl font-semibold text-gold-bright shadow-[0_0_30px_-6px_rgba(220,193,136,0.6)]">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-gold/60 bg-night-deep rakam text-xl font-semibold text-gold-bright shadow-[0_0_30px_-6px_rgba(220,193,136,0.6)]">
                   {i + 1}
                 </div>
                 <h3 className="mt-4 font-display text-xl text-parchment">{a.t}</h3>
@@ -231,6 +247,18 @@ export default async function AstrologMusunuzPage() {
           </div>
           <p className="mt-4 text-center text-xs text-parchment/40">Görseller hayali bir danışan için üretilmiş örnek Natal Pro raporundan alınmıştır.</p>
         </section>
+
+        {/* ================= ÖRNEK RAPOR (FLIPBOOK) ================= */}
+        {ornek.length > 0 && (
+          <section id="ornek" className="mt-28 scroll-mt-24">
+            <Baslik ust="Örnek rapor" alt="Hayali bir danışan, Defne Arslan için üretilmiş eksiksiz bir Natal Pro raporu. Sayfaları çevir, dilersen PDF olarak indir.">
+              Raporu baştan sona incele
+            </Baslik>
+            <div className="mt-10">
+              <Flipbook sayfalar={ornek} pdf={`/${ORNEK_DIR}/natal-pro-ornek.pdf`} ad="Natal Pro Rapor · Defne Arslan (örnek)" />
+            </div>
+          </section>
+        )}
 
         {/* ================= İÇERİK ================= */}
         <section className="mt-28">
@@ -312,7 +340,7 @@ export default async function AstrologMusunuzPage() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/10 text-gold-bright">
                     <Ikon ad={u.slug} className="h-[22px] w-[22px]" />
                   </div>
-                  <span className="rounded-full border border-gold/30 px-2.5 py-0.5 text-[11px] text-gold-bright">{u.jeton} jeton</span>
+                  <span className="rounded-full border border-gold/30 px-2.5 py-0.5 text-[11px] text-gold-bright"><span className="rakam font-semibold">{u.jeton}</span> jeton</span>
                 </div>
                 <h3 className="mt-4 font-display text-lg leading-snug text-parchment">{u.ad}</h3>
                 <p className="mt-1.5 text-[14px] leading-relaxed text-parchment/60">{u.aciklama}</p>
@@ -336,16 +364,22 @@ export default async function AstrologMusunuzPage() {
                     <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-gold to-gold-bright px-4 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-night-deep">En popüler</span>
                   )}
                   {p.etiket && <span className="text-xs uppercase tracking-[0.22em] text-gold-bright/80">{p.etiket}</span>}
-                  <div className="mt-4 flex items-end justify-center gap-2">
-                    <span className="font-display text-6xl font-semibold leading-none text-parchment">{p.jeton}</span>
-                    {hediye > 0 && (
-                      <span className="mb-1 rounded-full bg-emerald-400/15 px-2.5 py-1 text-sm font-semibold text-emerald-300">+{hediye} hediye</span>
-                    )}
+                  <div className="mt-5 flex flex-col items-center">
+                    <span className="rakam text-[4.2rem] font-semibold leading-none text-parchment">{p.jeton}</span>
+                    <span className="mt-2 text-[13px] uppercase tracking-[0.22em] text-parchment/55">jeton</span>
+                    <span className={`mt-3 inline-flex items-center rounded-full px-3 py-1 text-[13px] font-medium ${hediye > 0 ? "bg-emerald-400/15 text-emerald-300" : "bg-white/5 text-parchment/60"}`}>
+                      {hediye > 0 ? <><span className="rakam font-semibold">+{hediye}</span>&nbsp;hediye · <span className="rakam font-semibold">&nbsp;{toplam}</span>&nbsp;rapor</> : <><span className="rakam font-semibold">{toplam}</span>&nbsp;Pro rapor</>}
+                    </span>
                   </div>
-                  <div className="mt-2 text-parchment/55">jeton · {toplam} Pro rapor</div>
                   <div className="mx-auto my-6 h-px w-16 bg-gradient-to-r from-transparent via-gold/60 to-transparent" />
-                  <div className="font-display text-4xl text-gold-bright">{p.fiyat > 0 ? `${p.fiyat.toLocaleString("tr-TR")} ₺` : "Fiyat için yaz"}</div>
-                  {p.fiyat > 0 && <div className="mt-1 text-sm text-parchment/50">rapor başı {Math.round(p.fiyat / toplam).toLocaleString("tr-TR")} ₺</div>}
+                  {p.fiyat > 0 ? (
+                    <div className="rakam text-[2.4rem] font-semibold leading-none text-gold-bright">
+                      {p.fiyat.toLocaleString("tr-TR")}<span className="ml-1 text-[1.6rem] font-normal">₺</span>
+                    </div>
+                  ) : (
+                    <div className="font-display text-3xl text-gold-bright">Fiyat için yaz</div>
+                  )}
+                  {p.fiyat > 0 && <div className="mt-2 text-sm text-parchment/50">rapor başı <span className="rakam">{Math.round(p.fiyat / toplam).toLocaleString("tr-TR")}</span> ₺</div>}
                   <div className="mt-7 flex-1" />
                   {wa ? (
                     <a href={wa} target="_blank" rel="noopener" className={`rounded-full px-6 py-3 font-medium transition-all ${vurgu ? "bg-gradient-to-r from-gold to-gold-bright text-night-deep hover:shadow-[0_10px_30px_-10px_rgba(220,193,136,0.9)]" : "border border-gold/45 text-gold-bright hover:bg-gold/10"}`}>WhatsApp ile al</a>

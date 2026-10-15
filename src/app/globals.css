@@ -186,3 +186,12 @@ body {
     100% { transform: scale(0.95); opacity: 1; }
   }
 }
+
+/* Sayılar: hizalı (lining) + eşit genişlikli rakam. Cormorant'ın eski stil rakamları ("1o" görünümü)
+   fiyat/jeton/istatistik gibi vurgulu sayılarda kullanılmaz. */
+.rakam {
+  font-family: var(--font-body);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+  letter-spacing: -0.02em;
+}
