@@ -1,6 +1,6 @@
 // render-pro.mjs — Astrolog Pro raporu: HTML -> pro.pdf (headless Chrome, sayfa numaralı alt bilgi).
 // render.mjs'ten farkı: akan doküman (CSS @page kenar boşlukları) + displayHeaderFooter ile sayfa no.
-// Çalıştır: node render-pro.mjs <html> [altbilgi-ad]
+// Çalıştır: node render-pro.mjs <html> [altbilgi-ad] [ürün-adı] [çıktı.pdf]
 import puppeteer from "puppeteer-core";
 import fs from "node:fs";
 import path from "node:path";
@@ -10,7 +10,7 @@ const IO = process.env.NATAL_IO || path.dirname(fileURLToPath(import.meta.url));
 const HTML = path.resolve(process.argv[2]);
 const AD = (process.argv[3] || "").replace(/[<>&"]/g, "");
 const URUN_AD = (process.argv[4] || "Natal Pro Rapor").replace(/[<>"]/g, "").replace(/&/g, "&amp;");
-const OUT_PDF = path.join(IO, "pro.pdf");
+const OUT_PDF = path.join(IO, process.argv[5] || "pro.pdf"); // 5. argüman: çıktı adı (ör. kilavuz.pdf)
 
 const CANDIDATES = [
   process.env.CHROME_PATH,

@@ -17,7 +17,7 @@ type SaatKesin = "kesin" | "yaklasik" | "bilinmiyor";
 type OnDolu = Danisan & { _slug?: string };
 const ILISKI_TURLERI = [["sevgili", "Sevgili / Eş"], ["arkadas", "Arkadaşlık"], ["aile", "Aile"], ["is", "İş ortaklığı"]] as const;
 type Rapor = {
-  id: string; slug: string; urunAd: string; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; hata?: string;
+  id: string; slug: string; urunAd: string; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; kilavuz?: string; hata?: string;
   iade?: boolean; jeton: number; tarih: string; hazirTarih?: string; silmeTarih: string; danisan: Danisan;
 };
 type Hareket = { id: string; tip: "yukleme" | "kullanim" | "iade" | "duzeltme"; miktar: number; aciklama: string; tarih: string };
@@ -214,9 +214,13 @@ export function AstrologPanel({ email }: { email: string }) {
                       {r.durum === "hata" && <div className="mt-1 text-xs text-rose-300/85">{r.hata || "Üretilemedi."}{r.iade ? " (jeton iade edildi)" : ""}</div>}
                       {r.durum === "hazir" && <div className="mt-1 text-[11px] text-parchment/40">Silinme: {tarihTR(r.silmeTarih)}</div>}
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center justify-end gap-2">
+                      {r.durum === "hazir" && r.kilavuz && (
+                        <a href={`/api/files/${r.kilavuz}`} target="_blank" rel="noopener" title="4-5 sayfalık, ana rapora sayfa atıflı seans yol haritası"
+                          className="rounded-full bg-gradient-to-r from-[#9b72d0] to-[#c3a6e8] px-4 py-1.5 text-xs font-medium text-night-deep transition-opacity hover:opacity-90">Seans kılavuzu</a>
+                      )}
                       {r.durum === "hazir" && r.dosya && (
-                        <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="rounded-full bg-gold px-4 py-1.5 text-xs font-medium text-night-deep transition-colors hover:bg-gold-bright">PDF&apos;i aç</a>
+                        <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="rounded-full bg-gold px-4 py-1.5 text-xs font-medium text-night-deep transition-colors hover:bg-gold-bright">Ana rapor</a>
                       )}
                       {r.durum === "hata" && (
                         <button onClick={() => { setOnDolu({ ...r.danisan, _slug: r.slug }); setForm(true); window.scrollTo({ top: 0, behavior: "smooth" }); }} className="rounded-full border border-gold/30 px-4 py-1.5 text-xs text-parchment/80 hover:text-gold-bright">Tekrar oluştur</button>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Seans Kılavuzu · {{ esc(ad) }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#2b2a3d; --muted:#7d7996; --gold:#a8803e; --gold-l:#c2a36b; --gold-b:#dcc188; --night:#1b1b3a; --night-d:#0f0f24; --plum:#3b2f63; --line:#e4dccb; }
+  @page{ size:A4; margin:14mm 15mm 16mm 15mm; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#fff; }
+  body{ font-family:Spectral, Georgia, serif; color:var(--ink); font-size:10pt; line-height:1.5;
+        -webkit-print-color-adjust:exact; print-color-adjust:exact; font-variant-numeric:lining-nums; }
+
+  /* üst bant */
+  .bant{ border-radius:10px; padding:7mm 8mm 6mm; color:#efe8da; position:relative; overflow:hidden;
+         background:radial-gradient(120% 140% at 85% 0%, #3a2d6a 0%, var(--night) 50%, var(--night-d) 100%); }
+  .bant .ust{ display:flex; justify-content:space-between; align-items:flex-start; gap:6mm; }
+  .bant img{ height:15mm; opacity:.95; }
+  .bant .eyebrow{ font-size:7.6pt; letter-spacing:.3em; text-transform:uppercase; color:var(--gold-b); }
+  .bant h1{ font-family:"Cormorant Garamond", serif; font-weight:600; font-size:28pt; margin:1mm 0 0; color:#fff; line-height:1.05; }
+  .bant .kim{ margin-top:2mm; font-size:11pt; color:var(--gold-b); }
+  .bant .meta{ margin-top:3mm; display:flex; flex-wrap:wrap; gap:2mm 6mm; font-size:8.4pt; color:rgba(239,232,218,.75); }
+  .bant .meta b{ color:#fff; font-weight:500; }
+  .not{ margin:4mm 0 2mm; padding:2.6mm 4mm; border:1px dashed var(--gold-l); border-radius:6px; font-size:8.8pt; color:#6b5a32; background:#fbf6ea; }
+  .not .sref{ margin:0 .5mm; }
+
+  /* bölüm kartları */
+  .bolum{ margin-top:5mm; }
+  .bolum > h2{ display:flex; align-items:center; gap:3mm; font-family:"Cormorant Garamond", serif; font-weight:700; font-size:15pt; color:var(--plum); margin:0 0 2mm; break-after:avoid; }
+  .bolum > h2::after{ content:""; display:block; height:22mm; margin-bottom:-22mm; }
+  .no{ display:inline-flex; align-items:center; justify-content:center; width:7mm; height:7mm; border-radius:50%; background:var(--plum); color:#fff;
+       font-family:Spectral, serif; font-size:9pt; font-weight:600; flex-shrink:0; }
+  .bolum > h2 .cizgi{ flex:1; height:1px; background:linear-gradient(90deg,var(--gold-l),transparent); }
+  p{ margin:0 0 2mm; }
+  ul{ margin:1mm 0 2.5mm; padding-left:5mm; }
+  li{ margin-bottom:2mm; }
+  li::marker{ color:var(--gold); }
+  strong{ font-weight:600; color:#3a2f5e; }
+  .paren{ color:#8a6a2f; font-size:.93em; }
+  .sref{ display:inline-block; padding:0 2mm; margin-left:.8mm; border-radius:3mm; background:#efe6fb; color:#5a3f8e; border:1px solid #d7c6f0;
+         font-size:7.8pt; font-weight:600; letter-spacing:.02em; white-space:nowrap; line-height:1.55; vertical-align:.05em; }
+  .sref::before{ content:"→ "; font-weight:400; }
+  .oneri{ margin:1.5mm 0 3mm; padding:2.2mm 4mm 2.4mm; background:#f5f0fb; border-left:3px solid #6b4f9e; border-radius:0 5px 5px 0; break-inside:avoid; }
+  .oneri-lab{ display:block; font-size:6.8pt; letter-spacing:.2em; text-transform:uppercase; color:#6b4f9e; font-weight:600; margin-bottom:.6mm; }
+  .oneri-lab::before{ content:"✦ "; color:var(--gold); }
+  .oneri p{ margin:0; font-family:"Cormorant Garamond", serif; font-style:italic; font-size:12.2pt; line-height:1.3; color:#3a2f5e; }
+  li .oneri{ margin-top:1.5mm; }
+  .son{ margin-top:6mm; padding-top:3mm; border-top:1px solid var(--line); font-size:7.8pt; color:var(--muted); }
+</style>
+</head>
+<body>
+  <div class="bant">
+    <div class="ust">
+      <div>
+        <div class="eyebrow">Astrolog İçin · Seans Kılavuzu</div>
+        <h1>Seans Kılavuzu</h1>
+        <div class="kim">{{ esc(ad) }} · {{ esc(urun_ad) }}</div>
+      </div>
+      {% if logo %}<img src="{{ logo }}" alt="gökname">{% endif %}
+    </div>
+    <div class="meta">
+      <span>Ana rapor: <b>{{ ana_sayfa }} sayfa</b></span>
+      {% if hazirlayan %}<span>Hazırlayan: <b>{{ esc(hazirlayan) }}</b></span>{% endif %}
+      {% if rapor_id %}<span>Rapor no: <b>{{ esc(rapor_id) }}</b></span>{% endif %}
+      {% if tarih %}<span>{{ esc(tarih) }}</span>{% endif %}
+    </div>
+  </div>
+  <div class="not">Bu kılavuz ana raporla birlikte kullanılır. <span class="sref">s. 15</span> gibi rozetler, ana rapordaki ilgili sayfayı gösterir. Mor kutulardaki cümleler danışana doğrudan söylenebilir.</div>
+  {{ giris }}
+  {% for b in bolumler %}
+  <section class="bolum">
+    <h2><span class="no">{{ loop.index }}</span>{{ b.baslik }}<span class="cizgi"></span></h2>
+    {{ b.html }}
+  </section>
+  {% endfor %}
+  <div class="son">Bu kılavuz, ana rapordaki hesaplanmış harita verisi ve yorumlardan yapay zekâ destekli olarak damıtılmıştır; nihai değerlendirme astroloğa aittir. Kesin gelecek iddiası taşımaz.</div>
+</body>
+</html>

@@ -46,7 +46,8 @@ function Ikon({ ad, className = "" }: { ad: string; className?: string }) {
 }
 
 const ICERIK: { t: string; d: string; i: string }[] = [
-  { i: "seans", t: "Seans rehberi", d: "60 dakikalık seans akışı, açılış cümleleri, sorulacak sorular, hassas noktalar ve takip seansı için tarih önerileri. Raporun en başında." },
+  { i: "olay", t: "Seans Kılavuzu (ayrı PDF)", d: "Her raporla birlikte 4-5 sayfalık yol haritası: kritik bulgular, yaklaşım önerileri ve söylenecek cümleler; her madde ana rapordaki sayfaya atıflı (→ s. 15)." },
+  { i: "seans", t: "Seans rehberi (raporun başında)", d: "60 dakikalık seans akışı, açılış cümleleri, sorulacak sorular, hassas noktalar ve takip seansı için tarih önerileri. Raporun en başında." },
   { i: "yorum", t: "Astrolog Önerisi kutuları", d: "Her bölümde ve her grafiğin altında, seansta danışanına kelimesi kelimesine söyleyebileceğin hazır cümleler." },
   { i: "veri", t: "Tam teknik veri", d: "10 gezegen, Ay Düğümleri, Kiron, Lilith, Şans Noktası, MC/IC; derece-dakika, ev, öz-onur, retro ve hız." },
   { i: "aci", t: "Açı ızgarası", d: "Majör ve minör açılar; orb, yaklaşan/ayrılan fazı ve uyum niteliğiyle." },
@@ -67,6 +68,7 @@ const GALERI: { src: string; t: string; d: string }[] = [
 const KARSILASTIRMA: { k: string; a: string | null; b: string }[] = [
   { k: "Sayfa", a: "6-9 sayfa", b: "30+ sayfa" },
   { k: "Seans rehberi ve Astrolog Önerisi", a: null, b: "En başta seans planı + her bölümde hazır cümleler" },
+  { k: "Seans Kılavuzu", a: null, b: "Ayrı 4-5 sayfalık PDF; ana rapora sayfa atıflı yol haritası" },
   { k: "Hesaplanan noktalar", a: "7 gezegen + Yükselen", b: "10 gezegen, düğümler, Kiron, Lilith, Şans Noktası, MC" },
   { k: "Açılar", a: "Majör açıların özeti", b: "Majör + minör, orb ve faz ile tam ızgara" },
   { k: "Yorum derinliği", a: "Bölüm başına kısa okuma", b: "Teknik dayanaklı, katmanlı profesyonel yorum" },
@@ -251,11 +253,11 @@ export default async function AstrologMusunuzPage() {
         {/* ================= ÖRNEK RAPOR (FLIPBOOK) ================= */}
         {ornek.length > 0 && (
           <section id="ornek" className="mt-28 scroll-mt-24">
-            <Baslik ust="Örnek rapor" alt="Hayali bir danışan, Defne Arslan için üretilmiş eksiksiz bir Natal Pro raporu. Sayfaları çevir, dilersen PDF olarak indir.">
+            <Baslik ust="Örnek rapor" alt="Hayali bir danışan, Defne Arslan için üretilmiş eksiksiz bir Natal Pro raporu ve yanındaki Seans Kılavuzu. Sayfaları çevir, dilersen ikisini de indir.">
               Raporu baştan sona incele
             </Baslik>
             <div className="mt-10">
-              <Flipbook sayfalar={ornek} pdf={`/${ORNEK_DIR}/natal-pro-ornek.pdf`} ad="Natal Pro Rapor · Defne Arslan (örnek)" />
+              <Flipbook sayfalar={ornek} pdf={`/${ORNEK_DIR}/natal-pro-ornek.pdf`} kilavuz={`/${ORNEK_DIR}/seans-kilavuzu-ornek.pdf`} ad="Natal Pro Rapor · Defne Arslan (örnek)" />
             </div>
           </section>
         )}
@@ -267,7 +269,7 @@ export default async function AstrologMusunuzPage() {
           </Baslik>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {ICERIK.map((x, i) => (
-              <div key={x.t} className={`group rounded-2xl border p-6 transition-all hover:-translate-y-0.5 ${i < 2 ? "border-gold/45 bg-gradient-to-br from-gold/[0.12] to-[#9b72d0]/[0.08]" : "border-gold/15 bg-night/70 hover:border-gold/40"}`}>
+              <div key={x.t} className={`group rounded-2xl border p-6 transition-all hover:-translate-y-0.5 ${i < 3 ? "border-gold/45 bg-gradient-to-br from-gold/[0.12] to-[#9b72d0]/[0.08]" : "border-gold/15 bg-night/70 hover:border-gold/40"}`}>
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-gold/35 bg-night-deep text-gold-bright">
                   <Ikon ad={x.i} className="h-6 w-6" />
                 </div>

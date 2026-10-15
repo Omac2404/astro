@@ -22,7 +22,7 @@ export async function GET() {
   pruneOldProReports();
   proKurtar();
   const raporlar = getProReportsByEmail(email).map((r) => ({
-    id: r.id, slug: r.slug, urunAd: r.urunAd, durum: r.durum, dosya: r.dosya, hata: r.hata, iade: r.iade,
+    id: r.id, slug: r.slug, urunAd: r.urunAd, durum: r.durum, dosya: r.dosya, kilavuz: r.kilavuz, hata: r.hata, iade: r.iade,
     jeton: r.jeton, tarih: r.tarih, hazirTarih: r.hazirTarih, silmeTarih: proSilmeTarihi(r).toISOString(),
     danisan: r.danisan,
   }));

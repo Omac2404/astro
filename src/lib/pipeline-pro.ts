@@ -7,7 +7,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import {
   findProReport, updateProReport, proRaporBasarisiz, saveFile, getProAyar, getSmtp, findMember,
-  recoverStaleProReports, type ProReport,
+  recoverStaleProReports, getProUrun, type ProReport,
 } from "@/lib/db";
 import { birthFromDogum, yerKoordinat } from "@/lib/pipeline";
 import { sendMail } from "@/lib/mail";
@@ -107,7 +107,26 @@ async function birthPro(r: ProReport, b: Awaited<ReturnType<typeof birthFromDogu
   };
 }
 
-async function uretPro(r: ProReport): Promise<{ pdf: Buffer; maliyet?: ProReport["maliyet"] }> {
+// Seans Kılavuzu: ana rapor PDF'inden sayfa sayfa metin -> atıflı mini rapor. Hata ana raporu engellemez.
+async function uretKilavuz(r: ProReport, jobDir: string, env: NodeJS.ProcessEnv): Promise<{ pdf?: Buffer; usd: number; girdi: number; cikti: number }> {
+  try {
+    const urunAd = getProUrun(r.slug)?.ad || r.urunAd;
+    const kisi = r.danisan.kisi2 ? `${r.danisan.ad} & ${r.danisan.kisi2.ad}` : r.danisan.ad;
+    await run(PY, [path.join(NATAL, "kilavuz_pro.py"), "metin", path.join(jobDir, "pro.pdf"), kisi, urunAd], env);
+    const out = await adim("kilavuz-sentez", 2, () => run("node", [path.join(NATAL, "synthesize-kilavuz.mjs")], env));
+    const tarih = new Date().toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric" });
+    await adim("kilavuz-render", 2, () => run(PY, [path.join(NATAL, "kilavuz_pro.py"), "render"], { ...env, PRO_TARIH: tarih }));
+    const p = path.join(jobDir, "kilavuz.pdf");
+    const m = out.match(/^PRO_MALIYET (.+)$/m);
+    const k = m ? JSON.parse(m[1]) : {};
+    return { pdf: fs.existsSync(p) ? fs.readFileSync(p) : undefined, usd: k.usd || 0, girdi: k.girdi || 0, cikti: k.cikti || 0 };
+  } catch (e) {
+    console.error("[pro:kilavuz] üretilemedi (ana rapor yine teslim edilir):", e instanceof Error ? e.message : e);
+    return { usd: 0, girdi: 0, cikti: 0 };
+  }
+}
+
+async function uretPro(r: ProReport): Promise<{ pdf: Buffer; kilavuz?: Buffer; maliyet?: ProReport["maliyet"] }> {
   const ayar = getProAyar();
   const jobDir = path.join(NATAL, "jobs", "pro-" + crypto.randomBytes(6).toString("hex"));
   fs.mkdirSync(jobDir, { recursive: true });
@@ -129,7 +148,11 @@ async function uretPro(r: ProReport): Promise<{ pdf: Buffer; maliyet?: ProReport
     await adim("render", 3, () => run(PY, [path.join(NATAL, "render_pro.py")], env));
     const pdfPath = path.join(jobDir, "pro.pdf");
     if (!fs.existsSync(pdfPath)) throw new Error("PDF üretilemedi (pro.pdf yok).");
-    return { pdf: fs.readFileSync(pdfPath), maliyet };
+    const kl = await uretKilavuz(r, jobDir, env);
+    if (maliyet) {
+      maliyet = { ...maliyet, usd: Number((maliyet.usd + kl.usd).toFixed(4)), girdi: maliyet.girdi + kl.girdi, cikti: maliyet.cikti + kl.cikti };
+    }
+    return { pdf: fs.readFileSync(pdfPath), kilavuz: kl.pdf, maliyet };
   } finally {
     try { fs.rmSync(jobDir, { recursive: true, force: true }); } catch {}
   }
@@ -141,8 +164,11 @@ export function runProGeneration(reportId: string) {
     try {
       const r = findProReport(reportId);
       if (!r) return;
-      const { pdf, maliyet } = await uretPro(r);
-      updateProReport(reportId, { durum: "hazir", dosya: saveFile(pdf, "pdf"), maliyet, hazirTarih: new Date().toISOString(), hata: undefined });
+      const { pdf, kilavuz, maliyet } = await uretPro(r);
+      updateProReport(reportId, {
+        durum: "hazir", dosya: saveFile(pdf, "pdf"), kilavuz: kilavuz ? saveFile(kilavuz, "pdf") : undefined,
+        maliyet, hazirTarih: new Date().toISOString(), hata: undefined,
+      });
     } catch (e) {
       const mesaj = e instanceof Error ? e.message : String(e);
       console.error("[runProGeneration]", reportId, mesaj);

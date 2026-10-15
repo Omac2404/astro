@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 // Görünür alana yaklaşınca yüklenir (sayfanın ilk açılışını ağırlaştırmaz). Masaüstü çift sayfa, mobil tek sayfa.
 type PF = import("page-flip/dist/js/page-flip.module.js").PageFlip;
 
-export function Flipbook({ sayfalar, pdf, ad }: { sayfalar: string[]; pdf: string; ad: string }) {
+export function Flipbook({ sayfalar, pdf, ad, kilavuz }: { sayfalar: string[]; pdf: string; ad: string; kilavuz?: string }) {
   const kutu = useRef<HTMLDivElement>(null);
   const kitap = useRef<HTMLDivElement>(null);
   const pf = useRef<PF | null>(null);
@@ -49,6 +49,22 @@ export function Flipbook({ sayfalar, pdf, ad }: { sayfalar: string[]; pdf: strin
       pf.current = null;
     };
   }, [gorunur]);
+
+  // Kapak otomatik açılsın: kitap gerçekten ekrana girince (yarısı görünür) bir kez ilk sayfayı çevir
+  const acildi = useRef(false);
+  useEffect(() => {
+    if (!hazir || !kutu.current) return;
+    const io = new IntersectionObserver((e) => {
+      if (acildi.current || !e.some((x) => x.isIntersecting)) return;
+      acildi.current = true;
+      io.disconnect();
+      setTimeout(() => {
+        if (pf.current && pf.current.getCurrentPageIndex() === 0) pf.current.flipNext("bottom");
+      }, 650);
+    }, { threshold: 0.45 });
+    io.observe(kutu.current);
+    return () => io.disconnect();
+  }, [hazir]);
 
   // klavye okları (kitap görünürken)
   useEffect(() => {
@@ -105,6 +121,12 @@ export function Flipbook({ sayfalar, pdf, ad }: { sayfalar: string[]; pdf: strin
           <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
           Örnek raporu PDF olarak indir
         </a>
+        {kilavuz && (
+          <a href={kilavuz} download className="inline-flex items-center gap-2 rounded-full border border-[#c3a6e8]/60 bg-[#9b72d0]/15 px-6 py-2.5 text-sm font-medium text-[#e2d3f6] transition-colors hover:bg-[#9b72d0]/30">
+            <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" /></svg>
+            Seans kılavuzu örneği (4 sayfa)
+          </a>
+        )}
       </div>
       <p className="mt-3 text-center text-xs text-parchment/40">Sayfayı sürükleyerek, köşesine tıklayarak ya da ok tuşlarıyla çevirebilirsin.</p>
     </div>

@@ -138,7 +138,7 @@ export function deleteMember(email: string): boolean {
   const adayDosyalar = [
     ...getReports().filter((r) => r.email.toLowerCase() === e).map((r) => r.dosya),
     ...getOrders().filter((o) => o.email.toLowerCase() === e).map((o) => o.faturaDosya),
-    ...getProReports().filter((r) => r.email.toLowerCase() === e).map((r) => r.dosya),
+    ...getProReports().filter((r) => r.email.toLowerCase() === e).flatMap((r) => [r.dosya, r.kilavuz]),
   ].filter(Boolean) as string[];
 
   // Kayıtları sil (üye + raporları + siparişleri + sahip olduğu hediye kodları + oturumlar)
@@ -160,7 +160,7 @@ export function deleteMember(email: string): boolean {
     ...kalanRapor.map((r) => r.dosya),
     ...kalanSiparis.map((o) => o.faturaDosya),
     ...getGenReports().map((g) => g.dosya),
-    ...kalanPro.map((r) => r.dosya),
+    ...kalanPro.flatMap((r) => [r.dosya, r.kilavuz]),
   ].filter(Boolean) as string[]);
   for (const f of adayDosyalar) if (!halaKullanilan.has(f)) deleteFile(f);
 
@@ -766,6 +766,8 @@ export function dosyaIndirmeAdi(id: string): string {
   if (g) return raporAdi(g.urunAd, g.dogum?.ad, g.dogum2?.ad);
   const pr = getProReports().find((x) => x.dosya === id);
   if (pr) return raporAdi(pr.urunAd, pr.danisan?.ad);
+  const pk = getProReports().find((x) => x.kilavuz === id);
+  if (pk) return raporAdi("seans kilavuzu", pk.danisan?.ad);
   const o = getOrders().find((x) => x.faturaDosya === id);
   if (o) return `fatura-${_slugAd(o.id) || "siparis"}.pdf`;
   return id.endsWith(".pdf") ? id : `${id}.pdf`;
@@ -929,7 +931,7 @@ export function pruneOldReports(): number {
     ...kalan.map((r) => r.dosya),
     ...getGenReports().map((g) => g.dosya),
     ...getOrders().map((o) => o.faturaDosya),
-    ...getProReports().map((p) => p.dosya),
+    ...getProReports().flatMap((p) => [p.dosya, p.kilavuz]),
   ].filter(Boolean) as string[]);
   for (const r of eskiler) if (r.dosya && !halaKullanilan.has(r.dosya)) deleteFile(r.dosya);
   return eskiler.length;
@@ -1252,6 +1254,7 @@ export type ProReport = {
   jeton: number;        // bu rapor için düşülen jeton
   iade?: boolean;       // başarısız olup jeton iade edildiyse
   dosya?: string;
+  kilavuz?: string;     // Seans Kılavuzu PDF (4-5 sayfa; ana rapora sayfa atıflı). Üretilemezse yalnız ana rapor teslim edilir.
   hata?: string;
   maliyet?: ProMaliyet; // API maliyeti (admin görür)
   tarih: string;
@@ -1425,6 +1428,7 @@ export function deleteProReport(id: string, email?: string): { error?: string } 
   if (r.durum === "olusturuluyor") return { error: "Üretimdeki rapor silinemez." };
   write("pro-reports.json", getProReports().filter((x) => x.id !== id));
   if (r.dosya) deleteFile(r.dosya);
+  if (r.kilavuz) deleteFile(r.kilavuz);
   return {};
 }
 // Saklama süresi dolan Pro raporları (kayıt + PDF) siler. Okuma uçlarında çağrılır (tembel temizlik).
@@ -1434,7 +1438,7 @@ export function pruneOldProReports(): number {
   const eski = list.filter((r) => r.durum !== "olusturuluyor" && proSilmeTarihi(r).getTime() <= now);
   if (!eski.length) return 0;
   write("pro-reports.json", list.filter((r) => !eski.includes(r)));
-  for (const r of eski) if (r.dosya) deleteFile(r.dosya);
+  for (const r of eski) { if (r.dosya) deleteFile(r.dosya); if (r.kilavuz) deleteFile(r.kilavuz); }
   return eski.length;
 }
 // Sunucu yeniden başlarsa yarıda kalan üretimler: süreçte AKTİF olmayan (aktifIdler'de yok) ve

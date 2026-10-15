@@ -13,7 +13,7 @@ export async function GET(_req: Request, ctx: { params: Promise<{ id: string }> 
   if (u.type === "member") {
     const raporSahip = getReportsByEmail(u.email).some((r) => r.dosya === id);
     const sahip = raporSahip || getOrdersByEmail(u.email).some((o) => o.faturaDosya === id)
-      || getProReportsByEmail(u.email).some((r) => r.dosya === id); // astroloğun Pro raporu
+      || getProReportsByEmail(u.email).some((r) => r.dosya === id || r.kilavuz === id); // astroloğun Pro raporu + seans kılavuzu
     if (!sahip) return NextResponse.json({ error: "Yetkisiz." }, { status: 403 });
     // Müşteri kendi raporunu indirdi → işaretle
     if (raporSahip) markReportIndirildi(id, u.email);

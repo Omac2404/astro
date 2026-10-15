@@ -5,7 +5,7 @@ import { Panel, PageHead, Badge, StatCard } from "@/components/admin-ui";
 
 type Astrolog = { email: string; kayit: string; ad: string; tel?: string; marka?: string; not?: string; bakiye: number; rapor: number; hazir: number; maliyetUsd: number };
 type Rapor = {
-  id: string; email: string; urunAd: string; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; hata?: string; iade?: boolean;
+  id: string; email: string; urunAd: string; durum: "olusturuluyor" | "hazir" | "hata"; dosya?: string; kilavuz?: string; hata?: string; iade?: boolean;
   jeton: number; tarih: string; hazirTarih?: string; silmeTarih: string;
   danisan: { ad: string; tarih: string; saat: string; yer: string; saatKesin: string; olaylar?: unknown[]; sorular?: string };
   maliyet?: { usd: number; girdi: number; cikti: number; dusunme?: number; model: string; sure?: number };
@@ -123,6 +123,7 @@ export default function AstrologProPage() {
                         <td className="whitespace-nowrap px-4 py-3 font-body text-parchment/85">{r.maliyet ? `$${r.maliyet.usd.toFixed(3)}` : "—"}</td>
                         <td className="whitespace-nowrap px-4 py-3 text-right">
                           {r.dosya && <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="mr-2 rounded-lg border border-gold/25 px-2.5 py-1 text-xs text-parchment/75 hover:text-gold-bright">PDF</a>}
+                          {r.kilavuz && <a href={`/api/files/${r.kilavuz}`} target="_blank" rel="noopener" className="mr-2 rounded-lg border border-[#9b72d0]/40 px-2.5 py-1 text-xs text-[#c3a6e8] hover:border-[#9b72d0]">Kılavuz</a>}
                           {r.durum !== "olusturuluyor" && (
                             <button
                               onClick={async () => {
