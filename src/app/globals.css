@@ -195,3 +195,88 @@ body {
   font-feature-settings: "lnum" 1, "tnum" 1;
   letter-spacing: -0.02em;
 }
+
+/* ===================== 3D analiz kartı (components/kart3d.tsx) =====================
+   Durgun: kalınlık (sol-alt cilt/sayfa kenarı) + katmanlı altın çerçeve + zemin gölgesi.
+   Hover (yalnız fare): imleci izleyen yanlama, ışık parlaması, görselde paralaks. */
+.kart3d {
+  --mx: 0; --my: 0; --gx: 50%; --gy: 30%;
+  perspective: 1100px;
+  height: 100%;
+}
+.kart3d-ic {
+  position: relative;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(calc(var(--mx) * 11deg)) rotateX(calc(var(--my) * -8deg));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+.kart3d:hover .kart3d-ic { transition-duration: 0.12s; }
+
+/* Kalınlık: kartın arkasında, sol-altta görünen cilt/sayfa kenarı */
+.kart3d-kalinlik {
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  transform: translate3d(calc(-9px + var(--mx) * 4px), calc(8px + var(--my) * 3px), -18px);
+  background:
+    repeating-linear-gradient(180deg, rgba(120, 92, 40, 0.35) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, #f3e7c8 0%, #e2cf9f 45%, #b8955a 100%);
+  border: 1px solid rgba(168, 128, 62, 0.9);
+  box-shadow:
+    calc(var(--mx) * -22px) calc(26px + var(--my) * 8px) 45px -14px rgba(0, 0, 0, 0.85),
+    0 10px 22px -12px rgba(0, 0, 0, 0.7);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+}
+
+/* 3D altın çerçeve: parlak dış kenar + ışık alan iç kenar (bevel) */
+.kart3d-cerceve {
+  position: relative;
+  height: 100%;
+  border-radius: 18px;
+  padding: 3px;
+  background: linear-gradient(135deg, #fff1c9 0%, #c9a35a 18%, #f6e2a9 36%, #8f6b2c 58%, #e9cd8c 78%, #9a7533 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 220, 0.9),
+    inset 0 -1px 0 rgba(90, 64, 20, 0.9),
+    0 0 0 1px rgba(60, 42, 12, 0.6);
+  transform: translateZ(0);
+}
+.kart3d-cerceve > a {
+  height: 100%;
+  border-radius: 15px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 228, 160, 0.35),
+    inset 0 2px 8px rgba(0, 0, 0, 0.65);
+}
+/* görsel paralaksı (overflow:hidden 3D'yi düzleştirdiği için öteleme ile) */
+.kart3d .kart3d-gorsel {
+  transform: translate(calc(var(--mx) * -7px), calc(var(--my) * -6px)) scale(1.07);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.kart3d:hover .kart3d-gorsel { transition-duration: 0.12s; }
+
+/* imleci izleyen ışık parlaması (çerçeve + yüzey) */
+.kart3d-isik {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background:
+    radial-gradient(circle at var(--gx) var(--gy), rgba(255, 238, 190, 0.28), transparent 42%),
+    linear-gradient(115deg, transparent 35%, rgba(255, 245, 215, 0.08) 50%, transparent 65%);
+  mix-blend-mode: screen;
+}
+.kart3d:hover .kart3d-isik { opacity: 1; }
+
+/* Dokunmatik / hover'sız cihazlar ve hareket azaltma: yanlama yok, tok duruş kalır */
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .kart3d-ic, .kart3d .kart3d-gorsel, .kart3d-kalinlik { transition: none; }
+  .kart3d-ic { transform: none; }
+  .kart3d .kart3d-gorsel { transform: scale(1.04); }
+  .kart3d-kalinlik { transform: translate3d(-9px, 8px, -18px); }
+  .kart3d-isik { display: none; }
+}

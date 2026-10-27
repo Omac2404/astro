@@ -1,15 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Product } from "@/lib/products";
+import { Kart3D } from "@/components/kart3d";
 
 export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
   // Bireysel → yeşil (sağlık tonu), Çift/Sinastri → cırt gül pembesi
   const cift = !!badge && !badge.toLowerCase().startsWith("bireysel");
   const badgeBg = cift ? "bg-[#ec4d8f]" : "bg-[#9b72d0]";
   return (
+    <Kart3D>
     <Link
       href={`/analizler/${p.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-gold/15 bg-night transition-all hover:border-gold/40 hover:-translate-y-1"
+      className="group relative flex flex-col overflow-hidden bg-night"
     >
       {badge && (
         <span className={`absolute right-3.5 top-3.5 z-10 inline-flex items-center rounded-full ${badgeBg} px-3 py-1 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-white shadow-md shadow-black/40 ring-1 ring-white/15`}>
@@ -26,7 +28,7 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
               fill
               sizes="(max-width:640px) 100vw, 400px"
               style={{ objectPosition: p.objectPos ?? "center 22%" }}
-              className="object-cover"
+              className="kart3d-gorsel object-cover"
             />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-night to-transparent" />
           </>
@@ -66,5 +68,6 @@ export function ProductCard({ p, badge }: { p: Product; badge?: string }) {
         </div>
       </div>
     </Link>
+    </Kart3D>
   );
 }
