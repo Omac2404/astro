@@ -88,7 +88,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               </p>
               <Link
                 href="/nasil-calisir"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-gold px-5 py-2 text-sm font-semibold text-night-deep transition-colors hover:bg-gold-bright"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-full altin-buton px-5 py-2 text-sm font-semibold"
               >
                 Nasıl hazırlanır →
               </Link>

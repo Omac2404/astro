@@ -102,13 +102,13 @@ export function Analizlerim() {
   }, [reports]);
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-4 sm:p-6">
+    <section className="cam-panel p-4 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-2xl font-semibold text-parchment"><KartIkon d="analiz" className="!h-[22px] !w-[22px]" />Analizlerim</h2>
       {reports && reports.length === 0 ? (
         <div className="mt-5 rounded-xl border border-dashed border-gold/20 px-5 py-10 text-center">
           <div className="text-2xl text-gold-bright/50">✶</div>
           <p className="mt-2 text-sm text-parchment/70">Henüz bir analizin yok.</p>
-          <Link href="/analizler" className="mt-4 inline-block rounded-full bg-gold px-5 py-2 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">
+          <Link href="/analizler" className="mt-4 inline-block rounded-full altin-buton px-5 py-2 text-sm font-medium">
             Analizleri Keşfet
           </Link>
         </div>
@@ -122,10 +122,10 @@ export function Analizlerim() {
             const animasyon = r.durum === "olusturuluyor" || (r.durum === "hazir" && bas !== undefined && gecen < MIN_SURE);
             const isim = r.dogum?.ad ? ` - ${r.dogum.ad}${r.dogum2?.ad ? " & " + r.dogum2.ad : ""}` : "";
             return (
-              <div key={r.id} className="flex items-center gap-2.5 rounded-xl border border-gold/10 bg-night-2 p-2.5">
-                <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded-md border border-gold/15">
+              <div key={r.id} className="cam-satir flex items-center gap-2.5 rounded-xl p-2.5 sm:gap-4">
+                <div className="relative h-14 w-11 shrink-0 overflow-hidden rounded-md border border-white/10 sm:h-[88px] sm:w-[104px]">
                   {p?.gorsel ? (
-                    <Image src={p.gorsel} alt="" fill sizes="48px" style={{ objectPosition: p.objectPos ?? "center 22%" }} className="object-cover" />
+                    <Image src={p.gorsel} alt="" fill loading="eager" sizes="(max-width:640px) 48px, 104px" style={{ objectPosition: p.objectPos ?? "center 22%" }} className="object-cover" />
                   ) : (
                     <div className="flex h-full w-full items-center justify-center bg-night-deep text-gold-bright/40">✶</div>
                   )}
@@ -146,7 +146,7 @@ export function Analizlerim() {
                   ) : r.durum === "hazir" ? (
                     <>
                       <div className="mt-1 flex flex-wrap items-center gap-1.5">
-                        <span className="inline-flex items-center rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2 py-0.5 text-[11px] font-medium text-emerald-300">Hazır{isim}</span>
+                        <span className="inline-flex items-center rounded-full border border-turkuaz/60 bg-turkuaz/10 px-2 py-0.5 text-[11px] font-medium text-turkuaz">Hazır{isim}</span>
                         {r.adminIletti && (
                           <span className="inline-flex items-center rounded-full border border-gold/25 bg-gold/10 px-2 py-0.5 text-[10px] font-medium text-gold-bright/80">admin tarafından iletildi</span>
                         )}
@@ -163,11 +163,11 @@ export function Analizlerim() {
                     <span className="mt-1 inline-flex items-center rounded-full border border-amber-400/30 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-300">Bilgi bekleniyor</span>
                   )}
                   {r.silmeTarih && !animasyon && (
-                    <div className="mt-1 text-[10px] text-[#e8975a]">{kisaTarih(r.silmeTarih)} tarihinde silinir{r.slug === "aylik" ? " · her ayın 1'inde yenilenir" : ""}</div>
+                    <div className="mt-1 text-[10px] text-[#ef7d6d]">{kisaTarih(r.silmeTarih)} tarihinde silinir{r.slug === "aylik" ? " · her ayın 1'inde yenilenir" : ""}</div>
                   )}
                 </div>
                 {!animasyon && r.durum === "hazir" && r.dosya ? (
-                  <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-3 py-1.5 text-[11px] font-medium text-night-deep transition-colors hover:bg-gold-bright">
+                  <a href={`/api/files/${r.dosya}`} target="_blank" rel="noopener" className="inline-flex shrink-0 items-center gap-1.5 rounded-full altin-buton px-3 py-1.5 text-[11px] font-medium">
                     İndir
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>
                   </a>

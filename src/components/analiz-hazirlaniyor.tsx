@@ -123,7 +123,7 @@ export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
                 href={`/api/files/${report!.dosya}`}
                 target="_blank"
                 rel="noopener"
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright"
+                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full altin-buton py-2.5 font-medium"
               >
                 Raporu İndir
                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 11l5 5 5-5M5 21h14" /></svg>
@@ -142,7 +142,7 @@ export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
                   {report.hata}
                 </p>
               )}
-              <Link href="/hesabim" className="mt-5 block w-full rounded-full bg-gold py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright">
+              <Link href="/hesabim" className="mt-5 block w-full rounded-full altin-buton py-2.5 font-medium">
                 Analizlerime Git
               </Link>
             </>
@@ -157,7 +157,7 @@ export function AnalizHazirlaniyorModal({ reportId }: { reportId: string }) {
                 {text}
                 <span className="ml-0.5 animate-pulse">…</span>
               </div>
-              <Link href="/hesabim" className="mt-6 block w-full rounded-full bg-gold py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright">
+              <Link href="/hesabim" className="mt-6 block w-full rounded-full altin-buton py-2.5 font-medium">
                 Analizlerime Git
               </Link>
             </>

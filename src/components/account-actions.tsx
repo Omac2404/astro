@@ -14,7 +14,7 @@ export function LogoutButton() {
   return (
     <button
       onClick={cik}
-      className="rounded-full border border-gold/30 px-5 py-2 text-sm font-medium text-parchment/80 transition-colors hover:border-gold/55 hover:text-gold-bright"
+      className="rounded-full border border-gold-bright/70 px-5 py-2 text-sm font-medium text-gold-bright shadow-[0_0_14px_-5px_rgba(220,193,136,0.6)] transition-colors hover:bg-gold/10"
     >
       Çıkış Yap
     </button>

@@ -138,19 +138,17 @@ export function SiteHeader() {
                 <>
                   <Link
                     href="/hesabim"
-                    className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gold/40 px-3.5 py-1.5 text-[12.5px] font-medium transition-colors hover:bg-gold/10 hover:text-gold-bright sm:px-4 sm:text-[13.5px] lg:rounded-none lg:border-0 lg:px-0 lg:py-0 ${
-                      isActive("/hesabim") ? "text-gold-bright" : "text-gold-bright lg:text-parchment/80"
-                    }`}
+                    className="altin-buton inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[12.5px] font-medium sm:px-4 sm:text-[13.5px]"
                   >
                     <SunIcon />
                     Hesabım
                   </Link>
-                  <button onClick={cikis} className="hidden lg:inline-flex rounded-full border border-gold/40 px-4 py-1.5 text-[13.5px] font-medium text-gold-bright transition-colors hover:bg-gold/10">
+                  <button onClick={cikis} className="hidden lg:inline-flex rounded-full border border-parchment/35 px-4 py-1.5 text-[13.5px] font-medium text-parchment/85 transition-colors hover:bg-parchment/10">
                     Çıkış
                   </button>
                 </>
               ) : (
-                <Link href="/giris" className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border border-gold/50 bg-gold/10 px-3.5 py-1.5 text-[12.5px] font-medium text-gold-bright transition-colors hover:bg-gold/20 sm:px-5 sm:text-[13.5px]">
+                <Link href="/giris" className="altin-buton inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[12.5px] font-medium sm:px-5 sm:text-[13.5px]">
                   <SunIcon />
                   Giriş Yap<span className="hidden sm:inline"> / Üye Ol</span>
                 </Link>
@@ -201,7 +199,7 @@ export function SiteHeader() {
             <div className="mb-3 space-y-2.5 px-1">
               {uye ? (
                 <div className="flex items-center gap-3">
-                  <Link href="/hesabim" className="flex-1 inline-flex items-center justify-center gap-2 rounded-full border border-gold/40 py-2 text-center text-sm text-gold-bright">
+                  <Link href="/hesabim" className="altin-buton flex-1 inline-flex items-center justify-center gap-2 rounded-full py-2 text-center text-sm font-medium">
                     <SunIcon />
                     Hesabım
                   </Link>
@@ -210,7 +208,7 @@ export function SiteHeader() {
                   </button>
                 </div>
               ) : (
-                <Link href="/giris" className="flex items-center justify-center gap-2 rounded-full bg-gold py-2.5 text-center text-sm font-medium text-night-deep">
+                <Link href="/giris" className="altin-buton flex items-center justify-center gap-2 rounded-full py-2.5 text-center text-sm font-medium">
                   <SunIcon />
                   Giriş Yap / Üye Ol
                 </Link>

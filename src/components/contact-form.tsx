@@ -60,7 +60,7 @@ export function ContactForm() {
           <Link href="/yasal/gizlilik" target="_blank" className="text-gold-bright hover:underline">Gizlilik ve KVKK Aydınlatma Metni</Link>’ni okudum; mesajıma dönüş yapılması amacıyla paylaştığım bilgilerin işlenmesini kabul ediyorum.
         </span>
       </label>
-      <button type="submit" disabled={yuk} className="w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+      <button type="submit" disabled={yuk} className="w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
         {yuk ? "Gönderiliyor…" : "Gönder"}
       </button>
       {sonuc && <p className={`text-center text-sm ${sonuc.ok ? "text-emerald-300" : "text-rose-300"}`}>{sonuc.t}</p>}

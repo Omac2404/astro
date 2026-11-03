@@ -70,7 +70,7 @@ export function ForgotPassword({ scope, title, backHref, backLabel = "Giriş ekr
             <p className="text-center text-sm text-parchment/60">E-postanı gir, sana bir doğrulama kodu gönderelim.</p>
             <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ornek@eposta.com" className={inputCls} />
             {hata && <p className="text-sm text-rose-300">{hata}</p>}
-            <button disabled={yuk} className="w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+            <button disabled={yuk} className="w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
               {yuk ? "Gönderiliyor…" : "Kod gönder"}
             </button>
           </form>
@@ -86,7 +86,7 @@ export function ForgotPassword({ scope, title, backHref, backLabel = "Giriş ekr
             )}
             <input inputMode="numeric" required value={kod} onChange={(e) => setKod(e.target.value)} placeholder="6 haneli kod" className={`${inputCls} text-center tracking-[0.4em]`} />
             {hata && <p className="text-sm text-rose-300">{hata}</p>}
-            <button className="w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright">Devam</button>
+            <button className="w-full rounded-full altin-buton py-3 font-medium">Devam</button>
           </form>
         )}
 
@@ -96,7 +96,7 @@ export function ForgotPassword({ scope, title, backHref, backLabel = "Giriş ekr
             <input type="password" required minLength={6} value={s1} onChange={(e) => setS1(e.target.value)} placeholder="Yeni şifre (en az 6 karakter)" className={inputCls} />
             <input type="password" required minLength={6} value={s2} onChange={(e) => setS2(e.target.value)} placeholder="Yeni şifre (tekrar)" className={inputCls} />
             {hata && <p className="text-sm text-rose-300">{hata}</p>}
-            <button disabled={yuk} className="w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+            <button disabled={yuk} className="w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
               {yuk ? "Kaydediliyor…" : "Şifreyi güncelle"}
             </button>
           </form>
@@ -105,7 +105,7 @@ export function ForgotPassword({ scope, title, backHref, backLabel = "Giriş ekr
         {step === "ok" && (
           <div className="mt-7 text-center">
             <p className="text-parchment/75">Şifren güncellendi. Artık yeni şifrenle giriş yapabilirsin.</p>
-            <Link href={backHref} className="mt-5 inline-block rounded-full bg-gold px-6 py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright">
+            <Link href={backHref} className="mt-5 inline-block rounded-full altin-buton px-6 py-2.5 font-medium">
               {backLabel}
             </Link>
           </div>

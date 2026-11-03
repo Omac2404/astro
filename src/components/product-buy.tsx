@@ -27,7 +27,7 @@ function UyariModal({ mesaj, onClose }: { mesaj: string; onClose: () => void }) 
       <div className="w-full max-w-sm rounded-2xl border border-gold/25 bg-night-deep p-6 text-center" onClick={(e) => e.stopPropagation()}>
         <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-amber-400/30 bg-amber-500/10 text-amber-300"><SparkIco /></div>
         <p className="text-sm leading-relaxed text-parchment/85">{mesaj}</p>
-        <button onClick={onClose} className="mt-5 w-full rounded-full bg-gold py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Tamam</button>
+        <button onClick={onClose} className="mt-5 w-full rounded-full altin-buton py-2.5 text-sm font-medium">Tamam</button>
       </div>
     </div>,
     document.body
@@ -70,7 +70,7 @@ export function BuyButtons({ slug }: Props) {
       <button
         onClick={yap}
         disabled={yuk}
-        className="sisik-buton inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3 text-center font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
+        className="sisik-buton inline-flex w-full items-center justify-center gap-2 rounded-full altin-buton py-3 text-center font-medium disabled:opacity-60"
       >
         <SparkIco />
         {yuk ? "Hazırlanıyor…" : "Analizi Yap"}
@@ -97,7 +97,7 @@ export function MobileBuyBar({ slug, ad }: Props) {
         <button
           onClick={yap}
           disabled={yuk}
-          className="sisik-buton inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-5 py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
+          className="sisik-buton inline-flex shrink-0 items-center gap-1.5 rounded-full altin-buton px-5 py-2.5 text-sm font-medium disabled:opacity-60"
         >
           <SparkIco className="h-4 w-4" />
           {yuk ? "Hazırlanıyor…" : "Analizi Yap"}

@@ -44,13 +44,13 @@ function DogumForm() {
       {kilitli ? (
         <div className="mt-6 rounded-2xl border border-gold/15 bg-night p-6 text-center">
           <p className="text-sm text-parchment/70">Doğum bilgin zaten kayıtlı ve <b className="text-parchment/90">değiştirilemez</b>.</p>
-          <Link href="/hesabim" className="mt-4 inline-block rounded-full bg-gold px-6 py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright">Hesabıma dön</Link>
+          <Link href="/hesabim" className="mt-4 inline-block rounded-full altin-buton px-6 py-2.5 text-sm font-medium">Hesabıma dön</Link>
         </div>
       ) : (
         <form onSubmit={gonder} className="mt-6 space-y-6 rounded-2xl border border-gold/15 bg-night p-6">
           <PersonFields k={k} set={(patch) => setK((s) => ({ ...s, ...patch }))} />
           {hata && <p className="text-sm text-rose-300">{hata}</p>}
-          <button type="submit" disabled={yuk} className="w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+          <button type="submit" disabled={yuk} className="w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
             {yuk ? "Kaydediliyor…" : "Kaydet"}
           </button>
         </form>

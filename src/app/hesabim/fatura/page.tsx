@@ -67,7 +67,7 @@ export default function FaturaPage() {
         <AddressFields a={adr} set={(p) => setAdr((s) => ({ ...s, ...p }))} inputCls={inputCls} labelCls={labelCls} />
         {msg && <p className={`text-sm ${ok ? "text-emerald-300" : "text-rose-300"}`}>{msg}</p>}
         <div className="flex gap-3">
-          <button type="submit" disabled={yuk} className="rounded-full bg-gold px-6 py-2.5 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+          <button type="submit" disabled={yuk} className="rounded-full altin-buton px-6 py-2.5 font-medium disabled:opacity-60">
             {yuk ? "Kaydediliyor…" : "Kaydet"}
           </button>
           <button type="button" onClick={() => router.push("/hesabim")} className="rounded-full border border-gold/30 px-6 py-2.5 font-medium text-parchment/75 transition-colors hover:text-gold-bright">

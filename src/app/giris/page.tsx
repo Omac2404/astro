@@ -109,7 +109,7 @@ function GirisForm() {
             <form onSubmit={kodDogrula} className="mt-7 space-y-4">
               <input inputMode="numeric" autoComplete="one-time-code" required value={kod} onChange={(e) => setKod(e.target.value)} placeholder="6 haneli kod" className={`${inputCls} text-center tracking-[0.4em]`} />
               {hata && <p className="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{hata}</p>}
-              <button type="submit" disabled={yuk} className="mt-2 w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+              <button type="submit" disabled={yuk} className="mt-2 w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
                 {yuk ? "Doğrulanıyor…" : "Doğrula ve Tamamla"}
               </button>
             </form>
@@ -181,7 +181,7 @@ function GirisForm() {
 
           {hata && <p className="rounded-lg border border-rose-400/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300">{hata}</p>}
 
-          <button type="submit" disabled={yuk} className="mt-2 w-full rounded-full bg-gold py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60">
+          <button type="submit" disabled={yuk} className="mt-2 w-full rounded-full altin-buton py-3 font-medium disabled:opacity-60">
             {yuk ? "Lütfen bekle…" : kayit ? "Hesap Oluştur" : "Giriş Yap"}
           </button>
         </form>

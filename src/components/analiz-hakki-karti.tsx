@@ -37,7 +37,7 @@ export function AnalizHakkiKarti({ kullanilan, limit, sinirsiz }: { kullanilan: 
   }, [hakVar]);
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-gold/15 bg-night p-5 sm:p-6">
+    <section className="cam-panel p-5 sm:p-6">
       <h2 className="flex items-center gap-2 font-display text-xl font-semibold text-parchment">
         <KartIkon d="analiz" />
         Günlük Analiz Hakkı
@@ -47,8 +47,8 @@ export function AnalizHakkiKarti({ kullanilan, limit, sinirsiz }: { kullanilan: 
       ) : hakVar ? (
         <div className="mt-4">
           <div className="flex items-center gap-2">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
-            <span className="text-sm font-medium text-emerald-300">Bugünkü analiz hakkın hazır</span>
+            <span className="flex h-2.5 w-2.5 rounded-full bg-turkuaz shadow-[0_0_10px_var(--color-turkuaz)]" />
+            <span className="text-sm font-medium text-turkuaz">Bugünkü analiz hakkın hazır</span>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-parchment/45">
             Günde {limit} analiz oluşturabilirsin; hak her gece 00.00&apos;da (Türkiye saati) yenilenir.

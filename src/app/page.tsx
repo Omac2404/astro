@@ -171,7 +171,7 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/analizler"
-              className="rounded-full bg-gold px-7 py-3 font-medium text-night-deep transition-colors hover:bg-gold-bright"
+              className="rounded-full altin-buton px-7 py-3 font-medium"
             >
               Analizleri Keşfet
             </Link>

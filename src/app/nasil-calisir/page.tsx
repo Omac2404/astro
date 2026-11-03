@@ -8,16 +8,16 @@ export const generateMetadata = () => seoMetadata("/nasil-calisir");
 // Yorumlama sürecinin sade ama teknik anlatımı (ziyaretçi için)
 // Vurgu yardımcıları: G = altın (sonuç/güç), V = ametist (yöntem/teknik)
 function G({ children }: { children: ReactNode }) {
-  return <span className="font-medium text-[#a98fd6]">{children}</span>;
+  return <span className="font-medium text-[#c3a6e8]">{children}</span>;
 }
 function V({ children }: { children: ReactNode }) {
-  return <span className="font-medium text-[#a98fd6]">{children}</span>;
+  return <span className="font-medium text-[#c3a6e8]">{children}</span>;
 }
 type Surec = { t: ReactNode; d: ReactNode; sema: string[] };
 // "Katman N" sihir yeşili (fiyat fontuyla sayı); başlık aynı renkte, parantez içinde ve biraz küçük
 function Kat({ n, baslik }: { n: number; baslik: string }) {
   return (
-    <span className="text-emerald-300">
+    <span className="text-turkuaz">
       Katman <span className="font-body font-semibold">{n}</span>{" "}
       <span className="text-[0.78em]">({baslik})</span>
     </span>
@@ -129,35 +129,70 @@ const SUREC: Surec[] = [
   },
 ];
 
-function StepCard({ s, i, sihirli }: { s: Surec; i: number; sihirli?: boolean }) {
+type Yon = "sag" | "sol" | "asagi";
+
+// Masaüstünde yılan akışı: 1→2→3, aşağı, 6←5←4, aşağı, 7→8→"Hazır mısın?"
+// Mobilde sayfa sırası zaten 1'den 8'e olduğu için tek sütun ve hep aşağı ok.
+const YERLESIM: { hucre: string; yon: Yon }[] = [
+  { hucre: "lg:col-start-1 lg:row-start-1", yon: "sag" },
+  { hucre: "lg:col-start-2 lg:row-start-1", yon: "sag" },
+  { hucre: "lg:col-start-3 lg:row-start-1", yon: "asagi" },
+  { hucre: "lg:col-start-3 lg:row-start-2", yon: "sol" },
+  { hucre: "lg:col-start-2 lg:row-start-2", yon: "sol" },
+  { hucre: "lg:col-start-1 lg:row-start-2", yon: "asagi" },
+  { hucre: "lg:col-start-1 lg:row-start-3", yon: "sag" },
+  { hucre: "lg:col-start-2 lg:row-start-3", yon: "sag" },
+];
+
+function AkisOk({ yon, renk }: { yon: Yon; renk: string }) {
+  const ok = (sinif: string) => (
+    <span className={`akis-ok ${renk} ${sinif}`} aria-hidden>
+      <svg viewBox="0 0 46 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        <path className="akis-cizgi" d="M2 12h32" />
+        <path d="M32 5l9 7-9 7" />
+      </svg>
+    </span>
+  );
   return (
-    <div className={`rounded-2xl border bg-night p-5 sm:p-6 ${sihirli ? "border-emerald-400/25 shadow-[0_0_34px_-14px_rgba(110,231,183,0.55)]" : "border-gold/15"}`}>
+    <>
+      {ok("akis-asagi block lg:hidden")}
+      {ok(`akis-${yon} hidden lg:block`)}
+    </>
+  );
+}
+
+function StepCard({ s, i, grup, sihirli }: { s: Surec; i: number; grup?: string; sihirli?: boolean }) {
+  return (
+    <div className={`cam-panel flex h-full flex-col p-5 sm:p-6 ${sihirli ? "shadow-[0_0_38px_-14px_rgba(56,228,228,0.6)]" : ""}`}>
+      {grup && (
+        <span className={`mb-2 block text-[11px] font-semibold uppercase tracking-[0.18em] ${sihirli ? "text-turkuaz" : "text-gold"}`}>{grup}</span>
+      )}
       <div className="flex items-start justify-between gap-3">
         <span
-          className="block text-xl font-bold uppercase tracking-[0.15em] text-[#a98fd6]"
+          className="block text-xl font-bold uppercase tracking-[0.15em] text-[#c3a6e8]"
           style={{ fontFamily: "ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif" }}
         >
           {i + 1}. Etap
         </span>
         {sihirli && (
-          <span className="shrink-0 inline-flex items-center gap-1 rounded-full border border-emerald-400/35 bg-emerald-400/10 px-2.5 py-1 text-[11px] font-medium text-emerald-300 shadow-[0_0_14px_-4px_rgba(110,231,183,0.6)]">
+          <span className="shrink-0 inline-flex items-center gap-1 rounded-full border border-turkuaz/50 bg-turkuaz/10 px-2.5 py-1 text-[11px] font-medium text-turkuaz shadow-[0_0_14px_-4px_rgba(56,228,228,0.7)]">
             <span aria-hidden>✦</span> Sihirli kısım
           </span>
         )}
       </div>
       <h3 className="mt-1 font-display text-xl text-gold-bright leading-tight">{s.t}</h3>
-      <p className="mt-2 text-[15px] leading-relaxed text-parchment/75">{s.d}</p>
+      <p className="mt-2 text-[15px] leading-relaxed text-parchment/80">{s.d}</p>
 
       {s.sema && (
-        <div className="mt-4 flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5">
+        <div className="mt-auto flex flex-col items-stretch gap-1.5 pt-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5 lg:flex-col lg:items-stretch lg:gap-1.5">
           {s.sema.map((node, j) => (
             <Fragment key={node}>
               {j > 0 && (
-                <svg viewBox="0 0 24 24" className="mx-auto h-[18px] w-[18px] shrink-0 rotate-90 text-gold-bright/60 sm:mx-0 sm:rotate-0" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <svg viewBox="0 0 24 24" className="mx-auto h-[16px] w-[16px] shrink-0 rotate-90 text-gold-bright/60 sm:mx-0 sm:rotate-0 lg:mx-auto lg:rotate-90" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               )}
-              <div className="w-full rounded-lg border border-gold/20 bg-night-deep px-3.5 py-2.5 text-center sm:w-auto">
+              <div className="cam-satir w-full rounded-lg px-3.5 py-2 text-center sm:w-auto lg:w-full">
                 <span className="block text-[14px] leading-tight text-gold-bright">{node}</span>
               </div>
             </Fragment>
@@ -168,34 +203,10 @@ function StepCard({ s, i, sihirli }: { s: Surec; i: number; sihirli?: boolean })
   );
 }
 
-function SectionFrame({
-  title,
-  color,
-  children,
-}: {
-  title: string;
-  color: string;
-  children: ReactNode;
-}) {
-  return (
-    <div
-      className="relative rounded-3xl border-2 p-4 pt-9 sm:p-6 sm:pt-10"
-      style={{ borderColor: color }}
-    >
-      <span
-        className="absolute -top-3.5 left-6 bg-night-deep px-3 font-display text-2xl font-semibold leading-none"
-        style={{ color }}
-      >
-        {title}
-      </span>
-      <div className="space-y-3">{children}</div>
-    </div>
-  );
-}
-
 export default function NasilCalisirPage() {
   return (
-    <div className="mx-auto max-w-3xl px-5 py-16">
+    <div className="gok-sahne">
+    <div className="mx-auto max-w-3xl px-5 py-16 lg:max-w-7xl">
       <header className="mx-auto flex max-w-2xl flex-col items-center text-center">
         <h1 className="font-display text-5xl font-semibold">Raporun nasıl hazırlanır?</h1>
         <p className="mt-4 text-lg leading-relaxed text-parchment/70">
@@ -208,34 +219,32 @@ export default function NasilCalisirPage() {
         </svg>
       </header>
 
-      <section className="mt-12 space-y-12">
-        <SectionFrame title="Gökyüzü Hesabı" color="#dcc188">
-          {SUREC.slice(0, 4).map((s, i) => (
-            <StepCard key={i} s={s} i={i} />
-          ))}
-        </SectionFrame>
+      <section className="akis mt-10 grid lg:grid-cols-3">
+        {SUREC.map((s, i) => {
+          const sihirli = i >= 4 && i < 7;
+          const grup = i < 4 ? "Gökyüzü Hesabı" : sihirli ? "Derin Anlam ve Yorumlama" : undefined;
+          return (
+            <div key={i} className={`relative ${YERLESIM[i].hucre}`}>
+              <StepCard s={s} i={i} grup={grup} sihirli={sihirli} />
+              <AkisOk yon={YERLESIM[i].yon} renk={sihirli ? "text-turkuaz" : "text-gold-bright"} />
+            </div>
+          );
+        })}
 
-        <SectionFrame title="Derin Anlam ve Yorumlama" color="#a98fd6">
-          {SUREC.slice(4, 7).map((s, i) => (
-            <StepCard key={i} s={s} i={i + 4} sihirli />
-          ))}
-        </SectionFrame>
-
-        <StepCard s={SUREC[7]} i={7} />
-      </section>
-
-      <div className="mt-16 rounded-2xl border border-gold/15 bg-night p-8 text-center">
-        <h2 className="font-display text-3xl font-semibold">Hazır mısın?</h2>
-        <p className="mt-2 text-parchment/70">Önce bir örnek inceleyebilir, sonra analizini seçebilirsin.</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-4">
-          <Link href="/analizler" className="rounded-full bg-gold px-7 py-3 font-medium text-night-deep hover:bg-gold-bright">
-            Analizleri Keşfet
-          </Link>
-          <Link href="/ornekler" className="rounded-full border border-gold/40 px-7 py-3 font-medium text-gold-bright hover:bg-gold/10">
-            Örnekleri İncele
-          </Link>
+        <div className="cam-panel flex flex-col items-center justify-center p-8 text-center lg:col-start-3 lg:row-start-3">
+          <h2 className="font-display text-3xl font-semibold">Hazır mısın?</h2>
+          <p className="mt-2 text-parchment/70">Önce bir örnek inceleyebilir, sonra analizini seçebilirsin.</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-4">
+            <Link href="/analizler" className="altin-buton rounded-full px-7 py-3 font-medium">
+              Analizleri Keşfet
+            </Link>
+            <Link href="/ornekler" className="rounded-full border border-gold/40 px-7 py-3 font-medium text-gold-bright hover:bg-gold/10">
+              Örnekleri İncele
+            </Link>
+          </div>
         </div>
-      </div>
+      </section>
+    </div>
     </div>
   );
 }

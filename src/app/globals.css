@@ -12,6 +12,7 @@
   --color-parchment-shade: #efe6d4;
   --color-ink: #2b2a3d;
   --color-muted: #8884ad;
+  --color-turkuaz: #38e4e4;
 
   /* Ürün aksanları (raporlardaki temalarla aynı) */
   --color-acc-natal: #dcc188;
@@ -196,6 +197,125 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* ===================== Altın buton =====================
+   Metalik altın zemin + iç ışık + yumuşak hale. Boyut/köşe sınıfları kullanıldığı yerde verilir. */
+.altin-buton {
+  color: var(--color-night-deep);
+  background: linear-gradient(180deg, #f6e4ae 0%, #dcc188 40%, #b98f4c 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 225, 0.75),
+    inset 0 -1px 0 rgba(110, 78, 26, 0.55),
+    0 0 18px -4px rgba(226, 190, 120, 0.6),
+    0 6px 14px -8px rgba(0, 0, 0, 0.7);
+  transition: filter 0.2s, box-shadow 0.2s, transform 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+.altin-buton:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 250, 225, 0.85),
+    inset 0 -1px 0 rgba(110, 78, 26, 0.55),
+    0 0 26px -3px rgba(226, 190, 120, 0.8),
+    0 6px 14px -8px rgba(0, 0, 0, 0.7);
+}
+.altin-buton:active:not(:disabled) { transform: translateY(1px); }
+
+/* ===================== Cam panel (Hesabım + Nasıl Hazırlanır) =====================
+   Yarı saydam mor-gri yüzey, altından turkuaza geçen ince kenar, alt kenarda turkuaz parıltı. */
+.cam-panel {
+  position: relative;
+  border-radius: 18px;
+  background:
+    radial-gradient(62% 90px at 50% 100%, rgba(45, 205, 225, 0.2), transparent 100%),
+    linear-gradient(160deg, rgba(62, 60, 92, 0.6), rgba(34, 34, 70, 0.6));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.8);
+}
+.cam-panel::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(150deg, rgba(220, 193, 136, 0.8) 0%, rgba(220, 193, 136, 0.28) 38%, rgba(100, 130, 235, 0.55) 72%, rgba(60, 225, 240, 0.95) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+.cam-satir {
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+/* Sayfa arka planı: sağ üstte mor bulutsu + takımyıldız çizgileri */
+.gok-sahne {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;
+}
+.gok-sahne::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  top: -40px;
+  right: 0;
+  width: min(900px, 95%);
+  height: 560px;
+  background:
+    radial-gradient(45% 50% at 62% 35%, rgba(130, 90, 200, 0.38), transparent 70%),
+    radial-gradient(30% 35% at 38% 45%, rgba(110, 80, 190, 0.28), transparent 72%),
+    radial-gradient(25% 30% at 30% 12%, rgba(70, 100, 210, 0.25), transparent 75%),
+    radial-gradient(22% 28% at 88% 48%, rgba(130, 90, 190, 0.22), transparent 75%);
+  filter: blur(8px);
+}
+.gok-sahne::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  top: 10px;
+  right: 2%;
+  width: min(620px, 90%);
+  height: 340px;
+  opacity: 0.6;
+  background: no-repeat top right / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 620 340' fill='none'%3E%3Cg stroke='rgb(200,205,235)' stroke-opacity='.4' stroke-width='.8'%3E%3Cpath d='M30 170 110 120 190 150 240 240 170 300'/%3E%3Cpath d='M190 150 260 70 330 110'/%3E%3Cpath d='M420 90 440 30 530 40 510 110 420 90'/%3E%3Cpath d='M440 30 400 120 340 210 410 250'/%3E%3Cpath d='M480 200 570 215 600 290 520 300 480 200'/%3E%3C/g%3E%3Cg fill='rgb(235,238,255)'%3E%3Ccircle cx='30' cy='170' r='1.6'/%3E%3Ccircle cx='110' cy='120' r='2.2'/%3E%3Ccircle cx='190' cy='150' r='2.6'/%3E%3Ccircle cx='240' cy='240' r='1.8'/%3E%3Ccircle cx='170' cy='300' r='1.6'/%3E%3Ccircle cx='260' cy='70' r='2'/%3E%3Ccircle cx='330' cy='110' r='1.8'/%3E%3Ccircle cx='420' cy='90' r='2'/%3E%3Ccircle cx='440' cy='30' r='2.6'/%3E%3Ccircle cx='530' cy='40' r='1.8'/%3E%3Ccircle cx='510' cy='110' r='1.6'/%3E%3Ccircle cx='400' cy='120' r='1.6'/%3E%3Ccircle cx='340' cy='210' r='2.4'/%3E%3Ccircle cx='410' cy='250' r='1.6'/%3E%3Ccircle cx='480' cy='200' r='1.8'/%3E%3Ccircle cx='570' cy='215' r='2'/%3E%3Ccircle cx='600' cy='290' r='1.6'/%3E%3Ccircle cx='520' cy='300' r='1.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@media (max-width: 639px) {
+  .gok-sahne::after { opacity: 0.32; }
+}
+
+/* ===================== Akış okları (Nasıl Hazırlanır) =====================
+   Kartlar yılan gibi dizilir; ok kartlar arasındaki boşlukta durur, çizgi akar. */
+.akis { --akis-bosluk: 3.25rem; gap: var(--akis-bosluk); }
+.akis-ok {
+  pointer-events: none;
+  position: absolute;
+  z-index: 2;
+  width: var(--akis-bosluk);
+  height: 24px;
+  padding-inline: 5px;
+  filter: drop-shadow(0 0 5px currentColor);
+}
+.akis-ok svg { display: block; width: 100%; height: 100%; }
+.akis-sag { left: 100%; top: 50%; margin-top: -12px; }
+.akis-sol { right: 100%; top: 50%; margin-top: -12px; transform: rotate(180deg); }
+.akis-asagi {
+  top: 100%;
+  left: 50%;
+  margin-top: calc(var(--akis-bosluk) / 2 - 12px);
+  margin-left: calc(var(--akis-bosluk) / -2);
+  transform: rotate(90deg);
+}
+.akis-cizgi { stroke-dasharray: 5 5; animation: akisCizgi 0.9s linear infinite; }
+@keyframes akisCizgi { to { stroke-dashoffset: -10; } }
+@media (prefers-reduced-motion: reduce) {
+  .akis-cizgi { animation: none; }
+}
+
 /* ===================== Şişkin kart (analiz kartları + ürün sayfası kartı) =====================
    Altın çerçeve + alttan kalın kenar (lip) + yüzeyde yastık gibi ışık/gölge.
    .sisik-bas: tıklanabilir kart; üstüne gelince yerinde parlar, basılınca aşağı iner ve kenar ezilir (dokunmatikte de çalışır). */
@@ -282,7 +402,7 @@ body {
     inset 0 1px 0 rgba(255, 245, 215, 0.55),
     0 4px 0 #8a6a2f,
     0 10px 16px -6px rgba(0, 0, 0, 0.6);
-  transition: transform 0.16s cubic-bezier(0.3, 1.5, 0.5, 1), box-shadow 0.16s ease-out, background-color 0.15s;
+  transition: transform 0.16s cubic-bezier(0.3, 1.5, 0.5, 1), box-shadow 0.16s ease-out, filter 0.2s;
   -webkit-tap-highlight-color: transparent;
 }
 .sisik-buton:active:not(:disabled) {
