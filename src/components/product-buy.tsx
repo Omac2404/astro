@@ -70,7 +70,7 @@ export function BuyButtons({ slug }: Props) {
       <button
         onClick={yap}
         disabled={yuk}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3 text-center font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
+        className="sisik-buton inline-flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3 text-center font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
       >
         <SparkIco />
         {yuk ? "Hazırlanıyor…" : "Analizi Yap"}
@@ -97,7 +97,7 @@ export function MobileBuyBar({ slug, ad }: Props) {
         <button
           onClick={yap}
           disabled={yuk}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-5 py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
+          className="sisik-buton inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gold px-5 py-2.5 text-sm font-medium text-night-deep transition-colors hover:bg-gold-bright disabled:opacity-60"
         >
           <SparkIco className="h-4 w-4" />
           {yuk ? "Hazırlanıyor…" : "Analizi Yap"}

@@ -120,7 +120,8 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
 
         {/* SAĞ — satın alma kartı (sticky) */}
         <aside className="lg:sticky lg:top-32">
-          <div className="overflow-hidden rounded-2xl border border-gold/20 bg-night">
+          <div className="sisik">
+          <div className="sisik-yuz overflow-hidden bg-night">
             <div className="relative hidden h-56 overflow-hidden lg:block">
               {p.gorsel ? (
                 <>
@@ -148,6 +149,7 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               </ul>
               <p className="mt-3 text-xs leading-relaxed text-parchment/45">Raporun {raporSaklamaMetni(p.slug)}.</p>
             </div>
+          </div>
           </div>
         </aside>
       </div>

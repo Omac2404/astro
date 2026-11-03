@@ -48,16 +48,23 @@ export default function OrneklerPage() {
                     </div>
                   );
                 }
-                const cardClass =
-                  `group relative block aspect-[71/99] overflow-hidden rounded-xl border transition-all ${slide}`;
-                const img = (
-                  <Image
-                    src={ornek}
-                    alt={`Örnek ${p.ad} #${i + 1}`}
-                    fill
-                    sizes="(max-width:1024px) 100vw, 360px"
-                    className="object-cover object-top"
-                  />
+                const cardClass = `kitap group relative block aspect-[71/99] ${slide}`;
+                // Kitap: üzerine gelince kapak sağa yanlar, solda sırt görünür (stil globals.css → .kitap)
+                const kitap = (ek?: React.ReactNode) => (
+                  <span className="kitap-govde">
+                    <span className="kitap-arka" aria-hidden />
+                    <span className="kitap-sirt" aria-hidden style={{ backgroundColor: p.accent }} />
+                    <span className="kitap-kapak border" style={{ borderColor: `${p.accent}66` }}>
+                      <Image
+                        src={ornek}
+                        alt={`Örnek ${p.ad} #${i + 1}`}
+                        fill
+                        sizes="(max-width:1024px) 100vw, 360px"
+                        className="object-cover object-top"
+                      />
+                      {ek}
+                    </span>
+                  </span>
                 );
                 return indir ? (
                   <a
@@ -65,9 +72,8 @@ export default function OrneklerPage() {
                     href={indir.dosya}
                     download={indir.indirAd}
                     className={cardClass}
-                    style={{ borderColor: `${p.accent}66` }}
                   >
-                    {img}
+                    {kitap(<>
                     <span
                       className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium text-night shadow-sm"
                       style={{ backgroundColor: p.accent }}
@@ -77,15 +83,15 @@ export default function OrneklerPage() {
                     <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-center bg-night/85 py-2 text-xs font-medium text-parchment opacity-0 transition-opacity group-hover:opacity-100">
                       Örnek raporu indir
                     </span>
+                    </>)}
                   </a>
                 ) : (
                   <Link
                     key={i}
                     href={`/analizler/${p.slug}`}
                     className={cardClass}
-                    style={{ borderColor: `${p.accent}66` }}
                   >
-                    {img}
+                    {kitap()}
                   </Link>
                 );
               })}
