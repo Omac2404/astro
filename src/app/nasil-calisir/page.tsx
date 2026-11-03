@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Fragment, type ReactNode } from "react";
+import { getGenelAyar } from "@/lib/db";
 import { seoMetadata } from "@/lib/seo";
+import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 export const generateMetadata = () => seoMetadata("/nasil-calisir");
@@ -203,7 +206,9 @@ function StepCard({ s, i, grup, sihirli }: { s: Surec; i: number; grup?: string;
   );
 }
 
-export default function NasilCalisirPage() {
+export default async function NasilCalisirPage() {
+  // Admin → Ayarlar → "sayfayı sitede göster" kapalıyken yalnız admin görebilir, diğerleri 404.
+  if (!getGenelAyar().nasilSayfaAcik && (await currentUser())?.type !== "admin") notFound();
   return (
     <div className="gok-sahne">
     <div className="mx-auto max-w-3xl px-5 py-16 lg:max-w-7xl">

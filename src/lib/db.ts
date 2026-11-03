@@ -449,8 +449,9 @@ export type GenelAyar = {
   iletisimSayfa: IletisimSayfaAyar; // iletişim sayfası modu + başlık/alt metinleri
   yasal: YasalSayfa[];    // yasal sayfalar (footer + /yasal/[slug])
   esRaporSayisi: number;  // aynı anda üretilecek rapor sayısı (eşzamanlılık). 1 = seri (varsayılan/güvenli)
+  nasilSayfaAcik: boolean; // "Nasıl Hazırlanır?" sayfası sitede açık mı (menü/footer linki + herkese erişim + sitemap)
 };
-const GENEL_DEFAULT: GenelAyar = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, iletisimSayfa: ILETISIM_SAYFA_DEFAULT, yasal: YASAL_DEFAULT, esRaporSayisi: 1 };
+const GENEL_DEFAULT: GenelAyar = { nasilSayfaAcik: true, apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: SSS_DEFAULT, hero: HERO_DEFAULT, iletisim: ILETISIM_DEFAULT, iletisimSayfa: ILETISIM_SAYFA_DEFAULT, yasal: YASAL_DEFAULT, esRaporSayisi: 1 };
 export function getGenelAyar(): GenelAyar {
   const stored = read<Partial<GenelAyar>>("genel.json", {});
   return {
@@ -542,8 +543,12 @@ const SEO_DEFAULT: SeoAyar = {
   bodyKod: "", bodyAktif: true,
 };
 // Herkese kapalı sayfalar: admin SEO ayarı ne derse desin sitemap'e girmez, indekslenmez.
-// "/astrolog-musunuz" yalnız Pro ayarlarındaki "sayfayı sitede göster" kapalıyken gizlidir.
-const gizliSayfalar = () => (getProAyar().sayfaAcik ? [] : ["/astrolog-musunuz"]);
+// "/astrolog-musunuz" yalnız Pro ayarlarındaki "sayfayı sitede göster" kapalıyken gizlidir;
+// "/nasil-calisir" Genel Ayarlar'daki anahtar kapalıyken.
+const gizliSayfalar = () => [
+  ...(getProAyar().sayfaAcik ? [] : ["/astrolog-musunuz"]),
+  ...(getGenelAyar().nasilSayfaAcik ? [] : ["/nasil-calisir"]),
+];
 export function getSeoAyar(): SeoAyar {
   const stored = read<Partial<SeoAyar>>("seo.json", {});
   const kayitli = Array.isArray(stored.sayfalar) ? stored.sayfalar : [];

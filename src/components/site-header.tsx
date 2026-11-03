@@ -67,6 +67,7 @@ export function SiteHeader() {
   const [iletisimEtiket, setIletisimEtiket] = useState("İletişim");
   const [igLink, setIgLink] = useState("https://instagram.com");
   const [proSayfa, setProSayfa] = useState(false);
+  const [nasilSayfa, setNasilSayfa] = useState(true);
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   useEffect(() => {
@@ -80,12 +81,16 @@ export function SiteHeader() {
       if (d.iletisimEtiket) setIletisimEtiket(d.iletisimEtiket);
       if (d.igLink) setIgLink(d.igLink);
       setProSayfa(!!d.proSayfa);
+      setNasilSayfa(d.nasilSayfa !== false);
     }).catch(() => {});
   }, [pathname]);
 
   // Astrologlar switch'i açıkken nav'a link eklenir (sıra: Anasayfa · Analizler · Astrologlar · ...);
   // iletişim sekmesinin etiketi moda göre değişir.
-  const NAV_ETIKETLI = NAV.map((n) => (n.href === "/iletisim" ? { ...n, label: iletisimEtiket } : n));
+  // "Nasıl Hazırlanır?" admin anahtarı kapalıyken menüde yok.
+  const NAV_ETIKETLI = NAV
+    .filter((n) => nasilSayfa || n.href !== "/nasil-calisir")
+    .map((n) => (n.href === "/iletisim" ? { ...n, label: iletisimEtiket } : n));
   // "Astrologlar için" butonu: admin anahtarı (Astrolog Pro → sayfayı sitede göster) açıkken İletişim'den sonra ayrı buton
   const nav = astrologAcik
     ? [...NAV_ETIKETLI.slice(0, 2), { href: "/astrologlar", label: "Astrologlar" }, ...NAV_ETIKETLI.slice(2)]

@@ -526,8 +526,8 @@ function MiniSwitch({ on, onToggle, label }: { on: boolean; onToggle: () => void
     </button>
   );
 }
-type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim; iletisimSayfa: IletisimSayfa; esRaporSayisi: number };
-const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS, iletisimSayfa: ILETISIM_SAYFA_BOS, esRaporSayisi: 1 };
+type Genel = { apiMaliyetUSD: number; posOrani: number; bakimModu: boolean; bakimMesaj: string; bakimBitis: string; sss: Sss[]; hero: Hero; iletisim: Iletisim; iletisimSayfa: IletisimSayfa; esRaporSayisi: number; nasilSayfaAcik: boolean };
+const GENEL_BOS: Genel = { apiMaliyetUSD: 0.225, posOrani: 0, bakimModu: false, bakimMesaj: "", bakimBitis: "", sss: [], hero: HERO_BOS, iletisim: ILETISIM_BOS, iletisimSayfa: ILETISIM_SAYFA_BOS, esRaporSayisi: 1, nasilSayfaAcik: true };
 
 // ISO ↔ datetime-local (input value) dönüşümü, yerel saatle
 function isoToLocal(iso: string): string {
@@ -809,6 +809,25 @@ function GenelBolum() {
                 <input type="number" step="1" min="1" max="3" value={g.esRaporSayisi} onChange={(e) => set("esRaporSayisi", Number(e.target.value))} className={`${inputCls} mt-1.5 w-full`} />
                 <p className="mt-1 text-xs text-parchment/45"><b className="text-parchment/70">1</b> = tek tek (güvenli/varsayılan). Yükseltirsen aynı anda o kadar rapor paralel üretilir; bekleyen müşteri daha az bekler. Sunucu yükü artar, beğenmezsen <b className="text-parchment/70">1</b>'e çek, anında eski davranışa döner. (Önerilen 1-2.)</p>
               </div>
+            </div>
+          </Panel>
+
+          <Panel className="p-6">
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <h2 className="font-display text-lg font-semibold text-parchment">Nasıl Hazırlanır? sayfası</h2>
+                <p className="mt-0.5 text-xs text-parchment/45">Sayfayı sitede göster. Kapalıyken menü, footer ve ürün sayfalarındaki linkler kalkar, sayfa ziyaretçilere açılmaz ve arama motorlarından çıkar; sen admin girişiyle görmeye devam edersin. Değişiklik Kaydet&apos;e basınca uygulanır.</p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={g.nasilSayfaAcik}
+                aria-label="Nasıl Hazırlanır? sayfasını sitede göster"
+                onClick={() => set("nasilSayfaAcik", !g.nasilSayfaAcik)}
+                className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${g.nasilSayfaAcik ? "bg-emerald-500" : "bg-white/15"}`}
+              >
+                <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-night-deep transition-all ${g.nasilSayfaAcik ? "left-[22px]" : "left-0.5"}`} />
+              </button>
             </div>
           </Panel>
 

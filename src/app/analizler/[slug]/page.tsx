@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PRODUCTS, getProduct } from "@/lib/products";
 import { getProductPriced } from "@/lib/catalog";
-import { getSeoSayfa, raporSaklamaMetni } from "@/lib/db";
+import { getGenelAyar, getSeoSayfa, raporSaklamaMetni } from "@/lib/db";
 import { seoMetadata } from "@/lib/seo";
 import { BuyButtons, MobileBuyBar } from "@/components/product-buy";
 
@@ -86,12 +86,14 @@ export default async function ProductPage(props: PageProps<"/analizler/[slug]">)
               <p className="mt-1.5 text-[15px] leading-relaxed text-parchment/65">
                 Uzman astrolog ve yazılımcılar tarafından tasarlanan 8 etaplı sistemle hazırlanır.
               </p>
-              <Link
-                href="/nasil-calisir"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full altin-buton px-5 py-2 text-sm font-semibold"
-              >
-                Nasıl hazırlanır →
-              </Link>
+              {getGenelAyar().nasilSayfaAcik && (
+                <Link
+                  href="/nasil-calisir"
+                  className="mt-4 inline-flex items-center gap-1.5 rounded-full altin-buton px-5 py-2 text-sm font-semibold"
+                >
+                  Nasıl hazırlanır →
+                </Link>
+              )}
             </div>
           </div>
 

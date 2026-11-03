@@ -27,7 +27,8 @@ function Social({ href, label, external, children }: { href: string; label: stri
 }
 
 export function SiteFooter() {
-  const { yasal, iletisim: il, hero } = getGenelAyar();
+  const { yasal, iletisim: il, hero, nasilSayfaAcik } = getGenelAyar();
+  const linkler = nasilSayfaAcik ? LINKS : LINKS.filter((l) => l.href !== "/nasil-calisir");
   const igLink = hero.igLink || il.instagram || "https://instagram.com"; // Genel Ayarlar → Instagram Tanıtımı linki
   return (
     <footer className="relative overflow-hidden border-t border-gold/15 bg-night-deep">
@@ -61,7 +62,7 @@ export function SiteFooter() {
 
         {/* Linkler — header sırası, tek blok ortalı */}
         <nav className="mt-8 flex max-w-2xl flex-wrap items-center justify-center gap-x-7 gap-y-3.5 text-sm text-parchment/70">
-          {(getProAyar().sayfaAcik ? [...LINKS, { href: "/astrolog-musunuz", label: "Astrologlar için" }] : LINKS).map((l) => (
+          {(getProAyar().sayfaAcik ? [...linkler, { href: "/astrolog-musunuz", label: "Astrologlar için" }] : linkler).map((l) => (
             <Link key={l.href} href={l.href} className="transition-colors hover:text-gold-bright">
               {l.href === "/iletisim" ? iletisimEtiket() : l.label}
             </Link>

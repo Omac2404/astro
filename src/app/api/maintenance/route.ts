@@ -15,5 +15,7 @@ export async function GET() {
     igLink: a.hero.igLink || a.iletisim.instagram || "https://instagram.com",
     // "Astrolog musunuz?" header linki (Admin → Astrolog Pro → sayfayı sitede göster)
     proSayfa: getProAyar().sayfaAcik,
+    // "Nasıl Hazırlanır?" menü linki (Admin → Ayarlar → sayfayı sitede göster)
+    nasilSayfa: a.nasilSayfaAcik,
   });
 }

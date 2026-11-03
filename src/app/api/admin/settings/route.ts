@@ -21,6 +21,7 @@ export async function POST(req: Request) {
   if ("apiMaliyetUSD" in b) patch.apiMaliyetUSD = Math.max(0, Number(b.apiMaliyetUSD) || 0);
   if ("posOrani" in b) patch.posOrani = Math.max(0, Number(b.posOrani) || 0);
   if ("esRaporSayisi" in b) patch.esRaporSayisi = Math.max(1, Math.min(5, Math.floor(Number(b.esRaporSayisi) || 1)));
+  if ("nasilSayfaAcik" in b) patch.nasilSayfaAcik = !!b.nasilSayfaAcik;
   if ("bakimModu" in b) patch.bakimModu = !!b.bakimModu;
   if ("bakimMesaj" in b) patch.bakimMesaj = String(b.bakimMesaj ?? "").slice(0, 500);
   if ("bakimBitis" in b) patch.bakimBitis = String(b.bakimBitis ?? "").trim();
