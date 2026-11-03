@@ -28,7 +28,7 @@ export default function OrneklerPage() {
               <h2 className="font-display text-3xl font-semibold">{p.ad}</h2>
             </div>
 
-            <div className="ornek-slider mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-4 sm:grid sm:snap-none sm:gap-5 sm:overflow-visible sm:pb-0 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="ornek-slider mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-12 -mb-8 sm:grid sm:snap-none sm:gap-5 sm:overflow-visible sm:pb-0 sm:mb-0 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => {
                 const ornek = p.ornekler?.[i];
                 const indir = p.ornekIndir?.[i];
@@ -49,20 +49,23 @@ export default function OrneklerPage() {
                   );
                 }
                 const cardClass = `kitap group relative block aspect-[71/99] ${slide}`;
-                // Kitap: üzerine gelince kapak sağa yanlar, solda sırt görünür (stil globals.css → .kitap)
+                // Kitap: kartlarla aynı şişkin çerçeve (.sisik); üzerine gelince sağa yanlar, solda sırt görünür (globals.css → .kitap)
                 const kitap = (ek?: React.ReactNode) => (
                   <span className="kitap-govde">
                     <span className="kitap-arka" aria-hidden />
                     <span className="kitap-sirt" aria-hidden style={{ backgroundColor: p.accent }} />
-                    <span className="kitap-kapak border" style={{ borderColor: `${p.accent}66` }}>
-                      <Image
-                        src={ornek}
-                        alt={`Örnek ${p.ad} #${i + 1}`}
-                        fill
-                        sizes="(max-width:1024px) 100vw, 360px"
-                        className="object-cover object-top"
-                      />
-                      {ek}
+                    <span className="kitap-kapak sisik sisik-bas">
+                      <span className="sisik-yuz block h-full overflow-hidden bg-night">
+                        <Image
+                          src={ornek}
+                          alt={`Örnek ${p.ad} #${i + 1}`}
+                          fill
+                          sizes="(max-width:1024px) 100vw, 360px"
+                          className="object-cover object-top"
+                        />
+                        {ek}
+                        <span className="kitap-isik" aria-hidden />
+                      </span>
                     </span>
                   </span>
                 );
