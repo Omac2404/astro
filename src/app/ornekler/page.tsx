@@ -28,7 +28,7 @@ export default function OrneklerPage() {
               <h2 className="font-display text-3xl font-semibold">{p.ad}</h2>
             </div>
 
-            <div className="ornek-slider mt-6 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-4 sm:grid sm:snap-none sm:gap-5 sm:overflow-visible sm:pb-0 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="ornek-slider -mb-5 -mt-3 flex snap-x snap-mandatory gap-2.5 overflow-x-auto pb-9 pt-9 sm:mb-0 sm:mt-6 sm:grid sm:snap-none sm:gap-5 sm:overflow-visible sm:py-0 sm:grid-cols-2 lg:grid-cols-3">
               {Array.from({ length: 3 }).map((_, i) => {
                 const ornek = p.ornekler?.[i];
                 const indir = p.ornekIndir?.[i];
